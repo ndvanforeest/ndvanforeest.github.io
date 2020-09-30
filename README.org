@@ -1,0 +1,54 @@
+* This is my file
+
+
+
+Practical sites:
+
+
+I followed the steps of this site: https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/
+
+Other useful sites
+
+- https://jiaweizhuang.github.io/blog/nikola-guide/
+- https://www.frankliu.org/posts/setting-up-nikola-org-mode/
+
+
+* Make a github io repo
+
+
+
+Make an empty repo, no =readme= or -.gitignore=
+
+
+#+begin_src shell
+git clone https://github.com/ndvanforeest/ndvanforeest.github.io.git ~/homepage
+cd homepage
+git co -b src
+nikola init my_site
+#+end_src
+
+Fill in the questions. My homepage is this: https://ndvanforeest.github.io/
+
+#+begin_src shell
+mv my_site/* .
+rm -rf my_site/
+
+git add README.org
+#+end_src
+
+
+* Test locally
+
+#+begin_src shell
+nikola auto
+#+end_src
+
+- nikola github_deploy
+
+
+
+#+begin_src shell
+nikola new_post -f orgmode -t "The post title" [...]
+#+end_src
+
+
