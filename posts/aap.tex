@@ -1,0 +1,50 @@
+% arara: pdflatex: { shell: yes, interaction: nonstopmode }
+% arara: pythontex: {verbose: yes, rerun: modified }
+% arara: pdflatex: { shell: yes, interaction: nonstopmode }
+
+\documentclass{article}
+\usepackage{pythontex}
+\usepackage{pgfplots}
+
+\title{Example graph}
+\author{Nicky}
+\begin{document}
+\maketitle
+
+If you want to run the code, but don't want to show it, use the \verb+pycode+ environment.
+
+\begin{figure}[h]
+\centering
+\begin{pycode}
+
+from matplotlib.pylab import plt
+import tikzplotlib
+
+plt.plot([1, 2, 3], [1, 5, 2], label="x")
+
+plt.legend()
+print(tikzplotlib.get_tikz_code(axis_height="5cm", axis_width="6cm"))
+plt.clf()
+\end{pycode}
+\caption{It works.}
+\end{figure}
+
+If you like to include the code to show how you made the graph, use the \verb+pyblock+ environment, and then use \verb+\printpythontex+ within a figure environment. Like this: 
+
+\begin{pyblock}
+
+from matplotlib.pylab import plt
+import tikzplotlib
+
+plt.plot([1, 2, 3], [9, -1, 8], label="x")
+
+plt.legend()
+print(tikzplotlib.get_tikz_code(axis_height="5cm", axis_width="6cm"))
+\end{pyblock}
+
+\begin{figure}[h]
+  \centering
+  \printpythontex
+\end{figure}
+
+\end{document}
