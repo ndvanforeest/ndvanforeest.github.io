@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>latex-pythontex-matplotlib-tikzplotlib | Nicky's site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://ndvanforeest.github.io/posts/latex-pythontex-matplotlib-tikzplotlib/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Nicky van Foreest">
+<link rel="prev" href="../my-first-post/" title="My first post" type="text/html">
+<meta property="og:site_name" content="Nicky's site">
+<meta property="og:title" content="latex-pythontex-matplotlib-tikzplotlib">
+<meta property="og:url" content="https://ndvanforeest.github.io/posts/latex-pythontex-matplotlib-tikzplotlib/">
+<meta property="og:description" content="Sometimes I want to use a python script to produce a plot and include this plot in LaTeX.
+My usual approach was like this.
+First I wrote a python script that at the end exported the plot to a pdf file">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-09-30T21:18:52+02:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="../../">
+
+            <span id="blog-title">Nicky's site</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                    
+            </ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="../../rss.xml" class="nav-link">RSS feed</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">latex-pythontex-matplotlib-tikzplotlib</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Nicky van Foreest
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2020-09-30T21:18:52+02:00" itemprop="datePublished" title="2020-09-30 21:18">2020-09-30 21:18</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <p>
+Sometimes I want to use a python script to produce a plot and include this plot in LaTeX.
+My usual approach was like this.
+First I wrote a python script that at the end exported the plot to a pdf file.
+Then I imported the pdf file within a figure environment in a LaTeX file.
+Thus, I had three files, of which two were kind of superfluous.
+And, after some time, I typically forgot which python I used to make the pdf file, so I included comments in my LaTeX file to explain where to find what. 
+</p>
+
+<p>
+And then there came a day that I did not like this anymore.
+I wanted one file that does all, provided it takes not a lot of time to make the data for the graphs.
+After some searching and testing, here is an MWE of how I am doing things now with <code>pythontex</code>, <code>matplotlib</code> and <code>tikzplotlib</code>.  I use <code>arara</code> to compile the LaTeX file, but this just handy, not necessary for the rest to work. 
+</p>
+
+<div class="highlight"><pre><span></span><span class="c">% arara: pdflatex: { shell: yes, interaction: nonstopmode }</span>
+<span class="c">% arara: pythontex: {verbose: yes, rerun: modified }</span>
+<span class="c">% arara: pdflatex: { shell: yes, interaction: nonstopmode }</span>
+
+<span class="k">\documentclass</span><span class="nb">{</span>article<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>pythontex<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>pgfplots<span class="nb">}</span>
+
+<span class="k">\title</span><span class="nb">{</span>Example graph<span class="nb">}</span>
+<span class="k">\author</span><span class="nb">{</span>Nicky<span class="nb">}</span>
+<span class="k">\begin</span><span class="nb">{</span>document<span class="nb">}</span>
+<span class="k">\maketitle</span>
+
+<span class="k">\begin</span><span class="nb">{</span>figure<span class="nb">}</span>[h]
+<span class="k">\centering</span>
+<span class="k">\begin</span><span class="nb">{</span>pycode<span class="nb">}</span>
+
+from matplotlib.pylab import plt
+import tikzplotlib
+
+plt.plot([1, 2, 3], [1, 5, 2], label="x")
+
+plt.legend()
+print(tikzplotlib.get<span class="nb">_</span>tikz<span class="nb">_</span>code(axis<span class="nb">_</span>height="5cm", axis<span class="nb">_</span>width="6cm"))
+<span class="k">\end</span><span class="nb">{</span>pycode<span class="nb">}</span>
+<span class="k">\caption</span><span class="nb">{</span>It works.<span class="nb">}</span>
+<span class="k">\end</span><span class="nb">{</span>figure<span class="nb">}</span>
+
+<span class="k">\end</span><span class="nb">{</span>document<span class="nb">}</span>
+</pre></div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../my-first-post/" rel="prev" title="My first post">Previous post</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer">
+            Contents © 2020         <a href="mailto:vanforeest@gmail.com">Nicky van Foreest</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>

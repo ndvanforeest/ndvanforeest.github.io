@@ -11,7 +11,7 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://ndvanforeest.github.io/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]-->
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/latex-pythontex-matplotlib-tikzplotlib/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -68,7 +68,108 @@
     
         
     <div class="postindex">
-    </div>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/latex-pythontex-matplotlib-tikzplotlib/" class="u-url">latex-pythontex-matplotlib-tikzplotlib</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Nicky van Foreest
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/latex-pythontex-matplotlib-tikzplotlib/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-09-30T21:18:52+02:00" itemprop="datePublished" title="2020-09-30 21:18">2020-09-30 21:18</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <p>
+Sometimes I want to use a python script to produce a plot and include this plot in LaTeX.
+My usual approach was like this.
+First I wrote a python script that at the end exported the plot to a pdf file.
+Then I imported the pdf file within a figure environment in a LaTeX file.
+Thus, I had three files, of which two were kind of superfluous.
+And, after some time, I typically forgot which python I used to make the pdf file, so I included comments in my LaTeX file to explain where to find what. 
+</p>
+
+<p>
+And then there came a day that I did not like this anymore.
+I wanted one file that does all, provided it takes not a lot of time to make the data for the graphs.
+After some searching and testing, here is an MWE of how I am doing things now with <code>pythontex</code>, <code>matplotlib</code> and <code>tikzplotlib</code>.  I use <code>arara</code> to compile the LaTeX file, but this just handy, not necessary for the rest to work. 
+</p>
+
+<div class="highlight"><pre><span></span><span class="c">% arara: pdflatex: { shell: yes, interaction: nonstopmode }</span>
+<span class="c">% arara: pythontex: {verbose: yes, rerun: modified }</span>
+<span class="c">% arara: pdflatex: { shell: yes, interaction: nonstopmode }</span>
+
+<span class="k">\documentclass</span><span class="nb">{</span>article<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>pythontex<span class="nb">}</span>
+<span class="k">\usepackage</span><span class="nb">{</span>pgfplots<span class="nb">}</span>
+
+<span class="k">\title</span><span class="nb">{</span>Example graph<span class="nb">}</span>
+<span class="k">\author</span><span class="nb">{</span>Nicky<span class="nb">}</span>
+<span class="k">\begin</span><span class="nb">{</span>document<span class="nb">}</span>
+<span class="k">\maketitle</span>
+
+<span class="k">\begin</span><span class="nb">{</span>figure<span class="nb">}</span>[h]
+<span class="k">\centering</span>
+<span class="k">\begin</span><span class="nb">{</span>pycode<span class="nb">}</span>
+
+from matplotlib.pylab import plt
+import tikzplotlib
+
+plt.plot([1, 2, 3], [1, 5, 2], label="x")
+
+plt.legend()
+print(tikzplotlib.get<span class="nb">_</span>tikz<span class="nb">_</span>code(axis<span class="nb">_</span>height="5cm", axis<span class="nb">_</span>width="6cm"))
+<span class="k">\end</span><span class="nb">{</span>pycode<span class="nb">}</span>
+<span class="k">\caption</span><span class="nb">{</span>It works.<span class="nb">}</span>
+<span class="k">\end</span><span class="nb">{</span>figure<span class="nb">}</span>
+
+<span class="k">\end</span><span class="nb">{</span>document<span class="nb">}</span>
+</pre></div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/my-first-post/" class="u-url">My first post</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Nicky van Foreest
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/my-first-post/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-09-30T21:15:13+02:00" itemprop="datePublished" title="2020-09-30 21:15">2020-09-30 21:15</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/my-first-post/#org3857d28">Here is my first post</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3857d28" class="outline-2">
+<h2 id="org3857d28">Here is my first post</h2>
+<div class="outline-text-2" id="text-org3857d28">
+<p>
+I want to write posts and a homepage in org mode.
+(I dislike <code>markdown</code>, and I detest typing math in <code>rst</code>.)
+After watching one of the blogs on <a href="https://cestlaz.github.io/stories/emacs/">Cest la Z</a>  I considered <code>nikola</code> as a good option to set things up.
+It turned out to be really easy; I just followed the steps as described <a href="https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/">Here</a>. I had to install some python packages, but with <code>pip</code> this was a no brainer.
+</p>
+
+
+<p>
+There was one caveat with including source code blocks in <code>org</code> files.
+After reading the error messages, I noticed that I had to install the emacs <code>htlmize</code> package.
+The <code>init.el</code> and <code>myinit.org</code> files on my <a href="https://github.com/ndvanforeest/emacs">emacs repo</a> show how to set this up.
+</p>
+
+<p>
+And now all works!
+</p>
+</div>
+</div>
+                </div>
+            </article>
+</div>
     
 
     

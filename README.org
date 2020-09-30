@@ -43,12 +43,27 @@ git add README.org
 nikola auto
 #+end_src
 
-- nikola github_deploy
 
 
+
+* Making new posts
+
+First install the plugin
 
 #+begin_src shell
-nikola new_post -f orgmode -t "The post title" [...]
+nikola plugin -i orgmode
+#+end_src
+
+#+begin_src shell
+nikola new_post -f orgmode -t "My first post"
 #+end_src
 
 
+
+* Upload to github
+
+Stay in the =src= branch!
+
+#+begin_src shell
+nikola github_deploy
+#+end_src
