@@ -141,7 +141,7 @@ NAVIGATION_LINKS = {
     DEFAULT_LANG: (
         # ("/index.html", "Home"),
         ("/archive.html", "Archive"),
-        ("/pages/Bio/", "Bio"),
+        ("/Bio/", "Bio"),
         ("/categories/", "Tags"),
         # ("/rss.xml", "RSS feed"),
     ),
