@@ -959,7 +959,10 @@ LICENSE = ""
 # (translatable)
 # CONTENT_FOOTER = 'Contents &copy; {date}         <a href="mailto:{email}">{author}</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         {license}'
 
-EXTRA_HEAD_DATA = '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">'
+EXTRA_HEAD_DATA = (
+    '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">'
+    '<link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">'
+)
 
 # CONTENT_FOOTER = '''
 # <div class="text-center">
@@ -985,6 +988,11 @@ CONTENT_FOOTER = '''
 <span class="fa-stack">
   <a href="http://scholar.google.com/citations?user=IEjX_w4AAAAJ">
      <i class="ai ai-google-scholar-square ai-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="https://orcid.org/0000-0001-5428-1723">
+     <i class="ai ai-orcid-square ai-2x"></i>
   </a>
 </span>
 <span class="fa-stack">
