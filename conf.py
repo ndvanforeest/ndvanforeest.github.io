@@ -139,10 +139,11 @@ TRANSLATIONS_PATTERN = '{path}.{lang}.{ext}'
 
 NAVIGATION_LINKS = {
     DEFAULT_LANG: (
+        # ("/index.html", "Home"),
         ("/archive.html", "Archive"),
         ("/pages/Bio/", "Bio"),
         ("/categories/", "Tags"),
-        ("/rss.xml", "RSS feed"),
+        # ("/rss.xml", "RSS feed"),
     ),
 }
 
@@ -218,16 +219,12 @@ THEME_CONFIG = {
 #     )
 
 POSTS = (
-    ("posts/*.rst", "posts", "post.tmpl"),
-    ("posts/*.md", "posts", "post.tmpl"),
     ("posts/*.txt", "posts", "post.tmpl"),
     ("posts/*.html", "posts", "post.tmpl"),
 )
 PAGES = (
-    ("pages/*.rst", "pages", "page.tmpl"),
-    ("pages/*.md", "pages", "page.tmpl"),
-    ("pages/*.txt", "pages", "page.tmpl"),
-    ("pages/*.html", "pages", "page.tmpl"),
+    ("pages/*.txt", "", "page.tmpl"),
+    ("pages/*.html", "", "page.tmpl"),
 )
 
 
@@ -316,7 +313,7 @@ COMPILERS["orgmode"] = ['.org']
 
 # Add org files to your POSTS, PAGES
 POSTS = POSTS + (("posts/*.org", "posts", "post.tmpl"),)
-PAGES = PAGES + (("pages/*.org", "pages", "page.tmpl"),)
+PAGES = PAGES + (("pages/*.org", "", "page.tmpl"),)
 
 
 # Enable reST directives that insert the contents of external files such
@@ -560,7 +557,7 @@ HIDDEN_AUTHORS = ['Guest']
 # Final location for the main blog page and sibling paginated pages is
 # output / TRANSLATION[lang] / INDEX_PATH / index-*.html
 # (translatable)
-# INDEX_PATH = ""
+INDEX_PATH = "blog"
 
 # Optional HTML that displayed on “main” blog index.html files.
 # May be used for a greeting. (translatable)
@@ -960,7 +957,59 @@ LICENSE = ""
 
 # A small copyright notice for the page footer (in HTML).
 # (translatable)
-CONTENT_FOOTER = 'Contents &copy; {date}         <a href="mailto:{email}">{author}</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         {license}'
+# CONTENT_FOOTER = 'Contents &copy; {date}         <a href="mailto:{email}">{author}</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         {license}'
+
+EXTRA_HEAD_DATA = '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">'
+
+# CONTENT_FOOTER = '''
+# <div class="text-center">
+# <p>
+# <span class="fa-stack fa-2x">
+# <a href="https://github.com/ndvanforeest">
+#     <i class="fa fa-circle fa-stack-2x"></i>
+#     <i class="fa fa-github fa-inverse fa-stack-1x"></i>
+# </a>
+# </span>
+# </p>
+# </div>
+# '''
+
+CONTENT_FOOTER = '''
+<div class="text-center">
+<p>
+<span class="fa-stack">
+  <a href="https://github.com/ndvanforeest">
+    <i class="fa fa-github-square fa-stack-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="http://scholar.google.com/citations?user=IEjX_w4AAAAJ">
+     <i class="ai ai-google-scholar-square ai-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="https://www.linkedin.com/in/nicky-van-foreest-22b9637">
+    <i class="fa fa-square fa-stack-2x"></i>
+    <i class="fa fa-linkedin fa-inverse fa-stack-1x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="mailto:{email}">
+    <i class="fa fa-square fa-stack-2x"></i>
+    <i class="fa fa-envelope fa-inverse fa-stack-1x"></i>
+  </a>
+</span>
+</p>
+<p>
+  Contents &copy; {date}  {author}
+  &mdash;
+  {license}
+  &mdash;
+  Powered by <a href="https://getnikola.com" rel="nofollow">Nikola</a>
+</p>
+</div>
+'''
+
 
 # Things that will be passed to CONTENT_FOOTER.format().  This is done
 # for translatability, as dicts are not formattable.  Nikola will
