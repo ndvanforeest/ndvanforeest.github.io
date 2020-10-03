@@ -1,31 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Wed, 30 Sep 2020 19:37:32 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>latex-pythontex-matplotlib-tikzplotlib</title><link>https://ndvanforeest.github.io/posts/latex-pythontex-matplotlib-tikzplotlib/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-org2d6bec3" class="outline-2"&gt;
-&lt;h2 id="org2d6bec3"&gt;The  problem&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2d6bec3"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Sat, 03 Oct 2020 17:47:37 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>latex-pythontex-matplotlib-tikzplotlib</title><link>https://ndvanforeest.github.io/posts/latex-pythontex-matplotlib-tikzplotlib/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-org1121378" class="outline-2"&gt;
+&lt;h2 id="org1121378"&gt;The  problem&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1121378"&gt;
 &lt;p&gt;
 Sometimes I want to use a python script to produce a plot and include this plot in LaTeX.
 My usual approach was like this.
-First I wrote a python script that at the end exported the plot to a pdf file.
+First I wrote a python script that, after some computations, exported the plot to a pdf file (or some other format).
 Then I imported the pdf file within a figure environment in a LaTeX file.
-Thus, I had three files, of which two were kind of superfluous.
-And, after some time, I typically forgot which python I used to make the pdf file, so I included comments in my LaTeX file to explain where to find what. 
+Thus, I had three files, of which two were kind of superfluous, i.e., the python script and the pdf file with the figure.
+And, after some time, I typically forgot which python script I used to make which pdf file, so I had to include comments in my LaTeX file to explain where to find what, and what did what.
 &lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
 
-&lt;div id="outline-container-org57cd52d" class="outline-2"&gt;
-&lt;h2 id="org57cd52d"&gt;My solution&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org57cd52d"&gt;
 &lt;p&gt;
 And then there came a day that I did not like this anymore.
-I wanted one file that does all, provided it takes not a lot of time to make the data for the graphs.
-After some searching and testing, here is an MWE of how I am doing things now with &lt;code&gt;pythontex&lt;/code&gt;, &lt;code&gt;matplotlib&lt;/code&gt; and &lt;code&gt;tikzplotlib&lt;/code&gt;.  I use &lt;code&gt;arara&lt;/code&gt; to compile the LaTeX file, but this just handy, not necessary for the rest to work. 
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf4ec6f0" class="outline-2"&gt;
+&lt;h2 id="orgf4ec6f0"&gt;My solution&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf4ec6f0"&gt;
+&lt;p&gt;
+I want one file &lt;code&gt;.tex&lt;/code&gt; file that contains all: obviously the story itself, but also the python and the figure, provided of course it takes not a lot of time to make the data for the figure.
+After some searching and testing, here is an MWE of how I am doing things now with &lt;a href="https://github.com/gpoore/pythontex"&gt;pythontex&lt;/a&gt;, &lt;a href="https://matplotlib.org/"&gt;matplotlib&lt;/a&gt;, and &lt;a href="https://pypi.org/project/tikzplotlib/"&gt;tikzplotlib&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+I use &lt;a href="https://github.com/cereda/arara"&gt;arara&lt;/a&gt; to compile the LaTeX file, but this just handy, not necessary for the rest to work.
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7342218" class="outline-3"&gt;
-&lt;h3 id="org7342218"&gt;Without the code in the LaTeX file&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org7342218"&gt;
+&lt;div id="outline-container-org2ffd36b" class="outline-3"&gt;
+&lt;h3 id="org2ffd36b"&gt;One option.&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2ffd36b"&gt;
 &lt;p&gt;
 If you want to run the code, but don't want to show it, use the &lt;code&gt;pycode&lt;/code&gt; environment.
 &lt;/p&gt;
@@ -38,8 +45,6 @@ If you want to run the code, but don't want to show it, use the &lt;code&gt;pyco
 &lt;span class="k"&gt;\usepackage&lt;/span&gt;&lt;span class="nb"&gt;{&lt;/span&gt;pythontex&lt;span class="nb"&gt;}&lt;/span&gt;
 &lt;span class="k"&gt;\usepackage&lt;/span&gt;&lt;span class="nb"&gt;{&lt;/span&gt;pgfplots&lt;span class="nb"&gt;}&lt;/span&gt;
 
-&lt;span class="k"&gt;\title&lt;/span&gt;&lt;span class="nb"&gt;{&lt;/span&gt;Example graph&lt;span class="nb"&gt;}&lt;/span&gt;
-&lt;span class="k"&gt;\author&lt;/span&gt;&lt;span class="nb"&gt;{&lt;/span&gt;Nicky&lt;span class="nb"&gt;}&lt;/span&gt;
 &lt;span class="k"&gt;\begin&lt;/span&gt;&lt;span class="nb"&gt;{&lt;/span&gt;document&lt;span class="nb"&gt;}&lt;/span&gt;
 &lt;span class="k"&gt;\maketitle&lt;/span&gt;
 
@@ -61,12 +66,17 @@ print(tikzplotlib.get&lt;span class="nb"&gt;_&lt;/span&gt;tikz&lt;span class="nb
 &lt;span class="k"&gt;\end&lt;/span&gt;&lt;span class="nb"&gt;{&lt;/span&gt;figure&lt;span class="nb"&gt;}&lt;/span&gt;
 &lt;span class="k"&gt;\end&lt;/span&gt;&lt;span class="nb"&gt;{&lt;/span&gt;document&lt;span class="nb"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+The trick is to &lt;i&gt;not&lt;/i&gt; write the output of &lt;code&gt;tikzplotlib&lt;/code&gt; to a file, but have it printed as output of the &lt;code&gt;pycode&lt;/code&gt; environment.
+Note that this is an MWE; for a good figure you'll need to tune it to your needs.
+&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org10c28dc" class="outline-3"&gt;
-&lt;h3 id="org10c28dc"&gt;With the code in the LaTeX file&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org10c28dc"&gt;
+&lt;div id="outline-container-org1162dd2" class="outline-3"&gt;
+&lt;h3 id="org1162dd2"&gt;Another option&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1162dd2"&gt;
 &lt;p&gt;
 If you like to include the code to show how you made the graph, use the &lt;code&gt;pyblock&lt;/code&gt; environment, and then &lt;code&gt;\printpythontex&lt;/code&gt; within a figure environment.
 &lt;/p&gt;
@@ -76,7 +86,6 @@ If you like to include the code to show how you made the graph, use the &lt;code
 &lt;span class="c"&gt;% arara: pdflatex: { shell: yes }&lt;/span&gt;
 
 &lt;span class="k"&gt;\begin&lt;/span&gt;&lt;span class="nb"&gt;{&lt;/span&gt;document&lt;span class="nb"&gt;}&lt;/span&gt;
-&lt;span class="k"&gt;\maketitle&lt;/span&gt;
 
 If you like to include the code to show how you made the graph, use the &lt;span class="k"&gt;\verb&lt;/span&gt;+pyblock+ environment, and then use &lt;span class="k"&gt;\verb&lt;/span&gt;+&lt;span class="k"&gt;\printpythontex&lt;/span&gt;+ within a figure environment.
 Like this:

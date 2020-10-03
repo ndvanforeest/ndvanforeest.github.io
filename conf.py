@@ -141,8 +141,10 @@ NAVIGATION_LINKS = {
     DEFAULT_LANG: (
         # ("/index.html", "Home"),
         ("/archive.html", "Archive"),
-        ("/Bio/", "Bio"),
+        ("/bio/", "Bio"),
+        ("/books/", "Books"),
         ("/categories/", "Tags"),
+        ("/tools/", "Tools"),
         # ("/rss.xml", "RSS feed"),
     ),
 }
@@ -350,7 +352,7 @@ PAGES = PAGES + (("pages/*.org", "", "page.tmpl"),)
 # Nikola supports logo display.  If you have one, you can put the URL here.
 # Final output is <img src="LOGO_URL" id="logo" alt="BLOG_TITLE">.
 # The URL may be relative to the site root.
-# LOGO_URL = ''
+# LOGO_URL = 'images/Penguin-interviews.jpg'
 
 # When linking posts to social media, Nikola provides Open Graph metadata
 # which is used to show a nice preview. This includes an image preview
