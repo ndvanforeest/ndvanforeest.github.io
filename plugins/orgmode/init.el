@@ -133,3 +133,15 @@ specified location."
     (org-macro-replace-all nikola-macro-templates)
     (org-html-export-as-html nil nil t t)
     (write-file outfile nil)))
+
+
+(org-link-set-parameters
+ "link"
+ :export (lambda (path desc backend)
+           (cond
+            ((eq 'html backend)
+             (format "<a href=\"link:%s\">%s</a>"
+                     path (or desc path)))))
+)
+
+
