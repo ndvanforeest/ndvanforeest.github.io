@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>links in nikola and orgmode | Nicky's site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://ndvanforeest.github.io/posts/links-in-nikola-and-orgmode/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+<meta name="author" content="Nicky van Foreest">
+<link rel="prev" href="../latex-pythontex-matplotlib-tikzplotlib/" title="latex-pythontex-matplotlib-tikzplotlib" type="text/html">
+<meta property="og:site_name" content="Nicky's site">
+<meta property="og:title" content="links in nikola and orgmode">
+<meta property="og:url" content="https://ndvanforeest.github.io/posts/links-in-nikola-and-orgmode/">
+<meta property="og:description" content="I just started using nikola. Of course I want to refer from one page (or post) to another, but I could not find out how. After sending an issue, I got great and fast help. And now I know how to do it.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-10-05T19:50:33+02:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-expand-md static-top mb-4
+navbar-dark bg-dark
+"><div class="container">
+<!-- This keeps the margins nice -->
+        <a class="navbar-brand" href="../../">
+
+            <span id="blog-title">Nicky's site</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="bs-navbar">
+            <ul class="navbar-nav mr-auto">
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../bio/" class="nav-link">Bio</a>
+                </li>
+<li class="nav-item">
+<a href="../../books/" class="nav-link">Books</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="../../tools/" class="nav-link">Tools</a>
+
+                
+            </li>
+</ul>
+<ul class="navbar-nav navbar-right">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">links in nikola and orgmode</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Nicky van Foreest
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2020-10-05T19:50:33+02:00" itemprop="datePublished" title="2020-10-05 19:50">2020-10-05 19:50</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <p>
+I just started using nikola. Of course I want to refer from one page (or post) to another, but I could not find out how. After sending an <a href="https://github.com/getnikola/plugins/issues/354">issue</a>, I got great and fast help. And now I know how to do it. 
+</p>
+
+<p>
+If things are not yet solved in the nikola plugin for orgmode, put this as the end of the <code>init.el</code> of the plugin: 
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">org-link-set-parameters</span>
+ <span class="s">"link"</span>
+ <span class="nv">:export</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">path</span> <span class="nv">desc</span> <span class="nv">backend</span><span class="p">)</span>
+	   <span class="p">(</span><span class="nf">cond</span>
+	    <span class="p">((</span><span class="nf">eq</span> <span class="ss">'html</span> <span class="nv">backend</span><span class="p">)</span>
+	     <span class="p">(</span><span class="nf">format</span> <span class="s">"&lt;a href=\"link:%s\"&gt;%s&lt;/a&gt;"</span>
+		     <span class="nv">path</span> <span class="p">(</span><span class="k">or </span><span class="nv">desc</span> <span class="nv">path</span><span class="p">)))))</span>
+<span class="p">)</span>
+</pre></div>
+
+<p>
+And now you can refer to any page like so
+</p>
+<pre class="example">
+link:/bio
+</pre>
+<p>
+or
+</p>
+<pre class="example">
+[[link:/bio][My bio page]]
+</pre>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../latex-pythontex-matplotlib-tikzplotlib/" rel="prev" title="latex-pythontex-matplotlib-tikzplotlib">Previous post</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer"><div class="text-center">
+<p>
+<span class="fa-stack">
+  <a href="https://github.com/ndvanforeest">
+    <i class="fa fa-github-square fa-stack-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="http://scholar.google.com/citations?user=IEjX_w4AAAAJ">
+     <i class="ai ai-google-scholar-square ai-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="https://orcid.org/0000-0001-5428-1723">
+     <i class="ai ai-orcid-square ai-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="https://www.linkedin.com/in/nicky-van-foreest-22b9637">
+    <i class="fa fa-square fa-stack-2x"></i>
+    <i class="fa fa-linkedin fa-inverse fa-stack-1x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="mailto:vanforeest@gmail.com">
+    <i class="fa fa-square fa-stack-2x"></i>
+    <i class="fa fa-envelope fa-inverse fa-stack-1x"></i>
+  </a>
+</span>
+</p>
+<p>
+  Contents © 2020  Nicky van Foreest
+  —
+  
+  —
+  Powered by <a href="https://getnikola.com" rel="nofollow">Nikola</a>
+</p>
+</div>
+
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>

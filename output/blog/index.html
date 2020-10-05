@@ -68,7 +68,49 @@ navbar-dark bg-dark
 
     
 <div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/" class="u-url">latex-pythontex-matplotlib-tikzplotlib</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/links-in-nikola-and-orgmode/" class="u-url">links in nikola and orgmode</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Nicky van Foreest
+            </span></p>
+            <p class="dateline">
+            <a href="../posts/links-in-nikola-and-orgmode/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-10-05T19:50:33+02:00" itemprop="datePublished" title="2020-10-05 19:50">2020-10-05 19:50</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <p>
+I just started using nikola. Of course I want to refer from one page (or post) to another, but I could not find out how. After sending an <a href="https://github.com/getnikola/plugins/issues/354">issue</a>, I got great and fast help. And now I know how to do it. 
+</p>
+
+<p>
+If things are not yet solved in the nikola plugin for orgmode, put this as the end of the <code>init.el</code> of the plugin: 
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">org-link-set-parameters</span>
+ <span class="s">"link"</span>
+ <span class="nv">:export</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">path</span> <span class="nv">desc</span> <span class="nv">backend</span><span class="p">)</span>
+	   <span class="p">(</span><span class="nf">cond</span>
+	    <span class="p">((</span><span class="nf">eq</span> <span class="ss">'html</span> <span class="nv">backend</span><span class="p">)</span>
+	     <span class="p">(</span><span class="nf">format</span> <span class="s">"&lt;a href=\"link:%s\"&gt;%s&lt;/a&gt;"</span>
+		     <span class="nv">path</span> <span class="p">(</span><span class="k">or </span><span class="nv">desc</span> <span class="nv">path</span><span class="p">)))))</span>
+<span class="p">)</span>
+</pre></div>
+
+<p>
+And now you can refer to any page like so
+</p>
+<pre class="example">
+link:/bio
+</pre>
+<p>
+or
+</p>
+<pre class="example">
+[[link:/bio][My bio page]]
+</pre>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/" class="u-url">latex-pythontex-matplotlib-tikzplotlib</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Nicky van Foreest
