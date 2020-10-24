@@ -134,7 +134,6 @@ specified location."
     (org-html-export-as-html nil nil t t)
     (write-file outfile nil)))
 
-
 (org-link-set-parameters
  "link"
  :export (lambda (path desc backend)
@@ -143,5 +142,3 @@ specified location."
              (format "<a href=\"link:%s\">%s</a>"
                      path (or desc path)))))
 )
-
-
