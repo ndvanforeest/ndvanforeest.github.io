@@ -1,1 +1,120 @@
-/home/nicky/Dropbox/homepage/README.org
+* This is my file
+
+
+
+Practical sites:
+
+
+I followed the steps of this site: https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/
+
+Other useful sites
+
+- https://jiaweizhuang.github.io/blog/nikola-guide/
+- https://www.frankliu.org/posts/setting-up-nikola-org-mode/
+  
+https://gist.github.com/redguardtoo
+
+First install nikola
+#+begin_src shell
+pip install nikola
+pip install aiohttp  # for nikola auto to work
+pip install watchdog # for nikola auto to work
+pip install ghp-import2 # for deploying to github
+#+end_src
+
+
+Then install the org mode plugin
+
+#+begin_src shell
+nikola plugin -i orgmode
+#+end_src
+
+Add this to =plugins/orgmode/init.el= to enable links to internal pages
+
+#+begin_src emacs-lisp 
+(org-link-set-parameters
+ "link"
+ :export (lambda (path desc backend)
+           (cond
+            ((eq 'html backend)
+             (format "<a href=\"link:%s\">%s</a>"
+                     path (or desc path)))))
+)
+#+end_src
+
+
+
+
+* Make a github io repo
+
+
+
+Make an empty repo, no =readme= or -.gitignore=
+
+
+#+begin_src shell
+git clone https://github.com/ndvanforeest/ndvanforeest.github.io.git ~/homepage
+cd homepage
+git co -b src
+nikola init my_site
+#+end_src
+
+Fill in the questions. My homepage is this: https://ndvanforeest.github.io/
+
+#+begin_src shell
+mv my_site/* .
+rm -rf my_site/
+
+git add README.org
+#+end_src
+
+
+
+* Test locally
+
+#+begin_src shell
+nikola auto
+#+end_src
+
+
+
+
+* Making new posts
+
+
+#+begin_src shell
+nikola new_post -f orgmode -t "My first post"
+#+end_src
+
+It seems that when updating files that are symlinks, that =nikola= does not quite get the updates.
+
+
+* Making new pages
+
+#+begin_src shell
+nikola new_page -f orgmode -t "bio"
+#+end_src
+
+#+RESULTS:
+| Creating          | New | Page |
+| ----------------- |     |      |
+|                   |     |      |
+| Title:            | bio |      |
+
+
+* Upload to github
+
+Stay in the =src= branch! Don't commmit. The following handles all.
+
+#+begin_src shell
+nikola github_deploy
+#+end_src
+
+#+RESULTS:
+
+
+Clean up:
+
+#+begin_src shell
+nikola check --clean-files
+#+end_src
