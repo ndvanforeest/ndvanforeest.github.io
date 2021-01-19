@@ -1,0 +1,100 @@
+#+BEGIN_COMMENT
+.. title: latex-pythontex-matplotlib-tikzplotlib
+.. slug: latex-pythontex-matplotlib-tikzplotlib
+.. date: 2020-09-30 21:18:52 UTC+02:00
+.. tags: 
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* The  problem
+
+Sometimes I want to use a python script to produce a plot and include this plot in LaTeX.
+My usual approach was like this.
+First I wrote a python script that, after some computations, exported the plot to a pdf file (or some other format).
+Then I imported the pdf file within a figure environment in a LaTeX file.
+Thus, I had three files, of which two were kind of superfluous, i.e., the python script and the pdf file with the figure.
+And, after some time, I typically forgot which python script I used to make which pdf file, so I had to include comments in my LaTeX file to explain where to find what, and what did what.
+
+And then there came a day that I did not like this anymore.
+
+* My solution
+I want one file =.tex= file that contains all: obviously the story itself, but also the python and the figure, provided of course it takes not a lot of time to make the data for the figure.
+After some searching and testing, here is an MWE of how I am doing things now with [[https://github.com/gpoore/pythontex][pythontex]], [[https://matplotlib.org/][matplotlib]], and [[https://pypi.org/project/tikzplotlib/][tikzplotlib]].
+
+I use [[https://github.com/cereda/arara][arara]] to compile the LaTeX file, but this just handy, not necessary for the rest to work.
+
+** One option.
+
+If you want to run the code, but don't want to show it, use the =pycode= environment.
+
+#+BEGIN_SRC latex
+% arara: pdflatex: { shell: yes }
+% arara: pythontex: {verbose: yes, rerun: modified }
+% arara: pdflatex: { shell: yes }
+
+\documentclass{article}
+\usepackage{pythontex}
+\usepackage{pgfplots}
+
+\begin{document}
+\maketitle
+
+If you want to run the code, but don't want to show it, use the \verb+pycode+ environment.
+
+\begin{figure}[h]
+\centering
+\begin{pycode}
+
+from matplotlib.pylab import plt
+import tikzplotlib
+
+plt.plot([1, 2, 3], [1, 5, 2], label="x")
+
+plt.legend()
+print(tikzplotlib.get_tikz_code(axis_height="5cm", axis_width="6cm"))
+\end{pycode}
+\caption{It works.}
+\end{figure}
+\end{document}
+#+END_SRC
+
+The trick is to /not/ write the output of =tikzplotlib= to a file, but have it printed as output of the =pycode= environment.
+Note that this is an MWE; for a good figure you'll need to tune it to your needs.
+
+** Another option
+
+If you like to include the code to show how you made the graph, use the =pyblock= environment, and then =\printpythontex= within a figure environment.
+
+#+BEGIN_SRC latex
+% arara: pdflatex: { shell: yes }
+% arara: pythontex: {verbose: yes, rerun: modified }
+% arara: pdflatex: { shell: yes }
+
+\begin{document}
+
+If you like to include the code to show how you made the graph, use the \verb+pyblock+ environment, and then use \verb+\printpythontex+ within a figure environment.
+Like this:
+
+\begin{pyblock}
+
+from matplotlib.pylab import plt
+import tikzplotlib
+
+plt.plot([1, 2, 3], [9, -1, 8], label="x")
+
+plt.legend()
+print(tikzplotlib.get_tikz_code(axis_height="5cm", axis_width="6cm"))
+\end{pyblock}
+
+\begin{figure}[h]
+  \centering
+  \printpythontex
+\end{figure}
+
+\end{document}
+#+END_SRC
+

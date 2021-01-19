@@ -1,0 +1,76 @@
+#+title: Queueing Theory: simulations
+#+SUBTITLE: EBB074A05
+#+author: Nicky D. van Foreest
+#+date: 2020:11:15
+
+#+STARTUP: indent
+#+STARTUP: overview 
+#+OPTIONS:  toc:nil
+
+#+include: preamble.org
+
+#+PROPERTY: header-args  :session  :exports both
+
+* General info
+
+** Running python code in the browser
+Here are two options to run python code in the browser so that you don't have to install python locally (i.e., on your computer):
+- [[https://diggyhq.com/][diggy]]
+- [[https://colab.research.google.com/notebooks/intro.ipynb][colab]]
+I prefer to work within an editor, and run the code in a terminal. This works much faster and more conveniently, but requires a bit (but not much) of intellectual effort and investment in how to configure things on your computer. If you're interested in the power tools  I use, check out my [[https://ndvanforeest.github.io/tools/][tools page]]. 
+
+
+
+* Simulation in Discrete time
+
+** TODO Add link to youtube movie
+
+** TODO Make html and pdf, 
+
+** TODO put on homepage  
+
+** General intro
+- Show how I program queueing systems, from scratch
+- Ideas are more important than code syntax. I like python, but you can use any other language you like.
+- I'll put the pdf (or html) of this on the web.
+
+** DONE Change the font size of emacs
+** one  period,  demand, service capacity, and queue
+
+There is one server, jobs enter a queue in front of the server, and the server serves batches of customers, every hour say. 
+#+begin_src python 
+L = 10
+a = 5
+d = 8
+L = L + a -d
+L
+#+end_src
+
+#+RESULTS:
+: None
+
+#+begin_src python
+L = 3
+a = 5
+c = 7
+d = min(c, L)
+L += a -d
+d, L
+#+end_src
+
+#+RESULTS:
+| 3 | 5 |
+
+#+begin_src python :results file
+import matplotlib.pyplot as plt
+
+L = [3, 5, 9, 4]
+plt.plot(L)
+plt.savefig('nee.png')
+'nee.png'
+#+end_src
+
+#+RESULTS:
+[[file:nee.png]]
+
+#+ATTR_HTML::width 500
