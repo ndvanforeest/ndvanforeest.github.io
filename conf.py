@@ -1000,12 +1000,6 @@ CONTENT_FOOTER = '''
   </a>
 </span>
 <span class="fa-stack">
-  <a href="https://www.linkedin.com/in/nicky-van-foreest-22b9637">
-    <i class="fa fa-square fa-stack-2x"></i>
-    <i class="fa fa-linkedin fa-inverse fa-stack-1x"></i>
-  </a>
-</span>
-<span class="fa-stack">
   <a href="mailto:{email}">
     <i class="fa fa-square fa-stack-2x"></i>
     <i class="fa fa-envelope fa-inverse fa-stack-1x"></i>
