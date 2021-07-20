@@ -5,7 +5,7 @@ STOP_RENDERING = runtime.STOP_RENDERING
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1626774459.6821399
+_modified_time = 1626774481.8407495
 _enable_loop = True
 _template_filename = '/home/nicky/.direnv/python-3.9.5/lib/python3.9/site-packages/nikola/data/themes/bootstrap4/templates/tags.tmpl'
 _template_uri = 'tags.tmpl'
@@ -28,13 +28,13 @@ def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
-        range = context.get('range', UNDEFINED)
         items = context.get('items', UNDEFINED)
-        cat_items = context.get('cat_items', UNDEFINED)
-        len = context.get('len', UNDEFINED)
-        hidden_tags = context.get('hidden_tags', UNDEFINED)
-        title = context.get('title', UNDEFINED)
         cat_hierarchy = context.get('cat_hierarchy', UNDEFINED)
+        title = context.get('title', UNDEFINED)
+        range = context.get('range', UNDEFINED)
+        hidden_tags = context.get('hidden_tags', UNDEFINED)
+        len = context.get('len', UNDEFINED)
+        cat_items = context.get('cat_items', UNDEFINED)
         def content():
             return render_content(context._locals(__M_locals))
         messages = context.get('messages', UNDEFINED)
@@ -53,13 +53,13 @@ def render_body(context,**pageargs):
 def render_content(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
-        range = context.get('range', UNDEFINED)
         items = context.get('items', UNDEFINED)
-        cat_items = context.get('cat_items', UNDEFINED)
-        len = context.get('len', UNDEFINED)
-        hidden_tags = context.get('hidden_tags', UNDEFINED)
-        title = context.get('title', UNDEFINED)
         cat_hierarchy = context.get('cat_hierarchy', UNDEFINED)
+        title = context.get('title', UNDEFINED)
+        range = context.get('range', UNDEFINED)
+        hidden_tags = context.get('hidden_tags', UNDEFINED)
+        len = context.get('len', UNDEFINED)
+        cat_items = context.get('cat_items', UNDEFINED)
         def content():
             return render_content(context)
         messages = context.get('messages', UNDEFINED)
