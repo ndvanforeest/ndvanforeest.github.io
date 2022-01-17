@@ -112,17 +112,17 @@ contextual information."
         code-html))))
 
 ;; Export images with custom link type
-;; (defun org-custom-link-img-url-export (path desc format)
-;;   (cond
-;;    ((eq format 'html)
-;;     (format "<img src=\"%s\" alt=\"%s\"/>" path desc))))
-;; (org-add-link-type "img-url" nil 'org-custom-link-img-url-export)
+(defun org-custom-link-img-url-export (path desc format)
+  (cond
+   ((eq format 'html)
+    (format "<img src=\"%s\" alt=\"%s\"/>" path desc))))
+(org-add-link-type "img-url" nil 'org-custom-link-img-url-export)
 
 ;; Export images with built-in file scheme
 (defun org-file-link-img-url-export (path desc format)
   (cond
    ((eq format 'html)
-    (format "<img src=\"%s\" alt=\"%s\"/>" path desc))))
+    (format "<img src=\"/%s\" alt=\"%s\"/>" path desc))))
 (org-add-link-type "file" nil 'org-file-link-img-url-export)
 
 ;; Support for magic links (link:// scheme)

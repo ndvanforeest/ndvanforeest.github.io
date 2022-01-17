@@ -141,6 +141,7 @@ NAVIGATION_LINKS = {
     DEFAULT_LANG: (
         # ("/index.html", "Home"),
         ("/archive.html", "Archive"),
+        ("/sheila/", "Sheila"),
         ("/bio/", "Bio"),
         ("/books/", "Books"),
         ("/presentations/", "Presentations"),
@@ -1267,7 +1268,7 @@ MARKDOWN_EXTENSIONS = [
 # <input type="text" name="q" class="form-control" placeholder="Search">
 # </div>
 # <button type="submit" class="btn btn-primary">
-# 	<span class="glyphicon glyphicon-search"></span>
+#       <span class="glyphicon glyphicon-search"></span>
 # </button>
 # <input type="hidden" name="sitesearch" value="%s">
 # </form>
