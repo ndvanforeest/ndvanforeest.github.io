@@ -141,7 +141,6 @@ NAVIGATION_LINKS = {
     DEFAULT_LANG: (
         # ("/index.html", "Home"),
         ("/archive.html", "Archive"),
-        ("/sheila/", "Sheila"),
         ("/bio/", "Bio"),
         ("/books/", "Books"),
         ("/presentations/", "Presentations"),
