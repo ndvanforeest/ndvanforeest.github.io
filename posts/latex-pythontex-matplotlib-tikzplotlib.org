@@ -2,10 +2,10 @@
 .. title: latex-pythontex-matplotlib-tikzplotlib
 .. slug: latex-pythontex-matplotlib-tikzplotlib
 .. date: 2020-09-30 21:18:52 UTC+02:00
-.. tags: 
-.. category: 
-.. link: 
-.. description: 
+.. tags:
+.. category:
+.. link:
+.. description:
 .. type: text
 
 #+END_COMMENT
@@ -29,7 +29,7 @@ I use [[https://github.com/cereda/arara][arara]] to compile the LaTeX file, but 
 
 ** One option.
 
-If you want to run the code, but don't want to show it, use the =pycode= environment.
+If you want to run the code, but don't want to show it, use the =pycode= environment, as I do here.
 
 #+BEGIN_SRC latex
 % arara: pdflatex: { shell: yes }
@@ -43,7 +43,7 @@ If you want to run the code, but don't want to show it, use the =pycode= environ
 \begin{document}
 \maketitle
 
-If you want to run the code, but don't want to show it, use the \verb+pycode+ environment.
+Here is text.
 
 \begin{figure}[h]
 \centering
@@ -76,11 +76,9 @@ If you like to include the code to show how you made the graph, use the =pyblock
 
 \begin{document}
 
-If you like to include the code to show how you made the graph, use the \verb+pyblock+ environment, and then use \verb+\printpythontex+ within a figure environment.
-Like this:
+Here is text.
 
 \begin{pyblock}
-
 from matplotlib.pylab import plt
 import tikzplotlib
 
@@ -97,4 +95,3 @@ print(tikzplotlib.get_tikz_code(axis_height="5cm", axis_width="6cm"))
 
 \end{document}
 #+END_SRC
-

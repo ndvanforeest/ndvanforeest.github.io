@@ -2,24 +2,24 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org43dbf8e">1. Introduction</a></li>
-<li><a href="#org6ba58e6">2. Riddle: At least one of us is a crook</a></li>
-<li><a href="#org5365408">3. Riddle: Exactly one of us is a crook</a></li>
-<li><a href="#orgdd05421">4. Riddle:  Knights of the same type</a></li>
-<li><a href="#org4989715">5. Riddle: Number of knights in a bus</a></li>
-<li><a href="#orgf8b2db0">6. Riddle: Boxes with chips</a></li>
+<li><a href="#org2540e48">1. Introduction</a></li>
+<li><a href="#orgf2f1e41">2. Riddle: At least one of us is a crook</a></li>
+<li><a href="#org4854bba">3. Riddle: Exactly one of us is a crook</a></li>
+<li><a href="#orge5ad5de">4. Riddle:  Knights of the same type</a></li>
+<li><a href="#orgd0617cc">5. Riddle: Number of knights in a bus</a></li>
+<li><a href="#org05d8cb7">6. Riddle: Boxes with chips</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org43dbf8e" class="outline-2">
-<h2 id="org43dbf8e"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org2540e48" class="outline-2">
+<h2 id="org2540e48"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Here is a funny riddle: An island has two types of inhabitants: knights and crooks.
 Knights always tell the truth, crooks always lie.
 Suppose an inhabitant A claims about himself and his brother B: "At least one of us is a crook."
-nOf which type are A and B?
+Of which type are A and B?
 </p>
 
 <p>
@@ -32,8 +32,8 @@ Here we show how to use this package to attack such logical riddles.
 </div>
 
 
-<div id="outline-container-org6ba58e6" class="outline-2">
-<h2 id="org6ba58e6"><span class="section-number-2">2</span> Riddle: At least one of us is a crook</h2>
+<div id="outline-container-orgf2f1e41" class="outline-2">
+<h2 id="orgf2f1e41"><span class="section-number-2">2</span> Riddle: At least one of us is a crook</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 The above logical problem can be solved in a nice way with Boolean algebra.
@@ -45,9 +45,9 @@ With these variables, and writing \(A'\) for the complement of \(A\), the statem
 \end{equation*}
 <p>
 Now, if A is a knight, he speaks the truth; and then, by consequence, claim \(C\) must be true.
-Thus, if \(A=1\), it must be that \(A  C = 1\). 
+Thus, if \(A=1\), it must be that \(A  C = 1\).
 On the other hand, if A is a crook, he lies, so that claim \(C\) is false (and \(C'\) is true.)
-Thus, if \(A'=1\) (i.e., person A is a crook), it must be that \(A' C' = 1\). Since also A is a knight or a crook, either \(AC=1\) or \(A'C'=1\), implying that 
+Thus, if \(A'=1\) (i.e., person A is a crook), it must be that \(A' C' = 1\). Since also A is a knight or a crook, either \(AC=1\) or \(A'C'=1\), implying that
 </p>
 \begin{equation*}
 1 = AC + A'C'.
@@ -105,8 +105,8 @@ Let's solve it:
 
 <pre class="example">
 {B: 0, A: 1}
-
 </pre>
+
 
 
 <p>
@@ -115,8 +115,8 @@ We get the same result: \(A=1\), i.e., A is a knight, and \(B=0\), i.e., B is a 
 </div>
 </div>
 
-<div id="outline-container-org5365408" class="outline-2">
-<h2 id="org5365408"><span class="section-number-2">3</span> Riddle: Exactly one of us is a crook</h2>
+<div id="outline-container-org4854bba" class="outline-2">
+<h2 id="org4854bba"><span class="section-number-2">3</span> Riddle: Exactly one of us is a crook</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Now that we know how to tackle such riddles in an instant with PyEDA
@@ -124,17 +124,17 @@ we can move on to the next riddle.
 </p>
 
 <p>
-Suppose that, instead of the above, A said: "Precisely one of us is a crook." What can we say about A and B now? 
+Suppose that, instead of the above, A said: "Precisely one of us is a crook." What can we say about A and B now?
 </p>
 
 <p>
-The statement of A can now be modelled as \(C=A'B + AB'\). 
+The statement of A can now be modelled as \(C=A'B + AB'\).
 </p>
 <div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="o">~</span><span class="n">A</span> <span class="o">&amp;</span> <span class="n">B</span> <span class="o">|</span> <span class="n">A</span><span class="o">&amp;~</span><span class="n">B</span>
 </pre></div>
 
 <p>
-And we want again that the following is satisfied: 
+And we want again that the following is satisfied:
 </p>
 <div class="highlight"><pre><span></span><span class="n">S</span> <span class="o">=</span> <span class="n">A</span><span class="o">&amp;</span><span class="n">C</span> <span class="o">|</span> <span class="o">~</span><span class="n">A</span><span class="o">&amp;~</span><span class="n">C</span>
 
@@ -145,8 +145,8 @@ And we want again that the following is satisfied:
 <pre class="example">
 {B: 0, A: 0}
 {B: 0, A: 1}
-
 </pre>
+
 
 <p>
 Apperently, the statement of A that only one of the two brothers is a crook allows two solutions.
@@ -168,15 +168,14 @@ This behavior can be obtained with `OneHot`.
 
 <pre class="example">
 And(Or(~A, ~B), Or(A, B))
-
 </pre>
 </div>
 </div>
 
 
 
-<div id="outline-container-orgdd05421" class="outline-2">
-<h2 id="orgdd05421"><span class="section-number-2">4</span> Riddle:  Knights of the same type</h2>
+<div id="outline-container-orge5ad5de" class="outline-2">
+<h2 id="orge5ad5de"><span class="section-number-2">4</span> Riddle:  Knights of the same type</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 What if A has said that: "My brother and I are of the same type".
@@ -192,8 +191,8 @@ What if A has said that: "My brother and I are of the same type".
 <pre class="example">
 {B: 1, A: 0}
 {B: 1, A: 1}
-
 </pre>
+
 
 
 <p>
@@ -202,13 +201,13 @@ So, now B is a knight, but A can be either of the two.
 </div>
 </div>
 
-<div id="outline-container-org4989715" class="outline-2">
-<h2 id="org4989715"><span class="section-number-2">5</span> Riddle: Number of knights in a bus</h2>
+<div id="outline-container-orgd0617cc" class="outline-2">
+<h2 id="orgd0617cc"><span class="section-number-2">5</span> Riddle: Number of knights in a bus</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Eleven inhabitants of the island are sitting in a bus. All of them
 know each other. When asked about the number of knights in the bus
-they answered: 3, 2, 5, 7, 5, 3, 4, 0, 3, 5, 5. How many knights are sitting in the bus? 
+they answered: 3, 2, 5, 7, 5, 3, 4, 0, 3, 5, 5. How many knights are sitting in the bus?
 </p>
 
 <p>
@@ -249,7 +248,7 @@ Let \(X\) be a vector of 11 Boolean variables such that \(X_{i}=1\) if inhabitan
 <p>
 The problem can be solved by a straigtforward generalization of the solution of the above riddles.
 </p>
-<div class="highlight"><pre><span></span><span class="n">S</span> <span class="o">=</span> <span class="mi">1</span> 
+<div class="highlight"><pre><span></span><span class="n">S</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">Answers</span><span class="p">):</span>
     <span class="n">S</span> <span class="o">=</span> <span class="n">S</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&amp;</span><span class="n">NHot</span><span class="p">(</span><span class="n">Answers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">*</span><span class="n">X</span><span class="p">)</span> <span class="o">|</span> <span class="o">~</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&amp;~</span><span class="n">NHot</span><span class="p">(</span><span class="n">Answers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">*</span><span class="n">X</span><span class="p">))</span>
 
@@ -258,7 +257,7 @@ The problem can be solved by a straigtforward generalization of the solution of 
 	<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">y</span><span class="p">])</span>
 </pre></div>
 
-<pre class="example">
+<pre class="example" id="org0e04bcc">
 X[10] 0
 X[9] 0
 X[8] 1
@@ -274,15 +273,15 @@ X[0] 1
 
 
 <p>
-As \(X_{0}=1\) there must be three knights in the bus (and this checks with the other answers). 
+As \(X_{0}=1\) there must be three knights in the bus (and this checks with the other answers).
 </p>
 </div>
 </div>
 
 
 
-<div id="outline-container-orgf8b2db0" class="outline-2">
-<h2 id="orgf8b2db0"><span class="section-number-2">6</span> Riddle: Boxes with chips</h2>
+<div id="outline-container-org05d8cb7" class="outline-2">
+<h2 id="org05d8cb7"><span class="section-number-2">6</span> Riddle: Boxes with chips</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 P.J.
@@ -304,7 +303,7 @@ Then, you are told that of the next three statements, exactly one is true:
 </ol>
 
 <p>
-Determine the color of the chip in each box. 
+Determine the color of the chip in each box.
 </p>
 
 <p>
@@ -318,7 +317,7 @@ Likewise variables are defined for the other boxes and chips.
 </pre></div>
 
 <p>
-The given info above can be written as: 
+The given info above can be written as:
 </p>
 <div class="highlight"><pre><span></span><span class="n">Info</span> <span class="o">=</span> <span class="n">OneHot</span><span class="p">(</span><span class="n">Ar</span><span class="p">,</span> <span class="o">~</span><span class="n">Br</span><span class="p">,</span> <span class="o">~</span><span class="n">Cb</span><span class="p">)</span>
 </pre></div>
@@ -349,7 +348,7 @@ Finally, the given info and all the constraints have to be true simultaneously.
 </pre></div>
 
 <p>
-Solve it: 
+Solve it:
 </p>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">satisfy_all</span><span class="p">():</span>
    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -357,12 +356,12 @@ Solve it:
 
 <pre class="example">
 {Cw: 1, Cb: 0, Cr: 0, Bw: 0, Bb: 0, Br: 1, Aw: 0, Ab: 1, Ar: 0}
-
 </pre>
 
 
+
 <p>
-This was easy! Box A contains the blue chip, Box B the red chip, and Box C the white chip. 
+This was easy! Box A contains the blue chip, Box B the red chip, and Box C the white chip.
 </p>
 </div>
 </div>
