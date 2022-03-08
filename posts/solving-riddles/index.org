@@ -2,10 +2,10 @@
 .. title: Solving riddles
 .. slug: solving-riddles
 .. date: 2020-10-24 20:47:02 UTC+02:00
-.. tags: 
-.. category: 
-.. link: 
-.. description: 
+.. tags:
+.. category:
+.. link:
+.. description:
 .. type: text
 .. has_math: true
 
@@ -37,7 +37,7 @@
 Here is a funny riddle: An island has two types of inhabitants: knights and crooks.
 Knights always tell the truth, crooks always lie.
 Suppose an inhabitant A claims about himself and his brother B: "At least one of us is a crook."
-nOf which type are A and B?
+Of which type are A and B?
 
 Below we solve this riddle by hand, but, as becomes clear, this is a bit tedious.
 Can't we use the computer to solve problems like this?
@@ -55,9 +55,9 @@ With these variables, and writing $A'$ for the complement of $A$, the statement 
    C = A B' + A' B + A' B'.
 \end{equation*}
 Now, if A is a knight, he speaks the truth; and then, by consequence, claim $C$ must be true.
-Thus, if $A=1$, it must be that $A  C = 1$. 
+Thus, if $A=1$, it must be that $A  C = 1$.
 On the other hand, if A is a crook, he lies, so that claim $C$ is false (and $C'$ is true.)
-Thus, if $A'=1$ (i.e., person A is a crook), it must be that $A' C' = 1$. Since also A is a knight or a crook, either $AC=1$ or $A'C'=1$, implying that 
+Thus, if $A'=1$ (i.e., person A is a crook), it must be that $A' C' = 1$. Since also A is a knight or a crook, either $AC=1$ or $A'C'=1$, implying that
 \begin{equation*}
 1 = AC + A'C'.
 \end{equation*}
@@ -76,7 +76,7 @@ from which follows that $A=1$, i.e., A is a knight, and $B'=1$, i.e., B is a cro
 
 Let's check this with PyEDA.
 
-#+BEGIN_SRC python 
+#+BEGIN_SRC python
 from pyeda.inter import exprvar
 
 A, B = map(exprvar, 'AB')
@@ -88,7 +88,7 @@ A, B = map(exprvar, 'AB')
 
 The statement $C$ can be written in PyEDA as:
 
-#+BEGIN_SRC python 
+#+BEGIN_SRC python
 C = A & ~B | ~A & B | ~A & ~B
 #+END_SRC
 
@@ -97,7 +97,7 @@ C = A & ~B | ~A & B | ~A & ~B
 
 and the statement we want to check is
 
-#+BEGIN_SRC python 
+#+BEGIN_SRC python
 S = A&C | ~A&~C
 #+END_SRC
 
@@ -106,7 +106,7 @@ S = A&C | ~A&~C
 
 Let's solve it:
 
-#+BEGIN_SRC python 
+#+BEGIN_SRC python
 for x in S.satisfy_all():
    print(x)
 #+END_SRC
@@ -123,17 +123,17 @@ We get the same result: $A=1$, i.e., A is a knight, and $B=0$, i.e., B is a croo
 Now that we know how to tackle such riddles in an instant with PyEDA
 we can move on to the next riddle.
 
-Suppose that, instead of the above, A said: "Precisely one of us is a crook." What can we say about A and B now? 
+Suppose that, instead of the above, A said: "Precisely one of us is a crook." What can we say about A and B now?
 
-The statement of A can now be modelled as $C=A'B + AB'$. 
-#+BEGIN_SRC python  
+The statement of A can now be modelled as $C=A'B + AB'$.
+#+BEGIN_SRC python
 C = ~A & B | A&~B
 #+END_SRC
 
 #+RESULTS[9617534312a0e5aef391ca615bc7b5fa2c5e767d]:
 
-And we want again that the following is satisfied: 
-#+BEGIN_SRC python  
+And we want again that the following is satisfied:
+#+BEGIN_SRC python
 S = A&C | ~A&~C
 
 for x in S.satisfy_all():
@@ -152,7 +152,7 @@ It is interesting to note that there's a boolean function in PyEDA to build clai
 Note that according to C, precisely one of A and B is true.
 This behavior can be obtained with `OneHot`.
 
-#+BEGIN_SRC python  
+#+BEGIN_SRC python
 from pyeda.inter import OneHot
 
 D = OneHot(A,B)
@@ -168,7 +168,7 @@ print(D)
 
 What if A has said that: "My brother and I are of the same type".
 
-#+BEGIN_SRC python 
+#+BEGIN_SRC python
 C = A & B | ~A&~B
 S = A&C | ~A&~C
 
@@ -187,12 +187,12 @@ So, now B is a knight, but A can be either of the two.
 
 Eleven inhabitants of the island are sitting in a bus. All of them
 know each other. When asked about the number of knights in the bus
-they answered: 3, 2, 5, 7, 5, 3, 4, 0, 3, 5, 5. How many knights are sitting in the bus? 
+they answered: 3, 2, 5, 7, 5, 3, 4, 0, 3, 5, 5. How many knights are sitting in the bus?
 
 To solve this with PyEDA, we can use the function 'NHot', provided to
 me by the author of PyEDA:
 
-#+BEGIN_SRC python 
+#+BEGIN_SRC python
 import itertools
 
 from pyeda.inter import Expression, exprvars
@@ -218,7 +218,7 @@ def NHot(n, *xs, simplify=True):
 #+RESULTS[65e8988f7813afff28358db11c1d4ca1d705d35f]:
 
 Let $X$ be a vector of 11 Boolean variables such that $X_{i}=1$ if inhabitant $i$ is a knight.
-#+BEGIN_SRC python 
+#+BEGIN_SRC python
 X = exprvars('X', 11)
 
 Answers = [3, 2, 5, 7, 5, 3, 4, 0, 3, 5, 5]
@@ -230,8 +230,8 @@ Answers = [3, 2, 5, 7, 5, 3, 4, 0, 3, 5, 5]
 
 
 The problem can be solved by a straigtforward generalization of the solution of the above riddles.
-#+BEGIN_SRC python  
-S = 1 
+#+BEGIN_SRC python
+S = 1
 for i, a in enumerate(Answers):
     S = S & (X[i]&NHot(Answers[i], *X) | ~X[i]&~NHot(Answers[i], *X))
 
@@ -256,9 +256,9 @@ X[0] 1
 #+end_example
 
 
-As $X_{0}=1$ there must be three knights in the bus (and this checks with the other answers). 
+As $X_{0}=1$ there must be three knights in the bus (and this checks with the other answers).
 
- 
+
 
 * Riddle: Boxes with chips
 
@@ -275,12 +275,12 @@ Then, you are told that of the next three statements, exactly one is true:
 2. box B does not contain the red chip;
 3. box C does not contain the blue chip.
 
-Determine the color of the chip in each box. 
+Determine the color of the chip in each box.
 
 To solve this problem with Boolean logic, Nahin introduces, in Chapter 4, the variable $Ar$: if $Ar=1$, then box A contains the red chip, and $Ar=0$ otherwise.
 Likewise variables are defined for the other boxes and chips.
 
-#+BEGIN_SRC python 
+#+BEGIN_SRC python
 Ar, Ab, Aw = map(exprvar, ('Ar', 'Ab', 'Aw'))
 Br, Bb, Bw = map(exprvar, ('Br', 'Bb', 'Bw'))
 Cr, Cb, Cw = map(exprvar, ('Cr', 'Cb', 'Cw'))
@@ -288,8 +288,8 @@ Cr, Cb, Cw = map(exprvar, ('Cr', 'Cb', 'Cw'))
 
 #+RESULTS[f301c5a55d75460c95f1d900228a99ac1ac88dce]:
 
-The given info above can be written as: 
-#+BEGIN_SRC python 
+The given info above can be written as:
+#+BEGIN_SRC python
 Info = OneHot(Ar, ~Br, ~Cb)
 #+END_SRC
 
@@ -298,7 +298,7 @@ Info = OneHot(Ar, ~Br, ~Cb)
 
 There are some, implicit, but obvious constraints to be satisfied. Each of the chips is in precisely one box:
 
-#+BEGIN_SRC python 
+#+BEGIN_SRC python
 r = OneHot(Ar, Br, Cr)  # the red chip is in precisely one box
 b = OneHot(Ab, Bb, Cb)
 w = OneHot(Aw, Bw, Cw)
@@ -310,7 +310,7 @@ w = OneHot(Aw, Bw, Cw)
 
 A box contains precisely one chip.
 
-#+BEGIN_SRC python 
+#+BEGIN_SRC python
 A = OneHot(Ar, Ab, Aw)
 B = OneHot(Br, Bb, Bw)
 C = OneHot(Cr, Cb, Cw)
@@ -321,15 +321,15 @@ C = OneHot(Cr, Cb, Cw)
 
 Finally, the given info and all the constraints have to be true simultaneously.
 
-#+BEGIN_SRC python 
+#+BEGIN_SRC python
 S = r & b & w & A & B & C & Info
 #+END_SRC
 
 #+RESULTS:
 
 
-Solve it: 
-#+BEGIN_SRC python 
+Solve it:
+#+BEGIN_SRC python
 for x in S.satisfy_all():
    print(x)
 #+END_SRC
@@ -338,7 +338,7 @@ for x in S.satisfy_all():
 : {Cw: 1, Cb: 0, Cr: 0, Bw: 0, Bb: 0, Br: 1, Aw: 0, Ab: 1, Ar: 0}
 
 
-This was easy! Box A contains the blue chip, Box B the red chip, and Box C the white chip. 
+This was easy! Box A contains the blue chip, Box B the red chip, and Box C the white chip.
 
 
 * Build the file :noexport:
