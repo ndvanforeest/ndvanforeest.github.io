@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weighted random shuffling | Nicky's site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://ndvanforeest.github.io/posts/weighted-random-shuffling/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+<meta name="author" content="Nicky van Foreest">
+<link rel="prev" href="../memoization/" title="Memoization with Python" type="text/html">
+<meta property="og:site_name" content="Nicky's site">
+<meta property="og:title" content="Weighted random shuffling">
+<meta property="og:url" content="https://ndvanforeest.github.io/posts/weighted-random-shuffling/">
+<meta property="og:description" content="Table of Contents
+
+
+1. Weighted random shuffling
+2. Weighted shuffling in pure python
+3. Fast shuffling
+4. A wrong idea
+
+
+
+
+
+1 Weighted random shuffling
+
+
+For some application I needed a random shuffl">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2022-03-14T16:44:53+01:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-expand-md static-top mb-4
+navbar-dark
+bg-dark
+"><div class="container">
+<!-- This keeps the margins nice -->
+        <a class="navbar-brand" href="../../">
+
+            <span id="blog-title">Nicky's site</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="bs-navbar">
+            <ul class="navbar-nav mr-auto">
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../bio/" class="nav-link">Bio</a>
+                </li>
+<li class="nav-item">
+<a href="../../books/" class="nav-link">Books</a>
+                </li>
+<li class="nav-item">
+<a href="../../presentations/" class="nav-link">Presentations</a>
+                </li>
+<li class="nav-item">
+<a href="../../sites/" class="nav-link">Sites</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="../../tools/" class="nav-link">Tools</a>
+
+                
+            </li>
+</ul>
+<ul class="navbar-nav navbar-right">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Weighted random shuffling</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Nicky van Foreest
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2022-03-14T16:44:53+01:00" itemprop="datePublished" title="2022-03-14 16:44">2022-03-14 16:44</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org8d374d7">1. Weighted random shuffling</a></li>
+<li><a href="#org53add69">2. Weighted shuffling in pure python</a></li>
+<li><a href="#org9921522">3. Fast shuffling</a></li>
+<li><a href="#org692ab8e">4. A wrong idea</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8d374d7" class="outline-2">
+<h2 id="org8d374d7">
+<span class="section-number-2">1</span> Weighted random shuffling</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+For some application I needed a random shuffle \(r\) of a list of numbers
+\(a\). The shuffle, however, should be weighted, such that, given a list
+of weights \(w\), the element \(a_i\) with weight \(w_i\) should be the first
+element of the random shuffle \(r\) with probability \(w_i/\sum_k w_k\). I
+searched for a python implementation of such an algorithm, but I
+couldn't find one. Also, <code>numpy</code> doesnt' provide it, and
+<code>numpy.random.shuffle</code> only offers shuffling with uniform weights. Thus,
+this code.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org53add69" class="outline-2">
+<h2 id="org53add69">
+<span class="section-number-2">2</span> Weighted shuffling in pure python</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Weighted random shuffling is the same as weighted random sampling from a
+list \(a\) without replacement. That is, choose with probability
+\(w_{i}/\sum_{i} w_{i}\) element \(a_{i}\) from \(a\). Store this element in a list \(r\).
+Then, remove element \(a_{i}\) from \(a\) and \(w_{i}\) from \(w\), and select a
+new element of the modified list \(a\), and so on until \(a\) is empty.
+</p>
+
+<p>
+However, I found the code below for weighted random sampling on  <a href="https://eli.thegreenplace.net/2010/01/22/weighted-random-generation-in-python">this page</a> of Eli Bendersky.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
+
+<span class="k">def</span> <span class="nf">weighted_choice</span><span class="p">(</span><span class="n">weights</span><span class="p">):</span>
+    <span class="n">rnd</span> <span class="o">=</span> <span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">weights</span><span class="p">):</span>
+	<span class="n">rnd</span> <span class="o">-=</span> <span class="n">w</span>
+	<span class="k">if</span> <span class="n">rnd</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+	    <span class="k">return</span> <span class="n">i</span>
+</pre></div>
+
+<p>
+Thus, <code>weighted_choice()</code> gives an index to the chosen element of an
+array. With this index I can fill a random shuffle \(r\) with elements of
+\(a\).
+</p>
+
+<p>
+As removing elements from lists is a bit expensive, I chose to set the
+weight \(w_{i}\) of the chosen element to zero. This ensures that the
+element \(i\) cannot be selected the next time.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">weighted_shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">w</span><span class="p">):</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="c1"># make a copy of w</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">"weighted_shuffle: Lenghts of lists don't match."</span><span class="p">)</span>
+	<span class="k">return</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># contains the random shuffle</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>
+	<span class="n">j</span> <span class="o">=</span> <span class="n">weighted_choice</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+	<span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+	<span class="n">w</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">r</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org9921522" class="outline-2">
+<h2 id="org9921522">
+<span class="section-number-2">3</span> Fast shuffling</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Once I had the above code, I went to Gerlach van der Heide. He managed
+to speed it up by several orders of magnitude.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
+<span class="kn">from</span> <span class="nn">bisect</span> <span class="kn">import</span> <span class="n">bisect_right</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">weighted_shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">w</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">cumWeights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>
+	 <span class="n">rnd</span> <span class="o">=</span> <span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="n">cumWeights</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+	 <span class="n">j</span> <span class="o">=</span> <span class="n">bisect_right</span><span class="p">(</span><span class="n">cumWeights</span><span class="p">,</span><span class="n">rnd</span><span class="p">)</span>
+	 <span class="c1">#j = np.searchsorted(cumWeights, rnd, side='right')</span>
+	 <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+	 <span class="n">cumWeights</span><span class="p">[</span><span class="n">j</span><span class="p">:]</span> <span class="o">-=</span> <span class="n">w</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">r</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">weighted_shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+
+<p>
+Here is the result
+</p>
+
+<div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+
+<p>
+Some testing shows, for a reason unknown to me, that <code>np.searchsorted</code> is slower than <code>bisect_right</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org692ab8e" class="outline-2">
+<h2 id="org692ab8e">
+<span class="section-number-2">4</span> A wrong idea</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+While searching the web I came across the one-liner below. It is
+elegant, but wrong. The weights according to which the elements of \(a\)
+are chosen are not in proportion to \(w\). Some basic probability theory
+shows why this is the case. It comes down to proving that
+\[P\{w_1 U_1 \leq w_2 U_2\} \neq \frac{w_1}{w_1+w_1},\]
+where \(w_i\) are the weights and \(U_i\) uniform random deviates on
+\([0,1]\).
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">wrong</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">w</span><span class="p">):</span>
+    <span class="n">aa</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+    <span class="n">aa</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="n">beta</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">aa</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../memoization/" rel="prev" title="Memoization with Python">Previous post</a>
+            </li>
+        </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+    Macros: {
+      RR: "{\\bf R}",
+      bold: ["{\\bf #1}",1],
+      P: ["\\mathsf{P}\\left[#1\\right]", 1],
+      E: ["\\mathsf{E}\\left[#1\\right]", 1],
+    }
+  }
+});
+</script></article><!--End of body content--><footer id="footer"><div class="text-center">
+<p>
+<span class="fa-stack">
+  <a href="https://github.com/ndvanforeest">
+    <i class="fa fa-github-square fa-stack-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="http://scholar.google.com/citations?user=IEjX_w4AAAAJ">
+     <i class="ai ai-google-scholar-square ai-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="https://orcid.org/0000-0001-5428-1723">
+     <i class="ai ai-orcid-square ai-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="mailto:vanforeest@gmail.com">
+    <i class="fa fa-square fa-stack-2x"></i>
+    <i class="fa fa-envelope fa-inverse fa-stack-1x"></i>
+  </a>
+</span>
+</p>
+<p>
+  Contents © 2022  Nicky van Foreest
+  —
+  
+  —
+  Powered by <a href="https://getnikola.com" rel="nofollow">Nikola</a>
+</p>
+</div>
+
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>
