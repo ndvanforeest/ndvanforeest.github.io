@@ -1,0 +1,109 @@
+#+BEGIN_COMMENT
+.. title: Memoization with Python
+.. slug: memoization
+.. date: 2022-03-14 15:55:48 UTC+01:00
+.. tags:
+.. category:
+.. link:
+.. description:
+.. type: text
+.. has_math: true
+
+#+END_COMMENT
+
+#+TITLE:     Memoization with python
+#+AUTHOR:    Nicky van Foreest
+#+EMAIL:     vanforeest@gmail.com
+#+DATE:      2022-03-14
+
+#+LANGUAGE:  en
+#+OPTIONS:  H:2 toc:t num:t
+
+#+include: ../preamble.org
+
+#+STARTUP: showall
+#+PROPERTY: header-args:python :session
+#+PROPERTY: header-args:python+ :exports both
+#+PROPERTY: header-args:python+ :results output
+
+#+BEGIN_COMMENT
+By including the definitions here, they apply to the entire document. Remove the comments of course.
+
+\(
+   \def\RR{{\bf R}}
+    \def\bold#1{{\bf #1}}
+\)
+#+END_COMMENT
+
+
+* Content of a Discrete Hyper Pyramid
+
+We like to compute the number of possibilities $\P{n, N}$ for $x = (x_1, \ldots x_n)$ such that $x_i \in \{0,1,\ldots, N\}$ and $\sum_i x_i \leq N$.
+It is easy to see that $\P{n, N}$ satisfies the recursion:
+$$\P{n, N} = \sum_{i=0}^N \P{n-1, N-i},$$
+with boundary conditions $\P{1, N} = N+1$ for all $N$.
+Note that by using the summation above, this condition can be replaced by $\P{0, N} = 1$ for all $N$.
+
+Computing $\P{n,N}$ is easy when we use  memoization. In fact,  we can code the compuation in nearly one line!
+
+#+begin_src python
+from functools import lru_cache
+
+@lru_cache(maxsize=128)
+def P(n, N):
+   return (n==0) or sum( P(n-1, N-i) for i in range(N+1) )
+
+n=5
+N=80
+print(P(n = 5, N = 80))
+#+end_src
+
+#+RESULTS:
+: 32801517
+
+* A probability problem
+
+We throw multiple times with a coin that lands heads with probability $p$.
+What is the probability $\P{n,k}$ to see at least $k$ heads in row when you throw a coin $n$ times?
+
+A bit of thinking shows  that $\P{n,k}$ must satisfy the recursion
+$$\P{n,k} = p^k + \sum_{i=1}^k p^{i-1} q\, \P{n-i,k},$$
+because it is possible to throw $k$ times heads from the first throw, but otherwise you throw $i$, $i<k$, times a heads, then a tails, after which you have to start all over again.
+
+Reasoning similarly, the expected number times $\E{n,k}$ to see at least $k$ heads in row when you throw a coin $n$ times must satisfy the recursion
+$$\E{n,k} = p^k(1+\E{n-k,k}) + \sum_{i=1}^k p^{i-1} q\, \E{n-i,k}.$$
+
+
+#+begin_src python
+p = 0.5
+q = 1. - p
+
+@lru_cache(maxsize=128)
+def P(n, k):
+    """
+    probability to see at least k heads in row when a coin is thrown n times
+    """
+    if n < k:
+        return 0
+    else:
+        return sum(P(n-i,k) * p**(i-1) * q for i in range(1,k+1)) + p**k
+
+@lru_cache(maxsize=128)
+def E(n, k):
+    """
+    expected number of times to see at least k heads in row when a coin is thrown n times
+    """
+    if n < k:
+        return 0
+    else:
+        tot = sum(E(n-i,k) * p**(i-1) *q for i in range(1,k+1))
+        tot += p**k * (1 + E(n-k,k))
+        return tot
+
+
+
+k = 2
+
+for n in range(k,10):
+    print(n, P(n,k), E(n,k))
+#+end_src

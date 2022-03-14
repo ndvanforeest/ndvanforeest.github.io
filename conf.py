@@ -1111,8 +1111,21 @@ PRETTY_URLS = True
 # SCHEDULE_ALL = False
 
 # Do you want to add a Mathjax config file?
-# MATHJAX_CONFIG = ""
-
+MATHJAX_CONFIG = """
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+    Macros: {
+      RR: "{\\\\bf R}",
+      bold: ["{\\\\bf #1}",1],
+      P: ["\\\\mathsf{P}\\\\left[#1\\\\right]", 1],
+      E: ["\\\\mathsf{E}\\\\left[#1\\\\right]", 1],
+    }
+  }
+});
+</script>
+"""
+# \newcommand{\E}[1]{\,\mathsf{E}\left[#1\right]}
 # If you want support for the $.$ syntax (which may conflict with running
 # text!), just use this config:
 # MATHJAX_CONFIG = """
