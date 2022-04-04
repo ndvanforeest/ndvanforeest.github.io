@@ -37,6 +37,10 @@ from pulp import LpProblem, LpStatus, value, LpInteger
 prob = LpProblem("Number Puzzle Problem", LpMinimize)
 #+end_src
 
+#+RESULTS:
+: /home/nicky/.local/lib/python3.10/site-packages/pulp/pulp.py:1352: UserWarning: Spaces are not permitted in the name. Converted to '_'
+:   warnings.warn("Spaces are not permitted in the name. Converted to '_'")
+
 
 * The decision variables
 
@@ -48,6 +52,8 @@ Vals = Rows = Cols =  range(1, 6)
 x = LpVariable.dicts("x", (Vals, Rows, Cols), 0, 1, LpInteger)
 #+end_src
 
+#+RESULTS:
+
 
 * Constraints with starting values
 
@@ -58,6 +64,8 @@ prob += x[4][4][1] == 1
 prob += x[2][4][5] == 1
 #+end_src
 
+#+RESULTS:
+
 * Equality Constraints
 
 There should be precisely one value in each field.
@@ -66,18 +74,26 @@ for r in Rows:
     for c in Cols:
         prob += lpSum([x[k][r][c] for k in Vals]) == 1
 #+end_src
+
+#+RESULTS:
+
 There can be only one value per row.
 #+begin_src python
 for k in Vals:
     for r in Rows:
         prob += lpSum([x[k][r][c] for c in Cols]) == 1
 #+end_src
+
+#+RESULTS:
+
 And also only one value per column.
 #+begin_src python
 for k in Vals:
     for c in Cols:
         prob += lpSum([x[k][r][c] for r in Rows]) == 1
 #+end_src
+
+#+RESULTS:
 
 * Inequality Constraints
 
@@ -100,6 +116,8 @@ for k in Vals:
     prob += lpSum(x[w][1][1] for w in R[k:]) <= M * (1 - x[k][2][1])
 #+end_src
 
+#+RESULTS:
+
 In a similar way we implement the other inequalities.
 #+begin_src python :exports code
 for k in Vals:
@@ -112,6 +130,8 @@ for k in Vals:
     prob += lpSum(x[w][4][1] for w in R[k:]) <= M * (1 - x[k][5][1])
     prob += lpSum(x[w][5][5] for w in R[k:]) <= M * (1 - x[k][4][5])
 #+end_src
+
+#+RESULTS:
 
 
 A much simpler way (which occurred to me quite a bit later) is to define supplementary variables $v$ that correspond to the value of the cell, i.e.,
@@ -137,6 +157,8 @@ prob += v[(4, 1)] <= v[(5, 1)]
 prob += v[(5, 5)] <= v[(4, 5)]
 #+end_src
 
+#+RESULTS:
+
 Note that since all cells must have different values, all strict inequalities in the constraints can be implemented as a $\leq$ constraints.
 
 * Objective
@@ -147,10 +169,12 @@ We only use pulp to find a feasible solution.
 prob += 0, "Arbitrary Objective Function"
 #+end_src
 
+#+RESULTS:
+
 * Solving the problem
 
 Solving the problem comes down to calling the =solve()= method of =pulp=.
-#+begin_src python :exports code
+#+begin_src python :results none :exports code
 prob.solve()
 #+end_src
 
@@ -160,6 +184,9 @@ Have we found a solution?
 #+begin_src python
 print("Status: ", LpStatus[prob.status])
 #+end_src
+
+#+RESULTS:
+: Status:  Optimal
 
 Yes! Let's print it.
 
@@ -172,3 +199,10 @@ for r in Rows:
                 res += str(k) + " "
     print(res)
 #+end_src
+
+#+RESULTS:
+: 1 2 3 5 4
+: 2 4 5 1 3
+: 3 1 2 4 5
+: 4 5 1 3 2
+: 5 3 4 2 1
