@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solving a number game with a MIP solver | Nicky's site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://ndvanforeest.github.io/posts/solving-a-number-game-with-a-mip-solver/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+<meta name="author" content="Nicky van Foreest">
+<link rel="prev" href="../weighted-random-shuffling/" title="Weighted random shuffling" type="text/html">
+<meta property="og:site_name" content="Nicky's site">
+<meta property="og:title" content="Solving a number game with a MIP solver">
+<meta property="og:url" content="https://ndvanforeest.github.io/posts/solving-a-number-game-with-a-mip-solver/">
+<meta property="og:description" content="The problem
+
+
+Consider the following puzzle: Chose numbers 1 to 5 such that in the diagram below each number is contained exactly once in each row and each column.
+The numbers in the fields should res">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2022-04-04T21:02:36+02:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-expand-md static-top mb-4
+navbar-dark
+bg-dark
+"><div class="container">
+<!-- This keeps the margins nice -->
+        <a class="navbar-brand" href="../../">
+
+            <span id="blog-title">Nicky's site</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="bs-navbar">
+            <ul class="navbar-nav mr-auto">
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../bio/" class="nav-link">Bio</a>
+                </li>
+<li class="nav-item">
+<a href="../../books/" class="nav-link">Books</a>
+                </li>
+<li class="nav-item">
+<a href="../../presentations/" class="nav-link">Presentations</a>
+                </li>
+<li class="nav-item">
+<a href="../../sites/" class="nav-link">Sites</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="../../tools/" class="nav-link">Tools</a>
+
+                
+            </li>
+</ul>
+<ul class="navbar-nav navbar-right">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Solving a number game with a MIP solver</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Nicky van Foreest
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2022-04-04T21:02:36+02:00" itemprop="datePublished" title="2022-04-04 21:02">2022-04-04 21:02</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-orgdd013b0" class="outline-2">
+<h2 id="orgdd013b0">The problem</h2>
+<div class="outline-text-2" id="text-orgdd013b0">
+<p>
+Consider the following puzzle: Chose numbers 1 to 5 such that in the diagram below each number is contained exactly once in each row and each column.
+The numbers in the fields should respect any inequality between two fields. We number the fields from the left top, e.g., field \((1,5)\) contains the number 4.
+</p>
+
+
+<div id="org2eeb543" class="figure">
+<p><img src="../../images/number_game.png" alt="nil"></p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org7ab2662" class="outline-2">
+<h2 id="org7ab2662">Finding a Solution</h2>
+<div class="outline-text-2" id="text-org7ab2662">
+<p>
+We will use  <a href="https://pythonhosted.org/PuLP/">pulp</a> to solve this puzzle. The <a href="https://pythonhosted.org/PuLP/CaseStudies/a_sudoku_problem.html">sudoku</a> problem discussed in the pulp documentation provides some inspiration on how to  tackle our problem.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pulp</span> <span class="kn">import</span> <span class="n">lpSum</span><span class="p">,</span> <span class="n">LpVariable</span><span class="p">,</span> <span class="n">LpMinimize</span>
+<span class="kn">from</span> <span class="nn">pulp</span> <span class="kn">import</span> <span class="n">LpProblem</span><span class="p">,</span> <span class="n">LpStatus</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">LpInteger</span>
+
+<span class="n">prob</span> <span class="o">=</span> <span class="n">LpProblem</span><span class="p">(</span><span class="s2">"Number Puzzle Problem"</span><span class="p">,</span> <span class="n">LpMinimize</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org2b62971" class="outline-2">
+<h2 id="org2b62971">The decision variables</h2>
+<div class="outline-text-2" id="text-org2b62971">
+<p>
+As decision variables we use \(x_{kij}\) such that \(x_{kij} = 1\) if value \(k\) appears in the field with row \(i\) and column \(j\).
+The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">Vals</span> <span class="o">=</span> <span class="n">Rows</span> <span class="o">=</span> <span class="n">Cols</span> <span class="o">=</span>  <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">LpVariable</span><span class="o">.</span><span class="n">dicts</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="p">(</span><span class="n">Vals</span><span class="p">,</span> <span class="n">Rows</span><span class="p">,</span> <span class="n">Cols</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">LpInteger</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-orgca1b686" class="outline-2">
+<h2 id="orgca1b686">Constraints with starting values</h2>
+<div class="outline-text-2" id="text-orgca1b686">
+<p>
+The simplest constraints deal with the numbers that are given in the diagram.
+</p>
+<div class="highlight"><pre><span></span><span class="n">prob</span> <span class="o">+=</span> <span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgf8edc47" class="outline-2">
+<h2 id="orgf8edc47">Equality Constraints</h2>
+<div class="outline-text-2" id="text-orgf8edc47">
+<p>
+There should be precisely one value in each field.
+</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">:</span>
+	<span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+<p>
+There can be only one value per row.
+</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">:</span>
+	<span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+<p>
+And also only one value per column.
+</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">:</span>
+	<span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org835b644" class="outline-2">
+<h2 id="org835b644">Inequality Constraints</h2>
+<div class="outline-text-2" id="text-org835b644">
+<p>
+The inequality constraints of the board require more work.
+</p>
+
+<p>
+Let's consider an example. In the problem diagram above we see that the value of field \((2,1)\) must be larger than the value in field \((1,1)\). Thus, if field \((2,1)\) has value 3, then field \((1,1)\) is not allowed to have a value of 3, 4, or 5. This means that, in terms of the decision variables, if \(x_{3,21}=1\) then \(\sum_{w=3}^5 x_{w,11} = 0\). More generally, we want that
+</p>
+\begin{equation}
+   x_{k, 21} = 1 \Rightarrow \sum_{w=k}^5 x_{w, 11} = 0.
+\end{equation}
+<p>
+We can implement this implication with the big \(M\) trick. Choose some big \(M\), then set
+</p>
+\begin{equation}
+\sum_{w=k}^5 x_{w, 11} \leq M(1-x_{k, 21}),
+\end{equation}
+<p>
+so that if \(x_{k, 21} = 1\) then \(\sum_{w=k}^5 x_{w, 11}\) must be zero, while if \(x_{k, 21} = 0\), then \(\sum_{w=k}^5 x_{w, 11}\) is unconstrained.
+In code this becomes:
+</p>
+<div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># This is large enough</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">:</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+
+<p>
+In a similar way we implement the other inequalities.
+</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">:</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">])</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">3</span><span class="p">][</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">5</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">5</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">5</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+
+
+<p>
+A much simpler way (which occurred to me quite a bit later) is to define supplementary variables \(v\) that correspond to the value of the cell, i.e.,
+</p>
+\begin{equation}
+    v_{ij} = \sum_{k=1}^5 k x_{kij}.
+\end{equation}
+<p>
+Then we must have, for instance, for cells \((1,4)\) and \((1,5)\) that \(v_{14}&gt;v_{15}\).
+In code this becomes
+</p>
+<div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">:</span>
+	<span class="n">v</span><span class="p">[(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)]</span> <span class="o">=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">k</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">])</span>
+
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+</pre></div>
+
+<p>
+Note that since all cells must have different values, all strict inequalities in the constraints can be implemented as a \(\leq\) constraints.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb827683" class="outline-2">
+<h2 id="orgb827683">Objective</h2>
+<div class="outline-text-2" id="text-orgb827683">
+<p>
+The objective is trivial, because there is nothing to optimize.
+We only use pulp to find a feasible solution.
+</p>
+<div class="highlight"><pre><span></span><span class="n">prob</span> <span class="o">+=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"Arbitrary Objective Function"</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orga40f629" class="outline-2">
+<h2 id="orga40f629">Solving the problem</h2>
+<div class="outline-text-2" id="text-orga40f629">
+<p>
+Solving the problem comes down to calling the <code>solve()</code> method of <code>pulp</code>.
+</p>
+<div class="highlight"><pre><span></span><span class="n">prob</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgee0295b" class="outline-2">
+<h2 id="orgee0295b">The solution</h2>
+<div class="outline-text-2" id="text-orgee0295b">
+<p>
+Have we found a solution?
+</p>
+<div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Status: "</span><span class="p">,</span> <span class="n">LpStatus</span><span class="p">[</span><span class="n">prob</span><span class="o">.</span><span class="n">status</span><span class="p">])</span>
+</pre></div>
+
+<p>
+Yes! Let's print it.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">:</span>
+	<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">:</span>
+	    <span class="k">if</span> <span class="n">value</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+		<span class="n">res</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" "</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../weighted-random-shuffling/" rel="prev" title="Weighted random shuffling">Previous post</a>
+            </li>
+        </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+    Macros: {
+      RR: "{\\bf R}",
+      bold: ["{\\bf #1}",1],
+      P: ["\\mathsf{P}\\left[#1\\right]", 1],
+      E: ["\\mathsf{E}\\left[#1\\right]", 1],
+    }
+  }
+});
+</script></article><!--End of body content--><footer id="footer"><div class="text-center">
+<p>
+<span class="fa-stack">
+  <a href="https://github.com/ndvanforeest">
+    <i class="fa fa-github-square fa-stack-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="http://scholar.google.com/citations?user=IEjX_w4AAAAJ">
+     <i class="ai ai-google-scholar-square ai-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="https://orcid.org/0000-0001-5428-1723">
+     <i class="ai ai-orcid-square ai-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="mailto:vanforeest@gmail.com">
+    <i class="fa fa-square fa-stack-2x"></i>
+    <i class="fa fa-envelope fa-inverse fa-stack-1x"></i>
+  </a>
+</span>
+</p>
+<p>
+  Contents © 2022  Nicky van Foreest
+  —
+  
+  —
+  Powered by <a href="https://getnikola.com" rel="nofollow">Nikola</a>
+</p>
+</div>
+
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>
