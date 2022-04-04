@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2022 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Mon, 04 Apr 2022 20:15:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Solving a number game with a MIP solver</title><link>https://ndvanforeest.github.io/posts/solving-a-number-game-with-a-mip-solver/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-orgdd013b0" class="outline-2"&gt;
-&lt;h2 id="orgdd013b0"&gt;The problem&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdd013b0"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2022 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Mon, 04 Apr 2022 20:23:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Solving a number game with a MIP solver</title><link>https://ndvanforeest.github.io/posts/solving-a-number-game-with-a-mip-solver/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-org372d5e0" class="outline-2"&gt;
+&lt;h2 id="org372d5e0"&gt;The problem&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org372d5e0"&gt;
 &lt;p&gt;
 Consider the following puzzle: Chose numbers 1 to 5 such that in the diagram below each number is contained exactly once in each row and each column.
 The numbers in the fields should respect any inequality between two fields. We number the fields from the left top, e.g., field \((1,5)\) contains the number 4.
 &lt;/p&gt;
 
 
-&lt;div id="org2eeb543" class="figure"&gt;
+&lt;div id="org2f6616c" class="figure"&gt;
 &lt;p&gt;&lt;img src="https://ndvanforeest.github.io/images/number_game.png" alt="nil"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -16,9 +16,9 @@ The numbers in the fields should respect any inequality between two fields. We n
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org7ab2662" class="outline-2"&gt;
-&lt;h2 id="org7ab2662"&gt;Finding a Solution&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7ab2662"&gt;
+&lt;div id="outline-container-org2b99cd4" class="outline-2"&gt;
+&lt;h2 id="org2b99cd4"&gt;Finding a Solution&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2b99cd4"&gt;
 &lt;p&gt;
 We will use  &lt;a href="https://pythonhosted.org/PuLP/"&gt;pulp&lt;/a&gt; to solve this puzzle. The &lt;a href="https://pythonhosted.org/PuLP/CaseStudies/a_sudoku_problem.html"&gt;sudoku&lt;/a&gt; problem discussed in the pulp documentation provides some inspiration on how to  tackle our problem.
 &lt;/p&gt;
@@ -28,13 +28,18 @@ We will use  &lt;a href="https://pythonhosted.org/PuLP/"&gt;pulp&lt;/a&gt; to so
 
 &lt;span class="n"&gt;prob&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;LpProblem&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"Number Puzzle Problem"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;LpMinimize&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+/home/nicky/.local/lib/python3.10/site-packages/pulp/pulp.py:1352: UserWarning: Spaces are not permitted in the name. Converted to '_'
+  warnings.warn("Spaces are not permitted in the name. Converted to '_'")
+&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org2b62971" class="outline-2"&gt;
-&lt;h2 id="org2b62971"&gt;The decision variables&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2b62971"&gt;
+&lt;div id="outline-container-orga544571" class="outline-2"&gt;
+&lt;h2 id="orga544571"&gt;The decision variables&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga544571"&gt;
 &lt;p&gt;
 As decision variables we use \(x_{kij}\) such that \(x_{kij} = 1\) if value \(k\) appears in the field with row \(i\) and column \(j\).
 The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
@@ -47,9 +52,9 @@ The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgca1b686" class="outline-2"&gt;
-&lt;h2 id="orgca1b686"&gt;Constraints with starting values&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgca1b686"&gt;
+&lt;div id="outline-container-org72ba436" class="outline-2"&gt;
+&lt;h2 id="org72ba436"&gt;Constraints with starting values&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org72ba436"&gt;
 &lt;p&gt;
 The simplest constraints deal with the numbers that are given in the diagram.
 &lt;/p&gt;
@@ -60,9 +65,9 @@ The simplest constraints deal with the numbers that are given in the diagram.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf8edc47" class="outline-2"&gt;
-&lt;h2 id="orgf8edc47"&gt;Equality Constraints&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf8edc47"&gt;
+&lt;div id="outline-container-orgcc882ae" class="outline-2"&gt;
+&lt;h2 id="orgcc882ae"&gt;Equality Constraints&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcc882ae"&gt;
 &lt;p&gt;
 There should be precisely one value in each field.
 &lt;/p&gt;
@@ -70,6 +75,7 @@ There should be precisely one value in each field.
     &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;Cols&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 	&lt;span class="n"&gt;prob&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;lpSum&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;Vals&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;
 There can be only one value per row.
 &lt;/p&gt;
@@ -77,6 +83,7 @@ There can be only one value per row.
     &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;Rows&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 	&lt;span class="n"&gt;prob&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;lpSum&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;Cols&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;
 And also only one value per column.
 &lt;/p&gt;
@@ -87,9 +94,9 @@ And also only one value per column.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org835b644" class="outline-2"&gt;
-&lt;h2 id="org835b644"&gt;Inequality Constraints&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org835b644"&gt;
+&lt;div id="outline-container-orga5bdb84" class="outline-2"&gt;
+&lt;h2 id="orga5bdb84"&gt;Inequality Constraints&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga5bdb84"&gt;
 &lt;p&gt;
 The inequality constraints of the board require more work.
 &lt;/p&gt;
@@ -163,9 +170,9 @@ Note that since all cells must have different values, all strict inequalities in
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb827683" class="outline-2"&gt;
-&lt;h2 id="orgb827683"&gt;Objective&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb827683"&gt;
+&lt;div id="outline-container-org1a83615" class="outline-2"&gt;
+&lt;h2 id="org1a83615"&gt;Objective&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1a83615"&gt;
 &lt;p&gt;
 The objective is trivial, because there is nothing to optimize.
 We only use pulp to find a feasible solution.
@@ -175,9 +182,9 @@ We only use pulp to find a feasible solution.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga40f629" class="outline-2"&gt;
-&lt;h2 id="orga40f629"&gt;Solving the problem&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga40f629"&gt;
+&lt;div id="outline-container-orgd487ae4" class="outline-2"&gt;
+&lt;h2 id="orgd487ae4"&gt;Solving the problem&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd487ae4"&gt;
 &lt;p&gt;
 Solving the problem comes down to calling the &lt;code&gt;solve()&lt;/code&gt; method of &lt;code&gt;pulp&lt;/code&gt;.
 &lt;/p&gt;
@@ -186,14 +193,19 @@ Solving the problem comes down to calling the &lt;code&gt;solve()&lt;/code&gt; m
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgee0295b" class="outline-2"&gt;
-&lt;h2 id="orgee0295b"&gt;The solution&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgee0295b"&gt;
+&lt;div id="outline-container-org9c43405" class="outline-2"&gt;
+&lt;h2 id="org9c43405"&gt;The solution&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9c43405"&gt;
 &lt;p&gt;
 Have we found a solution?
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"Status: "&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;LpStatus&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;prob&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+Status:  Optimal
+&lt;/pre&gt;
+
 
 &lt;p&gt;
 Yes! Let's print it.
@@ -207,6 +219,14 @@ Yes! Let's print it.
 		&lt;span class="n"&gt;res&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s2"&gt;" "&lt;/span&gt;
     &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+1 2 3 5 4
+2 4 5 1 3
+3 1 2 4 5
+4 5 1 3 2
+5 3 4 2 1
+&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/solving-a-number-game-with-a-mip-solver/</guid><pubDate>Mon, 04 Apr 2022 19:02:36 GMT</pubDate></item><item><title>Weighted random shuffling</title><link>https://ndvanforeest.github.io/posts/weighted-random-shuffling/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="table-of-contents"&gt;
 &lt;h2&gt;Table of Contents&lt;/h2&gt;
