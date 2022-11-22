@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2022 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Mon, 04 Apr 2022 20:23:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Solving a number game with a MIP solver</title><link>https://ndvanforeest.github.io/posts/solving-a-number-game-with-a-mip-solver/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-org372d5e0" class="outline-2"&gt;
-&lt;h2 id="org372d5e0"&gt;The problem&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org372d5e0"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2022 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Tue, 10 May 2022 20:17:58 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Vickery auctions</title><link>https://ndvanforeest.github.io/posts/vickery-auctions/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;p&gt;
+To practice a bit more with the \(O\) hoi symbol, given a list of \(n\) elements,  the following code finds the largest element:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;M&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:]:&lt;/span&gt;
+    &lt;span class="n"&gt;M&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;max&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div style="padding: 1em; background-color: #CCFFCC;border-radius: 15px; font-size: 0.9em; box-shadow: 0.05em 0.1em 5px 0.01em #00000057;"&gt;&lt;h3&gt;Exercise&lt;/h3&gt;
+&lt;p&gt;
+Explain that this algorithm requires \(O(n)\) comparisons.
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 1em;
+                          background-color: #e5f5e5;
+                          /* background-color: pink; */
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+We store the value of first element in a variable \(M\), say.
+Then we compare \(M\) to the second element, and replace the value of \(M\) by the second if the second value is larger than \(M\), and so on.
+Since we need \(n-1\) comparisons in total, we say that the complexity is \(O(n)\) because we neglect the constant \(1\).
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+
+&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/vickery-auctions/</guid><pubDate>Tue, 26 Apr 2022 12:58:08 GMT</pubDate></item><item><title>Solving a number game with a MIP solver</title><link>https://ndvanforeest.github.io/posts/solving-a-number-game-with-a-mip-solver/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-org3087e45" class="outline-2"&gt;
+&lt;h2 id="org3087e45"&gt;The problem&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3087e45"&gt;
 &lt;p&gt;
 Consider the following puzzle: Chose numbers 1 to 5 such that in the diagram below each number is contained exactly once in each row and each column.
 The numbers in the fields should respect any inequality between two fields. We number the fields from the left top, e.g., field \((1,5)\) contains the number 4.
 &lt;/p&gt;
 
 
-&lt;div id="org2f6616c" class="figure"&gt;
+&lt;div id="orgd41496c" class="figure"&gt;
 &lt;p&gt;&lt;img src="https://ndvanforeest.github.io/images/number_game.png" alt="nil"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -16,9 +52,9 @@ The numbers in the fields should respect any inequality between two fields. We n
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org2b99cd4" class="outline-2"&gt;
-&lt;h2 id="org2b99cd4"&gt;Finding a Solution&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2b99cd4"&gt;
+&lt;div id="outline-container-org48bc2b4" class="outline-2"&gt;
+&lt;h2 id="org48bc2b4"&gt;Finding a Solution&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org48bc2b4"&gt;
 &lt;p&gt;
 We will use  &lt;a href="https://pythonhosted.org/PuLP/"&gt;pulp&lt;/a&gt; to solve this puzzle. The &lt;a href="https://pythonhosted.org/PuLP/CaseStudies/a_sudoku_problem.html"&gt;sudoku&lt;/a&gt; problem discussed in the pulp documentation provides some inspiration on how to  tackle our problem.
 &lt;/p&gt;
@@ -37,9 +73,9 @@ We will use  &lt;a href="https://pythonhosted.org/PuLP/"&gt;pulp&lt;/a&gt; to so
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orga544571" class="outline-2"&gt;
-&lt;h2 id="orga544571"&gt;The decision variables&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga544571"&gt;
+&lt;div id="outline-container-org76d0a75" class="outline-2"&gt;
+&lt;h2 id="org76d0a75"&gt;The decision variables&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org76d0a75"&gt;
 &lt;p&gt;
 As decision variables we use \(x_{kij}\) such that \(x_{kij} = 1\) if value \(k\) appears in the field with row \(i\) and column \(j\).
 The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
@@ -52,9 +88,9 @@ The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org72ba436" class="outline-2"&gt;
-&lt;h2 id="org72ba436"&gt;Constraints with starting values&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org72ba436"&gt;
+&lt;div id="outline-container-org3a9fc41" class="outline-2"&gt;
+&lt;h2 id="org3a9fc41"&gt;Constraints with starting values&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3a9fc41"&gt;
 &lt;p&gt;
 The simplest constraints deal with the numbers that are given in the diagram.
 &lt;/p&gt;
@@ -65,9 +101,9 @@ The simplest constraints deal with the numbers that are given in the diagram.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcc882ae" class="outline-2"&gt;
-&lt;h2 id="orgcc882ae"&gt;Equality Constraints&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcc882ae"&gt;
+&lt;div id="outline-container-org65f1a3e" class="outline-2"&gt;
+&lt;h2 id="org65f1a3e"&gt;Equality Constraints&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org65f1a3e"&gt;
 &lt;p&gt;
 There should be precisely one value in each field.
 &lt;/p&gt;
@@ -94,9 +130,9 @@ And also only one value per column.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga5bdb84" class="outline-2"&gt;
-&lt;h2 id="orga5bdb84"&gt;Inequality Constraints&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga5bdb84"&gt;
+&lt;div id="outline-container-org85c06b4" class="outline-2"&gt;
+&lt;h2 id="org85c06b4"&gt;Inequality Constraints&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org85c06b4"&gt;
 &lt;p&gt;
 The inequality constraints of the board require more work.
 &lt;/p&gt;
@@ -170,9 +206,9 @@ Note that since all cells must have different values, all strict inequalities in
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1a83615" class="outline-2"&gt;
-&lt;h2 id="org1a83615"&gt;Objective&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1a83615"&gt;
+&lt;div id="outline-container-orgd8a0e0a" class="outline-2"&gt;
+&lt;h2 id="orgd8a0e0a"&gt;Objective&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd8a0e0a"&gt;
 &lt;p&gt;
 The objective is trivial, because there is nothing to optimize.
 We only use pulp to find a feasible solution.
@@ -182,9 +218,9 @@ We only use pulp to find a feasible solution.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd487ae4" class="outline-2"&gt;
-&lt;h2 id="orgd487ae4"&gt;Solving the problem&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd487ae4"&gt;
+&lt;div id="outline-container-org9ebd05f" class="outline-2"&gt;
+&lt;h2 id="org9ebd05f"&gt;Solving the problem&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9ebd05f"&gt;
 &lt;p&gt;
 Solving the problem comes down to calling the &lt;code&gt;solve()&lt;/code&gt; method of &lt;code&gt;pulp&lt;/code&gt;.
 &lt;/p&gt;
@@ -193,9 +229,9 @@ Solving the problem comes down to calling the &lt;code&gt;solve()&lt;/code&gt; m
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9c43405" class="outline-2"&gt;
-&lt;h2 id="org9c43405"&gt;The solution&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9c43405"&gt;
+&lt;div id="outline-container-orge692e3b" class="outline-2"&gt;
+&lt;h2 id="orge692e3b"&gt;The solution&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge692e3b"&gt;
 &lt;p&gt;
 Have we found a solution?
 &lt;/p&gt;
@@ -228,20 +264,20 @@ Yes! Let's print it.
 5 3 4 2 1
 &lt;/pre&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/solving-a-number-game-with-a-mip-solver/</guid><pubDate>Mon, 04 Apr 2022 19:02:36 GMT</pubDate></item><item><title>Weighted random shuffling</title><link>https://ndvanforeest.github.io/posts/weighted-random-shuffling/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/solving-a-number-game-with-a-mip-solver/</guid><pubDate>Mon, 04 Apr 2022 19:02:36 GMT</pubDate></item><item><title>Weighted random shuffling</title><link>https://ndvanforeest.github.io/posts/weighted-random-shuffling/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="table-of-contents" role="doc-toc"&gt;
 &lt;h2&gt;Table of Contents&lt;/h2&gt;
-&lt;div id="text-table-of-contents"&gt;
+&lt;div id="text-table-of-contents" role="doc-toc"&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/weighted-random-shuffling/#org8d374d7"&gt;1. Weighted random shuffling&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/weighted-random-shuffling/#org53add69"&gt;2. Weighted shuffling in pure python&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/weighted-random-shuffling/#org9921522"&gt;3. Fast shuffling&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/weighted-random-shuffling/#org692ab8e"&gt;4. A wrong idea&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/weighted-random-shuffling/#org520b2b5"&gt;1. Weighted random shuffling&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/weighted-random-shuffling/#orgc370493"&gt;2. Weighted shuffling in pure python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/weighted-random-shuffling/#org5926ee4"&gt;3. Fast shuffling&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/weighted-random-shuffling/#orgd796d13"&gt;4. A wrong idea&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8d374d7" class="outline-2"&gt;
-&lt;h2 id="org8d374d7"&gt;&lt;span class="section-number-2"&gt;1&lt;/span&gt; Weighted random shuffling&lt;/h2&gt;
+&lt;div id="outline-container-org520b2b5" class="outline-2"&gt;
+&lt;h2 id="org520b2b5"&gt;&lt;span class="section-number-2"&gt;1.&lt;/span&gt; Weighted random shuffling&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
 For some application I needed a random shuffle \(r\) of a list of numbers
@@ -256,8 +292,8 @@ this code.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org53add69" class="outline-2"&gt;
-&lt;h2 id="org53add69"&gt;&lt;span class="section-number-2"&gt;2&lt;/span&gt; Weighted shuffling in pure python&lt;/h2&gt;
+&lt;div id="outline-container-orgc370493" class="outline-2"&gt;
+&lt;h2 id="orgc370493"&gt;&lt;span class="section-number-2"&gt;2.&lt;/span&gt; Weighted shuffling in pure python&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;p&gt;
 Weighted random shuffling is the same as weighted random sampling from a
@@ -309,8 +345,8 @@ element \(i\) cannot be selected the next time.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9921522" class="outline-2"&gt;
-&lt;h2 id="org9921522"&gt;&lt;span class="section-number-2"&gt;3&lt;/span&gt; Fast shuffling&lt;/h2&gt;
+&lt;div id="outline-container-org5926ee4" class="outline-2"&gt;
+&lt;h2 id="org5926ee4"&gt;&lt;span class="section-number-2"&gt;3.&lt;/span&gt; Fast shuffling&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-3"&gt;
 &lt;p&gt;
 Once I had the above code, I went to Gerlach van der Heide. He managed
@@ -350,8 +386,8 @@ Some testing shows, for a reason unknown to me, that &lt;code&gt;np.searchsorted
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org692ab8e" class="outline-2"&gt;
-&lt;h2 id="org692ab8e"&gt;&lt;span class="section-number-2"&gt;4&lt;/span&gt; A wrong idea&lt;/h2&gt;
+&lt;div id="outline-container-orgd796d13" class="outline-2"&gt;
+&lt;h2 id="orgd796d13"&gt;&lt;span class="section-number-2"&gt;4.&lt;/span&gt; A wrong idea&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-4"&gt;
 &lt;p&gt;
 While searching the web I came across the one-liner below. It is
@@ -369,19 +405,19 @@ where \(w_i\) are the weights and \(U_i\) uniform random deviates on
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;aa&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/weighted-random-shuffling/</guid><pubDate>Mon, 14 Mar 2022 15:44:53 GMT</pubDate></item><item><title>Memoization with Python</title><link>https://ndvanforeest.github.io/posts/memoization/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/weighted-random-shuffling/</guid><pubDate>Mon, 14 Mar 2022 15:44:53 GMT</pubDate></item><item><title>Memoization with Python</title><link>https://ndvanforeest.github.io/posts/memoization/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="table-of-contents" role="doc-toc"&gt;
 &lt;h2&gt;Table of Contents&lt;/h2&gt;
-&lt;div id="text-table-of-contents"&gt;
+&lt;div id="text-table-of-contents" role="doc-toc"&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/memoization/#org9f14e2c"&gt;1. Content of a Discrete Hyper Pyramid&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/memoization/#org7713232"&gt;2. A probability problem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/memoization/#orgda92d74"&gt;1. Content of a Discrete Hyper Pyramid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/memoization/#orgfc79b9c"&gt;2. A probability problem&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org9f14e2c" class="outline-2"&gt;
-&lt;h2 id="org9f14e2c"&gt;&lt;span class="section-number-2"&gt;1&lt;/span&gt; Content of a Discrete Hyper Pyramid&lt;/h2&gt;
+&lt;div id="outline-container-orgda92d74" class="outline-2"&gt;
+&lt;h2 id="orgda92d74"&gt;&lt;span class="section-number-2"&gt;1.&lt;/span&gt; Content of a Discrete Hyper Pyramid&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
 We like to compute the number of possibilities \(\P{n, N}\) for \(x = (x_1, \ldots x_n)\) such that \(x_i \in \{0,1,\ldots, N\}\) and \(\sum_i x_i \leq N\).
@@ -412,8 +448,8 @@ Computing \(\P{n,N}\) is easy when we use  memoization. In fact,  we can code th
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7713232" class="outline-2"&gt;
-&lt;h2 id="org7713232"&gt;&lt;span class="section-number-2"&gt;2&lt;/span&gt; A probability problem&lt;/h2&gt;
+&lt;div id="outline-container-orgfc79b9c" class="outline-2"&gt;
+&lt;h2 id="orgfc79b9c"&gt;&lt;span class="section-number-2"&gt;2.&lt;/span&gt; A probability problem&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-2"&gt;
 &lt;p&gt;
 We throw multiple times with a coin that lands heads with probability \(p\).
@@ -464,373 +500,7 @@ Reasoning similarly, the expected number times \(\E{n,k}\) to see at least \(k\)
     &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;P&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;E&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/k&gt;&lt;/p&gt;&lt;/div&gt;
-&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/memoization/</guid><pubDate>Mon, 14 Mar 2022 14:55:48 GMT</pubDate></item><item><title>Solving riddles</title><link>https://ndvanforeest.github.io/posts/solving-riddles/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="table-of-contents"&gt;
-&lt;h2&gt;Table of Contents&lt;/h2&gt;
-&lt;div id="text-table-of-contents"&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/solving-riddles/#org048ad96"&gt;1. Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/solving-riddles/#orga723b11"&gt;2. Riddle: At least one of us is a crook&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/solving-riddles/#orga85164e"&gt;3. Riddle: Exactly one of us is a crook&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/solving-riddles/#orgd48f3b2"&gt;4. Riddle:  Knights of the same type&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/solving-riddles/#orge41dd99"&gt;5. Riddle: Number of knights in a bus&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/solving-riddles/#org1d7d321"&gt;6. Riddle: Boxes with chips&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org048ad96" class="outline-2"&gt;
-&lt;h2 id="org048ad96"&gt;&lt;span class="section-number-2"&gt;1&lt;/span&gt; Introduction&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-1"&gt;
-&lt;p&gt;
-Here is a funny riddle: An island has two types of inhabitants: knights and crooks.
-Knights always tell the truth, crooks always lie.
-Suppose an inhabitant A claims about himself and his brother B: "At least one of us is a crook."
-Of which type are A and B?
-&lt;/p&gt;
-
-&lt;p&gt;
-Below we solve this riddle by hand, but, as becomes clear, this is a bit tedious.
-Can't we use the computer to solve problems like this?
-In fact, &lt;a href="https://pypi.org/project/pyeda/"&gt;PyEDA&lt;/a&gt; is a package to solve such &lt;i&gt;constraint satisfaction&lt;/i&gt; problems, in particular problems that can be formulated with &lt;i&gt;Boolean algebra&lt;/i&gt;.
-Here we show how to use this package to attack such logical riddles.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-
-&lt;div id="outline-container-orga723b11" class="outline-2"&gt;
-&lt;h2 id="orga723b11"&gt;&lt;span class="section-number-2"&gt;2&lt;/span&gt; Riddle: At least one of us is a crook&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-2"&gt;
-&lt;p&gt;
-The above logical problem can be solved in a nice way with Boolean algebra.
-Let \(A=1\) if person A is a knight, and \(A=0\) if he is a crook, and similar for \(B\).
-With these variables, and writing \(A'\) for the complement of \(A\), the statement of person A can be written as
-&lt;/p&gt;
-\begin{equation*}
-   C = A B' + A' B + A' B'.
-\end{equation*}
-&lt;p&gt;
-Now, if A is a knight, he speaks the truth; and then, by consequence, claim \(C\) must be true.
-Thus, if \(A=1\), it must be that \(A  C = 1\).
-On the other hand, if A is a crook, he lies, so that claim \(C\) is false (and \(C'\) is true.)
-Thus, if \(A'=1\) (i.e., person A is a crook), it must be that \(A' C' = 1\). Since also A is a knight or a crook, either \(AC=1\) or \(A'C'=1\), implying that
-&lt;/p&gt;
-\begin{equation*}
-1 = AC + A'C'.
-\end{equation*}
-&lt;p&gt;
-With this insight, the riddle can be formulated as: for which \(A\) and \(B\) is this  equation true?
-&lt;/p&gt;
-
-
-&lt;p&gt;
-Let's solve it by hand for instructional purposes. With the above expression for \(C\) and noting that \(C' = A B'\), our problem can be rewritten as
-&lt;/p&gt;
-\begin{equation*}
-1 = AC + A'C' =  A( A B' + A' B + A' B') + A'( A B').
-\end{equation*}
-&lt;p&gt;
-Clearly, \(A A' = 0\) and \(A A = A\), so that this must reduce to
-2\begin{equation*}
-A B' = 1,
-\end{equation*}
-from which follows that \(A=1\), i.e., A is a knight, and \(B'=1\), i.e., B is a crook.
-&lt;/p&gt;
-
-&lt;p&gt;
-Let's check this with PyEDA.
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pyeda.inter&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;exprvar&lt;/span&gt;
-
-&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;exprvar&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'AB'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-The statement \(C\) can be written in PyEDA as:
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-and the statement we want to check is
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;~&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-Let's solve it:
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;S&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;satisfy_all&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-   &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;pre class="example"&gt;
-{B: 0, A: 1}
-&lt;/pre&gt;
-
-
-
-&lt;p&gt;
-We get the same result: \(A=1\), i.e., A is a knight, and \(B=0\), i.e., B is a crook.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orga85164e" class="outline-2"&gt;
-&lt;h2 id="orga85164e"&gt;&lt;span class="section-number-2"&gt;3&lt;/span&gt; Riddle: Exactly one of us is a crook&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-3"&gt;
-&lt;p&gt;
-Now that we know how to tackle such riddles in an instant with PyEDA
-we can move on to the next riddle.
-&lt;/p&gt;
-
-&lt;p&gt;
-Suppose that, instead of the above, A said: "Precisely one of us is a crook." What can we say about A and B now?
-&lt;/p&gt;
-
-&lt;p&gt;
-The statement of A can now be modelled as \(C=A'B + AB'\).
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;~&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-And we want again that the following is satisfied:
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;~&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;
-
-&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;S&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;satisfy_all&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-   &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;pre class="example"&gt;
-{B: 0, A: 0}
-{B: 0, A: 1}
-&lt;/pre&gt;
-
-
-&lt;p&gt;
-Apperently, the statement of A that only one of the two brothers is a crook allows two solutions.
-We can only conclude that B is a crook.
-&lt;/p&gt;
-
-
-&lt;p&gt;
-It is interesting to note that there's a boolean function in PyEDA to build claim C in another way.
-Note that according to C, precisely one of A and B is true.
-This behavior can be obtained with `OneHot`.
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pyeda.inter&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;OneHot&lt;/span&gt;
-
-&lt;span class="n"&gt;D&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OneHot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;pre class="example"&gt;
-And(Or(~A, ~B), Or(A, B))
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-
-
-&lt;div id="outline-container-orgd48f3b2" class="outline-2"&gt;
-&lt;h2 id="orgd48f3b2"&gt;&lt;span class="section-number-2"&gt;4&lt;/span&gt; Riddle:  Knights of the same type&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-4"&gt;
-&lt;p&gt;
-What if A has said that: "My brother and I are of the same type".
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;~&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;
-&lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;~&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;
-
-&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;S&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;satisfy_all&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-   &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;pre class="example"&gt;
-{B: 1, A: 0}
-{B: 1, A: 1}
-&lt;/pre&gt;
-
-
-
-&lt;p&gt;
-So, now B is a knight, but A can be either of the two.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orge41dd99" class="outline-2"&gt;
-&lt;h2 id="orge41dd99"&gt;&lt;span class="section-number-2"&gt;5&lt;/span&gt; Riddle: Number of knights in a bus&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-5"&gt;
-&lt;p&gt;
-Eleven inhabitants of the island are sitting in a bus. All of them
-know each other. When asked about the number of knights in the bus
-they answered: 3, 2, 5, 7, 5, 3, 4, 0, 3, 5, 5. How many knights are sitting in the bus?
-&lt;/p&gt;
-
-&lt;p&gt;
-To solve this with PyEDA, we can use the function 'NHot', provided to
-me by the author of PyEDA:
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;itertools&lt;/span&gt;
-
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pyeda.inter&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Expression&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;exprvars&lt;/span&gt;
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pyeda.boolalg&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;exprnode&lt;/span&gt;
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pyeda.boolalg.expr&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;_expr&lt;/span&gt;
-
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;NHot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;simplify&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="sd"&gt;"""&lt;/span&gt;
-&lt;span class="sd"&gt;    Return an expression that means&lt;/span&gt;
-&lt;span class="sd"&gt;    "exactly N input functions are true".&lt;/span&gt;
-&lt;span class="sd"&gt;    """&lt;/span&gt;
-    &lt;span class="n"&gt;xs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;Expression&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;node&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-    &lt;span class="n"&gt;terms&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;hots&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;itertools&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;combinations&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-	&lt;span class="n"&gt;args&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;hots&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nb"&gt;tuple&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;exprnode&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;not_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cold&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;cold&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hots&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-	&lt;span class="n"&gt;terms&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;exprnode&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;and_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-    &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;exprnode&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;or_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;terms&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;simplify&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-	&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;simplify&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;_expr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-Let \(X\) be a vector of 11 Boolean variables such that \(X_{i}=1\) if inhabitant \(i\) is a knight.
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;exprvars&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'X'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-&lt;span class="n"&gt;Answers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-The problem can be solved by a straigtforward generalization of the solution of the above riddles.
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
-&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;enumerate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Answers&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;NHot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Answers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;~&lt;/span&gt;&lt;span class="n"&gt;NHot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Answers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-
-&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;S&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;satisfy_all&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-	&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;pre class="example" id="orgb102f82"&gt;
-X[10] 0
-X[9] 0
-X[8] 1
-X[7] 0
-X[6] 0
-X[5] 1
-X[4] 0
-X[3] 0
-X[2] 0
-X[1] 0
-X[0] 1
-&lt;/pre&gt;
-
-
-&lt;p&gt;
-As \(X_{0}=1\) there must be three knights in the bus (and this checks with the other answers).
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-
-
-&lt;div id="outline-container-org1d7d321" class="outline-2"&gt;
-&lt;h2 id="org1d7d321"&gt;&lt;span class="section-number-2"&gt;6&lt;/span&gt; Riddle: Boxes with chips&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-6"&gt;
-&lt;p&gt;
-P.J.
-Nahin describes a few interesting puzzles in his book "The Logician and the Engineer, How George Boole and Claude Shannon Created the Information Age".
-Here is puzzle 1.
-&lt;/p&gt;
-
-&lt;p&gt;
-On the table before you are three small boxes, labeled A, B , and C.
-Inside each box is a colored plastic chip.
-One chip is red, one is white, and one is blue.
-You do not know which chip is in which box.
-Then, you are told that of the next three statements, exactly one is true:
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;box A contains the red chip;&lt;/li&gt;
-&lt;li&gt;box B does not contain the red chip;&lt;/li&gt;
-&lt;li&gt;box C does not contain the blue chip.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;
-Determine the color of the chip in each box.
-&lt;/p&gt;
-
-&lt;p&gt;
-To solve this problem with Boolean logic, Nahin introduces, in Chapter 4, the variable \(Ar\): if \(Ar=1\), then box A contains the red chip, and \(Ar=0\) otherwise.
-Likewise variables are defined for the other boxes and chips.
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Ar&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Ab&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Aw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;exprvar&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Ar'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'Ab'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'Aw'&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="n"&gt;Br&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Bb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Bw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;exprvar&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Br'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'Bb'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'Bw'&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="n"&gt;Cr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Cb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Cw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;exprvar&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Cr'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'Cb'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'Cw'&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-The given info above can be written as:
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Info&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OneHot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Ar&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;Br&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;Cb&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-There are some, implicit, but obvious constraints to be satisfied. Each of the chips is in precisely one box:
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OneHot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Ar&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Br&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Cr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# the red chip is in precisely one box&lt;/span&gt;
-&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OneHot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Ab&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Bb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Cb&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;w&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OneHot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Aw&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Bw&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Cw&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-A box contains precisely one chip.
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OneHot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Ar&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Ab&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Aw&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OneHot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Br&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Bb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Bw&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OneHot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Cr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Cb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Cw&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-Finally, the given info and all the constraints have to be true simultaneously.
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;Info&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-Solve it:
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;S&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;satisfy_all&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-   &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;pre class="example"&gt;
-{Cw: 1, Cb: 0, Cr: 0, Bw: 0, Bb: 0, Br: 1, Aw: 0, Ab: 1, Ar: 0}
-&lt;/pre&gt;
-
-
-
-&lt;p&gt;
-This was easy! Box A contains the blue chip, Box B the red chip, and Box C the white chip.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/solving-riddles/</guid><pubDate>Sat, 24 Oct 2020 18:47:02 GMT</pubDate></item><item><title>links in nikola and orgmode</title><link>https://ndvanforeest.github.io/posts/links-in-nikola-and-orgmode/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;p&gt;
+&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/memoization/</guid><pubDate>Mon, 14 Mar 2022 14:55:48 GMT</pubDate></item><item><title>links in nikola and orgmode</title><link>https://ndvanforeest.github.io/posts/links-in-nikola-and-orgmode/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;p&gt;
 I just started using nikola. Of course I want to refer from one page (or post) to another, but I could not find out how. After sending an &lt;a href="https://github.com/getnikola/plugins/issues/354"&gt;issue&lt;/a&gt;, I got great and fast help. And now I know how to do it. 
 &lt;/p&gt;
 
@@ -851,17 +521,17 @@ If things are not yet solved in the nikola plugin for orgmode, put this as the e
 &lt;p&gt;
 And now you can refer to any page like so
 &lt;/p&gt;
-&lt;pre class="example" id="org1e92177"&gt;
+&lt;pre class="example" id="org92a3afc"&gt;
 link:/bio
 &lt;/pre&gt;
 &lt;p&gt;
 or
 &lt;/p&gt;
-&lt;pre class="example" id="orgde1006b"&gt;
+&lt;pre class="example" id="orgd47d2a5"&gt;
 [[link:/bio][My bio page]]
-&lt;/pre&gt;</description><guid>https://ndvanforeest.github.io/posts/links-in-nikola-and-orgmode/</guid><pubDate>Mon, 05 Oct 2020 17:50:33 GMT</pubDate></item><item><title>latex-pythontex-matplotlib-tikzplotlib</title><link>https://ndvanforeest.github.io/posts/latex-pythontex-matplotlib-tikzplotlib/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-orgd3f37d6" class="outline-2"&gt;
-&lt;h2 id="orgd3f37d6"&gt;The  problem&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd3f37d6"&gt;
+&lt;/pre&gt;</description><guid>https://ndvanforeest.github.io/posts/links-in-nikola-and-orgmode/</guid><pubDate>Mon, 05 Oct 2020 17:50:33 GMT</pubDate></item><item><title>latex-pythontex-matplotlib-tikzplotlib</title><link>https://ndvanforeest.github.io/posts/latex-pythontex-matplotlib-tikzplotlib/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-org9f3d5c4" class="outline-2"&gt;
+&lt;h2 id="org9f3d5c4"&gt;The  problem&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9f3d5c4"&gt;
 &lt;p&gt;
 Sometimes I want to use a python script to produce a plot and include this plot in LaTeX.
 My usual approach was like this.
@@ -877,9 +547,9 @@ And then there came a day that I did not like this anymore.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdfe64ed" class="outline-2"&gt;
-&lt;h2 id="orgdfe64ed"&gt;My solution&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdfe64ed"&gt;
+&lt;div id="outline-container-orga5e655d" class="outline-2"&gt;
+&lt;h2 id="orga5e655d"&gt;My solution&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga5e655d"&gt;
 &lt;p&gt;
 I want one file &lt;code&gt;.tex&lt;/code&gt; file that contains all: obviously the story itself, but also the python and the figure, provided of course it takes not a lot of time to make the data for the figure.
 After some searching and testing, here is an MWE of how I am doing things now with &lt;a href="https://github.com/gpoore/pythontex"&gt;pythontex&lt;/a&gt;, &lt;a href="https://matplotlib.org/"&gt;matplotlib&lt;/a&gt;, and &lt;a href="https://pypi.org/project/tikzplotlib/"&gt;tikzplotlib&lt;/a&gt;.
@@ -890,9 +560,9 @@ I use &lt;a href="https://github.com/cereda/arara"&gt;arara&lt;/a&gt; to compile
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org70280f1" class="outline-3"&gt;
-&lt;h3 id="org70280f1"&gt;One option.&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org70280f1"&gt;
+&lt;div id="outline-container-orga334d92" class="outline-3"&gt;
+&lt;h3 id="orga334d92"&gt;One option.&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga334d92"&gt;
 &lt;p&gt;
 If you want to run the code, but don't want to show it, use the &lt;code&gt;pycode&lt;/code&gt; environment, as I do here.
 &lt;/p&gt;
@@ -934,9 +604,9 @@ Note that this is an MWE; for a good figure you'll need to tune it to your needs
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org93c289a" class="outline-3"&gt;
-&lt;h3 id="org93c289a"&gt;Another option&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org93c289a"&gt;
+&lt;div id="outline-container-org8148d84" class="outline-3"&gt;
+&lt;h3 id="org8148d84"&gt;Another option&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org8148d84"&gt;
 &lt;p&gt;
 If you like to include the code to show how you made the graph, use the &lt;code&gt;pyblock&lt;/code&gt; environment, and then &lt;code&gt;\printpythontex&lt;/code&gt; within a figure environment.
 &lt;/p&gt;
@@ -968,18 +638,18 @@ print(tikzplotlib.get&lt;span class="nb"&gt;_&lt;/span&gt;tikz&lt;span class="nb
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/latex-pythontex-matplotlib-tikzplotlib/</guid><pubDate>Wed, 30 Sep 2020 19:18:52 GMT</pubDate></item><item><title>My first post</title><link>https://ndvanforeest.github.io/posts/my-first-post/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/latex-pythontex-matplotlib-tikzplotlib/</guid><pubDate>Wed, 30 Sep 2020 19:18:52 GMT</pubDate></item><item><title>My first post</title><link>https://ndvanforeest.github.io/posts/my-first-post/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="table-of-contents" role="doc-toc"&gt;
 &lt;h2&gt;Table of Contents&lt;/h2&gt;
-&lt;div id="text-table-of-contents"&gt;
+&lt;div id="text-table-of-contents" role="doc-toc"&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/my-first-post/#orga0007ec"&gt;Here is my first post&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/my-first-post/#org27abaa0"&gt;Here is my first post&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga0007ec" class="outline-2"&gt;
-&lt;h2 id="orga0007ec"&gt;Here is my first post&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga0007ec"&gt;
+&lt;div id="outline-container-org27abaa0" class="outline-2"&gt;
+&lt;h2 id="org27abaa0"&gt;Here is my first post&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org27abaa0"&gt;
 &lt;p&gt;
 I want to write posts and a homepage in org mode.
 (I dislike &lt;code&gt;markdown&lt;/code&gt;, and I detest typing math in &lt;code&gt;rst&lt;/code&gt;.)

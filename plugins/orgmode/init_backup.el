@@ -27,18 +27,19 @@
 ;; (eval-when-compile
 ;;  (require 'use-package))
 
-;; (use-package org-special-block-extras
-;;   :ensure t
-;;   :hook (org-mode . org-special-block-extras-mode))
+(use-package org-special-block-extras
+  :ensure t
+  :hook (org-mode . org-special-block-extras-mode))
 
-;; (use-package htmlize
-;;   :ensure t)
+(use-package htmlize
+  :ensure t)
 
 ;; (eval-when-compile
 ;;  (require 'use-package))
 
 (require 'org)
 (require 'ox-html)
+; (require 'org-special-block-extras) ; niet nodig
 
 ;;; Custom configuration for the export.
 
@@ -81,16 +82,6 @@
     (let ((lang (or (cdr (assoc lang org-pygments-language-alist)) "text")))
       (shell-command-on-region (point-min) (point-max)
                                (format "pygmentize -f html -l %s" lang)
-                               (buffer-name) t))
-    (buffer-string)))
-
-(defun pygmentize (lang code)
-  "Use Pygments to highlight the given code and return the output"
-  (with-temp-buffer
-    (insert code)
-    (let ((lang (or (cdr (assoc lang org-pygments-language-alist)) "text")))
-      (shell-command-on-region (point-min) (point-max)
-                               (format "pygmentize -f html -l python")
                                (buffer-name) t))
     (buffer-string)))
 
@@ -151,19 +142,6 @@ contextual information."
             (pygmentize (downcase lang) (org-html-decode-plain-text code)))
         code-html))))
 
-(defun org-html-src-block (src-block contents info)
-  "Transcode a SRC-BLOCK element from Org to HTML.
-CONTENTS holds the contents of the item.  INFO is a plist holding
-contextual information."
-  (if (org-export-read-attribute :attr_html src-block :textarea)
-      (org-html--textarea-block src-block)
-    (let ((lang (org-element-property :language src-block))
-          (code (org-element-property :value src-block))
-          (code-html (org-html-format-code src-block info)))
-          (progn
-            (unless lang (setq lang ""))
-            (pygmentize (downcase lang) (org-html-decode-plain-text code))))))
-
 ;; Export images with custom link type
 (defun org-custom-link-img-url-export (path desc format)
   (cond
@@ -177,7 +155,6 @@ contextual information."
    ((eq format 'html)
     (format "<img src=\"%s\" alt=\"%s\"/>" path desc))))
 (org-add-link-type "file" nil 'org-file-link-img-url-export)
-
 
 ;; Support for magic links (link:// scheme)
 (org-link-set-parameters
@@ -196,3 +173,54 @@ specified location."
     (org-macro-replace-all nikola-macro-templates)
     (org-html-export-as-html nil nil t t)
     (write-file outfile nil)))
+
+(org-defblock solution (title "Solution") (title-color "red")
+              (pcase backend (`latex (format "\\begin{%s} %s \\end{%s}" (downcase title) contents (downcase title)))
+                     (_ (format "<details class=\"code-details\"
+                 style =\"padding: 1em;
+                          background-color: #e5f5e5;
+                          /* background-color: pink; */
+                          border-radius: 15px;
+                          color: hsl(157 75% 20%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;\">
+                  <summary>
+                    <strong>
+                      <font face=\"Courier\" size=\"3\" color=\"%s\">
+                         %s
+                      </font>
+                    </strong>
+                  </summary>
+                  %s
+               </details>" title-color title contents))))
+
+(org-defblock hint   (title "Hint") (title-color "green")
+  (org--blockcall solution title :title-color title-color raw-contents))
+
+;; (org-defblock exercise (title "Exercise") ()
+;;      (pcase backend (`latex (format "\\begin{exercise} %s \\end{exercise}" contents))
+;;         (_ (org--blockcall box title raw-contents))))
+
+(org-defblock exercise (title "Exercise") ()
+   (pcase backend (`latex (format "\\begin{exercise} %s \\end{exercise}" contents))
+    (_  (apply #'concat `("<div style=\"padding: 1em; background-color: "
+             ,(org-subtle-colors (format "green"))
+             ";border-radius: 15px; font-size: 0.9em"
+             "; box-shadow: 0.05em 0.1em 5px 0.01em #00000057;\">"
+             "<h3>" ,title "</h3>"
+            , contents "</div>")))))
+
+(org-defblock exercise (title "Exercise") ()
+   (pcase backend (`latex (format "\\begin{exercise} %s \\end{exercise}" contents))
+    (_  (apply #'concat `("<div style=\"padding: 1em; background-color: "
+             ,(org-subtle-colors (format "green"))
+             ";border-radius: 15px; font-size: 0.9em"
+             "; box-shadow: 0.05em 0.1em 5px 0.01em #00000057;\">"
+             ,(concat  "xercise" contents)
+            , "</div>")))))
+
+(org-defblock newthought () ()
+  (format (if (equal backend 'html)
+            "<strong style=\"font-variant: all-small-caps;\">%s</strong>"
+            "\\newthought{%s}")
+          contents))

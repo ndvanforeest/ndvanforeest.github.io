@@ -75,7 +75,53 @@ bg-dark
 
     
 <div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/solving-a-number-game-with-a-mip-solver/" class="u-url">Solving a number game with a MIP solver</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/vickery-auctions/" class="u-url">Vickery auctions</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Nicky van Foreest
+            </span></p>
+            <p class="dateline">
+            <a href="../posts/vickery-auctions/" rel="bookmark">
+            <time class="published dt-published" datetime="2022-04-26T14:58:08+02:00" itemprop="datePublished" title="2022-04-26 14:58">2022-04-26 14:58</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <p>
+To practice a bit more with the \(O\) hoi symbol, given a list of \(n\) elements,  the following code finds the largest element:
+</p>
+<div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">M</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+<div style="padding: 1em; background-color: #CCFFCC;border-radius: 15px; font-size: 0.9em; box-shadow: 0.05em 0.1em 5px 0.01em #00000057;">
+<h3>Exercise</h3>
+<p>
+Explain that this algorithm requires \(O(n)\) comparisons.
+</p>
+<details class="code-details" style="padding: 1em;
+                          background-color: #e5f5e5;
+                          /* background-color: pink; */
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+We store the value of first element in a variable \(M\), say.
+Then we compare \(M\) to the second element, and replace the value of \(M\) by the second if the second value is larger than \(M\), and so on.
+Since we need \(n-1\) comparisons in total, we say that the complexity is \(O(n)\) because we neglect the constant \(1\).
+</p>
+
+
+</details>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/solving-a-number-game-with-a-mip-solver/" class="u-url">Solving a number game with a MIP solver</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Nicky van Foreest
@@ -86,25 +132,25 @@ bg-dark
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org372d5e0" class="outline-2">
-<h2 id="org372d5e0">The problem</h2>
-<div class="outline-text-2" id="text-org372d5e0">
+    <div id="outline-container-org3087e45" class="outline-2">
+<h2 id="org3087e45">The problem</h2>
+<div class="outline-text-2" id="text-org3087e45">
 <p>
 Consider the following puzzle: Chose numbers 1 to 5 such that in the diagram below each number is contained exactly once in each row and each column.
 The numbers in the fields should respect any inequality between two fields. We number the fields from the left top, e.g., field \((1,5)\) contains the number 4.
 </p>
 
 
-<div id="org2f6616c" class="figure">
+<div id="orgd41496c" class="figure">
 <p><img src="../images/number_game.png" alt="nil"></p>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org2b99cd4" class="outline-2">
-<h2 id="org2b99cd4">Finding a Solution</h2>
-<div class="outline-text-2" id="text-org2b99cd4">
+<div id="outline-container-org48bc2b4" class="outline-2">
+<h2 id="org48bc2b4">Finding a Solution</h2>
+<div class="outline-text-2" id="text-org48bc2b4">
 <p>
 We will use  <a href="https://pythonhosted.org/PuLP/">pulp</a> to solve this puzzle. The <a href="https://pythonhosted.org/PuLP/CaseStudies/a_sudoku_problem.html">sudoku</a> problem discussed in the pulp documentation provides some inspiration on how to  tackle our problem.
 </p>
@@ -123,9 +169,9 @@ We will use  <a href="https://pythonhosted.org/PuLP/">pulp</a> to solve this puz
 </div>
 
 
-<div id="outline-container-orga544571" class="outline-2">
-<h2 id="orga544571">The decision variables</h2>
-<div class="outline-text-2" id="text-orga544571">
+<div id="outline-container-org76d0a75" class="outline-2">
+<h2 id="org76d0a75">The decision variables</h2>
+<div class="outline-text-2" id="text-org76d0a75">
 <p>
 As decision variables we use \(x_{kij}\) such that \(x_{kij} = 1\) if value \(k\) appears in the field with row \(i\) and column \(j\).
 The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
@@ -138,9 +184,9 @@ The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
 </div>
 
 
-<div id="outline-container-org72ba436" class="outline-2">
-<h2 id="org72ba436">Constraints with starting values</h2>
-<div class="outline-text-2" id="text-org72ba436">
+<div id="outline-container-org3a9fc41" class="outline-2">
+<h2 id="org3a9fc41">Constraints with starting values</h2>
+<div class="outline-text-2" id="text-org3a9fc41">
 <p>
 The simplest constraints deal with the numbers that are given in the diagram.
 </p>
@@ -151,9 +197,9 @@ The simplest constraints deal with the numbers that are given in the diagram.
 </div>
 </div>
 
-<div id="outline-container-orgcc882ae" class="outline-2">
-<h2 id="orgcc882ae">Equality Constraints</h2>
-<div class="outline-text-2" id="text-orgcc882ae">
+<div id="outline-container-org65f1a3e" class="outline-2">
+<h2 id="org65f1a3e">Equality Constraints</h2>
+<div class="outline-text-2" id="text-org65f1a3e">
 <p>
 There should be precisely one value in each field.
 </p>
@@ -180,9 +226,9 @@ And also only one value per column.
 </div>
 </div>
 
-<div id="outline-container-orga5bdb84" class="outline-2">
-<h2 id="orga5bdb84">Inequality Constraints</h2>
-<div class="outline-text-2" id="text-orga5bdb84">
+<div id="outline-container-org85c06b4" class="outline-2">
+<h2 id="org85c06b4">Inequality Constraints</h2>
+<div class="outline-text-2" id="text-org85c06b4">
 <p>
 The inequality constraints of the board require more work.
 </p>
@@ -256,9 +302,9 @@ Note that since all cells must have different values, all strict inequalities in
 </div>
 </div>
 
-<div id="outline-container-org1a83615" class="outline-2">
-<h2 id="org1a83615">Objective</h2>
-<div class="outline-text-2" id="text-org1a83615">
+<div id="outline-container-orgd8a0e0a" class="outline-2">
+<h2 id="orgd8a0e0a">Objective</h2>
+<div class="outline-text-2" id="text-orgd8a0e0a">
 <p>
 The objective is trivial, because there is nothing to optimize.
 We only use pulp to find a feasible solution.
@@ -268,9 +314,9 @@ We only use pulp to find a feasible solution.
 </div>
 </div>
 
-<div id="outline-container-orgd487ae4" class="outline-2">
-<h2 id="orgd487ae4">Solving the problem</h2>
-<div class="outline-text-2" id="text-orgd487ae4">
+<div id="outline-container-org9ebd05f" class="outline-2">
+<h2 id="org9ebd05f">Solving the problem</h2>
+<div class="outline-text-2" id="text-org9ebd05f">
 <p>
 Solving the problem comes down to calling the <code>solve()</code> method of <code>pulp</code>.
 </p>
@@ -279,9 +325,9 @@ Solving the problem comes down to calling the <code>solve()</code> method of <co
 </div>
 </div>
 
-<div id="outline-container-org9c43405" class="outline-2">
-<h2 id="org9c43405">The solution</h2>
-<div class="outline-text-2" id="text-org9c43405">
+<div id="outline-container-orge692e3b" class="outline-2">
+<h2 id="orge692e3b">The solution</h2>
+<div class="outline-text-2" id="text-orge692e3b">
 <p>
 Have we found a solution?
 </p>
@@ -327,21 +373,21 @@ Yes! Let's print it.
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="table-of-contents">
+    <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/weighted-random-shuffling/#org8d374d7">1. Weighted random shuffling</a></li>
-<li><a href="../posts/weighted-random-shuffling/#org53add69">2. Weighted shuffling in pure python</a></li>
-<li><a href="../posts/weighted-random-shuffling/#org9921522">3. Fast shuffling</a></li>
-<li><a href="../posts/weighted-random-shuffling/#org692ab8e">4. A wrong idea</a></li>
+<li><a href="../posts/weighted-random-shuffling/#org520b2b5">1. Weighted random shuffling</a></li>
+<li><a href="../posts/weighted-random-shuffling/#orgc370493">2. Weighted shuffling in pure python</a></li>
+<li><a href="../posts/weighted-random-shuffling/#org5926ee4">3. Fast shuffling</a></li>
+<li><a href="../posts/weighted-random-shuffling/#orgd796d13">4. A wrong idea</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org8d374d7" class="outline-2">
-<h2 id="org8d374d7">
-<span class="section-number-2">1</span> Weighted random shuffling</h2>
+<div id="outline-container-org520b2b5" class="outline-2">
+<h2 id="org520b2b5">
+<span class="section-number-2">1.</span> Weighted random shuffling</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 For some application I needed a random shuffle \(r\) of a list of numbers
@@ -356,9 +402,9 @@ this code.
 </div>
 </div>
 
-<div id="outline-container-org53add69" class="outline-2">
-<h2 id="org53add69">
-<span class="section-number-2">2</span> Weighted shuffling in pure python</h2>
+<div id="outline-container-orgc370493" class="outline-2">
+<h2 id="orgc370493">
+<span class="section-number-2">2.</span> Weighted shuffling in pure python</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Weighted random shuffling is the same as weighted random sampling from a
@@ -410,9 +456,9 @@ element \(i\) cannot be selected the next time.
 </div>
 </div>
 
-<div id="outline-container-org9921522" class="outline-2">
-<h2 id="org9921522">
-<span class="section-number-2">3</span> Fast shuffling</h2>
+<div id="outline-container-org5926ee4" class="outline-2">
+<h2 id="org5926ee4">
+<span class="section-number-2">3.</span> Fast shuffling</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Once I had the above code, I went to Gerlach van der Heide. He managed
@@ -452,9 +498,9 @@ Some testing shows, for a reason unknown to me, that <code>np.searchsorted</code
 </div>
 </div>
 
-<div id="outline-container-org692ab8e" class="outline-2">
-<h2 id="org692ab8e">
-<span class="section-number-2">4</span> A wrong idea</h2>
+<div id="outline-container-orgd796d13" class="outline-2">
+<h2 id="orgd796d13">
+<span class="section-number-2">4.</span> A wrong idea</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 While searching the web I came across the one-liner below. It is
@@ -485,20 +531,20 @@ where \(w_i\) are the weights and \(U_i\) uniform random deviates on
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="table-of-contents">
+    <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/memoization/#org9f14e2c">1. Content of a Discrete Hyper Pyramid</a></li>
-<li><a href="../posts/memoization/#org7713232">2. A probability problem</a></li>
+<li><a href="../posts/memoization/#orgda92d74">1. Content of a Discrete Hyper Pyramid</a></li>
+<li><a href="../posts/memoization/#orgfc79b9c">2. A probability problem</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org9f14e2c" class="outline-2">
-<h2 id="org9f14e2c">
-<span class="section-number-2">1</span> Content of a Discrete Hyper Pyramid</h2>
+<div id="outline-container-orgda92d74" class="outline-2">
+<h2 id="orgda92d74">
+<span class="section-number-2">1.</span> Content of a Discrete Hyper Pyramid</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We like to compute the number of possibilities \(\P{n, N}\) for \(x = (x_1, \ldots x_n)\) such that \(x_i \in \{0,1,\ldots, N\}\) and \(\sum_i x_i \leq N\).
@@ -529,9 +575,9 @@ Computing \(\P{n,N}\) is easy when we use  memoization. In fact,  we can code th
 </div>
 </div>
 
-<div id="outline-container-org7713232" class="outline-2">
-<h2 id="org7713232">
-<span class="section-number-2">2</span> A probability problem</h2>
+<div id="outline-container-orgfc79b9c" class="outline-2">
+<h2 id="orgfc79b9c">
+<span class="section-number-2">2.</span> A probability problem</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We throw multiple times with a coin that lands heads with probability \(p\).
@@ -583,390 +629,6 @@ Reasoning similarly, the expected number times \(\E{n,k}\) to see at least \(k\)
 </div>
 </div>
     </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/solving-riddles/" class="u-url">Solving riddles</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Nicky van Foreest
-            </span></p>
-            <p class="dateline">
-            <a href="../posts/solving-riddles/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-10-24T20:47:02+02:00" itemprop="datePublished" title="2020-10-24 20:47">2020-10-24 20:47</time></a>
-            </p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="../posts/solving-riddles/#org048ad96">1. Introduction</a></li>
-<li><a href="../posts/solving-riddles/#orga723b11">2. Riddle: At least one of us is a crook</a></li>
-<li><a href="../posts/solving-riddles/#orga85164e">3. Riddle: Exactly one of us is a crook</a></li>
-<li><a href="../posts/solving-riddles/#orgd48f3b2">4. Riddle:  Knights of the same type</a></li>
-<li><a href="../posts/solving-riddles/#orge41dd99">5. Riddle: Number of knights in a bus</a></li>
-<li><a href="../posts/solving-riddles/#org1d7d321">6. Riddle: Boxes with chips</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-org048ad96" class="outline-2">
-<h2 id="org048ad96">
-<span class="section-number-2">1</span> Introduction</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-Here is a funny riddle: An island has two types of inhabitants: knights and crooks.
-Knights always tell the truth, crooks always lie.
-Suppose an inhabitant A claims about himself and his brother B: "At least one of us is a crook."
-Of which type are A and B?
-</p>
-
-<p>
-Below we solve this riddle by hand, but, as becomes clear, this is a bit tedious.
-Can't we use the computer to solve problems like this?
-In fact, <a href="https://pypi.org/project/pyeda/">PyEDA</a> is a package to solve such <i>constraint satisfaction</i> problems, in particular problems that can be formulated with <i>Boolean algebra</i>.
-Here we show how to use this package to attack such logical riddles.
-</p>
-</div>
-</div>
-
-
-<div id="outline-container-orga723b11" class="outline-2">
-<h2 id="orga723b11">
-<span class="section-number-2">2</span> Riddle: At least one of us is a crook</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-The above logical problem can be solved in a nice way with Boolean algebra.
-Let \(A=1\) if person A is a knight, and \(A=0\) if he is a crook, and similar for \(B\).
-With these variables, and writing \(A'\) for the complement of \(A\), the statement of person A can be written as
-</p>
-\begin{equation*}
-   C = A B' + A' B + A' B'.
-\end{equation*}
-<p>
-Now, if A is a knight, he speaks the truth; and then, by consequence, claim \(C\) must be true.
-Thus, if \(A=1\), it must be that \(A  C = 1\).
-On the other hand, if A is a crook, he lies, so that claim \(C\) is false (and \(C'\) is true.)
-Thus, if \(A'=1\) (i.e., person A is a crook), it must be that \(A' C' = 1\). Since also A is a knight or a crook, either \(AC=1\) or \(A'C'=1\), implying that
-</p>
-\begin{equation*}
-1 = AC + A'C'.
-\end{equation*}
-<p>
-With this insight, the riddle can be formulated as: for which \(A\) and \(B\) is this  equation true?
-</p>
-
-
-<p>
-Let's solve it by hand for instructional purposes. With the above expression for \(C\) and noting that \(C' = A B'\), our problem can be rewritten as
-</p>
-\begin{equation*}
-1 = AC + A'C' =  A( A B' + A' B + A' B') + A'( A B').
-\end{equation*}
-<p>
-Clearly, \(A A' = 0\) and \(A A = A\), so that this must reduce to
-2\begin{equation*}
-A B' = 1,
-\end{equation*}
-from which follows that \(A=1\), i.e., A is a knight, and \(B'=1\), i.e., B is a crook.
-</p>
-
-<p>
-Let's check this with PyEDA.
-</p>
-
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyeda.inter</span> <span class="kn">import</span> <span class="n">exprvar</span>
-
-<span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">exprvar</span><span class="p">,</span> <span class="s1">'AB'</span><span class="p">)</span>
-</pre></div>
-
-<p>
-The statement \(C\) can be written in PyEDA as:
-</p>
-
-<div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="n">A</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">B</span> <span class="o">|</span> <span class="o">~</span><span class="n">A</span> <span class="o">&amp;</span> <span class="n">B</span> <span class="o">|</span> <span class="o">~</span><span class="n">A</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">B</span>
-</pre></div>
-
-<p>
-and the statement we want to check is
-</p>
-
-<div class="highlight"><pre><span></span><span class="n">S</span> <span class="o">=</span> <span class="n">A</span><span class="o">&amp;</span><span class="n">C</span> <span class="o">|</span> <span class="o">~</span><span class="n">A</span><span class="o">&amp;~</span><span class="n">C</span>
-</pre></div>
-
-<p>
-Let's solve it:
-</p>
-
-<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">satisfy_all</span><span class="p">():</span>
-   <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-
-<pre class="example">
-{B: 0, A: 1}
-</pre>
-
-
-
-<p>
-We get the same result: \(A=1\), i.e., A is a knight, and \(B=0\), i.e., B is a crook.
-</p>
-</div>
-</div>
-
-<div id="outline-container-orga85164e" class="outline-2">
-<h2 id="orga85164e">
-<span class="section-number-2">3</span> Riddle: Exactly one of us is a crook</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-Now that we know how to tackle such riddles in an instant with PyEDA
-we can move on to the next riddle.
-</p>
-
-<p>
-Suppose that, instead of the above, A said: "Precisely one of us is a crook." What can we say about A and B now?
-</p>
-
-<p>
-The statement of A can now be modelled as \(C=A'B + AB'\).
-</p>
-<div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="o">~</span><span class="n">A</span> <span class="o">&amp;</span> <span class="n">B</span> <span class="o">|</span> <span class="n">A</span><span class="o">&amp;~</span><span class="n">B</span>
-</pre></div>
-
-<p>
-And we want again that the following is satisfied:
-</p>
-<div class="highlight"><pre><span></span><span class="n">S</span> <span class="o">=</span> <span class="n">A</span><span class="o">&amp;</span><span class="n">C</span> <span class="o">|</span> <span class="o">~</span><span class="n">A</span><span class="o">&amp;~</span><span class="n">C</span>
-
-<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">satisfy_all</span><span class="p">():</span>
-   <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-<pre class="example">
-{B: 0, A: 0}
-{B: 0, A: 1}
-</pre>
-
-
-<p>
-Apperently, the statement of A that only one of the two brothers is a crook allows two solutions.
-We can only conclude that B is a crook.
-</p>
-
-
-<p>
-It is interesting to note that there's a boolean function in PyEDA to build claim C in another way.
-Note that according to C, precisely one of A and B is true.
-This behavior can be obtained with `OneHot`.
-</p>
-
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyeda.inter</span> <span class="kn">import</span> <span class="n">OneHot</span>
-
-<span class="n">D</span> <span class="o">=</span> <span class="n">OneHot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
-</pre></div>
-
-<pre class="example">
-And(Or(~A, ~B), Or(A, B))
-</pre>
-</div>
-</div>
-
-
-
-<div id="outline-container-orgd48f3b2" class="outline-2">
-<h2 id="orgd48f3b2">
-<span class="section-number-2">4</span> Riddle:  Knights of the same type</h2>
-<div class="outline-text-2" id="text-4">
-<p>
-What if A has said that: "My brother and I are of the same type".
-</p>
-
-<div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="n">A</span> <span class="o">&amp;</span> <span class="n">B</span> <span class="o">|</span> <span class="o">~</span><span class="n">A</span><span class="o">&amp;~</span><span class="n">B</span>
-<span class="n">S</span> <span class="o">=</span> <span class="n">A</span><span class="o">&amp;</span><span class="n">C</span> <span class="o">|</span> <span class="o">~</span><span class="n">A</span><span class="o">&amp;~</span><span class="n">C</span>
-
-<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">satisfy_all</span><span class="p">():</span>
-   <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-<pre class="example">
-{B: 1, A: 0}
-{B: 1, A: 1}
-</pre>
-
-
-
-<p>
-So, now B is a knight, but A can be either of the two.
-</p>
-</div>
-</div>
-
-<div id="outline-container-orge41dd99" class="outline-2">
-<h2 id="orge41dd99">
-<span class="section-number-2">5</span> Riddle: Number of knights in a bus</h2>
-<div class="outline-text-2" id="text-5">
-<p>
-Eleven inhabitants of the island are sitting in a bus. All of them
-know each other. When asked about the number of knights in the bus
-they answered: 3, 2, 5, 7, 5, 3, 4, 0, 3, 5, 5. How many knights are sitting in the bus?
-</p>
-
-<p>
-To solve this with PyEDA, we can use the function 'NHot', provided to
-me by the author of PyEDA:
-</p>
-
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">itertools</span>
-
-<span class="kn">from</span> <span class="nn">pyeda.inter</span> <span class="kn">import</span> <span class="n">Expression</span><span class="p">,</span> <span class="n">exprvars</span>
-<span class="kn">from</span> <span class="nn">pyeda.boolalg</span> <span class="kn">import</span> <span class="n">exprnode</span>
-<span class="kn">from</span> <span class="nn">pyeda.boolalg.expr</span> <span class="kn">import</span> <span class="n">_expr</span>
-
-<span class="k">def</span> <span class="nf">NHot</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">*</span><span class="n">xs</span><span class="p">,</span> <span class="n">simplify</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">"""</span>
-<span class="sd">    Return an expression that means</span>
-<span class="sd">    "exactly N input functions are true".</span>
-<span class="sd">    """</span>
-    <span class="n">xs</span> <span class="o">=</span> <span class="p">{</span><span class="n">Expression</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">node</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">}</span>
-    <span class="n">terms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">hots</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-	<span class="n">args</span> <span class="o">=</span> <span class="n">hots</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">exprnode</span><span class="o">.</span><span class="n">not_</span><span class="p">(</span><span class="n">cold</span><span class="p">)</span> <span class="k">for</span> <span class="n">cold</span> <span class="ow">in</span> <span class="p">(</span><span class="n">xs</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">hots</span><span class="p">)))</span>
-	<span class="n">terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exprnode</span><span class="o">.</span><span class="n">and_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">))</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">exprnode</span><span class="o">.</span><span class="n">or_</span><span class="p">(</span><span class="o">*</span><span class="n">terms</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">simplify</span><span class="p">:</span>
-	<span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">_expr</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-</pre></div>
-
-<p>
-Let \(X\) be a vector of 11 Boolean variables such that \(X_{i}=1\) if inhabitant \(i\) is a knight.
-</p>
-<div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">exprvars</span><span class="p">(</span><span class="s1">'X'</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
-
-<span class="n">Answers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-</pre></div>
-
-<p>
-The problem can be solved by a straigtforward generalization of the solution of the above riddles.
-</p>
-<div class="highlight"><pre><span></span><span class="n">S</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">Answers</span><span class="p">):</span>
-    <span class="n">S</span> <span class="o">=</span> <span class="n">S</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&amp;</span><span class="n">NHot</span><span class="p">(</span><span class="n">Answers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">*</span><span class="n">X</span><span class="p">)</span> <span class="o">|</span> <span class="o">~</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&amp;~</span><span class="n">NHot</span><span class="p">(</span><span class="n">Answers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">*</span><span class="n">X</span><span class="p">))</span>
-
-<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">satisfy_all</span><span class="p">():</span>
-    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
-	<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">y</span><span class="p">])</span>
-</pre></div>
-
-<pre class="example" id="orgb102f82">
-X[10] 0
-X[9] 0
-X[8] 1
-X[7] 0
-X[6] 0
-X[5] 1
-X[4] 0
-X[3] 0
-X[2] 0
-X[1] 0
-X[0] 1
-</pre>
-
-
-<p>
-As \(X_{0}=1\) there must be three knights in the bus (and this checks with the other answers).
-</p>
-</div>
-</div>
-
-
-
-<div id="outline-container-org1d7d321" class="outline-2">
-<h2 id="org1d7d321">
-<span class="section-number-2">6</span> Riddle: Boxes with chips</h2>
-<div class="outline-text-2" id="text-6">
-<p>
-P.J.
-Nahin describes a few interesting puzzles in his book "The Logician and the Engineer, How George Boole and Claude Shannon Created the Information Age".
-Here is puzzle 1.
-</p>
-
-<p>
-On the table before you are three small boxes, labeled A, B , and C.
-Inside each box is a colored plastic chip.
-One chip is red, one is white, and one is blue.
-You do not know which chip is in which box.
-Then, you are told that of the next three statements, exactly one is true:
-</p>
-<ol class="org-ol">
-<li>box A contains the red chip;</li>
-<li>box B does not contain the red chip;</li>
-<li>box C does not contain the blue chip.</li>
-</ol>
-<p>
-Determine the color of the chip in each box.
-</p>
-
-<p>
-To solve this problem with Boolean logic, Nahin introduces, in Chapter 4, the variable \(Ar\): if \(Ar=1\), then box A contains the red chip, and \(Ar=0\) otherwise.
-Likewise variables are defined for the other boxes and chips.
-</p>
-
-<div class="highlight"><pre><span></span><span class="n">Ar</span><span class="p">,</span> <span class="n">Ab</span><span class="p">,</span> <span class="n">Aw</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">exprvar</span><span class="p">,</span> <span class="p">(</span><span class="s1">'Ar'</span><span class="p">,</span> <span class="s1">'Ab'</span><span class="p">,</span> <span class="s1">'Aw'</span><span class="p">))</span>
-<span class="n">Br</span><span class="p">,</span> <span class="n">Bb</span><span class="p">,</span> <span class="n">Bw</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">exprvar</span><span class="p">,</span> <span class="p">(</span><span class="s1">'Br'</span><span class="p">,</span> <span class="s1">'Bb'</span><span class="p">,</span> <span class="s1">'Bw'</span><span class="p">))</span>
-<span class="n">Cr</span><span class="p">,</span> <span class="n">Cb</span><span class="p">,</span> <span class="n">Cw</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">exprvar</span><span class="p">,</span> <span class="p">(</span><span class="s1">'Cr'</span><span class="p">,</span> <span class="s1">'Cb'</span><span class="p">,</span> <span class="s1">'Cw'</span><span class="p">))</span>
-</pre></div>
-
-<p>
-The given info above can be written as:
-</p>
-<div class="highlight"><pre><span></span><span class="n">Info</span> <span class="o">=</span> <span class="n">OneHot</span><span class="p">(</span><span class="n">Ar</span><span class="p">,</span> <span class="o">~</span><span class="n">Br</span><span class="p">,</span> <span class="o">~</span><span class="n">Cb</span><span class="p">)</span>
-</pre></div>
-
-<p>
-There are some, implicit, but obvious constraints to be satisfied. Each of the chips is in precisely one box:
-</p>
-
-<div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">OneHot</span><span class="p">(</span><span class="n">Ar</span><span class="p">,</span> <span class="n">Br</span><span class="p">,</span> <span class="n">Cr</span><span class="p">)</span>  <span class="c1"># the red chip is in precisely one box</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">OneHot</span><span class="p">(</span><span class="n">Ab</span><span class="p">,</span> <span class="n">Bb</span><span class="p">,</span> <span class="n">Cb</span><span class="p">)</span>
-<span class="n">w</span> <span class="o">=</span> <span class="n">OneHot</span><span class="p">(</span><span class="n">Aw</span><span class="p">,</span> <span class="n">Bw</span><span class="p">,</span> <span class="n">Cw</span><span class="p">)</span>
-</pre></div>
-
-<p>
-A box contains precisely one chip.
-</p>
-
-<div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">OneHot</span><span class="p">(</span><span class="n">Ar</span><span class="p">,</span> <span class="n">Ab</span><span class="p">,</span> <span class="n">Aw</span><span class="p">)</span>
-<span class="n">B</span> <span class="o">=</span> <span class="n">OneHot</span><span class="p">(</span><span class="n">Br</span><span class="p">,</span> <span class="n">Bb</span><span class="p">,</span> <span class="n">Bw</span><span class="p">)</span>
-<span class="n">C</span> <span class="o">=</span> <span class="n">OneHot</span><span class="p">(</span><span class="n">Cr</span><span class="p">,</span> <span class="n">Cb</span><span class="p">,</span> <span class="n">Cw</span><span class="p">)</span>
-</pre></div>
-
-<p>
-Finally, the given info and all the constraints have to be true simultaneously.
-</p>
-
-<div class="highlight"><pre><span></span><span class="n">S</span> <span class="o">=</span> <span class="n">r</span> <span class="o">&amp;</span> <span class="n">b</span> <span class="o">&amp;</span> <span class="n">w</span> <span class="o">&amp;</span> <span class="n">A</span> <span class="o">&amp;</span> <span class="n">B</span> <span class="o">&amp;</span> <span class="n">C</span> <span class="o">&amp;</span> <span class="n">Info</span>
-</pre></div>
-
-<p>
-Solve it:
-</p>
-<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">satisfy_all</span><span class="p">():</span>
-   <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-<pre class="example">
-{Cw: 1, Cb: 0, Cr: 0, Bw: 0, Bb: 0, Br: 1, Aw: 0, Ab: 1, Ar: 0}
-</pre>
-
-
-
-<p>
-This was easy! Box A contains the blue chip, Box B the red chip, and Box C the white chip.
-</p>
-</div>
-</div>
-    </div>
     </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/links-in-nikola-and-orgmode/" class="u-url">links in nikola and orgmode</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
@@ -999,13 +661,13 @@ If things are not yet solved in the nikola plugin for orgmode, put this as the e
 <p>
 And now you can refer to any page like so
 </p>
-<pre class="example" id="org1e92177">
+<pre class="example" id="org92a3afc">
 link:/bio
 </pre>
 <p>
 or
 </p>
-<pre class="example" id="orgde1006b">
+<pre class="example" id="orgd47d2a5">
 [[link:/bio][My bio page]]
 </pre>
     </div>
@@ -1020,9 +682,9 @@ or
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-orgd3f37d6" class="outline-2">
-<h2 id="orgd3f37d6">The  problem</h2>
-<div class="outline-text-2" id="text-orgd3f37d6">
+    <div id="outline-container-org9f3d5c4" class="outline-2">
+<h2 id="org9f3d5c4">The  problem</h2>
+<div class="outline-text-2" id="text-org9f3d5c4">
 <p>
 Sometimes I want to use a python script to produce a plot and include this plot in LaTeX.
 My usual approach was like this.
@@ -1038,9 +700,9 @@ And then there came a day that I did not like this anymore.
 </div>
 </div>
 
-<div id="outline-container-orgdfe64ed" class="outline-2">
-<h2 id="orgdfe64ed">My solution</h2>
-<div class="outline-text-2" id="text-orgdfe64ed">
+<div id="outline-container-orga5e655d" class="outline-2">
+<h2 id="orga5e655d">My solution</h2>
+<div class="outline-text-2" id="text-orga5e655d">
 <p>
 I want one file <code>.tex</code> file that contains all: obviously the story itself, but also the python and the figure, provided of course it takes not a lot of time to make the data for the figure.
 After some searching and testing, here is an MWE of how I am doing things now with <a href="https://github.com/gpoore/pythontex">pythontex</a>, <a href="https://matplotlib.org/">matplotlib</a>, and <a href="https://pypi.org/project/tikzplotlib/">tikzplotlib</a>.
@@ -1051,9 +713,9 @@ I use <a href="https://github.com/cereda/arara">arara</a> to compile the LaTeX f
 </p>
 </div>
 
-<div id="outline-container-org70280f1" class="outline-3">
-<h3 id="org70280f1">One option.</h3>
-<div class="outline-text-3" id="text-org70280f1">
+<div id="outline-container-orga334d92" class="outline-3">
+<h3 id="orga334d92">One option.</h3>
+<div class="outline-text-3" id="text-orga334d92">
 <p>
 If you want to run the code, but don't want to show it, use the <code>pycode</code> environment, as I do here.
 </p>
@@ -1095,9 +757,9 @@ Note that this is an MWE; for a good figure you'll need to tune it to your needs
 </div>
 </div>
 
-<div id="outline-container-org93c289a" class="outline-3">
-<h3 id="org93c289a">Another option</h3>
-<div class="outline-text-3" id="text-org93c289a">
+<div id="outline-container-org8148d84" class="outline-3">
+<h3 id="org8148d84">Another option</h3>
+<div class="outline-text-3" id="text-org8148d84">
 <p>
 If you like to include the code to show how you made the graph, use the <code>pyblock</code> environment, and then <code>\printpythontex</code> within a figure environment.
 </p>
@@ -1142,18 +804,18 @@ print(tikzplotlib.get<span class="nb">_</span>tikz<span class="nb">_</span>code(
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="table-of-contents">
+    <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/my-first-post/#orga0007ec">Here is my first post</a></li>
+<li><a href="../posts/my-first-post/#org27abaa0">Here is my first post</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orga0007ec" class="outline-2">
-<h2 id="orga0007ec">Here is my first post</h2>
-<div class="outline-text-2" id="text-orga0007ec">
+<div id="outline-container-org27abaa0" class="outline-2">
+<h2 id="org27abaa0">Here is my first post</h2>
+<div class="outline-text-2" id="text-org27abaa0">
 <p>
 I want to write posts and a homepage in org mode.
 (I dislike <code>markdown</code>, and I detest typing math in <code>rst</code>.)
@@ -1188,10 +850,8 @@ And now all works!
 MathJax.Hub.Config({
   TeX: {
     Macros: {
-      RR: "{\\bf R}",
-      bold: ["{\\bf #1}",1],
-      P: ["\\mathsf{P}\\left[#1\\right]", 1],
-      E: ["\\mathsf{E}\\left[#1\\right]", 1],
+      P: ["P\\left[#1\\right]", 1],
+      E: ["{E\\left[#1\\right]", 1],
     }
   }
 });
