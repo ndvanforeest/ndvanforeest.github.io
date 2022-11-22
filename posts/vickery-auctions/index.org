@@ -1,0 +1,29 @@
+#+BEGIN_COMMENT
+.. title: Vickery auctions
+.. slug: vickery-auctions
+.. date: 2022-04-26 14:58:08 UTC+02:00
+.. tags:
+.. category:
+.. link:
+.. description:
+.. type: text
+.. has_math: true
+
+#+END_COMMENT
+
+To practice a bit more with the \(O\) hoi symbol, given a list of \(n\) elements,  the following code finds the largest element:
+#+begin_src python
+X = [5, 8, 3]
+M = X[0]
+for x in X[1:]:
+    M = max(M, x)
+#+end_src
+
+#+begin_exercise
+Explain that this algorithm requires \(O(n)\) comparisons.
+#+begin_solution
+We store the value of first element in a variable \(M\), say.
+Then we compare \(M\) to the second element, and replace the value of \(M\) by the second if the second value is larger than \(M\), and so on.
+Since we need \(n-1\) comparisons in total, we say that the complexity is \(O(n)\) because we neglect the constant \(1\).
+#+end_solution
+#+end_exercise

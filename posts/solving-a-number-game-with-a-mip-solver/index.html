@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
 <meta name="author" content="Nicky van Foreest">
 <link rel="prev" href="../weighted-random-shuffling/" title="Weighted random shuffling" type="text/html">
+<link rel="next" href="../vickery-auctions/" title="Vickery auctions" type="text/html">
 <meta property="og:site_name" content="Nicky's site">
 <meta property="og:title" content="Solving a number game with a MIP solver">
 <meta property="og:url" content="https://ndvanforeest.github.io/posts/solving-a-number-game-with-a-mip-solver/">
@@ -104,25 +105,25 @@ bg-dark
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org372d5e0" class="outline-2">
-<h2 id="org372d5e0">The problem</h2>
-<div class="outline-text-2" id="text-org372d5e0">
+    <div id="outline-container-org3087e45" class="outline-2">
+<h2 id="org3087e45">The problem</h2>
+<div class="outline-text-2" id="text-org3087e45">
 <p>
 Consider the following puzzle: Chose numbers 1 to 5 such that in the diagram below each number is contained exactly once in each row and each column.
 The numbers in the fields should respect any inequality between two fields. We number the fields from the left top, e.g., field \((1,5)\) contains the number 4.
 </p>
 
 
-<div id="org2f6616c" class="figure">
+<div id="orgd41496c" class="figure">
 <p><img src="../../images/number_game.png" alt="nil"></p>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org2b99cd4" class="outline-2">
-<h2 id="org2b99cd4">Finding a Solution</h2>
-<div class="outline-text-2" id="text-org2b99cd4">
+<div id="outline-container-org48bc2b4" class="outline-2">
+<h2 id="org48bc2b4">Finding a Solution</h2>
+<div class="outline-text-2" id="text-org48bc2b4">
 <p>
 We will use  <a href="https://pythonhosted.org/PuLP/">pulp</a> to solve this puzzle. The <a href="https://pythonhosted.org/PuLP/CaseStudies/a_sudoku_problem.html">sudoku</a> problem discussed in the pulp documentation provides some inspiration on how to  tackle our problem.
 </p>
@@ -141,9 +142,9 @@ We will use  <a href="https://pythonhosted.org/PuLP/">pulp</a> to solve this puz
 </div>
 
 
-<div id="outline-container-orga544571" class="outline-2">
-<h2 id="orga544571">The decision variables</h2>
-<div class="outline-text-2" id="text-orga544571">
+<div id="outline-container-org76d0a75" class="outline-2">
+<h2 id="org76d0a75">The decision variables</h2>
+<div class="outline-text-2" id="text-org76d0a75">
 <p>
 As decision variables we use \(x_{kij}\) such that \(x_{kij} = 1\) if value \(k\) appears in the field with row \(i\) and column \(j\).
 The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
@@ -156,9 +157,9 @@ The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
 </div>
 
 
-<div id="outline-container-org72ba436" class="outline-2">
-<h2 id="org72ba436">Constraints with starting values</h2>
-<div class="outline-text-2" id="text-org72ba436">
+<div id="outline-container-org3a9fc41" class="outline-2">
+<h2 id="org3a9fc41">Constraints with starting values</h2>
+<div class="outline-text-2" id="text-org3a9fc41">
 <p>
 The simplest constraints deal with the numbers that are given in the diagram.
 </p>
@@ -169,9 +170,9 @@ The simplest constraints deal with the numbers that are given in the diagram.
 </div>
 </div>
 
-<div id="outline-container-orgcc882ae" class="outline-2">
-<h2 id="orgcc882ae">Equality Constraints</h2>
-<div class="outline-text-2" id="text-orgcc882ae">
+<div id="outline-container-org65f1a3e" class="outline-2">
+<h2 id="org65f1a3e">Equality Constraints</h2>
+<div class="outline-text-2" id="text-org65f1a3e">
 <p>
 There should be precisely one value in each field.
 </p>
@@ -198,9 +199,9 @@ And also only one value per column.
 </div>
 </div>
 
-<div id="outline-container-orga5bdb84" class="outline-2">
-<h2 id="orga5bdb84">Inequality Constraints</h2>
-<div class="outline-text-2" id="text-orga5bdb84">
+<div id="outline-container-org85c06b4" class="outline-2">
+<h2 id="org85c06b4">Inequality Constraints</h2>
+<div class="outline-text-2" id="text-org85c06b4">
 <p>
 The inequality constraints of the board require more work.
 </p>
@@ -274,9 +275,9 @@ Note that since all cells must have different values, all strict inequalities in
 </div>
 </div>
 
-<div id="outline-container-org1a83615" class="outline-2">
-<h2 id="org1a83615">Objective</h2>
-<div class="outline-text-2" id="text-org1a83615">
+<div id="outline-container-orgd8a0e0a" class="outline-2">
+<h2 id="orgd8a0e0a">Objective</h2>
+<div class="outline-text-2" id="text-orgd8a0e0a">
 <p>
 The objective is trivial, because there is nothing to optimize.
 We only use pulp to find a feasible solution.
@@ -286,9 +287,9 @@ We only use pulp to find a feasible solution.
 </div>
 </div>
 
-<div id="outline-container-orgd487ae4" class="outline-2">
-<h2 id="orgd487ae4">Solving the problem</h2>
-<div class="outline-text-2" id="text-orgd487ae4">
+<div id="outline-container-org9ebd05f" class="outline-2">
+<h2 id="org9ebd05f">Solving the problem</h2>
+<div class="outline-text-2" id="text-org9ebd05f">
 <p>
 Solving the problem comes down to calling the <code>solve()</code> method of <code>pulp</code>.
 </p>
@@ -297,9 +298,9 @@ Solving the problem comes down to calling the <code>solve()</code> method of <co
 </div>
 </div>
 
-<div id="outline-container-org9c43405" class="outline-2">
-<h2 id="org9c43405">The solution</h2>
-<div class="outline-text-2" id="text-org9c43405">
+<div id="outline-container-orge692e3b" class="outline-2">
+<h2 id="orge692e3b">The solution</h2>
+<div class="outline-text-2" id="text-orge692e3b">
 <p>
 Have we found a solution?
 </p>
@@ -338,14 +339,15 @@ Yes! Let's print it.
 <li class="previous">
                 <a href="../weighted-random-shuffling/" rel="prev" title="Weighted random shuffling">Previous post</a>
             </li>
+            <li class="next">
+                <a href="../vickery-auctions/" rel="next" title="Vickery auctions">Next post</a>
+            </li>
         </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   TeX: {
     Macros: {
-      RR: "{\\bf R}",
-      bold: ["{\\bf #1}",1],
-      P: ["\\mathsf{P}\\left[#1\\right]", 1],
-      E: ["\\mathsf{E}\\left[#1\\right]", 1],
+      P: ["P\\left[#1\\right]", 1],
+      E: ["{E\\left[#1\\right]", 1],
     }
   }
 });
