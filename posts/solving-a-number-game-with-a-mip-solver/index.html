@@ -105,25 +105,25 @@ bg-dark
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org3087e45" class="outline-2">
-<h2 id="org3087e45">The problem</h2>
-<div class="outline-text-2" id="text-org3087e45">
+    <div id="outline-container-orgb77eee5" class="outline-2">
+<h2 id="orgb77eee5">The problem</h2>
+<div class="outline-text-2" id="text-orgb77eee5">
 <p>
 Consider the following puzzle: Chose numbers 1 to 5 such that in the diagram below each number is contained exactly once in each row and each column.
 The numbers in the fields should respect any inequality between two fields. We number the fields from the left top, e.g., field \((1,5)\) contains the number 4.
 </p>
 
 
-<div id="orgd41496c" class="figure">
+<div id="org785f059" class="figure">
 <p><img src="../../images/number_game.png" alt="nil"></p>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org48bc2b4" class="outline-2">
-<h2 id="org48bc2b4">Finding a Solution</h2>
-<div class="outline-text-2" id="text-org48bc2b4">
+<div id="outline-container-org324962a" class="outline-2">
+<h2 id="org324962a">Finding a Solution</h2>
+<div class="outline-text-2" id="text-org324962a">
 <p>
 We will use  <a href="https://pythonhosted.org/PuLP/">pulp</a> to solve this puzzle. The <a href="https://pythonhosted.org/PuLP/CaseStudies/a_sudoku_problem.html">sudoku</a> problem discussed in the pulp documentation provides some inspiration on how to  tackle our problem.
 </p>
@@ -142,9 +142,9 @@ We will use  <a href="https://pythonhosted.org/PuLP/">pulp</a> to solve this puz
 </div>
 
 
-<div id="outline-container-org76d0a75" class="outline-2">
-<h2 id="org76d0a75">The decision variables</h2>
-<div class="outline-text-2" id="text-org76d0a75">
+<div id="outline-container-org6f62484" class="outline-2">
+<h2 id="org6f62484">The decision variables</h2>
+<div class="outline-text-2" id="text-org6f62484">
 <p>
 As decision variables we use \(x_{kij}\) such that \(x_{kij} = 1\) if value \(k\) appears in the field with row \(i\) and column \(j\).
 The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
@@ -157,9 +157,9 @@ The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
 </div>
 
 
-<div id="outline-container-org3a9fc41" class="outline-2">
-<h2 id="org3a9fc41">Constraints with starting values</h2>
-<div class="outline-text-2" id="text-org3a9fc41">
+<div id="outline-container-orgbfa661e" class="outline-2">
+<h2 id="orgbfa661e">Constraints with starting values</h2>
+<div class="outline-text-2" id="text-orgbfa661e">
 <p>
 The simplest constraints deal with the numbers that are given in the diagram.
 </p>
@@ -170,15 +170,15 @@ The simplest constraints deal with the numbers that are given in the diagram.
 </div>
 </div>
 
-<div id="outline-container-org65f1a3e" class="outline-2">
-<h2 id="org65f1a3e">Equality Constraints</h2>
-<div class="outline-text-2" id="text-org65f1a3e">
+<div id="outline-container-org4ee09da" class="outline-2">
+<h2 id="org4ee09da">Equality Constraints</h2>
+<div class="outline-text-2" id="text-org4ee09da">
 <p>
 There should be precisely one value in each field.
 </p>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">:</span>
-	<span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
 </pre></div>
 
 <p>
@@ -186,7 +186,7 @@ There can be only one value per row.
 </p>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">:</span>
-	<span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
 </pre></div>
 
 <p>
@@ -194,14 +194,14 @@ And also only one value per column.
 </p>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">:</span>
-	<span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org85c06b4" class="outline-2">
-<h2 id="org85c06b4">Inequality Constraints</h2>
-<div class="outline-text-2" id="text-org85c06b4">
+<div id="outline-container-org1237b2d" class="outline-2">
+<h2 id="org1237b2d">Inequality Constraints</h2>
+<div class="outline-text-2" id="text-org1237b2d">
 <p>
 The inequality constraints of the board require more work.
 </p>
@@ -256,7 +256,7 @@ In code this becomes
 <div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">:</span>
-	<span class="n">v</span><span class="p">[(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)]</span> <span class="o">=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">k</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">])</span>
+        <span class="n">v</span><span class="p">[(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)]</span> <span class="o">=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">k</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">])</span>
 
 <span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
 <span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
@@ -275,9 +275,9 @@ Note that since all cells must have different values, all strict inequalities in
 </div>
 </div>
 
-<div id="outline-container-orgd8a0e0a" class="outline-2">
-<h2 id="orgd8a0e0a">Objective</h2>
-<div class="outline-text-2" id="text-orgd8a0e0a">
+<div id="outline-container-org5acf2b2" class="outline-2">
+<h2 id="org5acf2b2">Objective</h2>
+<div class="outline-text-2" id="text-org5acf2b2">
 <p>
 The objective is trivial, because there is nothing to optimize.
 We only use pulp to find a feasible solution.
@@ -287,9 +287,9 @@ We only use pulp to find a feasible solution.
 </div>
 </div>
 
-<div id="outline-container-org9ebd05f" class="outline-2">
-<h2 id="org9ebd05f">Solving the problem</h2>
-<div class="outline-text-2" id="text-org9ebd05f">
+<div id="outline-container-org3622db7" class="outline-2">
+<h2 id="org3622db7">Solving the problem</h2>
+<div class="outline-text-2" id="text-org3622db7">
 <p>
 Solving the problem comes down to calling the <code>solve()</code> method of <code>pulp</code>.
 </p>
@@ -298,9 +298,9 @@ Solving the problem comes down to calling the <code>solve()</code> method of <co
 </div>
 </div>
 
-<div id="outline-container-orge692e3b" class="outline-2">
-<h2 id="orge692e3b">The solution</h2>
-<div class="outline-text-2" id="text-orge692e3b">
+<div id="outline-container-org1a9358a" class="outline-2">
+<h2 id="org1a9358a">The solution</h2>
+<div class="outline-text-2" id="text-org1a9358a">
 <p>
 Have we found a solution?
 </p>
@@ -319,9 +319,9 @@ Yes! Let's print it.
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="s2">""</span>
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">:</span>
-	<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">:</span>
-	    <span class="k">if</span> <span class="n">value</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-		<span class="n">res</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" "</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" "</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
 
@@ -376,7 +376,7 @@ MathJax.Hub.Config({
 </span>
 </p>
 <p>
-  Contents © 2022  Nicky van Foreest
+  Contents © 2023  Nicky van Foreest
   —
   
   —

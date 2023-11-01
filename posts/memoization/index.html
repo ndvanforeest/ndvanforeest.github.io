@@ -119,15 +119,15 @@ bg-dark
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgda92d74">1. Content of a Discrete Hyper Pyramid</a></li>
-<li><a href="#orgfc79b9c">2. A probability problem</a></li>
+<li><a href="#orgf85a907">1. Content of a Discrete Hyper Pyramid</a></li>
+<li><a href="#org0e211fd">2. A probability problem</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-orgda92d74" class="outline-2">
-<h2 id="orgda92d74">
+<div id="outline-container-orgf85a907" class="outline-2">
+<h2 id="orgf85a907">
 <span class="section-number-2">1.</span> Content of a Discrete Hyper Pyramid</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -159,8 +159,8 @@ Computing \(\P{n,N}\) is easy when we use  memoization. In fact,  we can code th
 </div>
 </div>
 
-<div id="outline-container-orgfc79b9c" class="outline-2">
-<h2 id="orgfc79b9c">
+<div id="outline-container-org0e211fd" class="outline-2">
+<h2 id="org0e211fd">
 <span class="section-number-2">2.</span> A probability problem</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -182,25 +182,25 @@ Reasoning similarly, the expected number times \(\E{n,k}\) to see at least \(k\)
 
 <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">P</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-    <span class="sd">"""</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    probability to see at least k heads in row when a coin is thrown n times</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">:</span>
-	<span class="k">return</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="mi">0</span>
     <span class="k">else</span><span class="p">:</span>
-	<span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">P</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">**</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">q</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">p</span><span class="o">**</span><span class="n">k</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">P</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">**</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">q</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">p</span><span class="o">**</span><span class="n">k</span>
 
 <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">E</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-    <span class="sd">"""</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    expected number of times to see at least k heads in row when a coin is thrown n times</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">:</span>
-	<span class="k">return</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="mi">0</span>
     <span class="k">else</span><span class="p">:</span>
-	<span class="n">tot</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">E</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">**</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span><span class="n">q</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
-	<span class="n">tot</span> <span class="o">+=</span> <span class="n">p</span><span class="o">**</span><span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">E</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">))</span>
-	<span class="k">return</span> <span class="n">tot</span>
+        <span class="n">tot</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">E</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">**</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span><span class="n">q</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">tot</span> <span class="o">+=</span> <span class="n">p</span><span class="o">**</span><span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">E</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">tot</span>
 
 
 
@@ -254,7 +254,7 @@ MathJax.Hub.Config({
 </span>
 </p>
 <p>
-  Contents © 2022  Nicky van Foreest
+  Contents © 2023  Nicky van Foreest
   —
   
   —
