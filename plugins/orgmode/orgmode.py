@@ -53,7 +53,7 @@ except ImportError:
 
 
 class CompileOrgmode(PageCompiler):
-    """Compile org-mode markup into HTML using emacs."""
+    """ Compile org-mode markup into HTML using emacs. """
 
     name = "orgmode"
 
@@ -62,14 +62,10 @@ class CompileOrgmode(PageCompiler):
         makedirs(os.path.dirname(dest))
         try:
             command = [
-                'emacs',
-                '--batch',
-                '-l',
-                join(dirname(abspath(__file__)), 'init.el'),
-                '--eval',
-                '(nikola-html-export "{0}" "{1}")'.format(
-                    abspath(source), abspath(dest)
-                ),
+                'emacs', '--batch',
+                '-l', join(dirname(abspath(__file__)), 'init.el'),
+                '--eval', '(nikola-html-export "{0}" "{1}")'.format(
+                    abspath(source), abspath(dest))
             ]
 
             # Dirty walkaround for this plugin to run on Windows platform.
@@ -79,40 +75,26 @@ class CompileOrgmode(PageCompiler):
             subprocess.check_call(command)
             with io.open(dest, 'r', encoding='utf-8') as inf:
                 output, shortcode_deps = self.site.apply_shortcodes(
-                    inf.read(), extra_context={'post': post}
-                )
+                    inf.read(), extra_context={'post': post})
             with io.open(dest, 'w', encoding='utf-8') as outf:
                 outf.write(output)
             if post is None:
                 if shortcode_deps:
                     self.logger.error(
                         "Cannot save dependencies for post {0} (post unknown)",
-                        source,
-                    )
+                        source)
             else:
                 post._depfile[dest] += shortcode_deps
         except OSError as e:
             import errno
-
             if e.errno == errno.ENOENT:
-                req_missing(
-                    ['emacs', 'org-mode'],
-                    'use the orgmode compiler',
-                    python=False,
-                )
+                req_missing(['emacs', 'org-mode'],
+                            'use the orgmode compiler', python=False)
         except subprocess.CalledProcessError as e:
-            raise Exception(
-                '''Cannot compile {0} -- bad org-mode configuration (return code {1})
-The command is {2}'''.format(
-                    source,
-                    e.returncode,
-                    ' '.join(shlex.quote(arg) for arg in e.cmd),
-                )
-            )
+            raise Exception('''Cannot compile {0} -- bad org-mode configuration (return code {1})
+The command is {2}'''.format(source, e.returncode, ' '.join(shlex.quote(arg) for arg in e.cmd)))
 
-    def create_post(
-        self, path, content=None, onefile=False, is_page=False, **kw
-    ):
+    def create_post(self, path, content=None, onefile=False, is_page=False, **kw):
         """Create post file with optional metadata."""
         metadata = OrderedDict()
         metadata.update(self.default_metadata)

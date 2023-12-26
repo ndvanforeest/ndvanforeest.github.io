@@ -75,7 +75,179 @@ bg-dark
 
     
 <div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/vickery-auctions/" class="u-url">Vickery auctions</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/snells-envelope-house-selling-and-buying/" class="u-url">Snell's Envelope, House Selling and Buying</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Nicky van Foreest
+            </span></p>
+            <p class="dateline">
+            <a href="../posts/snells-envelope-house-selling-and-buying/" rel="bookmark">
+            <time class="published dt-published" datetime="2023-12-26T19:07:41+01:00" itemprop="datePublished" title="2023-12-26 19:07">2023-12-26 19:07</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div class="theorem" id="org646fab1">
+<p>
+If an integer \(n\) is greater than 2, then the equation \(a^n + b^n = c^n\)
+has no solutions in non-zero integers \(a\), \(b\), and \(c\).
+</p>
+
+</div>
+
+
+<div id="outline-container-orgf7f00d4" class="outline-2">
+<h2 id="orgf7f00d4">Problem Setting</h2>
+<div class="outline-text-2" id="text-orgf7f00d4">
+<p>
+I have house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
+Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), what is the best offer I can expect?
+We will investigate this problem in steps, and end with an illustration of how Snell's envelope can be used to solve this problem.
+I include some python code to get numerical output.
+</p>
+
+<p>
+<a href="https://arminstraub.com/math/hiringsecretary">https://arminstraub.com/math/hiringsecretary</a> discusses the same problem in terms of the <a href="https://en.wikipedia.org/wiki/Secretary_problem">https://en.wikipedia.org/wiki/Secretary_problem</a>.
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgaf6f1de" class="outline-2">
+<h2 id="orgaf6f1de">Best Offer Under a Fixed Threshold Policy</h2>
+<div class="outline-text-2" id="text-orgaf6f1de">
+<p>
+Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\), which  remains fixed for the entire sales period.
+When we have \(\{X_i\}_{i=1}^n\) offers, iid and uniform on \([0,1]\), then this threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i &lt; q\).
+The expected sales price becomes
+</p>
+\begin{equation}
+\E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}}.
+\end{equation}
+
+<p>
+Clearly, by independence, for \(i<n>
+\begin{align*}
+\E{X_i \1{\tau=i}} &amp;= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k &lt; q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
+&amp;= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
+\end{align*}
+<p>
+while for \(n\),
+</p>
+\begin{align*}
+\E{X_n \1{\tau=\infty}} &amp;= \E{X_n \1{X_i &lt; q} \prod_{k=1}^{n-1} \1{X_k &lt; q}}  = q^{n-1} \int_0^q x \d x = \frac{q^{n+1}}2.
+\end{align*}
+<p>
+Therefore,
+</p>
+\begin{align*}
+\E{X_{\tau}} &amp;= \frac{1-q^{2}}{2} \sum_{i=0}^{n-1} q^{i}  + \frac{q^{n+1}}2 = \frac{1+q}{2} (1-q^{n}) +  \frac{q^{n+1}}2 \\
+&amp;= \frac{1}{2}(1-q^{n} + q) =: v_n(q).
+\end{align*}
+
+
+<p>
+Given \(n\), the optimal threshold \(q\) follows from solving for \(q\) in \(\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0\),
+</p>
+\begin{align*}
+q = \left({\frac{1}{n}}\right)^{\frac{1}{n-1}}.
+\end{align*}
+
+<p>
+Here is an example.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">best_q</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">v</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">q</span><span class="o">**</span><span class="n">n</span> <span class="o">+</span> <span class="n">q</span>
+    <span class="k">return</span> <span class="n">res</span> <span class="o">/</span> <span class="mi">2</span>
+
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">best_q</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">value</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">q</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">)</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+
+<pre class="example">
+q=0.7742636826811271
+v(n, q)=0.8484186572065071
+</pre>
+
+
+<p>
+For the future I might consider some additional questions.
+</p>
+
+<ol class="org-ol">
+<li>What is the probability that I will obtain the best price?</li>
+<li>What is the marginal value of increasing the number of house viewings by one?</li>
+<li>Suppose each viewing costs \(c\in [0, 1]\), what is the optimal number of house viewings?</li>
+</ol></n></p>
+</div>
+</div>
+
+
+<div id="outline-container-org12aa132" class="outline-2">
+<h2 id="org12aa132">Best Offer Under a Dynamic  Threshold Policy</h2>
+<div class="outline-text-2" id="text-org12aa132">
+<p>
+A fixed threshold policy cannot be optimal, because the less visits we have left, the lower the acceptance threshold should be.
+We next find the optimal levels when we have \(1 \leq k \leq  n\) visits to go.
+</p>
+
+<p>
+Suppose we have rejected the first \(n-1\) offers, so that we have only \(k=1\) visits to go.
+Then our expected price is \(v_1 = \E{X_n} = 1/2\).
+In general we accept offer \(X_{i}\) of buyer \(i\) when this exceeds the expected price \(v_{k}\) of the remaining \(k=n-i\) visits. Otherwise, we reject this offer. In other words, the expected price for \(k\) periods to go satisfies the recursion
+</p>
+\begin{align*}
+v_k &amp;= \E{\max\{X_{n-k}, v_{k-1}\}}  = \int_{v_{k-1}}^1 x \d x + \int_0^{v_{k-1}} v_{k-1} \d x = \frac{1}{2}(1-v_{k-1}^2) + v_{k-1}^2 \\
+&amp;= \frac{1}{2}(1 + v_{k-1}^2).
+\end{align*}
+<p>
+Note that  \(v_{k} &gt; v_{k-1}\) when \(v_{k-1}\neq 1\) because \(1 + v_{k-1}^2 &gt; 2 v_{k-1} \iff v_{k-1} \neq 1\). Thus, a policy with a fixed threshold is not optimal.
+</p>
+
+
+<p>
+With memoization the code is very simple.
+</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cache</span>
+
+
+<span class="nd">@cache</span>
+<span class="k">def</span> <span class="nf">v</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">v</span><span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+
+<pre class="example">
+v(10)=0.861098212205712
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org3a8f9b7" class="outline-2">
+<h2 id="org3a8f9b7">Snell's Envelope</h2>
+<div class="outline-text-2" id="text-org3a8f9b7">
+<p>
+The optimal policy can be found by using a more general, but more abstract, framework, namely by means of <i>Snell's envelope</i>.
+Perhaps the easiest way to see how this works is by means of the next theorem
+</p>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/vickery-auctions/" class="u-url">Vickery auctions</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Nicky van Foreest
@@ -839,8 +1011,11 @@ And now all works!
 MathJax.Hub.Config({
   TeX: {
     Macros: {
-      P: ["P\\left[#1\\right]", 1],
-      E: ["{E\\left[#1\\right]", 1],
+      P: ["\\textrm{P}\\left\\{#1\\right\\}", 1],
+      E: ["\\textrm{E}\\left\\{#1\\right\\}", 1],
+      1: ["\\mathbf{1}\\{#1\\}",1],
+      d: ["\\,\\textrm{d}#1", 1],
+      Unif: ["\\mathrm{Unif}#1", 1],
     }
   }
 });

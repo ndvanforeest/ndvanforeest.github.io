@@ -1120,13 +1120,18 @@ MATHJAX_CONFIG = """
 MathJax.Hub.Config({
   TeX: {
     Macros: {
-      P: ["P\\\\left[#1\\\\right]", 1],
-      E: ["{E\\\\left[#1\\\\right]", 1],
+      P: ["\\\\textrm{P}\\\\left\\\\{#1\\\\right\\\\}", 1],
+      E: ["\\\\textrm{E}\\\\left\\\\{#1\\\\right\\\\}", 1],
+      1: ["\\\\mathbf{1}\\\\{#1\\\\}",1],
+      d: ["\\\\,\\\\textrm{d}#1", 1],
+      Unif: ["\\\\mathrm{Unif}#1", 1],
     }
   }
 });
 </script>
 """
+
+
 # \newcommand{\E}[1]{\,\mathsf{E}\left[#1\right]}
 # If you want support for the $.$ syntax (which may conflict with running
 # text!), just use this config:

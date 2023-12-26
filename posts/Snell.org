@@ -1,0 +1,128 @@
+#+BEGIN_COMMENT
+.. title: Snell's Envelope, House Selling and Buying
+.. slug: snells-envelope-house-selling-and-buying
+.. date: 2023-12-26 19:07:41 UTC+01:00
+.. tags:
+.. category:
+.. link:
+.. description:
+.. type: text
+.. has_math: true
+
+#+END_COMMENT
+
+#+begin_theorem
+If an integer $n$ is greater than 2, then the equation $a^n + b^n = c^n$
+has no solutions in non-zero integers $a$, $b$, and $c$.
+#+end_theorem
+
+
+* Problem Setting
+
+I have house for sale and I am prepared to organize at most $n\geq 1$ house viewings.
+Assume that offers are idd rvs $\sim \Unif{[0,1]}$, what is the best offer I can expect?
+We will investigate this problem in steps, and end with an illustration of how Snell's envelope can be used to solve this problem.
+I include some python code to get numerical output.
+
+https://arminstraub.com/math/hiringsecretary discusses the same problem in terms of the https://en.wikipedia.org/wiki/Secretary_problem.
+
+
+
+* Best Offer Under a Fixed Threshold Policy
+
+Let's start with a simple policy: I accept the first offer that exceeds some threshold $q$, which  remains fixed for the entire sales period.
+When we have $\{X_i\}_{i=1}^n$ offers, iid and uniform on $[0,1]$, then this threshold policy can be formulated in terms of the stopping time $\tau = \inf\{i : X_i \geq q\}$, where $\inf \varnothing = \infty$ so that $\tau=\infty$ when all $X_i < q$.
+The expected sales price becomes
+\begin{equation}
+\E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}}.
+\end{equation}
+
+Clearly, by independence, for $i<n$,
+\begin{align*}
+\E{X_i \1{\tau=i}} &= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k < q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
+&= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
+\end{align*}
+while for $n$,
+\begin{align*}
+\E{X_n \1{\tau=\infty}} &= \E{X_n \1{X_i < q} \prod_{k=1}^{n-1} \1{X_k < q}}  = q^{n-1} \int_0^q x \d x = \frac{q^{n+1}}2.
+\end{align*}
+Therefore,
+\begin{align*}
+\E{X_{\tau}} &= \frac{1-q^{2}}{2} \sum_{i=0}^{n-1} q^{i}  + \frac{q^{n+1}}2 = \frac{1+q}{2} (1-q^{n}) +  \frac{q^{n+1}}2 \\
+&= \frac{1}{2}(1-q^{n} + q) =: v_n(q).
+\end{align*}
+
+
+Given $n$, the optimal threshold $q$ follows from solving for $q$ in $\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0$,
+\begin{align*}
+q = \left({\frac{1}{n}}\right)^{\frac{1}{n-1}}.
+\end{align*}
+
+Here is an example.
+
+#+begin_src python :results output :exports both
+def best_q(n):
+    return (1 / n) ** (1 / (n - 1))
+
+
+def v(n, q):
+    res = 1 - q**n + q
+    return res / 2
+
+
+n = 10
+q = best_q(n)
+value = v(n, q)
+print(f"{q=}")
+print(f"{v(n, q)=}")
+#+end_src
+
+#+RESULTS:
+: q=0.7742636826811271
+: v(n, q)=0.8484186572065071
+
+For the future I might consider some additional questions.
+
+1. What is the probability that I will obtain the best price?
+2. What is the marginal value of increasing the number of house viewings by one?
+3. Suppose each viewing costs $c\in [0, 1]$, what is the optimal number of house viewings?
+
+
+* Best Offer Under a Dynamic  Threshold Policy
+
+A fixed threshold policy cannot be optimal, because the less visits we have left, the lower the acceptance threshold should be.
+We next find the optimal levels when we have $1 \leq k \leq  n$ visits to go.
+
+Suppose we have rejected the first $n-1$ offers, so that we have only $k=1$ visits to go.
+Then our expected price is $v_1 = \E{X_n} = 1/2$.
+In general we accept offer $X_{i}$ of buyer $i$ when this exceeds the expected price $v_{k}$ of the remaining $k=n-i$ visits. Otherwise, we reject this offer. In other words, the expected price for $k$ periods to go satisfies the recursion
+\begin{align*}
+v_k &= \E{\max\{X_{n-k}, v_{k-1}\}}  = \int_{v_{k-1}}^1 x \d x + \int_0^{v_{k-1}} v_{k-1} \d x = \frac{1}{2}(1-v_{k-1}^2) + v_{k-1}^2 \\
+&= \frac{1}{2}(1 + v_{k-1}^2).
+\end{align*}
+Note that  $v_{k} > v_{k-1}$ when $v_{k-1}\neq 1$ because $1 + v_{k-1}^2 > 2 v_{k-1} \iff v_{k-1} \neq 1$. Thus, a policy with a fixed threshold is not optimal.
+
+
+With memoization the code is very simple.
+#+begin_src python :results output :exports both
+from functools import cache
+
+
+@cache
+def v(k):
+    if k == 1:
+        return 1 / 2
+    return (1 + v(k - 1) ** 2) / 2
+
+
+print(f"{v(10)=}")
+#+end_src
+
+#+RESULTS:
+: v(10)=0.861098212205712
+
+
+* Snell's Envelope
+
+The optimal policy can be found by using a more general, but more abstract, framework, namely by means of /Snell's envelope/.
+Perhaps the easiest way to see how this works is by means of the next theorem

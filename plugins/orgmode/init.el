@@ -3,39 +3,9 @@
 ;; Load org-mode
 ;; Requires org-mode v8.x
 
-(setq user-init-file (or load-file-name (buffer-file-name)))
-(setq user-emacs-directory (file-name-directory user-init-file))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; set custom-file to write into a separate place
-
-(setq custom-file (concat user-emacs-directory ".custom.el"))
-(when (file-readable-p custom-file) (load custom-file))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; configure melpa (and other repos if needed)
-
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(setq package-enable-at-startup nil)
+(setq package-load-list '((htmlize t)))
 (package-initialize)
-
-(unless (package-installed-p 'use-package)
- (package-refresh-contents)
- (package-install 'use-package))
-
-;; (eval-when-compile
-;;  (require 'use-package))
-
-;; (use-package org-special-block-extras
-;;   :ensure t
-;;   :hook (org-mode . org-special-block-extras-mode))
-
-;; (use-package htmlize
-;;   :ensure t)
-
-;; (eval-when-compile
-;;  (require 'use-package))
 
 (require 'org)
 (require 'ox-html)
@@ -84,20 +54,11 @@
                                (buffer-name) t))
     (buffer-string)))
 
-(defun pygmentize (lang code)
-  "Use Pygments to highlight the given code and return the output"
-  (with-temp-buffer
-    (insert code)
-    (let ((lang (or (cdr (assoc lang org-pygments-language-alist)) "text")))
-      (shell-command-on-region (point-min) (point-max)
-                               (format "pygmentize -f html -l python")
-                               (buffer-name) t))
-    (buffer-string)))
-
 (defconst org-pygments-language-alist
   '(("asymptote" . "asymptote")
     ("awk" . "awk")
     ("c" . "c")
+    ("console" . "console")
     ("c++" . "cpp")
     ("cpp" . "cpp")
     ("clojure" . "clojure")
@@ -127,6 +88,7 @@
     ("scala" . "scala")
     ("scheme" . "scheme")
     ("sh" . "sh")
+    ("shell-session" . "shell-session")
     ("sql" . "sql")
     ("sqlite" . "sqlite3")
     ("tcl" . "tcl"))
@@ -151,19 +113,6 @@ contextual information."
             (pygmentize (downcase lang) (org-html-decode-plain-text code)))
         code-html))))
 
-(defun org-html-src-block (src-block contents info)
-  "Transcode a SRC-BLOCK element from Org to HTML.
-CONTENTS holds the contents of the item.  INFO is a plist holding
-contextual information."
-  (if (org-export-read-attribute :attr_html src-block :textarea)
-      (org-html--textarea-block src-block)
-    (let ((lang (org-element-property :language src-block))
-          (code (org-element-property :value src-block))
-          (code-html (org-html-format-code src-block info)))
-          (progn
-            (unless lang (setq lang ""))
-            (pygmentize (downcase lang) (org-html-decode-plain-text code))))))
-
 ;; Export images with custom link type
 (defun org-custom-link-img-url-export (path desc format)
   (cond
@@ -175,9 +124,8 @@ contextual information."
 (defun org-file-link-img-url-export (path desc format)
   (cond
    ((eq format 'html)
-    (format "<img src=\"%s\" alt=\"%s\"/>" path desc))))
+    (format "<img src=\"/%s\" alt=\"%s\"/>" path desc))))
 (org-add-link-type "file" nil 'org-file-link-img-url-export)
-
 
 ;; Support for magic links (link:// scheme)
 (org-link-set-parameters
