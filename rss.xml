@@ -1,5 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2023 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Wed, 01 Nov 2023 10:51:33 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Vickery auctions</title><link>https://ndvanforeest.github.io/posts/vickery-auctions/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2023 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Tue, 26 Dec 2023 21:14:33 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Snell's Envelope, House Selling and Buying</title><link>https://ndvanforeest.github.io/posts/snells-envelope-house-selling-and-buying/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div class="theorem" id="org646fab1"&gt;
+&lt;p&gt;
+If an integer \(n\) is greater than 2, then the equation \(a^n + b^n = c^n\)
+has no solutions in non-zero integers \(a\), \(b\), and \(c\).
+&lt;/p&gt;
+
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgf7f00d4" class="outline-2"&gt;
+&lt;h2 id="orgf7f00d4"&gt;Problem Setting&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf7f00d4"&gt;
+&lt;p&gt;
+I have house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
+Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), what is the best offer I can expect?
+We will investigate this problem in steps, and end with an illustration of how Snell's envelope can be used to solve this problem.
+I include some python code to get numerical output.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="https://arminstraub.com/math/hiringsecretary"&gt;https://arminstraub.com/math/hiringsecretary&lt;/a&gt; discusses the same problem in terms of the &lt;a href="https://en.wikipedia.org/wiki/Secretary_problem"&gt;https://en.wikipedia.org/wiki/Secretary_problem&lt;/a&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+
+&lt;div id="outline-container-orgaf6f1de" class="outline-2"&gt;
+&lt;h2 id="orgaf6f1de"&gt;Best Offer Under a Fixed Threshold Policy&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgaf6f1de"&gt;
+&lt;p&gt;
+Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\), which  remains fixed for the entire sales period.
+When we have \(\{X_i\}_{i=1}^n\) offers, iid and uniform on \([0,1]\), then this threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i &amp;lt; q\).
+The expected sales price becomes
+&lt;/p&gt;
+\begin{equation}
+\E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}}.
+\end{equation}
+
+&lt;p&gt;
+Clearly, by independence, for \(i&lt;n&gt;
+\begin{align*}
+\E{X_i \1{\tau=i}} &amp;amp;= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k &amp;lt; q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
+&amp;amp;= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
+\end{align*}
+&lt;p&gt;
+while for \(n\),
+&lt;/p&gt;
+\begin{align*}
+\E{X_n \1{\tau=\infty}} &amp;amp;= \E{X_n \1{X_i &amp;lt; q} \prod_{k=1}^{n-1} \1{X_k &amp;lt; q}}  = q^{n-1} \int_0^q x \d x = \frac{q^{n+1}}2.
+\end{align*}
+&lt;p&gt;
+Therefore,
+&lt;/p&gt;
+\begin{align*}
+\E{X_{\tau}} &amp;amp;= \frac{1-q^{2}}{2} \sum_{i=0}^{n-1} q^{i}  + \frac{q^{n+1}}2 = \frac{1+q}{2} (1-q^{n}) +  \frac{q^{n+1}}2 \\
+&amp;amp;= \frac{1}{2}(1-q^{n} + q) =: v_n(q).
+\end{align*}
+
+
+&lt;p&gt;
+Given \(n\), the optimal threshold \(q\) follows from solving for \(q\) in \(\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0\),
+&lt;/p&gt;
+\begin{align*}
+q = \left({\frac{1}{n}}\right)^{\frac{1}{n-1}}.
+\end{align*}
+
+&lt;p&gt;
+Here is an example.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;best_q&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;v&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;res&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;res&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+
+
+&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+&lt;span class="n"&gt;q&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;best_q&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+q=0.7742636826811271
+v(n, q)=0.8484186572065071
+&lt;/pre&gt;
+
+
+&lt;p&gt;
+For the future I might consider some additional questions.
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;What is the probability that I will obtain the best price?&lt;/li&gt;
+&lt;li&gt;What is the marginal value of increasing the number of house viewings by one?&lt;/li&gt;
+&lt;li&gt;Suppose each viewing costs \(c\in [0, 1]\), what is the optimal number of house viewings?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/n&gt;&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org12aa132" class="outline-2"&gt;
+&lt;h2 id="org12aa132"&gt;Best Offer Under a Dynamic  Threshold Policy&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org12aa132"&gt;
+&lt;p&gt;
+A fixed threshold policy cannot be optimal, because the less visits we have left, the lower the acceptance threshold should be.
+We next find the optimal levels when we have \(1 \leq k \leq  n\) visits to go.
+&lt;/p&gt;
+
+&lt;p&gt;
+Suppose we have rejected the first \(n-1\) offers, so that we have only \(k=1\) visits to go.
+Then our expected price is \(v_1 = \E{X_n} = 1/2\).
+In general we accept offer \(X_{i}\) of buyer \(i\) when this exceeds the expected price \(v_{k}\) of the remaining \(k=n-i\) visits. Otherwise, we reject this offer. In other words, the expected price for \(k\) periods to go satisfies the recursion
+&lt;/p&gt;
+\begin{align*}
+v_k &amp;amp;= \E{\max\{X_{n-k}, v_{k-1}\}}  = \int_{v_{k-1}}^1 x \d x + \int_0^{v_{k-1}} v_{k-1} \d x = \frac{1}{2}(1-v_{k-1}^2) + v_{k-1}^2 \\
+&amp;amp;= \frac{1}{2}(1 + v_{k-1}^2).
+\end{align*}
+&lt;p&gt;
+Note that  \(v_{k} &amp;gt; v_{k-1}\) when \(v_{k-1}\neq 1\) because \(1 + v_{k-1}^2 &amp;gt; 2 v_{k-1} \iff v_{k-1} \neq 1\). Thus, a policy with a fixed threshold is not optimal.
+&lt;/p&gt;
+
+
+&lt;p&gt;
+With memoization the code is very simple.
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;cache&lt;/span&gt;
+
+
+&lt;span class="nd"&gt;@cache&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;v&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+
+
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+v(10)=0.861098212205712
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org3a8f9b7" class="outline-2"&gt;
+&lt;h2 id="org3a8f9b7"&gt;Snell's Envelope&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3a8f9b7"&gt;
+&lt;p&gt;
+The optimal policy can be found by using a more general, but more abstract, framework, namely by means of &lt;i&gt;Snell's envelope&lt;/i&gt;.
+Perhaps the easiest way to see how this works is by means of the next theorem
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/snells-envelope-house-selling-and-buying/</guid><pubDate>Tue, 26 Dec 2023 18:07:41 GMT</pubDate></item><item><title>Vickery auctions</title><link>https://ndvanforeest.github.io/posts/vickery-auctions/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;p&gt;
 To practice a bit more with the \(O\) hoi symbol, given a list of \(n\) elements,  the following code finds the largest element:
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
