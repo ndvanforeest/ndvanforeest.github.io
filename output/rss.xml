@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2023 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Thu, 28 Dec 2023 09:12:57 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Snell's Envelope, House Selling and Buying</title><link>https://ndvanforeest.github.io/posts/snells-envelope-house-selling-and-buying/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div class="theorem" id="orgb28f05b"&gt;
-&lt;p&gt;
-If \(n\) is greater than 2, then the equation \(a^n + b^n = c^n\)
-has no solutions in non-zero integers \(a\), \(b\), and \(c\).
-&lt;/p&gt;
-
-&lt;/div&gt;
-
-
-&lt;div id="outline-container-org5637ea4" class="outline-2"&gt;
-&lt;h2 id="org5637ea4"&gt;Problem Setting&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5637ea4"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2023 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Thu, 28 Dec 2023 10:00:15 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Snell's Envelope, House Selling and Buying</title><link>https://ndvanforeest.github.io/posts/snells-envelope-house-selling-and-buying/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-org6d8c38c" class="outline-2"&gt;
+&lt;h2 id="org6d8c38c"&gt;Problem Setting&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6d8c38c"&gt;
 &lt;p&gt;
 I have house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
 Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), what is the best offer I can expect?
@@ -26,17 +17,17 @@ I include some python code to get numerical output.
 
 
 
-&lt;div id="outline-container-orge01b8f3" class="outline-2"&gt;
-&lt;h2 id="orge01b8f3"&gt;Best Offer Under a Fixed Threshold Policy&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge01b8f3"&gt;
+&lt;div id="outline-container-orgb5f43ec" class="outline-2"&gt;
+&lt;h2 id="orgb5f43ec"&gt;Best Offer Under a Fixed Threshold Policy&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb5f43ec"&gt;
 &lt;p&gt;
 Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\), which  remains fixed for the entire sales period.
 When we have \(\{X_i\}_{i=1}^n\) offers, iid and uniform on \([0,1]\), then this threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i &amp;lt; q\).
 The expected sales price becomes
 &lt;/p&gt;
-\begin{equation}
+\begin{equation*}
 \E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}}.
-\end{equation}
+\end{equation*}
 
 &lt;p&gt;
 Clearly, by independence, for \(i&lt;n&gt;
@@ -105,9 +96,9 @@ For the future I might consider some additional questions.
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org94360a5" class="outline-2"&gt;
-&lt;h2 id="org94360a5"&gt;Best Offer Under a Dynamic  Threshold Policy&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org94360a5"&gt;
+&lt;div id="outline-container-org5adc373" class="outline-2"&gt;
+&lt;h2 id="org5adc373"&gt;Best Offer Under a Dynamic  Threshold Policy&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5adc373"&gt;
 &lt;p&gt;
 A fixed threshold policy cannot be optimal, because the less visits we have left, the lower the acceptance threshold should be.
 We next find the optimal levels when we have \(1 \leq k \leq  n\) visits to go.
@@ -150,13 +141,46 @@ v(10)=0.861098212205712
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orga121554" class="outline-2"&gt;
-&lt;h2 id="orga121554"&gt;Snell's Envelope&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga121554"&gt;
+&lt;div id="outline-container-org603911e" class="outline-2"&gt;
+&lt;h2 id="org603911e"&gt;Snell's Envelope&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org603911e"&gt;
 &lt;p&gt;
 The optimal policy can be found by using a more general, but more abstract, framework, namely by means of &lt;i&gt;Snell's envelope&lt;/i&gt;.
-Perhaps the easiest way to see how this works is by means of the next theorem
+Perhaps the easiest way to see how this works is to start with a theorem, stripped from some of its technical clutter.
+I copied it from `Promenade al\'etoire' by M.
+M.~Benaim and N.~EL Karoui.
 &lt;/p&gt;
+
+
+&lt;div class="theorem" id="org4323daa"&gt;
+&lt;p&gt;
+Consider a sequence of rvs \(\{X_i\}_{i=1}^n\) adapted to a filtration \(\{\F_{i}\}_{i=1}^{n}\).
+Introduce the sequence of rvs $\{Y&lt;sub&gt;i&lt;/sub&gt;\} by backward recurrence as
+&lt;/p&gt;
+\begin{align*}
+Y_i &amp;amp;= \sup\{\E{Y_{i+1}|\F_{i}}, X_{i}\} &amp;amp; Y_n &amp;amp;= X_{n},
+\end{align*}
+&lt;p&gt;
+and the stopping time \(\tau^*= \inf\{ k\leq n: Y_k = X_k\}\). Then,
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;the sequence \(\{Y_i\}\) is a super martingale, i.e., \(Y_i \geq \E{Y_{i+1} | \F_{i}}\) a.s.;&lt;/li&gt;
+&lt;li&gt;\(\E{Y_1} = \E{Y_{\tau^*}} = \E{X_{\tau^*}} = \sup_{\tau\in T} \E{Y_\tau}\),
+where \(T\) is the set of stopping times smaller or equal to \(n\);&lt;/li&gt;
+&lt;li&gt;the stopping time \(\tau^{*}\) is optimal.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;
+The rv \(Y_i\) is the &lt;i&gt;Snell envelope&lt;/i&gt; of \(X_i\), which is defined as the smallest super martingale  \(\geq X_i\).
+&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;div class="proof" id="org5063057"&gt;
+&lt;p&gt;
+To be included
+&lt;/p&gt;
+
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/snells-envelope-house-selling-and-buying/</guid><pubDate>Tue, 26 Dec 2023 18:07:41 GMT</pubDate></item><item><title>Vickery auctions</title><link>https://ndvanforeest.github.io/posts/vickery-auctions/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;p&gt;
 To practice a bit more with the \(O\) hoi symbol, given a list of \(n\) elements,  the following code finds the largest element:
