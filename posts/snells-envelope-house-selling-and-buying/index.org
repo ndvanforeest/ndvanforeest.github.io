@@ -11,10 +11,11 @@
 
 #+END_COMMENT
 
-#+begin_theorem
-If $n$ is greater than 2, then the equation $a^n + b^n = c^n$
-has no solutions in non-zero integers $a$, $b$, and $c$.
-#+end_theorem
+#+title: HOi
+#+author: pietje
+#+setupfile: preamble.org
+
+#+options: toc:nil
 
 
 * Problem Setting
@@ -33,9 +34,9 @@ https://arminstraub.com/math/hiringsecretary discusses the same problem in terms
 Let's start with a simple policy: I accept the first offer that exceeds some threshold $q$, which  remains fixed for the entire sales period.
 When we have $\{X_i\}_{i=1}^n$ offers, iid and uniform on $[0,1]$, then this threshold policy can be formulated in terms of the stopping time $\tau = \inf\{i : X_i \geq q\}$, where $\inf \varnothing = \infty$ so that $\tau=\infty$ when all $X_i < q$.
 The expected sales price becomes
-\begin{equation}
+\begin{equation*}
 \E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}}.
-\end{equation}
+\end{equation*}
 
 Clearly, by independence, for $i<n$,
 \begin{align*}
@@ -125,4 +126,25 @@ print(f"{v(10)=}")
 * Snell's Envelope
 
 The optimal policy can be found by using a more general, but more abstract, framework, namely by means of /Snell's envelope/.
-Perhaps the easiest way to see how this works is by means of the next theorem
+Perhaps the easiest way to see how this works is to start with a theorem, stripped from some of its technical clutter.
+I copied it from `Promenade al\'etoire' by M.
+M.~Benaim and N.~EL Karoui.
+
+
+#+begin_theorem
+Consider a sequence of rvs $\{X_i\}_{i=1}^n$ adapted to a filtration $\{\F_{i}\}_{i=1}^{n}$.
+Introduce the sequence of rvs $\{Y_i\} by backward recurrence as
+\begin{align*}
+Y_i &= \sup\{\E{Y_{i+1}|\F_{i}}, X_{i}\} & Y_n &= X_{n},
+\end{align*}
+and the stopping time $\tau^*= \inf\{ k\leq n: Y_k = X_k\}$. Then,
+1. the sequence $\{Y_i\}$ is a super martingale, i.e., $Y_i \geq \E{Y_{i+1} | \F_{i}}$ a.s.;
+2. $\E{Y_1} = \E{Y_{\tau^*}} = \E{X_{\tau^*}} = \sup_{\tau\in T} \E{Y_\tau}$,
+   where $T$ is the set of stopping times smaller or equal to $n$;
+3. the stopping time $\tau^{*}$ is optimal.
+The rv $Y_i$ is the /Snell envelope/ of $X_i$, which is defined as the smallest super martingale  $\geq X_i$.
+#+end_theorem
+
+#+begin_proof
+To be included
+#+end_proof
