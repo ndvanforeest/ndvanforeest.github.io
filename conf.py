@@ -1131,8 +1131,6 @@ MathJax.Hub.Config({
 </script>
 """
 
-
-# \newcommand{\E}[1]{\,\mathsf{E}\left[#1\right]}
 # If you want support for the $.$ syntax (which may conflict with running
 # text!), just use this config:
 # MATHJAX_CONFIG = """
