@@ -21,8 +21,7 @@
 
 
 I have house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
-Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), what is the best offer I can expect?
-We ">
+Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept an offer on th">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2023-12-26T19:07:41+01:00">
 </head>
@@ -105,37 +104,86 @@ bg-dark
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org6d8c38c" class="outline-2">
-<h2 id="org6d8c38c">Problem Setting</h2>
-<div class="outline-text-2" id="text-org6d8c38c">
+    <div id="outline-container-org5504f59" class="outline-2">
+<h2 id="org5504f59">Problem Setting</h2>
+<div class="outline-text-2" id="text-org5504f59">
 <p>
 I have house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
-Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), what is the best offer I can expect?
-We will investigate this problem in steps, and end with an illustration of how Snell's envelope can be used to solve this problem.
+Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept an offer on the spot or reject it.
+If rejected, the offer is retracted, hence I cannot accept it at a later date.
+Under these rules, what is the best price I can expect?
+</p>
+
+<p>
+Once my house is sold, I want to buy a new house.
+As this is a multi-objective optimization problem, I don't want to use just the price of the house to decide to buy it or not.
+In this case I just assume I can rank the houses from best to worse.  Thus, I cannot use the same policy as when selling a house, but need some other policy to decide.
+</p>
+
+<p>
+Both these problems can be solved as an optimal stopping problem.
+So, let's see how to do this, partly with Snell's envelope.
 I include some python code to get numerical output.
 </p>
-
+</div>
+</div>
+<div id="outline-container-org436bb9b" class="outline-2">
+<h2 id="org436bb9b">Selling a House</h2>
+<div class="outline-text-2" id="text-org436bb9b">
 <p>
-<a href="https://arminstraub.com/math/hiringsecretary">https://arminstraub.com/math/hiringsecretary</a> discusses the same problem in terms of the <a href="https://en.wikipedia.org/wiki/Secretary_problem">https://en.wikipedia.org/wiki/Secretary_problem</a>.
+When selling a house, at most \(n\) buyers will present their offers \(\{X_i\}_{i=1}^n\) , iid and uniform on \([0,1]\), one after the other.
+Rejected offers are lost.
+What is the best price?
+I used <a href="https://arminstraub.com/math/hiringsecretary">this site</a>, where the same problem is discussed in terms of the <a href="https://en.wikipedia.org/wiki/Secretary_problem">Secretary Problem</a>.
 </p>
 </div>
-</div>
-
-
-
-<div id="outline-container-orgb5f43ec" class="outline-2">
-<h2 id="orgb5f43ec">Best Offer Under a Fixed Threshold Policy</h2>
-<div class="outline-text-2" id="text-orgb5f43ec">
+<div id="outline-container-org3677b86" class="outline-3">
+<h3 id="org3677b86">Best Price Under a Fixed Threshold Policy</h3>
+<div class="outline-text-3" id="text-org3677b86">
 <p>
-Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\), which  remains fixed for the entire sales period.
-When we have \(\{X_i\}_{i=1}^n\) offers, iid and uniform on \([0,1]\), then this threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i &lt; q\).
+Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\) that remains fixed for the entire sales period.
+This threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i &lt; q\).
 The expected sales price becomes
 </p>
 \begin{equation*}
-\E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}}.
+\E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}},
 \end{equation*}
-
 <p>
+because the event \(\{\tau = i \}\) implies that the offer \(X_i\) of buyer \(i\) exceeds \(q\), and when \(\tau=\infty\) the threshold \(q\) was too high so that I have to accept the offer \(X_n\) of the last buyer.
+</p>
+
+<details style="padding: 1em;
+                          background-color: whitesmoke;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                         Exercise:
+                    </strong>
+                  </summary><p>
+Why is
+</p>
+\begin{align*}
+\E{X_i \1{\tau=i}}  q^{i-1} \frac{1-q^{2}}{2}?
+\end{align*}
+<details class="code-details" style="padding: 1em;
+                          background-color: white;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\E{X_i \1{\tau=i}} &amp;= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k &lt; q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
+&amp;= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
+\end{align*}
+
+
+</details><p>
 Clearly, by independence, for \(i<n>
 \begin{align*}
 \E{X_i \1{\tau=i}} &amp;= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k &lt; q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
@@ -154,10 +202,8 @@ Therefore,
 \E{X_{\tau}} &amp;= \frac{1-q^{2}}{2} \sum_{i=0}^{n-1} q^{i}  + \frac{q^{n+1}}2 = \frac{1+q}{2} (1-q^{n}) +  \frac{q^{n+1}}2 \\
 &amp;= \frac{1}{2}(1-q^{n} + q) =: v_n(q).
 \end{align*}
-
-
 <p>
-Given \(n\), the optimal threshold \(q\) follows from solving for \(q\) in \(\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0\),
+Given \(n\), the optimal threshold \(q\) follows from solving for \(q\) in \(\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0\). Thus,
 </p>
 \begin{align*}
 q = \left({\frac{1}{n}}\right)^{\frac{1}{n-1}}.
@@ -197,14 +243,12 @@ For the future I might consider some additional questions.
 <li>What is the probability that I will obtain the best price?</li>
 <li>What is the marginal value of increasing the number of house viewings by one?</li>
 <li>Suppose each viewing costs \(c\in [0, 1]\), what is the optimal number of house viewings?</li>
-</ol></n></p>
+</ol></n></p></details>
 </div>
 </div>
-
-
-<div id="outline-container-org5adc373" class="outline-2">
-<h2 id="org5adc373">Best Offer Under a Dynamic  Threshold Policy</h2>
-<div class="outline-text-2" id="text-org5adc373">
+<div id="outline-container-orgf9516ec" class="outline-3">
+<h3 id="orgf9516ec">Best Price Under a Dynamic  Threshold Policy</h3>
+<div class="outline-text-3" id="text-orgf9516ec">
 <p>
 A fixed threshold policy cannot be optimal, because the less visits we have left, the lower the acceptance threshold should be.
 We next find the optimal levels when we have \(1 \leq k \leq  n\) visits to go.
@@ -216,7 +260,7 @@ Then our expected price is \(v_1 = \E{X_n} = 1/2\).
 In general we accept offer \(X_{i}\) of buyer \(i\) when this exceeds the expected price \(v_{k}\) of the remaining \(k=n-i\) visits. Otherwise, we reject this offer. In other words, the expected price for \(k\) periods to go satisfies the recursion
 </p>
 \begin{align*}
-v_k &amp;= \E{\max\{X_{n-k}, v_{k-1}\}}  = \int_{v_{k-1}}^1 x \d x + \int_0^{v_{k-1}} v_{k-1} \d x = \frac{1}{2}(1-v_{k-1}^2) + v_{k-1}^2 \\
+v_k &amp;:= \E{\max\{X_{n-k}, v_{k-1}\}}  = \int_{v_{k-1}}^1 x \d x + \int_0^{v_{k-1}} v_{k-1} \d x = \frac{1}{2}(1-v_{k-1}^2) + v_{k-1}^2 \\
 &amp;= \frac{1}{2}(1 + v_{k-1}^2).
 \end{align*}
 <p>
@@ -245,29 +289,26 @@ v(10)=0.861098212205712
 </pre>
 </div>
 </div>
-
-
-<div id="outline-container-org603911e" class="outline-2">
-<h2 id="org603911e">Snell's Envelope</h2>
-<div class="outline-text-2" id="text-org603911e">
+<div id="outline-container-org74c76d7" class="outline-3">
+<h3 id="org74c76d7">Snell's Envelope</h3>
+<div class="outline-text-3" id="text-org74c76d7">
 <p>
 The optimal policy can be found by using a more general, but more abstract, framework, namely by means of <i>Snell's envelope</i>.
 Perhaps the easiest way to see how this works is to start with a theorem, stripped from some of its technical clutter.
-I copied it from `Promenade al\'etoire' by M.
-M.~Benaim and N.~EL Karoui.
+I copied it from `Promenade al\'etoire' by M. Benaïm and N. El Karoui.
 </p>
 
 
-<div class="theorem" id="org4323daa">
+<div class="theorem" id="orga353b41">
 <p>
 Consider a sequence of rvs \(\{X_i\}_{i=1}^n\) adapted to a filtration \(\{\F_{i}\}_{i=1}^{n}\).
-Introduce the sequence of rvs $\{Y<sub>i</sub>\} by backward recurrence as
+Introduce the sequence of rvs \(\{Y_i\}\) by backward recurrence as
 </p>
 \begin{align*}
-Y_i &amp;= \sup\{\E{Y_{i+1}|\F_{i}}, X_{i}\} &amp; Y_n &amp;= X_{n},
+Y_i &amp;= \sup\{\E{Y_{i+1}|\F_{i}}, X_{i}\}, \quad i &lt; n,  &amp; Y_n &amp;= X_{n},
 \end{align*}
 <p>
-and the stopping time \(\tau^*= \inf\{ k\leq n: Y_k = X_k\}\). Then,
+and the stopping time \(\tau^*= \inf\{ i\leq n: Y_i = X_i\}\). Then,
 </p>
 <ol class="org-ol">
 <li>the sequence \(\{Y_i\}\) is a super martingale, i.e., \(Y_i \geq \E{Y_{i+1} | \F_{i}}\) a.s.;</li>
@@ -281,13 +322,39 @@ The rv \(Y_i\) is the <i>Snell envelope</i> of \(X_i\), which is defined as the 
 
 </div>
 
-<div class="proof" id="org5063057">
+<div class="proof" id="orgf928b54">
 <p>
 To be included
 </p>
 
 </div>
+
+<p>
+Let's apply this theorem to the house selling problem. Take \(\F_{i} = \sigma\{X_k : k \leq i\}\). Starting the recursion from right to left,
+</p>
+\begin{align*}
+\E{Y_{n}} &amp;= \E{X_{n}} = v_{1},
+\end{align*}
+<p>
+since just before period \(n\), we have \(k=1\) buyers to go. From this,  using independence,
+</p>
+\begin{align*}
+\E{Y_{n} |\F_{n-1}} &amp;= \E{X_{n}|\F_{n-1}} = \E{X_{n}} = v_{1}, \\
+Y_{n-1} &amp;= \max\{\E{Y_{n} |\F_{n-1}}, X_{n-1}\} = \max\{v_1, X_{n-1}\}, \\
+\E{Y_{n-1}|\F_{n-2}} &amp;= \E{\max\{v_1, X_{n-1}\}} = v_{2},
+\end{align*}
+<p>
+as just before buyer \(n-1\) makes an offer, we have \(2\) offers to go.
+Continuing like this we retrieve our earlier values \(v_k\).
+Morever, when \(Y_i = X_i\) for the first time \(i\), then \(X_i \leq v_{n-i}\), that is, \(X_i\) is the first offer that exceeds the expected price when continuing.
+But this is precisely the policy we found above.
+By the theorem the stopping time \(\tau^*\) is optimal among all sellers (policies) that are willing to have \(n\) house visits.
+</p>
 </div>
+</div>
+</div>
+<div id="outline-container-org65da047" class="outline-2">
+<h2 id="org65da047">Buying a House</h2>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul class="pager hidden-print">
