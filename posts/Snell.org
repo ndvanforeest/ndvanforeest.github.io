@@ -53,11 +53,9 @@ The expected sales price becomes
 \end{equation*}
 because the event $\{\tau = i \}$ implies that the offer $X_i$ of buyer $i$ exceeds $q$, and when $\tau=\infty$ the threshold $q$ was too high so that I have to accept the offer $X_n$ of the last buyer.
 
+
 #+begin_exercise
-Why is
-\begin{align*}
-\E{X_i \1{\tau=i}}  q^{i-1} \frac{1-q^{2}}{2}?
-\end{align*}
+Why is $\E{X_i \1{\tau=i}} = q^{i-1} \frac{1-q^{2}}{2}$ for $i < n$?
 #+begin_solution
 \begin{align*}
 \E{X_i \1{\tau=i}} &= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k < q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
@@ -67,7 +65,7 @@ Why is
 #+end_exercise
 
 
-Clearly, by independence, for $i<n$,
+Clearly, by independence, for $i\leq n-1$,
 \begin{align*}
 \E{X_i \1{\tau=i}} &= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k < q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
 &= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},

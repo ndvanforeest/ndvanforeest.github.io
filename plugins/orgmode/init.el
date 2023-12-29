@@ -43,25 +43,29 @@
 ;;   (if (file-exists-p conf)
 ;;       (load-file conf)))
 
-(org-defblock exercise ()
-   (pcase backend
-     (`latex (format "\\begin{exercise}
-                                   %s
-                \\end{exercise}" contents))
-     ('html (format "<details
-                 style =\"padding: 1em;
-                          background-color: %s;
-                          border-radius: 15px;
-                          color: hsl(157 75% 20%);
-                          font-size: 1em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;\">
-                  <summary>
-                    <strong>
-                         Exercise:
-                    </strong>
-                  </summary>
-                   %s
-               </detais>" "whitesmoke" contents))))
+;; (org-defblock exercise ()
+;;    (pcase backend
+;;      (`latex (format "\\begin{exercise}
+;;                                    %s
+;;                 \\end{exercise}" contents))
+;;      ('html (format "<details
+;;                  style =\"padding: 1em;
+;;                           background-color: %s;
+;;                           border-radius: 15px;
+;;                           color: hsl(157 75% 20%);
+;;                           font-size: 1em;
+;;                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;\">
+;;                   <summary>
+;;                     <strong>
+;;                          Exercise:                    %s
+;;                     </strong>
+;;                   </summary>
+;;                </details>" "whitesmoke" contents))))
+
+(org-defblock exercise (title nil)
+  (org-thread-blockcall raw-contents
+    (box)))
+
 
 
 (org-defblock solution ()
