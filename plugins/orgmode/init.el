@@ -1,16 +1,36 @@
-;; Init file to use with the orgmode plugin.
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+(setq package-enable-at-startup nil)
 
-;; Load org-mode
-;; Requires org-mode v8.x
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
 
-(require 'package)
-(setq package-load-list '((htmlize t)))
-(package-initialize)
+(use-package htmlize
+  :ensure t)
+
+(use-package org-special-block-extras
+  :ensure t
+  :hook (org-mode . org-special-block-extras-mode)
+  ;; All relevant Lisp functions are prefixed ‘o-’; e.g., `o-docs-insert'.
+  :custom
+    (o-docs-libraries
+     '("~/org-special-block-extras/documentation.org")
+     "The places where I keep my ‘#+documentation’"))
+
 
 (require 'org)
 (require 'ox-html)
-
-;;; Custom configuration for the export.
+(require 'org-special-block-extras)
 
 ;;; Add any custom configuration that you would like to 'conf.el'.
 (setq nikola-use-pygments t
@@ -19,9 +39,53 @@
       org-startup-folded 'showeverything)
 
 ;; Load additional configuration from conf.el
-(let ((conf (expand-file-name "conf.el" (file-name-directory load-file-name))))
-  (if (file-exists-p conf)
-      (load-file conf)))
+;; (let ((conf (expand-file-name "conf.el" (file-name-directory load-file-name))))
+;;   (if (file-exists-p conf)
+;;       (load-file conf)))
+
+(org-defblock exercise ()
+   (pcase backend
+     (`latex (format "\\begin{exercise}
+                                   %s
+                \\end{exercise}" contents))
+     ('html (format "<details
+                 style =\"padding: 1em;
+                          background-color: %s;
+                          border-radius: 15px;
+                          color: hsl(157 75% 20%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;\">
+                  <summary>
+                    <strong>
+                         Exercise:
+                    </strong>
+                  </summary>
+                   %s
+               </detais>" "whitesmoke" contents))))
+
+
+(org-defblock solution ()
+   (pcase backend
+     (`latex (format "\\begin{solution}
+                                   %s
+                \\end{solution}" contents))
+     (_ (format "<details class=\"code-details\"
+                 style =\"padding: 1em;
+                          background-color: %s;
+                          border-radius: 15px;
+                          color: hsl(157 75% 20%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;\">
+                  <summary>
+                    <strong>
+                      <font face=\"Courier\" size=\"3\" color=\"red\">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+                  %s
+               </details>" "white" contents))))
+
 
 ;;; Macros
 

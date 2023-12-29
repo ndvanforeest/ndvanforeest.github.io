@@ -1,0 +1,211 @@
+% Created 2023-12-28 Thu 12:35
+% Intended LaTeX compiler: pdflatex
+\documentclass[a4paper]{article}
+
+\usepackage{a4wide}
+\usepackage[english]{babel}
+\usepackage{mathpazo}
+\usepackage{hyperref}
+\usepackage{mathtools,amsthm,amssymb,amsmath}
+\usepackage{tikz}
+\usepackage{cleveref}
+\usepackage{minted}
+\setminted[python]{linenos=true}
+\setminted[python]{frame=lines}
+\theoremstyle{definition}
+\newtheorem{exercise}{Ex}[section]
+\newtheorem{remark}{Rem}[section]
+\newtheorem{theorem}{Theorem}
+\newcommand{\Exp}[1]{\mathrm{Exp}(#1)}
+\newcommand{\Bern}[1]{\mathrm{Bern}(#1)}
+\newcommand{\Beta}[1]{\mathrm{Beta}(#1)}
+\newcommand{\FS}[1]{\mathrm{FS}(#1)}
+\newcommand{\DUnif}[1]{\mathrm{DUnif}(#1)}
+\newcommand{\Geo}[1]{\mathrm{Geo}(#1)}
+\newcommand{\NBin}[1]{\mathrm{NBin}(#1)}
+\newcommand{\Norm}[1]{\mathrm{Norm}(#1)}
+\newcommand{\Poi}[1]{\mathrm{Poi}(#1)}
+\newcommand{\Unif}[1]{\mathrm{Unif}(#1)}
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\d}[1]{\,\textrm{d}#1}
+\newcommand{\given}{\,\middle|\,}
+\renewcommand{\P}[1]{\,\mathsf{P}\left[#1\right]}
+\newcommand{\E}[1]{\,\mathsf{E}\/\left[#1\right]}
+\newcommand{\EE}[2]{\,\mathsf{E}_{#1}\left[#2\right]}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\V}[1]{\,\mathsf{V}\left[#1\right]}
+\newcommand{\VV}[2]{\,\mathsf{V}_{#1}\left[#2\right]}
+\newcommand{\cov}[1]{\,\mathsf{Cov}\left[#1\right]}
+\newcommand{\1}[1]{\,I_{#1}} % indicator
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+\newcommand{\iid}{\ensuremath{\mathrm{iid.}\,}}
+\newcommand{\nvf}[1]{\textbf{#1}}
+\author{Nicky}
+\date{\today}
+\title{Snell's Envelope, House Selling and Buying}
+\begin{document}
+
+\maketitle
+\section{Problem Setting}
+\label{sec:orgee72478}
+
+I have house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
+Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept an offer on the spot or reject it.
+If rejected, the offer is retracted, hence I cannot accept it at a later date.
+Under these rules, what is the best price I can expect?
+
+Once my house is sold, I want to buy a new house.
+As this is a multi-objective optimization problem, I don't want to use just the price of the house to decide to buy it or not.
+In this case I just assume I can rank the houses from best to worse.  Thus, I cannot use the same policy as when selling a house, but need some other policy to decide.
+
+Both these problems can be solved as an optimal stopping problem.
+So, let's see how to do this, partly with Snell's envelope.
+I include some python code to get numerical output.
+\section{Selling a House}
+\label{sec:orgf791005}
+
+When selling a house, at most \(n\) buyers will present their offers \(\{X_i\}_{i=1}^n\) , iid and uniform on \([0,1]\), one after the other.
+Rejected offers are lost.
+What is the best price?
+I used \href{https://arminstraub.com/math/hiringsecretary}{this site}, where the same problem is discussed in terms of the \href{https://en.wikipedia.org/wiki/Secretary\_problem}{Secretary Problem}.
+\subsection{Best Price Under a Fixed Threshold Policy}
+\label{sec:orga89b70a}
+
+Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\) that remains fixed for the entire sales period.
+This threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i < q\).
+The expected sales price becomes
+\begin{equation*}
+\E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}},
+\end{equation*}
+because the event \(\{\tau =i \}\) implies that the offer \(X_i\) of buyer \(i\) exceeds \(q\), and when \(\tau=\infty\) the threshold \(q\) was too high so that I have to accept the offer \(X_n\) of the last buyer.
+
+Clearly, by independence, for \(i<n\),
+\begin{align*}
+\E{X_i \1{\tau=i}} &= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k < q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
+&= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
+\end{align*}
+while for \(n\),
+\begin{align*}
+\E{X_n \1{\tau=\infty}} &= \E{X_n \1{X_i < q} \prod_{k=1}^{n-1} \1{X_k < q}}  = q^{n-1} \int_0^q x \d x = \frac{q^{n+1}}2.
+\end{align*}
+Therefore,
+\begin{align*}
+\E{X_{\tau}} &= \frac{1-q^{2}}{2} \sum_{i=0}^{n-1} q^{i}  + \frac{q^{n+1}}2 = \frac{1+q}{2} (1-q^{n}) +  \frac{q^{n+1}}2 \\
+&= \frac{1}{2}(1-q^{n} + q) =: v_n(q).
+\end{align*}
+Given \(n\), the optimal threshold \(q\) follows from solving for \(q\) in \(\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0\). Thus,
+\begin{align*}
+q = \left({\frac{1}{n}}\right)^{\frac{1}{n-1}}.
+\end{align*}
+
+Here is an example.
+
+\begin{minted}[]{python}
+def best_q(n):
+    return (1 / n) ** (1 / (n - 1))
+
+
+def v(n, q):
+    res = 1 - q**n + q
+    return res / 2
+
+
+n = 10
+q = best_q(n)
+value = v(n, q)
+print(f"{q=}")
+print(f"{v(n, q)=}")
+\end{minted}
+
+\begin{verbatim}
+q=0.7742636826811271
+v(n, q)=0.8484186572065071
+\end{verbatim}
+
+
+For the future I might consider some additional questions.
+
+\begin{enumerate}
+\item What is the probability that I will obtain the best price?
+\item What is the marginal value of increasing the number of house viewings by one?
+\item Suppose each viewing costs \(c\in [0, 1]\), what is the optimal number of house viewings?
+\end{enumerate}
+\subsection{Best Price Under a Dynamic  Threshold Policy}
+\label{sec:orgbf460ae}
+
+A fixed threshold policy cannot be optimal, because the less visits we have left, the lower the acceptance threshold should be.
+We next find the optimal levels when we have \(1 \leq k \leq  n\) visits to go.
+
+Suppose we have rejected the first \(n-1\) offers, so that we have only \(k=1\) visits to go.
+Then our expected price is \(v_1 = \E{X_n} = 1/2\).
+In general we accept offer \(X_{i}\) of buyer \(i\) when this exceeds the expected price \(v_{k}\) of the remaining \(k=n-i\) visits. Otherwise, we reject this offer. In other words, the expected price for \(k\) periods to go satisfies the recursion
+\begin{align*}
+v_k &:= \E{\max\{X_{n-k}, v_{k-1}\}}  = \int_{v_{k-1}}^1 x \d x + \int_0^{v_{k-1}} v_{k-1} \d x = \frac{1}{2}(1-v_{k-1}^2) + v_{k-1}^2 \\
+&= \frac{1}{2}(1 + v_{k-1}^2).
+\end{align*}
+Note that  \(v_{k} > v_{k-1}\) when \(v_{k-1}\neq 1\) because \(1 + v_{k-1}^2 > 2 v_{k-1} \iff v_{k-1} \neq 1\). Thus, a policy with a fixed threshold is not optimal.
+
+
+With memoization the code is very simple.
+\begin{minted}[]{python}
+from functools import cache
+
+
+@cache
+def v(k):
+    if k == 1:
+        return 1 / 2
+    return (1 + v(k - 1) ** 2) / 2
+
+
+print(f"{v(10)=}")
+\end{minted}
+
+\begin{verbatim}
+v(10)=0.861098212205712
+\end{verbatim}
+\subsection{Snell's Envelope}
+\label{sec:org6ac1a6f}
+
+The optimal policy can be found by using a more general, but more abstract, framework, namely by means of \emph{Snell's envelope}.
+Perhaps the easiest way to see how this works is to start with a theorem, stripped from some of its technical clutter.
+I copied it from `Promenade al$\backslash$'etoire' by M. Benaïm and N. El Karoui.
+
+
+\begin{theorem}
+Consider a sequence of rvs \(\{X_i\}_{i=1}^n\) adapted to a filtration \(\{\F_{i}\}_{i=1}^{n}\).
+Introduce the sequence of rvs \(\{Y_i\}\) by backward recurrence as
+\begin{align*}
+Y_i &= \sup\{\E{Y_{i+1}|\F_{i}}, X_{i}\}, \quad i < n,  & Y_n &= X_{n},
+\end{align*}
+and the stopping time \(\tau^*= \inf\{ i\leq n: Y_i = X_i\}\). Then,
+\begin{enumerate}
+\item the sequence \(\{Y_i\}\) is a super martingale, i.e., \(Y_i \geq \E{Y_{i+1} | \F_{i}}\) a.s.;
+\item \(\E{Y_1} = \E{Y_{\tau^*}} = \E{X_{\tau^*}} = \sup_{\tau\in T} \E{Y_\tau}\),
+where \(T\) is the set of stopping times smaller or equal to \(n\);
+\item the stopping time \(\tau^{*}\) is optimal.
+\end{enumerate}
+The rv \(Y_i\) is the \emph{Snell envelope} of \(X_i\), which is defined as the smallest super martingale  \(\geq X_i\).
+\end{theorem}
+
+\begin{proof}
+To be included
+\end{proof}
+
+Let's apply this theorem to the house selling problem. Take \(\F_{i} = \sigma\{X_k : k \leq i\}\). Starting the recursion from right to left,
+\begin{align*}
+\E{Y_{n}} &= \E{X_{n}} = v_{1},
+\end{align*}
+since just before period \(n\), we have \(k=1\) buyers to go. From this,  using independence,
+\begin{align*}
+\E{Y_{n} |\F_{n-1}} &= \E{X_{n}|\F_{n-1}} = \E{X_{n}} = v_{1}, \\
+Y_{n-1} &= \max\{\E{Y_{n} |\F_{n-1}}, X_{n-1}\} = \max\{v_1, X_{n-1}\}, \\
+\E{Y_{n-1}|\F_{n-2}} &= \E{\max\{v_1, X_{n-1}\}} = v_{2}.
+\end{align*}
+Continuing like this we retrieve our earlier values \(v_k\).
+Morever, when \(Y_i = X_i\) for the first time \(i\), then \(X_i \leq v_{n-i}\), that is, \(X_i\) is the first offer that exceeds the expected price when continuing.
+But this is precisely the policy we found above.
+By the theorem the stopping time \(\tau^*\) is optimal among all sellers (policies) that are willing to have \(n\) house visits.
+\section{Buying a House}
+\label{sec:orgadaa5f6}
+\end{document}

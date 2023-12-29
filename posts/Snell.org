@@ -11,9 +11,9 @@
 
 #+END_COMMENT
 
-#+title: HOi
-#+author: pietje
-#+setupfile: preamble.org
+#+title:  Snell's Envelope, House Selling and Buying
+#+author: Nicky
+#+setupfile: ../preamble.org
 
 #+options: toc:nil
 
@@ -21,22 +21,51 @@
 * Problem Setting
 
 I have house for sale and I am prepared to organize at most $n\geq 1$ house viewings.
-Assume that offers are idd rvs $\sim \Unif{[0,1]}$, what is the best offer I can expect?
-We will investigate this problem in steps, and end with an illustration of how Snell's envelope can be used to solve this problem.
+Assume that offers are idd rvs $\sim \Unif{[0,1]}$, and that I have to accept an offer on the spot or reject it.
+If rejected, the offer is retracted, hence I cannot accept it at a later date.
+Under these rules, what is the best price I can expect?
+
+Once my house is sold, I want to buy a new house.
+As this is a multi-objective optimization problem, I don't want to use just the price of the house to decide to buy it or not.
+In this case I just assume I can rank the houses from best to worse.  Thus, I cannot use the same policy as when selling a house, but need some other policy to decide.
+
+Both these problems can be solved as an optimal stopping problem.
+So, let's see how to do this, partly with Snell's envelope.
 I include some python code to get numerical output.
 
-https://arminstraub.com/math/hiringsecretary discusses the same problem in terms of the https://en.wikipedia.org/wiki/Secretary_problem.
 
 
+* Selling a House
 
-* Best Offer Under a Fixed Threshold Policy
+When selling a house, at most $n$ buyers will present their offers $\{X_i\}_{i=1}^n$ , iid and uniform on $[0,1]$, one after the other.
+Rejected offers are lost.
+What is the best price?
+I used [[https://arminstraub.com/math/hiringsecretary][this site]], where the same problem is discussed in terms of the [[https://en.wikipedia.org/wiki/Secretary_problem][Secretary Problem]].
 
-Let's start with a simple policy: I accept the first offer that exceeds some threshold $q$, which  remains fixed for the entire sales period.
-When we have $\{X_i\}_{i=1}^n$ offers, iid and uniform on $[0,1]$, then this threshold policy can be formulated in terms of the stopping time $\tau = \inf\{i : X_i \geq q\}$, where $\inf \varnothing = \infty$ so that $\tau=\infty$ when all $X_i < q$.
+
+** Best Price Under a Fixed Threshold Policy
+
+Let's start with a simple policy: I accept the first offer that exceeds some threshold $q$ that remains fixed for the entire sales period.
+This threshold policy can be formulated in terms of the stopping time $\tau = \inf\{i : X_i \geq q\}$, where $\inf \varnothing = \infty$ so that $\tau=\infty$ when all $X_i < q$.
 The expected sales price becomes
 \begin{equation*}
-\E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}}.
+\E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}},
 \end{equation*}
+because the event $\{\tau = i \}$ implies that the offer $X_i$ of buyer $i$ exceeds $q$, and when $\tau=\infty$ the threshold $q$ was too high so that I have to accept the offer $X_n$ of the last buyer.
+
+#+begin_exercise
+Why is
+\begin{align*}
+\E{X_i \1{\tau=i}}  q^{i-1} \frac{1-q^{2}}{2}?
+\end{align*}
+#+begin_solution
+\begin{align*}
+\E{X_i \1{\tau=i}} &= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k < q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
+&= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
+\end{align*}
+#+end_solution
+#+end_exercise
+
 
 Clearly, by independence, for $i<n$,
 \begin{align*}
@@ -52,9 +81,7 @@ Therefore,
 \E{X_{\tau}} &= \frac{1-q^{2}}{2} \sum_{i=0}^{n-1} q^{i}  + \frac{q^{n+1}}2 = \frac{1+q}{2} (1-q^{n}) +  \frac{q^{n+1}}2 \\
 &= \frac{1}{2}(1-q^{n} + q) =: v_n(q).
 \end{align*}
-
-
-Given $n$, the optimal threshold $q$ follows from solving for $q$ in $\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0$,
+Given $n$, the optimal threshold $q$ follows from solving for $q$ in $\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0$. Thus,
 \begin{align*}
 q = \left({\frac{1}{n}}\right)^{\frac{1}{n-1}}.
 \end{align*}
@@ -89,7 +116,7 @@ For the future I might consider some additional questions.
 3. Suppose each viewing costs $c\in [0, 1]$, what is the optimal number of house viewings?
 
 
-* Best Offer Under a Dynamic  Threshold Policy
+** Best Price Under a Dynamic  Threshold Policy
 
 A fixed threshold policy cannot be optimal, because the less visits we have left, the lower the acceptance threshold should be.
 We next find the optimal levels when we have $1 \leq k \leq  n$ visits to go.
@@ -98,7 +125,7 @@ Suppose we have rejected the first $n-1$ offers, so that we have only $k=1$ visi
 Then our expected price is $v_1 = \E{X_n} = 1/2$.
 In general we accept offer $X_{i}$ of buyer $i$ when this exceeds the expected price $v_{k}$ of the remaining $k=n-i$ visits. Otherwise, we reject this offer. In other words, the expected price for $k$ periods to go satisfies the recursion
 \begin{align*}
-v_k &= \E{\max\{X_{n-k}, v_{k-1}\}}  = \int_{v_{k-1}}^1 x \d x + \int_0^{v_{k-1}} v_{k-1} \d x = \frac{1}{2}(1-v_{k-1}^2) + v_{k-1}^2 \\
+v_k &:= \E{\max\{X_{n-k}, v_{k-1}\}}  = \int_{v_{k-1}}^1 x \d x + \int_0^{v_{k-1}} v_{k-1} \d x = \frac{1}{2}(1-v_{k-1}^2) + v_{k-1}^2 \\
 &= \frac{1}{2}(1 + v_{k-1}^2).
 \end{align*}
 Note that  $v_{k} > v_{k-1}$ when $v_{k-1}\neq 1$ because $1 + v_{k-1}^2 > 2 v_{k-1} \iff v_{k-1} \neq 1$. Thus, a policy with a fixed threshold is not optimal.
@@ -123,21 +150,20 @@ print(f"{v(10)=}")
 : v(10)=0.861098212205712
 
 
-* Snell's Envelope
+** Snell's Envelope
 
 The optimal policy can be found by using a more general, but more abstract, framework, namely by means of /Snell's envelope/.
 Perhaps the easiest way to see how this works is to start with a theorem, stripped from some of its technical clutter.
-I copied it from `Promenade al\'etoire' by M.
-M.~Benaim and N.~EL Karoui.
+I copied it from `Promenade al\'etoire' by M. Benaïm and N. El Karoui.
 
 
 #+begin_theorem
 Consider a sequence of rvs $\{X_i\}_{i=1}^n$ adapted to a filtration $\{\F_{i}\}_{i=1}^{n}$.
-Introduce the sequence of rvs $\{Y_i\} by backward recurrence as
+Introduce the sequence of rvs $\{Y_i\}$ by backward recurrence as
 \begin{align*}
-Y_i &= \sup\{\E{Y_{i+1}|\F_{i}}, X_{i}\} & Y_n &= X_{n},
+Y_i &= \sup\{\E{Y_{i+1}|\F_{i}}, X_{i}\}, \quad i < n,  & Y_n &= X_{n},
 \end{align*}
-and the stopping time $\tau^*= \inf\{ k\leq n: Y_k = X_k\}$. Then,
+and the stopping time $\tau^*= \inf\{ i\leq n: Y_i = X_i\}$. Then,
 1. the sequence $\{Y_i\}$ is a super martingale, i.e., $Y_i \geq \E{Y_{i+1} | \F_{i}}$ a.s.;
 2. $\E{Y_1} = \E{Y_{\tau^*}} = \E{X_{\tau^*}} = \sup_{\tau\in T} \E{Y_\tau}$,
    where $T$ is the set of stopping times smaller or equal to $n$;
@@ -148,3 +174,21 @@ The rv $Y_i$ is the /Snell envelope/ of $X_i$, which is defined as the smallest 
 #+begin_proof
 To be included
 #+end_proof
+
+Let's apply this theorem to the house selling problem. Take $\F_{i} = \sigma\{X_k : k \leq i\}$. Starting the recursion from right to left,
+\begin{align*}
+\E{Y_{n}} &= \E{X_{n}} = v_{1},
+\end{align*}
+since just before period $n$, we have $k=1$ buyers to go. From this,  using independence,
+\begin{align*}
+\E{Y_{n} |\F_{n-1}} &= \E{X_{n}|\F_{n-1}} = \E{X_{n}} = v_{1}, \\
+Y_{n-1} &= \max\{\E{Y_{n} |\F_{n-1}}, X_{n-1}\} = \max\{v_1, X_{n-1}\}, \\
+\E{Y_{n-1}|\F_{n-2}} &= \E{\max\{v_1, X_{n-1}\}} = v_{2},
+\end{align*}
+as just before buyer $n-1$ makes an offer, we have $2$ offers to go.
+Continuing like this we retrieve our earlier values $v_k$.
+Morever, when $Y_i = X_i$ for the first time $i$, then $X_i \leq v_{n-i}$, that is, $X_i$ is the first offer that exceeds the expected price when continuing.
+But this is precisely the policy we found above.
+By the theorem the stopping time $\tau^*$ is optimal among all sellers (policies) that are willing to have $n$ house visits.
+
+* Buying a House
