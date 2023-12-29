@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2023 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Fri, 29 Dec 2023 16:27:17 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Snell's Envelope, House Selling and Buying</title><link>https://ndvanforeest.github.io/posts/snells-envelope-house-selling-and-buying/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-org5504f59" class="outline-2"&gt;
-&lt;h2 id="org5504f59"&gt;Problem Setting&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5504f59"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2023 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Fri, 29 Dec 2023 16:51:13 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Snell's Envelope, House Selling and Buying</title><link>https://ndvanforeest.github.io/posts/snells-envelope-house-selling-and-buying/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-org8a0dc5e" class="outline-2"&gt;
+&lt;h2 id="org8a0dc5e"&gt;Problem Setting&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8a0dc5e"&gt;
 &lt;p&gt;
 I have house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
 Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept an offer on the spot or reject it.
@@ -22,9 +22,9 @@ I include some python code to get numerical output.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org436bb9b" class="outline-2"&gt;
-&lt;h2 id="org436bb9b"&gt;Selling a House&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org436bb9b"&gt;
+&lt;div id="outline-container-orgdf72d29" class="outline-2"&gt;
+&lt;h2 id="orgdf72d29"&gt;Selling a House&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdf72d29"&gt;
 &lt;p&gt;
 When selling a house, at most \(n\) buyers will present their offers \(\{X_i\}_{i=1}^n\) , iid and uniform on \([0,1]\), one after the other.
 Rejected offers are lost.
@@ -32,9 +32,9 @@ What is the best price?
 I used &lt;a href="https://arminstraub.com/math/hiringsecretary"&gt;this site&lt;/a&gt;, where the same problem is discussed in terms of the &lt;a href="https://en.wikipedia.org/wiki/Secretary_problem"&gt;Secretary Problem&lt;/a&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org3677b86" class="outline-3"&gt;
-&lt;h3 id="org3677b86"&gt;Best Price Under a Fixed Threshold Policy&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org3677b86"&gt;
+&lt;div id="outline-container-org5b6d720" class="outline-3"&gt;
+&lt;h3 id="org5b6d720"&gt;Best Price Under a Fixed Threshold Policy&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5b6d720"&gt;
 &lt;p&gt;
 Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\) that remains fixed for the entire sales period.
 This threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i &amp;lt; q\).
@@ -47,23 +47,11 @@ The expected sales price becomes
 because the event \(\{\tau = i \}\) implies that the offer \(X_i\) of buyer \(i\) exceeds \(q\), and when \(\tau=\infty\) the threshold \(q\) was too high so that I have to accept the offer \(X_n\) of the last buyer.
 &lt;/p&gt;
 
-&lt;details style="padding: 1em;
-                          background-color: whitesmoke;
-                          border-radius: 15px;
-                          color: hsl(157 75%);
-                          font-size: 1em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
-                  &lt;summary&gt;
-                    &lt;strong&gt;
-                         Exercise:
-                    &lt;/strong&gt;
-                  &lt;/summary&gt;
+
+&lt;div style="padding: 1em;background-color: #CCFFCC;border-radius: 15px;font-size: 0.9em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
 &lt;p&gt;
-Why is
+Why is \(\E{X_i \1{\tau=i}} = q^{i-1} \frac{1-q^{2}}{2}\) for \(i &amp;lt; n\)?
 &lt;/p&gt;
-\begin{align*}
-\E{X_i \1{\tau=i}}  q^{i-1} \frac{1-q^{2}}{2}?
-\end{align*}
 &lt;details class="code-details" style="padding: 1em;
                           background-color: white;
                           border-radius: 15px;
@@ -85,12 +73,10 @@ Why is
 
 &lt;/details&gt;
 
-
-
-
-
+&lt;/div&gt;
 &lt;p&gt;
-Clearly, by independence, for \(i&lt;n&gt;
+Clearly, by independence, for \(i\leq n-1\),
+&lt;/p&gt;
 \begin{align*}
 \E{X_i \1{\tau=i}} &amp;amp;= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k &amp;lt; q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
 &amp;amp;= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
@@ -150,11 +136,11 @@ For the future I might consider some additional questions.
 &lt;li&gt;What is the marginal value of increasing the number of house viewings by one?&lt;/li&gt;
 &lt;li&gt;Suppose each viewing costs \(c\in [0, 1]\), what is the optimal number of house viewings?&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/n&gt;&lt;/p&gt;&lt;/details&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf9516ec" class="outline-3"&gt;
-&lt;h3 id="orgf9516ec"&gt;Best Price Under a Dynamic  Threshold Policy&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf9516ec"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org44a6c09" class="outline-3"&gt;
+&lt;h3 id="org44a6c09"&gt;Best Price Under a Dynamic  Threshold Policy&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org44a6c09"&gt;
 &lt;p&gt;
 A fixed threshold policy cannot be optimal, because the less visits we have left, the lower the acceptance threshold should be.
 We next find the optimal levels when we have \(1 \leq k \leq  n\) visits to go.
@@ -195,9 +181,9 @@ v(10)=0.861098212205712
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org74c76d7" class="outline-3"&gt;
-&lt;h3 id="org74c76d7"&gt;Snell's Envelope&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org74c76d7"&gt;
+&lt;div id="outline-container-orgcc5233f" class="outline-3"&gt;
+&lt;h3 id="orgcc5233f"&gt;Snell's Envelope&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgcc5233f"&gt;
 &lt;p&gt;
 The optimal policy can be found by using a more general, but more abstract, framework, namely by means of &lt;i&gt;Snell's envelope&lt;/i&gt;.
 Perhaps the easiest way to see how this works is to start with a theorem, stripped from some of its technical clutter.
@@ -205,7 +191,7 @@ I copied it from `Promenade al\'etoire' by M. Benaïm and N. El Karoui.
 &lt;/p&gt;
 
 
-&lt;div class="theorem" id="orga353b41"&gt;
+&lt;div class="theorem" id="org7b3573d"&gt;
 &lt;p&gt;
 Consider a sequence of rvs \(\{X_i\}_{i=1}^n\) adapted to a filtration \(\{\F_{i}\}_{i=1}^{n}\).
 Introduce the sequence of rvs \(\{Y_i\}\) by backward recurrence as
@@ -228,7 +214,7 @@ The rv \(Y_i\) is the &lt;i&gt;Snell envelope&lt;/i&gt; of \(X_i\), which is def
 
 &lt;/div&gt;
 
-&lt;div class="proof" id="orgf928b54"&gt;
+&lt;div class="proof" id="orgc0c2c21"&gt;
 &lt;p&gt;
 To be included
 &lt;/p&gt;
@@ -259,8 +245,8 @@ By the theorem the stopping time \(\tau^*\) is optimal among all sellers (polici
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org65da047" class="outline-2"&gt;
-&lt;h2 id="org65da047"&gt;Buying a House&lt;/h2&gt;
+&lt;div id="outline-container-orgb7c0710" class="outline-2"&gt;
+&lt;h2 id="orgb7c0710"&gt;Buying a House&lt;/h2&gt;
 &lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/snells-envelope-house-selling-and-buying/</guid><pubDate>Tue, 26 Dec 2023 18:07:41 GMT</pubDate></item><item><title>Vickery auctions</title><link>https://ndvanforeest.github.io/posts/vickery-auctions/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;p&gt;
 To practice a bit more with the \(O\) hoi symbol, given a list of \(n\) elements,  the following code finds the largest element:
 &lt;/p&gt;

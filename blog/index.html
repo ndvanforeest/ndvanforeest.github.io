@@ -86,9 +86,9 @@ bg-dark
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org5504f59" class="outline-2">
-<h2 id="org5504f59">Problem Setting</h2>
-<div class="outline-text-2" id="text-org5504f59">
+    <div id="outline-container-org8a0dc5e" class="outline-2">
+<h2 id="org8a0dc5e">Problem Setting</h2>
+<div class="outline-text-2" id="text-org8a0dc5e">
 <p>
 I have house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
 Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept an offer on the spot or reject it.
@@ -109,9 +109,9 @@ I include some python code to get numerical output.
 </p>
 </div>
 </div>
-<div id="outline-container-org436bb9b" class="outline-2">
-<h2 id="org436bb9b">Selling a House</h2>
-<div class="outline-text-2" id="text-org436bb9b">
+<div id="outline-container-orgdf72d29" class="outline-2">
+<h2 id="orgdf72d29">Selling a House</h2>
+<div class="outline-text-2" id="text-orgdf72d29">
 <p>
 When selling a house, at most \(n\) buyers will present their offers \(\{X_i\}_{i=1}^n\) , iid and uniform on \([0,1]\), one after the other.
 Rejected offers are lost.
@@ -119,9 +119,9 @@ What is the best price?
 I used <a href="https://arminstraub.com/math/hiringsecretary">this site</a>, where the same problem is discussed in terms of the <a href="https://en.wikipedia.org/wiki/Secretary_problem">Secretary Problem</a>.
 </p>
 </div>
-<div id="outline-container-org3677b86" class="outline-3">
-<h3 id="org3677b86">Best Price Under a Fixed Threshold Policy</h3>
-<div class="outline-text-3" id="text-org3677b86">
+<div id="outline-container-org5b6d720" class="outline-3">
+<h3 id="org5b6d720">Best Price Under a Fixed Threshold Policy</h3>
+<div class="outline-text-3" id="text-org5b6d720">
 <p>
 Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\) that remains fixed for the entire sales period.
 This threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i &lt; q\).
@@ -134,20 +134,11 @@ The expected sales price becomes
 because the event \(\{\tau = i \}\) implies that the offer \(X_i\) of buyer \(i\) exceeds \(q\), and when \(\tau=\infty\) the threshold \(q\) was too high so that I have to accept the offer \(X_n\) of the last buyer.
 </p>
 
-<details style="padding: 1em;
-                          background-color: whitesmoke;
-                          border-radius: 15px;
-                          color: hsl(157 75%);
-                          font-size: 1em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
-                         Exercise:
-                    </strong>
-                  </summary><p>
-Why is
+
+<div style="padding: 1em;background-color: #CCFFCC;border-radius: 15px;font-size: 0.9em;"> <h3></h3> 
+<p>
+Why is \(\E{X_i \1{\tau=i}} = q^{i-1} \frac{1-q^{2}}{2}\) for \(i &lt; n\)?
 </p>
-\begin{align*}
-\E{X_i \1{\tau=i}}  q^{i-1} \frac{1-q^{2}}{2}?
-\end{align*}
 <details class="code-details" style="padding: 1em;
                           background-color: white;
                           border-radius: 15px;
@@ -165,8 +156,11 @@ Why is
 \end{align*}
 
 
-</details><p>
-Clearly, by independence, for \(i<n>
+</details>
+</div>
+<p>
+Clearly, by independence, for \(i\leq n-1\),
+</p>
 \begin{align*}
 \E{X_i \1{\tau=i}} &amp;= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k &lt; q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
 &amp;= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
@@ -225,12 +219,12 @@ For the future I might consider some additional questions.
 <li>What is the probability that I will obtain the best price?</li>
 <li>What is the marginal value of increasing the number of house viewings by one?</li>
 <li>Suppose each viewing costs \(c\in [0, 1]\), what is the optimal number of house viewings?</li>
-</ol></n></p></details>
+</ol>
 </div>
 </div>
-<div id="outline-container-orgf9516ec" class="outline-3">
-<h3 id="orgf9516ec">Best Price Under a Dynamic  Threshold Policy</h3>
-<div class="outline-text-3" id="text-orgf9516ec">
+<div id="outline-container-org44a6c09" class="outline-3">
+<h3 id="org44a6c09">Best Price Under a Dynamic  Threshold Policy</h3>
+<div class="outline-text-3" id="text-org44a6c09">
 <p>
 A fixed threshold policy cannot be optimal, because the less visits we have left, the lower the acceptance threshold should be.
 We next find the optimal levels when we have \(1 \leq k \leq  n\) visits to go.
@@ -271,9 +265,9 @@ v(10)=0.861098212205712
 </pre>
 </div>
 </div>
-<div id="outline-container-org74c76d7" class="outline-3">
-<h3 id="org74c76d7">Snell's Envelope</h3>
-<div class="outline-text-3" id="text-org74c76d7">
+<div id="outline-container-orgcc5233f" class="outline-3">
+<h3 id="orgcc5233f">Snell's Envelope</h3>
+<div class="outline-text-3" id="text-orgcc5233f">
 <p>
 The optimal policy can be found by using a more general, but more abstract, framework, namely by means of <i>Snell's envelope</i>.
 Perhaps the easiest way to see how this works is to start with a theorem, stripped from some of its technical clutter.
@@ -281,7 +275,7 @@ I copied it from `Promenade al\'etoire' by M. Benaïm and N. El Karoui.
 </p>
 
 
-<div class="theorem" id="orga353b41">
+<div class="theorem" id="org7b3573d">
 <p>
 Consider a sequence of rvs \(\{X_i\}_{i=1}^n\) adapted to a filtration \(\{\F_{i}\}_{i=1}^{n}\).
 Introduce the sequence of rvs \(\{Y_i\}\) by backward recurrence as
@@ -304,7 +298,7 @@ The rv \(Y_i\) is the <i>Snell envelope</i> of \(X_i\), which is defined as the 
 
 </div>
 
-<div class="proof" id="orgf928b54">
+<div class="proof" id="orgc0c2c21">
 <p>
 To be included
 </p>
@@ -335,8 +329,8 @@ By the theorem the stopping time \(\tau^*\) is optimal among all sellers (polici
 </div>
 </div>
 </div>
-<div id="outline-container-org65da047" class="outline-2">
-<h2 id="org65da047">Buying a House</h2>
+<div id="outline-container-orgb7c0710" class="outline-2">
+<h2 id="orgb7c0710">Buying a House</h2>
 </div>
     </div>
     </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/vickery-auctions/" class="u-url">Vickery auctions</a></h1>
