@@ -1,3 +1,66 @@
+#+BEGIN_COMMENT
+.. title: Making an Exercise and Solution Environment
+.. slug: making-an-exercise-and-solution-environment
+.. date: 2023-12-29 20:30:01 UTC+01:00
+.. tags:
+.. category:
+.. link:
+.. description:
+.. type: text
+
+#+END_COMMENT
+
+#+title:  Making an Exercise and Solution Environment
+#+author: Nicky
+#+setupfile: ../preamble.org
+
+#+options: toc:nil
+
+* The Problem
+
+In a number of my org mode files I include exercise with hints and solutions.
+In the pdf files, which I make via \LaTeX, I use the ~answers~ package print the exercises in the main text and the hints and solutions at the end of the file.
+When exporting the file to ~html~ via my homepage I would like to see the exercises, hints and solutions printed like so:
+
+#+begin_exercise
+How to make an excercise environment like this?
+#+begin_hint
+And a hint like this?
+#+end_hint
+#+begin_solution
+To see how to do this, read on.
+#+end_solution
+#+end_exercise
+
+* My Environment
+
+I use ~emacs~ and ~org mode~ to write files, and ~nikola~ to make my homepage.
+After some searching on the web, I found the [[http://alhassy.com/org-special-block-extras/][~org-special-blocks-extra~]] package which proved promissing for my goal.
+The related [[https://github.com/alhassy/org-special-block-extras][github]] page shows how to install it.
+Here are the steps I followed.
+
+First I installed the ~org mode~ plugin for ~nikola~. The ~orgmode.py~ file shows that the next command can used to convert an ~org~ to an ~html~ file that ~nikola~ can read.
+#+begin_src shell
+/usr/bin/emacs --batch -l init.el --eval '(nikola-html-export "input.org" "output.html")'
+#+end_src
+The org mode plugin also provides an ~init.el~ file that I used as a starting point.
+
+#+begin_exercise
+The ~init.el~ file contains the line ~(setq package-load-list '((htmlize t)))~. This should be removed. Why?
+#+begin_solution
+I need to install ~org-special-blocks-extra~, and this command prevents that.
+#+end_solution
+#+end_exercise
+
+Since I need functionality from the special org blocks, I have to update the ~init.el~ anyway, so here it is.
+
+* The adapted ~init.el~
+
+** Loading the relevant packages
+
+Since I use  ~straight~ and ~use-package~, I need to put this on the top of the ~init.el~ file. I copied this straight from my regular ~init.el~
+
+#+begin_src emacs-lisp  :tangle "init.el"
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -14,7 +77,11 @@
 
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
+#+end_src
 
+Next I load two packages. The hook on ~org-mode~ is necessary.
+
+#+begin_src emacs-lisp :tangle "init.el"
 (use-package htmlize
   :ensure t)
 
@@ -28,16 +95,17 @@
      "The places where I keep my ‘#+documentation’"))
 
 
+
 (require 'org)
 (require 'ox-html)
 (require 'org-special-block-extras)
+#+end_src
 
-;;; Add any custom configuration that you would like to 'conf.el'.
-(setq nikola-use-pygments t
-      org-export-with-toc nil
-      org-export-with-section-numbers nil
-      org-startup-folded 'showeverything)
+** Updating the code for ~box~ and ~details~ blocks
 
+I adapted the fontsizes and the padding of the ~details~ block of ~org-special-blocks-extra~.
+I just copied the relevant part of  ~org-special-blocks-extra.el~, removed the documentation string, and changed the padding and font size.
+#+begin_src emacs-lisp :tangle "init.el"
 (org-defblock details (title "Details"
               background-color "#e5f5e5" title-color "green")
    (pcase backend
@@ -68,7 +136,11 @@
                   </summary>
                   %s
                </details>" background-color title-color title contents))))
+#+end_src
 
+And also for the  ~box~ block.
+
+#+begin_src emacs-lisp :tangle "init.el"
 
 (org-defblock box (title "" background-color nil shadow nil)
   (pcase backend
@@ -111,7 +183,12 @@
                                    (:otherwise (-let [(X Y Z W) shadow]
                                         (funcall haze X Y Z W)))))))
                  title contents)))))
+#+end_src
 
+** Making the exercise, hint and solution blocks
+
+The exercise, hint and solution blocks are now simple to implement (after I read the examples on [[http://alhassy.com/org-special-block-extras/][~org-special-blocks-extra~]]).
+#+begin_src emacs-lisp :tangle "init.el"
 (org-defblock exercise (title nil)
   (org-thread-blockcall raw-contents
     (box )))
@@ -125,126 +202,15 @@
   (org-thread-blockcall raw-contents
     (details title))) ; :title-color "red")))
 
+#+end_src
 
+I copied the above on top of the ~init.el~ file, and kept the rest.
 
-;;; Macros
+* Testing
 
-;; Load Nikola macros
-(setq nikola-macro-templates
-      (with-current-buffer
-          (find-file
-           (expand-file-name "macros.org" (file-name-directory load-file-name)))
-        (org-macro--collect-macros)))
+Let's test in on this file. As this file sits in the ~posts~ we need to include the path to  ~init.el~.
+#+begin_src shell
+/usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "making-an-exercise-environment.org" "~/tmp/output.html")'
+#+end_src
 
-;;; Code highlighting
-(defun org-html-decode-plain-text (text)
-  "Convert HTML character to plain TEXT. i.e. do the inversion of
-     `org-html-encode-plain-text`. Possible conversions are set in
-     `org-html-protect-char-alist'."
-  (mapc
-   (lambda (pair)
-     (setq text (replace-regexp-in-string (cdr pair) (car pair) text t t)))
-   (reverse org-html-protect-char-alist))
-  text)
-
-;; Use pygments highlighting for code
-(defun pygmentize (lang code)
-  "Use Pygments to highlight the given code and return the output"
-  (with-temp-buffer
-    (insert code)
-    (let ((lang (or (cdr (assoc lang org-pygments-language-alist)) "text")))
-      (shell-command-on-region (point-min) (point-max)
-                               (format "pygmentize -f html -l %s" lang)
-                               (buffer-name) t))
-    (buffer-string)))
-
-(defconst org-pygments-language-alist
-  '(("asymptote" . "asymptote")
-    ("awk" . "awk")
-    ("c" . "c")
-    ("console" . "console")
-    ("c++" . "cpp")
-    ("cpp" . "cpp")
-    ("clojure" . "clojure")
-    ("css" . "css")
-    ("d" . "d")
-    ("emacs-lisp" . "scheme")
-    ("F90" . "fortran")
-    ("gnuplot" . "gnuplot")
-    ("groovy" . "groovy")
-    ("haskell" . "haskell")
-    ("java" . "java")
-    ("js" . "js")
-    ("julia" . "julia")
-    ("latex" . "latex")
-    ("lisp" . "lisp")
-    ("makefile" . "makefile")
-    ("matlab" . "matlab")
-    ("mscgen" . "mscgen")
-    ("ocaml" . "ocaml")
-    ("octave" . "octave")
-    ("perl" . "perl")
-    ("picolisp" . "scheme")
-    ("python" . "python")
-    ("r" . "r")
-    ("ruby" . "ruby")
-    ("sass" . "sass")
-    ("scala" . "scala")
-    ("scheme" . "scheme")
-    ("sh" . "sh")
-    ("shell-session" . "shell-session")
-    ("sql" . "sql")
-    ("sqlite" . "sqlite3")
-    ("tcl" . "tcl"))
-  "Alist between org-babel languages and Pygments lexers.
-lang is downcased before assoc, so use lowercase to describe language available.
-See: http://orgmode.org/worg/org-contrib/babel/languages.html and
-http://pygments.org/docs/lexers/ for adding new languages to the mapping.")
-
-;; Override the html export function to use pygments
-(defun org-html-src-block (src-block contents info)
-  "Transcode a SRC-BLOCK element from Org to HTML.
-CONTENTS holds the contents of the item.  INFO is a plist holding
-contextual information."
-  (if (org-export-read-attribute :attr_html src-block :textarea)
-      (org-html--textarea-block src-block)
-    (let ((lang (org-element-property :language src-block))
-          (code (org-element-property :value src-block))
-          (code-html (org-html-format-code src-block info)))
-      (if nikola-use-pygments
-          (progn
-            (unless lang (setq lang ""))
-            (pygmentize (downcase lang) (org-html-decode-plain-text code)))
-        code-html))))
-
-;; Export images with custom link type
-(defun org-custom-link-img-url-export (path desc format)
-  (cond
-   ((eq format 'html)
-    (format "<img src=\"%s\" alt=\"%s\"/>" path desc))))
-(org-add-link-type "img-url" nil 'org-custom-link-img-url-export)
-
-;; Export images with built-in file scheme
-(defun org-file-link-img-url-export (path desc format)
-  (cond
-   ((eq format 'html)
-    (format "<img src=\"/%s\" alt=\"%s\"/>" path desc))))
-(org-add-link-type "file" nil 'org-file-link-img-url-export)
-
-;; Support for magic links (link:// scheme)
-(org-link-set-parameters
-  "link"
-  :export (lambda (path desc backend)
-             (cond
-               ((eq 'html backend)
-                (format "<a href=\"link:%s\">%s</a>"
-                        path (or desc path))))))
-
-;; Export function used by Nikola.
-(defun nikola-html-export (infile outfile)
-  "Export the body only of the input file and write it to
-specified location."
-  (with-current-buffer (find-file infile)
-    (org-macro-replace-all nikola-macro-templates)
-    (org-html-export-as-html nil nil t t)
-    (write-file outfile nil)))
+#+RESULTS:

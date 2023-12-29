@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{p}{(}\PYG{n+nb}{defvar}\PYG{+w}{ }\PYG{n+nv}{bootstrap\PYGZhy{}version}\PYG{p}{)}
+\PYG{p}{(}\PYG{k}{let}\PYG{+w}{ }\PYG{p}{((}\PYG{n+nv}{bootstrap\PYGZhy{}file}
+\PYG{+w}{       }\PYG{p}{(}\PYG{n+nv}{expand\PYGZhy{}file\PYGZhy{}name}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}straight/repos/straight.el/bootstrap.el\PYGZdq{}}\PYG{+w}{ }\PYG{n+nv}{user\PYGZhy{}emacs\PYGZhy{}directory}\PYG{p}{))}
+\PYG{+w}{      }\PYG{p}{(}\PYG{n+nv}{bootstrap\PYGZhy{}version}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{p}{))}
+\PYG{+w}{  }\PYG{p}{(}\PYG{n+nb}{unless}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{file\PYGZhy{}exists\PYGZhy{}p}\PYG{+w}{ }\PYG{n+nv}{bootstrap\PYGZhy{}file}\PYG{p}{)}
+\PYG{+w}{    }\PYG{p}{(}\PYG{n+nv}{with\PYGZhy{}current\PYGZhy{}buffer}
+\PYG{+w}{        }\PYG{p}{(}\PYG{n+nv}{url\PYGZhy{}retrieve\PYGZhy{}synchronously}
+\PYG{+w}{         }\PYG{l+s}{\PYGZdq{}https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el\PYGZdq{}}
+\PYG{+w}{         }\PYG{l+s+ss}{\PYGZsq{}silent}\PYG{+w}{ }\PYG{l+s+ss}{\PYGZsq{}inhibit\PYGZhy{}cookies}\PYG{p}{)}
+\PYG{+w}{      }\PYG{p}{(}\PYG{n+nv}{goto\PYGZhy{}char}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{point\PYGZhy{}max}\PYG{p}{))}
+\PYG{+w}{      }\PYG{p}{(}\PYG{n+nv}{eval\PYGZhy{}print\PYGZhy{}last\PYGZhy{}sexp}\PYG{p}{)))}
+\PYG{+w}{  }\PYG{p}{(}\PYG{n+nb}{load}\PYG{+w}{ }\PYG{n+nv}{bootstrap\PYGZhy{}file}\PYG{+w}{ }\PYG{n+no}{nil}\PYG{+w}{ }\PYG{l+s+ss}{\PYGZsq{}nomessage}\PYG{p}{))}
+\PYG{p}{(}\PYG{k}{setq}\PYG{+w}{ }\PYG{n+nv}{package\PYGZhy{}enable\PYGZhy{}at\PYGZhy{}startup}\PYG{+w}{ }\PYG{n+no}{nil}\PYG{p}{)}
+
+\PYG{p}{(}\PYG{n+nv}{straight\PYGZhy{}use\PYGZhy{}package}\PYG{+w}{ }\PYG{l+s+ss}{\PYGZsq{}use\PYGZhy{}package}\PYG{p}{)}
+\PYG{p}{(}\PYG{k}{setq}\PYG{+w}{ }\PYG{n+nv}{straight\PYGZhy{}use\PYGZhy{}package\PYGZhy{}by\PYGZhy{}default}\PYG{+w}{ }\PYG{n+no}{t}\PYG{p}{)}
+\end{Verbatim}

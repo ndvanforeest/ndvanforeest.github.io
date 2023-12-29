@@ -1,0 +1,87 @@
+% Created 2023-12-29 Fri 21:11
+% Intended LaTeX compiler: pdflatex
+\documentclass[a4paper]{article}
+
+\usepackage{../preamble}
+\author{Nicky}
+\date{\today}
+\title{Making an Exercise and Solution Environment}
+\begin{document}
+
+\maketitle
+\section{The Problem}
+\label{sec:org13ad8cf}
+
+In a number of my org mode files I include exercise with hints and solutions.
+In the pdf files, which I make via \LaTeX, I use the \texttt{answers} package print the exercises in the main text and the hints and solutions at the end of the file.
+When exporting the file to \texttt{html} via my homepage I would like to see the exercises, hints and solutions printed like so:
+
+\begin{exercise}
+How to make an excercise environment like this?
+\begin{hint}
+And a hint like this?
+\end{hint}
+\begin{solution}
+To see how to do this, read on.
+\end{solution}
+\end{exercise}
+\section{My Environment}
+\label{sec:org1a6fb2f}
+
+I use \texttt{emacs} and \texttt{org mode} to write files, and \texttt{nikola} to make my homepage.
+After some searching on the web, I found the \href{http://alhassy.com/org-special-block-extras/}{\texttt{org-special-blocks-extra}} package which proved promissing for my goal.
+Here are the steps I followed.
+
+First I installed the \texttt{org mode} plugin for \texttt{nikola}. The \texttt{orgmode.py} file shows that the next command can used to convert an \texttt{org} to an \texttt{html} file that \texttt{nikola} can read.
+\begin{minted}[]{shell}
+/usr/bin/emacs --batch -l init.el --eval '(nikola-html-export "input.org" "output.html")'
+\end{minted}
+The org mode plugin also provides an \texttt{init.el} file that I used as a starting point.
+
+\begin{exercise}
+The \texttt{init.el} file contains the line \texttt{(setq package-load-list '((htmlize t)))}. This should be removed. Why?
+\begin{solution}
+I need to install \texttt{org-special-blocks-extra}, and this command prevents that.
+\end{solution}
+\end{exercise}
+
+Since I need functionality from the special org blocks, I have to update the \texttt{init.el} anyway, so here it is.
+\section{The adapted \texttt{init.el}}
+\label{sec:org4c61ab0}
+
+Since I use  \texttt{straight} and \texttt{use-package}, I need to put this on the top of the file.
+
+\begin{minted}[]{common-lisp}
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+(setq package-enable-at-startup nil)
+
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
+\end{minted}
+
+Next I load two packages.
+
+\begin{minted}[]{common-lisp}
+(use-package htmlize
+  :ensure t)
+
+(use-package org-special-block-extras
+  :ensure t
+  ;; All relevant Lisp functions are prefixed ‘o-’; e.g., `o-docs-insert'.
+  :custom
+    (o-docs-libraries
+     '("~/org-special-block-extras/documentation.org")
+     "The places where I keep my ‘#+documentation’"))
+\end{minted}
+\end{document}

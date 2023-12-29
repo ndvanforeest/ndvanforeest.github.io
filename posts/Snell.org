@@ -57,34 +57,49 @@ because the event $\{\tau = i \}$ implies that the offer $X_i$ of buyer $i$ exce
 #+begin_exercise
 Why is $\E{X_i \1{\tau=i}} = q^{i-1} \frac{1-q^{2}}{2}$ for $i < n$?
 #+begin_solution
+By independence, for $i\leq n-1$,
 \begin{align*}
 \E{X_i \1{\tau=i}} &= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k < q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
 &= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
 \end{align*}
 #+end_solution
 #+end_exercise
+#+html: <br>
 
-
-Clearly, by independence, for $i\leq n-1$,
-\begin{align*}
-\E{X_i \1{\tau=i}} &= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k < q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
-&= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
-\end{align*}
-while for $n$,
+#+begin_exercise
+Why is  $\E{X_n \1{\tau=\infty}}= \frac{q^{n+1}}2$ for $n$?
+#+begin_solution
 \begin{align*}
 \E{X_n \1{\tau=\infty}} &= \E{X_n \1{X_i < q} \prod_{k=1}^{n-1} \1{X_k < q}}  = q^{n-1} \int_0^q x \d x = \frac{q^{n+1}}2.
 \end{align*}
-Therefore,
+#+end_solution
+#+end_exercise
+#+html: <br>
+#+begin_exercise
+Conclude that:
+\begin{align*}
+v_{n}(q) := \E{X_{\tau}} &= \frac{1}{2}(1-q^{n} + q).
+\end{align*}
+#+begin_solution
 \begin{align*}
 \E{X_{\tau}} &= \frac{1-q^{2}}{2} \sum_{i=0}^{n-1} q^{i}  + \frac{q^{n+1}}2 = \frac{1+q}{2} (1-q^{n}) +  \frac{q^{n+1}}2 \\
 &= \frac{1}{2}(1-q^{n} + q) =: v_n(q).
 \end{align*}
-Given $n$, the optimal threshold $q$ follows from solving for $q$ in $\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0$. Thus,
+#+end_solution
+#+end_exercise
+#+html: <br>
+
+#+begin_exercise
+Show that for given $n$ the optimal $q$ is equal to:
 \begin{align*}
 q = \left({\frac{1}{n}}\right)^{\frac{1}{n-1}}.
 \end{align*}
+#+begin_solution
+Solve for $q$ in $\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0$.
+#+end_solution
+#+end_exercise
 
-Here is an example.
+Here is an example in code to see how to implement all this.
 
 #+begin_src python :results output :exports both
 def best_q(n):
@@ -129,7 +144,7 @@ v_k &:= \E{\max\{X_{n-k}, v_{k-1}\}}  = \int_{v_{k-1}}^1 x \d x + \int_0^{v_{k-1
 Note that  $v_{k} > v_{k-1}$ when $v_{k-1}\neq 1$ because $1 + v_{k-1}^2 > 2 v_{k-1} \iff v_{k-1} \neq 1$. Thus, a policy with a fixed threshold is not optimal.
 
 
-With memoization the code is very simple.
+With caching/memoization the code is very simple.
 #+begin_src python :results output :exports both
 from functools import cache
 
@@ -152,7 +167,7 @@ print(f"{v(10)=}")
 
 The optimal policy can be found by using a more general, but more abstract, framework, namely by means of /Snell's envelope/.
 Perhaps the easiest way to see how this works is to start with a theorem, stripped from some of its technical clutter.
-I copied it from `Promenade al\'etoire' by M. Benaïm and N. El Karoui.
+I  copied it from `Promenade alétoire' by M. Benaïm and N. El Karoui.
 
 
 #+begin_theorem
