@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
 <meta name="author" content="Nicky van Foreest">
 <link rel="prev" href="../vickery-auctions/" title="Vickery auctions" type="text/html">
+<link rel="next" href="../making-an-exercise-and-solution-environment/" title="Making an Exercise and Solution Environment" type="text/html">
 <meta property="og:site_name" content="Nicky's site">
 <meta property="og:title" content="Snell's Envelope, House Selling and Buying">
 <meta property="og:url" content="https://ndvanforeest.github.io/posts/snells-envelope-house-selling-and-buying/">
@@ -104,9 +105,9 @@ bg-dark
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org8a0dc5e" class="outline-2">
-<h2 id="org8a0dc5e">Problem Setting</h2>
-<div class="outline-text-2" id="text-org8a0dc5e">
+    <div id="outline-container-orgf74ec8e" class="outline-2">
+<h2 id="orgf74ec8e">Problem Setting</h2>
+<div class="outline-text-2" id="text-orgf74ec8e">
 <p>
 I have house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
 Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept an offer on the spot or reject it.
@@ -127,9 +128,9 @@ I include some python code to get numerical output.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdf72d29" class="outline-2">
-<h2 id="orgdf72d29">Selling a House</h2>
-<div class="outline-text-2" id="text-orgdf72d29">
+<div id="outline-container-orgd7c2f40" class="outline-2">
+<h2 id="orgd7c2f40">Selling a House</h2>
+<div class="outline-text-2" id="text-orgd7c2f40">
 <p>
 When selling a house, at most \(n\) buyers will present their offers \(\{X_i\}_{i=1}^n\) , iid and uniform on \([0,1]\), one after the other.
 Rejected offers are lost.
@@ -137,9 +138,9 @@ What is the best price?
 I used <a href="https://arminstraub.com/math/hiringsecretary">this site</a>, where the same problem is discussed in terms of the <a href="https://en.wikipedia.org/wiki/Secretary_problem">Secretary Problem</a>.
 </p>
 </div>
-<div id="outline-container-org5b6d720" class="outline-3">
-<h3 id="org5b6d720">Best Price Under a Fixed Threshold Policy</h3>
-<div class="outline-text-3" id="text-org5b6d720">
+<div id="outline-container-org5253dcf" class="outline-3">
+<h3 id="org5253dcf">Best Price Under a Fixed Threshold Policy</h3>
+<div class="outline-text-3" id="text-org5253dcf">
 <p>
 Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\) that remains fixed for the entire sales period.
 This threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i &lt; q\).
@@ -153,12 +154,37 @@ because the event \(\{\tau = i \}\) implies that the offer \(X_i\) of buyer \(i\
 </p>
 
 
-<div style="padding: 1em;background-color: #CCFFCC;border-radius: 15px;font-size: 0.9em;"> <h3></h3> 
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
 Why is \(\E{X_i \1{\tau=i}} = q^{i-1} \frac{1-q^{2}}{2}\) for \(i &lt; n\)?
 </p>
-<details class="code-details" style="padding: 1em;
-                          background-color: white;
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+By independence, for \(i\leq n-1\),
+</p>
+\begin{align*}
+\E{X_i \1{\tau=i}} &amp;= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k &lt; q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
+&amp;= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
+\end{align*}
+
+
+</details>
+</div>
+<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Why is  \(\E{X_n \1{\tau=\infty}}= \frac{q^{n+1}}2\) for \(n\)?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
                           font-size: 1em;
@@ -169,42 +195,64 @@ Why is \(\E{X_i \1{\tau=i}} = q^{i-1} \frac{1-q^{2}}{2}\) for \(i &lt; n\)?
                     </strong>
                   </summary>
 \begin{align*}
-\E{X_i \1{\tau=i}} &amp;= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k &lt; q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
-&amp;= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
+\E{X_n \1{\tau=\infty}} &amp;= \E{X_n \1{X_i &lt; q} \prod_{k=1}^{n-1} \1{X_k &lt; q}}  = q^{n-1} \int_0^q x \d x = \frac{q^{n+1}}2.
 \end{align*}
 
 
 </details>
 </div>
+<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Clearly, by independence, for \(i\leq n-1\),
+Conclude that:
 </p>
 \begin{align*}
-\E{X_i \1{\tau=i}} &amp;= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k &lt; q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
-&amp;= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
+v_{n}(q) := \E{X_{\tau}} &amp;= \frac{1}{2}(1-q^{n} + q).
 \end{align*}
-<p>
-while for \(n\),
-</p>
-\begin{align*}
-\E{X_n \1{\tau=\infty}} &amp;= \E{X_n \1{X_i &lt; q} \prod_{k=1}^{n-1} \1{X_k &lt; q}}  = q^{n-1} \int_0^q x \d x = \frac{q^{n+1}}2.
-\end{align*}
-<p>
-Therefore,
-</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
 \begin{align*}
 \E{X_{\tau}} &amp;= \frac{1-q^{2}}{2} \sum_{i=0}^{n-1} q^{i}  + \frac{q^{n+1}}2 = \frac{1+q}{2} (1-q^{n}) +  \frac{q^{n+1}}2 \\
 &amp;= \frac{1}{2}(1-q^{n} + q) =: v_n(q).
 \end{align*}
+
+
+</details>
+</div>
+<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Given \(n\), the optimal threshold \(q\) follows from solving for \(q\) in \(\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0\). Thus,
+Show that for given \(n\) the optimal \(q\) is equal to:
 </p>
 \begin{align*}
 q = \left({\frac{1}{n}}\right)^{\frac{1}{n-1}}.
 \end{align*}
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+Solve for \(q\) in \(\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0\).
+</p>
 
+
+</details>
+</div>
 <p>
-Here is an example.
+Here is an example in code to see how to implement all this.
 </p>
 
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">best_q</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
@@ -240,9 +288,9 @@ For the future I might consider some additional questions.
 </ol>
 </div>
 </div>
-<div id="outline-container-org44a6c09" class="outline-3">
-<h3 id="org44a6c09">Best Price Under a Dynamic  Threshold Policy</h3>
-<div class="outline-text-3" id="text-org44a6c09">
+<div id="outline-container-org0e45c6b" class="outline-3">
+<h3 id="org0e45c6b">Best Price Under a Dynamic  Threshold Policy</h3>
+<div class="outline-text-3" id="text-org0e45c6b">
 <p>
 A fixed threshold policy cannot be optimal, because the less visits we have left, the lower the acceptance threshold should be.
 We next find the optimal levels when we have \(1 \leq k \leq  n\) visits to go.
@@ -263,7 +311,7 @@ Note that  \(v_{k} &gt; v_{k-1}\) when \(v_{k-1}\neq 1\) because \(1 + v_{k-1}^2
 
 
 <p>
-With memoization the code is very simple.
+With caching/memoization the code is very simple.
 </p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cache</span>
 
@@ -283,17 +331,17 @@ v(10)=0.861098212205712
 </pre>
 </div>
 </div>
-<div id="outline-container-orgcc5233f" class="outline-3">
-<h3 id="orgcc5233f">Snell's Envelope</h3>
-<div class="outline-text-3" id="text-orgcc5233f">
+<div id="outline-container-orgecb2a20" class="outline-3">
+<h3 id="orgecb2a20">Snell's Envelope</h3>
+<div class="outline-text-3" id="text-orgecb2a20">
 <p>
 The optimal policy can be found by using a more general, but more abstract, framework, namely by means of <i>Snell's envelope</i>.
 Perhaps the easiest way to see how this works is to start with a theorem, stripped from some of its technical clutter.
-I copied it from `Promenade al\'etoire' by M. Benaïm and N. El Karoui.
+I  copied it from `Promenade alétoire' by M. Benaïm and N. El Karoui.
 </p>
 
 
-<div class="theorem" id="org7b3573d">
+<div class="theorem" id="org70b94b4">
 <p>
 Consider a sequence of rvs \(\{X_i\}_{i=1}^n\) adapted to a filtration \(\{\F_{i}\}_{i=1}^{n}\).
 Introduce the sequence of rvs \(\{Y_i\}\) by backward recurrence as
@@ -316,7 +364,7 @@ The rv \(Y_i\) is the <i>Snell envelope</i> of \(X_i\), which is defined as the 
 
 </div>
 
-<div class="proof" id="orgc0c2c21">
+<div class="proof" id="org51c8399">
 <p>
 To be included
 </p>
@@ -347,13 +395,16 @@ By the theorem the stopping time \(\tau^*\) is optimal among all sellers (polici
 </div>
 </div>
 </div>
-<div id="outline-container-orgb7c0710" class="outline-2">
-<h2 id="orgb7c0710">Buying a House</h2>
+<div id="outline-container-orge2cde71" class="outline-2">
+<h2 id="orge2cde71">Buying a House</h2>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul class="pager hidden-print">
 <li class="previous">
                 <a href="../vickery-auctions/" rel="prev" title="Vickery auctions">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../making-an-exercise-and-solution-environment/" rel="next" title="Making an Exercise and Solution Environment">Next post</a>
             </li>
         </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
 MathJax.Hub.Config({

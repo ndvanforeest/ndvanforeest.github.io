@@ -75,7 +75,288 @@ bg-dark
 
     
 <div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/snells-envelope-house-selling-and-buying/" class="u-url">Snell's Envelope, House Selling and Buying</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/making-an-exercise-and-solution-environment/" class="u-url">Making an Exercise and Solution Environment</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Nicky van Foreest
+            </span></p>
+            <p class="dateline">
+            <a href="../posts/making-an-exercise-and-solution-environment/" rel="bookmark">
+            <time class="published dt-published" datetime="2023-12-29T20:30:01+01:00" itemprop="datePublished" title="2023-12-29 20:30">2023-12-29 20:30</time></a>
+            </p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-org3e2b072" class="outline-2">
+<h2 id="org3e2b072">The Problem</h2>
+<div class="outline-text-2" id="text-org3e2b072">
+<p>
+In a number of my org mode files I include exercise with hints and solutions.
+In the pdf files, which I make via \LaTeX, I use the <code>answers</code> package print the exercises in the main text and the hints and solutions at the end of the file.
+When exporting the file to <code>html</code> via my homepage I would like to see the exercises, hints and solutions printed like so:
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+How to make an excercise environment like this?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary><p>
+And a hint like this?
+</p>
+
+
+</details><details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+To see how to do this, read on.
+</p>
+
+
+</details>
+</div>
+</div>
+</div>
+<div id="outline-container-org36df5a4" class="outline-2">
+<h2 id="org36df5a4">My Environment</h2>
+<div class="outline-text-2" id="text-org36df5a4">
+<p>
+I use <code>emacs</code> and <code>org mode</code> to write files, and <code>nikola</code> to make my homepage.
+After some searching on the web, I found the <a href="http://alhassy.com/org-special-block-extras/"><code>org-special-blocks-extra</code></a> package which proved promissing for my goal.
+The related <a href="https://github.com/alhassy/org-special-block-extras">github</a> page shows how to install it.
+Here are the steps I followed.
+</p>
+
+<p>
+First I installed the <code>org mode</code> plugin for <code>nikola</code>. The <code>orgmode.py</code> file shows that the next command can used to convert an <code>org</code> to an <code>html</code> file that <code>nikola</code> can read.
+</p>
+<div class="highlight"><pre><span></span>/usr/bin/emacs --batch -l init.el --eval '(nikola-html-export "input.org" "output.html")'
+</pre></div>
+<p>
+The org mode plugin also provides an <code>init.el</code> file that I used as a starting point.
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+The <code>init.el</code> file contains the line <code>(setq package-load-list '((htmlize t)))</code>. This should be removed. Why?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+I need to install <code>org-special-blocks-extra</code>, and this command prevents that.
+</p>
+
+
+</details>
+</div>
+<p>
+Since I need functionality from the special org blocks, I have to update the <code>init.el</code> anyway, so here it is.
+</p>
+</div>
+</div>
+<div id="outline-container-org74a3f4d" class="outline-2">
+<h2 id="org74a3f4d">The adapted <code>init.el</code>
+</h2>
+<div class="outline-text-2" id="text-org74a3f4d">
+</div>
+<div id="outline-container-orgefc1ab9" class="outline-3">
+<h3 id="orgefc1ab9">Loading the relevant packages</h3>
+<div class="outline-text-3" id="text-orgefc1ab9">
+<p>
+Since I use  <code>straight</code> and <code>use-package</code>, I need to put this on the top of the <code>init.el</code> file. I copied this straight from my regular <code>init.el</code>
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">defvar</span><span class="w"> </span><span class="nv">bootstrap-version</span><span class="p">)</span>
+<span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">((</span><span class="nf">bootstrap-file</span>
+<span class="w">       </span><span class="p">(</span><span class="nf">expand-file-name</span><span class="w"> </span><span class="s">"straight/repos/straight.el/bootstrap.el"</span><span class="w"> </span><span class="nv">user-emacs-directory</span><span class="p">))</span>
+<span class="w">      </span><span class="p">(</span><span class="nf">bootstrap-version</span><span class="w"> </span><span class="mi">5</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="k">unless</span><span class="w"> </span><span class="p">(</span><span class="nf">file-exists-p</span><span class="w"> </span><span class="nv">bootstrap-file</span><span class="p">)</span>
+<span class="w">    </span><span class="p">(</span><span class="nf">with-current-buffer</span>
+<span class="w">        </span><span class="p">(</span><span class="nf">url-retrieve-synchronously</span>
+<span class="w">         </span><span class="s">"https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"</span>
+<span class="w">         </span><span class="ss">'silent</span><span class="w"> </span><span class="ss">'inhibit-cookies</span><span class="p">)</span>
+<span class="w">      </span><span class="p">(</span><span class="nf">goto-char</span><span class="w"> </span><span class="p">(</span><span class="nf">point-max</span><span class="p">))</span>
+<span class="w">      </span><span class="p">(</span><span class="nf">eval-print-last-sexp</span><span class="p">)))</span>
+<span class="w">  </span><span class="p">(</span><span class="k">load</span><span class="w"> </span><span class="nv">bootstrap-file</span><span class="w"> </span><span class="nv">nil</span><span class="w"> </span><span class="ss">'nomessage</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">package-enable-at-startup</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">straight-use-package</span><span class="w"> </span><span class="ss">'use-package</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">straight-use-package-by-default</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+</pre></div>
+
+<p>
+Next I load two packages. The hook on <code>org-mode</code> is necessary.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">use-package</span><span class="w"> </span><span class="nv">htmlize</span>
+<span class="w">  </span><span class="nv">:ensure</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">use-package</span><span class="w"> </span><span class="nv">org-special-block-extras</span>
+<span class="w">  </span><span class="nv">:ensure</span><span class="w"> </span><span class="nv">t</span>
+<span class="w">  </span><span class="c1">;; All relevant Lisp functions are prefixed ‘o-’; e.g., `o-docs-insert'.</span>
+<span class="w">  </span><span class="nv">:hook</span><span class="w"> </span><span class="p">(</span><span class="nf">org-mode</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">org-special-block-extras-mode</span><span class="p">)</span>
+<span class="w">  </span><span class="nv">:custom</span>
+<span class="w">    </span><span class="p">(</span><span class="nf">o-docs-libraries</span>
+<span class="w">     </span><span class="o">'</span><span class="p">(</span><span class="s">"~/org-special-block-extras/documentation.org"</span><span class="p">)</span>
+<span class="w">     </span><span class="s">"The places where I keep my ‘#+documentation’"</span><span class="p">))</span>
+
+
+
+<span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'org</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'ox-html</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'org-special-block-extras</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org88b3550" class="outline-3">
+<h3 id="org88b3550">Updating the code for <code>box</code> and <code>details</code> blocks</h3>
+<div class="outline-text-3" id="text-org88b3550">
+<p>
+I adapted the fontsizes and the padding of the <code>details</code> block of <code>org-special-blocks-extra</code>.
+I just copied the relevant part of  <code>org-special-blocks-extra.el</code>, removed the documentation string, and changed the padding and font size.
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">org-defblock</span><span class="w"> </span><span class="nv">details</span><span class="w"> </span><span class="p">(</span><span class="nf">title</span><span class="w"> </span><span class="s">"Details"</span>
+<span class="w">              </span><span class="nv">background-color</span><span class="w"> </span><span class="s">"#e5f5e5"</span><span class="w"> </span><span class="nv">title-color</span><span class="w"> </span><span class="s">"green"</span><span class="p">)</span>
+<span class="w">   </span><span class="p">(</span><span class="nf">pcase</span><span class="w"> </span><span class="nv">backend</span>
+<span class="w">     </span><span class="p">(</span><span class="o">`</span><span class="nv">latex</span><span class="w"> </span><span class="p">(</span><span class="nf">concat</span><span class="w"> </span><span class="p">(</span><span class="nf">pcase</span><span class="w"> </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">background-color</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">                       </span><span class="p">(</span><span class="s">"#"</span><span class="w"> </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"</span><span class="se">\\</span><span class="s">definecolor{osbe-bg}{HTML}{%s}"</span><span class="w"> </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">background-color</span><span class="w"> </span><span class="mi">1</span><span class="p">)))</span>
+<span class="w">                       </span><span class="p">(</span><span class="k">_</span><span class="w"> </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"</span><span class="se">\\</span><span class="s">colorlet{osbe-bg}{%s}"</span><span class="w"> </span><span class="nv">background-color</span><span class="p">)))</span>
+<span class="w">                     </span><span class="p">(</span><span class="nf">pcase</span><span class="w"> </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">title-color</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">                       </span><span class="p">(</span><span class="s">"#"</span><span class="w"> </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"</span><span class="se">\\</span><span class="s">definecolor{osbe-fg}{HTML}{%s}"</span><span class="w"> </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">title-color</span><span class="w"> </span><span class="mi">1</span><span class="p">)))</span>
+<span class="w">                       </span><span class="p">(</span><span class="k">_</span><span class="w"> </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"</span><span class="se">\\</span><span class="s">colorlet{osbe-fg}{%s}"</span><span class="w"> </span><span class="nv">title-color</span><span class="p">)))</span>
+<span class="w">                     </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"</span><span class="se">\\</span><span class="s">begin{quote}</span>
+<span class="s">                              </span><span class="se">\\</span><span class="s">begin{tcolorbox}[colback=osbe-bg,colframe=osbe-fg,title={%s},sharp corners,boxrule=0.4pt]</span>
+<span class="s">                                   %s</span>
+<span class="s">                               </span><span class="se">\\</span><span class="s">end{tcolorbox}</span>
+<span class="s">                </span><span class="se">\\</span><span class="s">end{quote}"</span><span class="w"> </span><span class="nv">title</span><span class="w"> </span><span class="nv">contents</span><span class="p">)))</span>
+<span class="w">     </span><span class="p">(</span><span class="k">_</span><span class="w"> </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"&lt;details class=</span><span class="se">\"</span><span class="s">code-details</span><span class="se">\"</span>
+<span class="s">                 style =</span><span class="se">\"</span><span class="s">padding: 0.6em;</span>
+<span class="s">                          background-color: %s;</span>
+<span class="s">                          border-radius: 15px;</span>
+<span class="s">                          color: hsl(157 75% 20%);</span>
+<span class="s">                          font-size: 1em;</span>
+<span class="s">                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;</span><span class="se">\"</span><span class="s">&gt;</span>
+<span class="s">                  &lt;summary&gt;</span>
+<span class="s">                    &lt;strong&gt;</span>
+<span class="s">                      &lt;font face=</span><span class="se">\"</span><span class="s">Courier</span><span class="se">\"</span><span class="s"> size=</span><span class="se">\"</span><span class="s">3</span><span class="se">\"</span><span class="s"> color=</span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">&gt;</span>
+<span class="s">                         %s</span>
+<span class="s">                      &lt;/font&gt;</span>
+<span class="s">                    &lt;/strong&gt;</span>
+<span class="s">                  &lt;/summary&gt;</span>
+<span class="s">                  %s</span>
+<span class="s">               &lt;/details&gt;"</span><span class="w"> </span><span class="nv">background-color</span><span class="w"> </span><span class="nv">title-color</span><span class="w"> </span><span class="nv">title</span><span class="w"> </span><span class="nv">contents</span><span class="p">))))</span>
+</pre></div>
+
+<p>
+And also for the  <code>box</code> block.
+</p>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">org-defblock</span><span class="w"> </span><span class="nv">box</span><span class="w"> </span><span class="p">(</span><span class="nf">title</span><span class="w"> </span><span class="s">""</span><span class="w"> </span><span class="nv">background-color</span><span class="w"> </span><span class="nv">nil</span><span class="w"> </span><span class="nv">shadow</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">pcase</span><span class="w"> </span><span class="nv">backend</span>
+<span class="w">    </span><span class="p">(</span><span class="o">`</span><span class="nv">latex</span>
+<span class="w">     </span><span class="p">(</span><span class="nb">apply</span><span class="w"> </span><span class="o">#</span><span class="ss">'concat</span>
+<span class="w">            </span><span class="o">`</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">begin{tcolorbox}[title={"</span><span class="w"> </span><span class="o">,</span><span class="nv">title</span><span class="w"> </span><span class="s">"}"</span>
+<span class="w">              </span><span class="s">",colback="</span><span class="w"> </span><span class="o">,</span><span class="p">(</span><span class="nf">pp-to-string</span><span class="w"> </span><span class="p">(</span><span class="k">or</span><span class="w"> </span><span class="nv">background-color</span><span class="w"> </span><span class="ss">'red!5!white</span><span class="p">))</span>
+<span class="w">              </span><span class="s">",colframe=red!75!black, colbacktitle=yellow!50!red"</span>
+<span class="w">              </span><span class="s">",coltitle=red!25!black, fonttitle=</span><span class="se">\\</span><span class="s">bfseries,"</span>
+<span class="w">              </span><span class="s">"subtitle style={boxrule=0.4pt, colback=yellow!50!red!25!white}]"</span>
+<span class="w">              </span><span class="o">,</span><span class="nv">contents</span>
+<span class="w">              </span><span class="s">"</span><span class="se">\\</span><span class="s">end{tcolorbox}"</span><span class="p">)))</span>
+<span class="w">    </span><span class="c1">;; CSS syntax: “box-shadow: specification, specification, ...”</span>
+<span class="w">    </span><span class="c1">;; where a specification is of the shape “[inset] x_offset y_offset [blur [spread]] color”.</span>
+<span class="w">    </span><span class="p">(</span><span class="k">_</span><span class="w"> </span><span class="p">(</span><span class="nf">-let</span><span class="w"> </span><span class="p">[</span><span class="nv">haze</span><span class="w"> </span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="p">(</span><span class="nf">left</span><span class="w"> </span><span class="nv">right</span><span class="w"> </span><span class="nv">deep-right</span><span class="w"> </span><span class="nv">deep-left</span><span class="p">)</span>
+<span class="w">                     </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"width: 50%%; margin: auto; box-shadow: %s"</span>
+<span class="w">                             </span><span class="p">(</span><span class="nf">thread-last</span><span class="w"> </span><span class="p">(</span><span class="nb">list</span><span class="w"> </span><span class="p">(</span><span class="nb">cons</span><span class="w"> </span><span class="nv">right</span><span class="w">      </span><span class="s">"8px 6px 13px 8px %s"</span><span class="p">)</span>
+<span class="w">                                                </span><span class="p">(</span><span class="nb">cons</span><span class="w"> </span><span class="nv">left</span><span class="w">       </span><span class="s">"-16px 12px 20px 16px %s"</span><span class="p">)</span>
+<span class="w">                                                </span><span class="p">(</span><span class="nb">cons</span><span class="w"> </span><span class="nv">deep-right</span><span class="w"> </span><span class="s">"48px 36px 71px 28px %s"</span><span class="p">)</span>
+<span class="w">                                                </span><span class="p">(</span><span class="nb">cons</span><span class="w"> </span><span class="nv">deep-left</span><span class="w">  </span><span class="s">"-48px -20px 71px 28px %s"</span><span class="p">))</span>
+<span class="w">                               </span><span class="p">(</span><span class="nf">--filter</span><span class="w"> </span><span class="p">(</span><span class="nb">car</span><span class="w"> </span><span class="nv">it</span><span class="p">))</span>
+<span class="w">                               </span><span class="p">(</span><span class="nf">--map</span><span class="w"> </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="p">(</span><span class="nb">cdr</span><span class="w"> </span><span class="nv">it</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nb">car</span><span class="w"> </span><span class="nv">it</span><span class="p">)))</span>
+<span class="w">                               </span><span class="p">(</span><span class="nf">s-join</span><span class="w"> </span><span class="s">","</span><span class="p">))))]</span>
+<span class="w">         </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"&lt;div style=</span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">&gt; &lt;h3&gt;%s&lt;/h3&gt; %s &lt;/div&gt;"</span>
+<span class="w">                 </span><span class="p">(</span><span class="nf">s-join</span><span class="w"> </span><span class="s">";"</span><span class="w"> </span><span class="o">`</span><span class="p">(</span><span class="w"> </span><span class="s">"padding: 0.5em;"</span>
+<span class="w">                               </span><span class="o">,</span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"background-color: %s"</span><span class="w"> </span><span class="p">(</span><span class="nf">org-subtle-colors</span><span class="w"> </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"%s"</span><span class="w"> </span><span class="p">(</span><span class="k">or</span><span class="w"> </span><span class="nv">background-color</span><span class="w"> </span><span class="s">"green"</span><span class="p">))))</span>
+<span class="w">                               </span><span class="s">"border-radius: 15px"</span>
+<span class="w">                               </span><span class="s">"font-size: 1em"</span>
+<span class="w">                               </span><span class="o">,</span><span class="p">(</span><span class="k">when</span><span class="w"> </span><span class="nv">shadow</span>
+<span class="w">                                  </span><span class="p">(</span><span class="k">cond</span>
+<span class="w">                                   </span><span class="p">((</span><span class="nf">equal</span><span class="w"> </span><span class="nv">shadow</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="w">                                    </span><span class="p">(</span><span class="nf">funcall</span><span class="w"> </span><span class="nv">haze</span><span class="w"> </span><span class="s">"hsl(60, 100%, 50%)"</span><span class="w"> </span><span class="s">"hsl(1, 100%, 50%)"</span><span class="w"> </span><span class="s">"hsl(180, 100%, 50%)"</span><span class="w"> </span><span class="nv">nil</span><span class="p">))</span>
+<span class="w">                                   </span><span class="p">((</span><span class="nf">equal</span><span class="w"> </span><span class="nv">shadow</span><span class="w"> </span><span class="ss">'inset</span><span class="p">)</span>
+<span class="w">                                    </span><span class="p">(</span><span class="nf">funcall</span><span class="w"> </span><span class="nv">haze</span><span class="w"> </span><span class="s">"inset hsl(60, 100%, 50%)"</span><span class="w"> </span><span class="s">"inset hsl(1, 100%, 50%)"</span><span class="w"> </span><span class="s">"inset hsl(180, 100%, 50%)"</span><span class="w"> </span><span class="nv">nil</span><span class="p">))</span>
+<span class="w">                                   </span><span class="p">((</span><span class="k">or</span><span class="w"> </span><span class="p">(</span><span class="nf">stringp</span><span class="w"> </span><span class="nv">shadow</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nf">symbolp</span><span class="w"> </span><span class="nv">shadow</span><span class="p">))</span>
+<span class="w">                                    </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"box-shadow: 10px 10px 20px 0px %s; width: 50%%; margin: auto"</span><span class="w"> </span><span class="p">(</span><span class="nf">pp-to-string</span><span class="w"> </span><span class="nv">shadow</span><span class="p">)))</span>
+<span class="w">                                   </span><span class="p">((</span><span class="nf">json-plist-p</span><span class="w"> </span><span class="nv">shadow</span><span class="p">)</span>
+<span class="w">                                    </span><span class="p">(</span><span class="nf">-let</span><span class="w"> </span><span class="p">[(</span><span class="nf">&amp;plist</span><span class="w"> </span><span class="nv">:left</span><span class="w"> </span><span class="nv">X</span><span class="w"> </span><span class="nv">:right</span><span class="w"> </span><span class="nv">Y</span><span class="w"> </span><span class="nv">:deep-right</span><span class="w"> </span><span class="nv">Z</span><span class="w"> </span><span class="nv">:deep-left</span><span class="w"> </span><span class="nv">W</span><span class="p">)</span><span class="w"> </span><span class="nv">shadow</span><span class="p">]</span>
+<span class="w">                                      </span><span class="p">(</span><span class="nf">funcall</span><span class="w"> </span><span class="nv">haze</span><span class="w"> </span><span class="nv">X</span><span class="w"> </span><span class="nv">Y</span><span class="w"> </span><span class="nv">Z</span><span class="w"> </span><span class="nv">W</span><span class="p">)))</span>
+<span class="w">                                   </span><span class="p">(</span><span class="nf">:otherwise</span><span class="w"> </span><span class="p">(</span><span class="nf">-let</span><span class="w"> </span><span class="p">[(</span><span class="nf">X</span><span class="w"> </span><span class="nv">Y</span><span class="w"> </span><span class="nv">Z</span><span class="w"> </span><span class="nv">W</span><span class="p">)</span><span class="w"> </span><span class="nv">shadow</span><span class="p">]</span>
+<span class="w">                                        </span><span class="p">(</span><span class="nf">funcall</span><span class="w"> </span><span class="nv">haze</span><span class="w"> </span><span class="nv">X</span><span class="w"> </span><span class="nv">Y</span><span class="w"> </span><span class="nv">Z</span><span class="w"> </span><span class="nv">W</span><span class="p">)))))))</span>
+<span class="w">                 </span><span class="nv">title</span><span class="w"> </span><span class="nv">contents</span><span class="p">)))))</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-orgfe0940e" class="outline-3">
+<h3 id="orgfe0940e">Making the exercise, hint and solution blocks</h3>
+<div class="outline-text-3" id="text-orgfe0940e">
+<p>
+The exercise, hint and solution blocks are now simple to implement (after I read the examples on <a href="http://alhassy.com/org-special-block-extras/"><code>org-special-blocks-extra</code></a>).
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">org-defblock</span><span class="w"> </span><span class="nv">exercise</span><span class="w"> </span><span class="p">(</span><span class="nf">title</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">org-thread-blockcall</span><span class="w"> </span><span class="nv">raw-contents</span>
+<span class="w">    </span><span class="p">(</span><span class="nf">box</span><span class="w"> </span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nf">org-defblock</span><span class="w"> </span><span class="nv">solution</span><span class="w"> </span><span class="p">(</span><span class="nf">title</span><span class="w"> </span><span class="s">"Solution"</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">org-thread-blockcall</span><span class="w"> </span><span class="nv">raw-contents</span>
+<span class="w">    </span><span class="p">(</span><span class="nf">details</span><span class="w"> </span><span class="nv">title</span><span class="w"> </span><span class="nv">:title-color</span><span class="w"> </span><span class="s">"red"</span><span class="p">)))</span>
+
+
+<span class="p">(</span><span class="nf">org-defblock</span><span class="w"> </span><span class="nv">hint</span><span class="w"> </span><span class="p">(</span><span class="nf">title</span><span class="w"> </span><span class="s">"Hint"</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">org-thread-blockcall</span><span class="w"> </span><span class="nv">raw-contents</span>
+<span class="w">    </span><span class="p">(</span><span class="nf">details</span><span class="w"> </span><span class="nv">title</span><span class="p">)))</span><span class="w"> </span><span class="c1">; :title-color "red")))</span>
+</pre></div>
+
+<p>
+I copied the above on top of the <code>init.el</code> file, and kept the rest.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgad0b705" class="outline-2">
+<h2 id="orgad0b705">Testing</h2>
+<div class="outline-text-2" id="text-orgad0b705">
+<p>
+Let's test in on this file. As this file sits in the <code>posts</code> we need to include the path to  <code>init.el</code>.
+</p>
+<div class="highlight"><pre><span></span>/usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "making-an-exercise-environment.org" "~/tmp/output.html")'
+</pre></div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/snells-envelope-house-selling-and-buying/" class="u-url">Snell's Envelope, House Selling and Buying</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Nicky van Foreest
@@ -86,9 +367,9 @@ bg-dark
             </p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-org8a0dc5e" class="outline-2">
-<h2 id="org8a0dc5e">Problem Setting</h2>
-<div class="outline-text-2" id="text-org8a0dc5e">
+    <div id="outline-container-orgf74ec8e" class="outline-2">
+<h2 id="orgf74ec8e">Problem Setting</h2>
+<div class="outline-text-2" id="text-orgf74ec8e">
 <p>
 I have house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
 Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept an offer on the spot or reject it.
@@ -109,9 +390,9 @@ I include some python code to get numerical output.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdf72d29" class="outline-2">
-<h2 id="orgdf72d29">Selling a House</h2>
-<div class="outline-text-2" id="text-orgdf72d29">
+<div id="outline-container-orgd7c2f40" class="outline-2">
+<h2 id="orgd7c2f40">Selling a House</h2>
+<div class="outline-text-2" id="text-orgd7c2f40">
 <p>
 When selling a house, at most \(n\) buyers will present their offers \(\{X_i\}_{i=1}^n\) , iid and uniform on \([0,1]\), one after the other.
 Rejected offers are lost.
@@ -119,9 +400,9 @@ What is the best price?
 I used <a href="https://arminstraub.com/math/hiringsecretary">this site</a>, where the same problem is discussed in terms of the <a href="https://en.wikipedia.org/wiki/Secretary_problem">Secretary Problem</a>.
 </p>
 </div>
-<div id="outline-container-org5b6d720" class="outline-3">
-<h3 id="org5b6d720">Best Price Under a Fixed Threshold Policy</h3>
-<div class="outline-text-3" id="text-org5b6d720">
+<div id="outline-container-org5253dcf" class="outline-3">
+<h3 id="org5253dcf">Best Price Under a Fixed Threshold Policy</h3>
+<div class="outline-text-3" id="text-org5253dcf">
 <p>
 Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\) that remains fixed for the entire sales period.
 This threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i &lt; q\).
@@ -135,12 +416,37 @@ because the event \(\{\tau = i \}\) implies that the offer \(X_i\) of buyer \(i\
 </p>
 
 
-<div style="padding: 1em;background-color: #CCFFCC;border-radius: 15px;font-size: 0.9em;"> <h3></h3> 
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
 Why is \(\E{X_i \1{\tau=i}} = q^{i-1} \frac{1-q^{2}}{2}\) for \(i &lt; n\)?
 </p>
-<details class="code-details" style="padding: 1em;
-                          background-color: white;
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+By independence, for \(i\leq n-1\),
+</p>
+\begin{align*}
+\E{X_i \1{\tau=i}} &amp;= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k &lt; q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
+&amp;= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
+\end{align*}
+
+
+</details>
+</div>
+<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Why is  \(\E{X_n \1{\tau=\infty}}= \frac{q^{n+1}}2\) for \(n\)?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
                           font-size: 1em;
@@ -151,42 +457,64 @@ Why is \(\E{X_i \1{\tau=i}} = q^{i-1} \frac{1-q^{2}}{2}\) for \(i &lt; n\)?
                     </strong>
                   </summary>
 \begin{align*}
-\E{X_i \1{\tau=i}} &amp;= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k &lt; q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
-&amp;= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
+\E{X_n \1{\tau=\infty}} &amp;= \E{X_n \1{X_i &lt; q} \prod_{k=1}^{n-1} \1{X_k &lt; q}}  = q^{n-1} \int_0^q x \d x = \frac{q^{n+1}}2.
 \end{align*}
 
 
 </details>
 </div>
+<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Clearly, by independence, for \(i\leq n-1\),
+Conclude that:
 </p>
 \begin{align*}
-\E{X_i \1{\tau=i}} &amp;= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k &lt; q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
-&amp;= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
+v_{n}(q) := \E{X_{\tau}} &amp;= \frac{1}{2}(1-q^{n} + q).
 \end{align*}
-<p>
-while for \(n\),
-</p>
-\begin{align*}
-\E{X_n \1{\tau=\infty}} &amp;= \E{X_n \1{X_i &lt; q} \prod_{k=1}^{n-1} \1{X_k &lt; q}}  = q^{n-1} \int_0^q x \d x = \frac{q^{n+1}}2.
-\end{align*}
-<p>
-Therefore,
-</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
 \begin{align*}
 \E{X_{\tau}} &amp;= \frac{1-q^{2}}{2} \sum_{i=0}^{n-1} q^{i}  + \frac{q^{n+1}}2 = \frac{1+q}{2} (1-q^{n}) +  \frac{q^{n+1}}2 \\
 &amp;= \frac{1}{2}(1-q^{n} + q) =: v_n(q).
 \end{align*}
+
+
+</details>
+</div>
+<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Given \(n\), the optimal threshold \(q\) follows from solving for \(q\) in \(\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0\). Thus,
+Show that for given \(n\) the optimal \(q\) is equal to:
 </p>
 \begin{align*}
 q = \left({\frac{1}{n}}\right)^{\frac{1}{n-1}}.
 \end{align*}
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+Solve for \(q\) in \(\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0\).
+</p>
 
+
+</details>
+</div>
 <p>
-Here is an example.
+Here is an example in code to see how to implement all this.
 </p>
 
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">best_q</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
@@ -222,9 +550,9 @@ For the future I might consider some additional questions.
 </ol>
 </div>
 </div>
-<div id="outline-container-org44a6c09" class="outline-3">
-<h3 id="org44a6c09">Best Price Under a Dynamic  Threshold Policy</h3>
-<div class="outline-text-3" id="text-org44a6c09">
+<div id="outline-container-org0e45c6b" class="outline-3">
+<h3 id="org0e45c6b">Best Price Under a Dynamic  Threshold Policy</h3>
+<div class="outline-text-3" id="text-org0e45c6b">
 <p>
 A fixed threshold policy cannot be optimal, because the less visits we have left, the lower the acceptance threshold should be.
 We next find the optimal levels when we have \(1 \leq k \leq  n\) visits to go.
@@ -245,7 +573,7 @@ Note that  \(v_{k} &gt; v_{k-1}\) when \(v_{k-1}\neq 1\) because \(1 + v_{k-1}^2
 
 
 <p>
-With memoization the code is very simple.
+With caching/memoization the code is very simple.
 </p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cache</span>
 
@@ -265,17 +593,17 @@ v(10)=0.861098212205712
 </pre>
 </div>
 </div>
-<div id="outline-container-orgcc5233f" class="outline-3">
-<h3 id="orgcc5233f">Snell's Envelope</h3>
-<div class="outline-text-3" id="text-orgcc5233f">
+<div id="outline-container-orgecb2a20" class="outline-3">
+<h3 id="orgecb2a20">Snell's Envelope</h3>
+<div class="outline-text-3" id="text-orgecb2a20">
 <p>
 The optimal policy can be found by using a more general, but more abstract, framework, namely by means of <i>Snell's envelope</i>.
 Perhaps the easiest way to see how this works is to start with a theorem, stripped from some of its technical clutter.
-I copied it from `Promenade al\'etoire' by M. Benaïm and N. El Karoui.
+I  copied it from `Promenade alétoire' by M. Benaïm and N. El Karoui.
 </p>
 
 
-<div class="theorem" id="org7b3573d">
+<div class="theorem" id="org70b94b4">
 <p>
 Consider a sequence of rvs \(\{X_i\}_{i=1}^n\) adapted to a filtration \(\{\F_{i}\}_{i=1}^{n}\).
 Introduce the sequence of rvs \(\{Y_i\}\) by backward recurrence as
@@ -298,7 +626,7 @@ The rv \(Y_i\) is the <i>Snell envelope</i> of \(X_i\), which is defined as the 
 
 </div>
 
-<div class="proof" id="orgc0c2c21">
+<div class="proof" id="org51c8399">
 <p>
 To be included
 </p>
@@ -329,8 +657,8 @@ By the theorem the stopping time \(\tau^*\) is optimal among all sellers (polici
 </div>
 </div>
 </div>
-<div id="outline-container-orgb7c0710" class="outline-2">
-<h2 id="orgb7c0710">Buying a House</h2>
+<div id="outline-container-orge2cde71" class="outline-2">
+<h2 id="orge2cde71">Buying a House</h2>
 </div>
     </div>
     </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/vickery-auctions/" class="u-url">Vickery auctions</a></h1>

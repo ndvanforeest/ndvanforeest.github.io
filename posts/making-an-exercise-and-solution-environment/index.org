@@ -1,0 +1,216 @@
+#+BEGIN_COMMENT
+.. title: Making an Exercise and Solution Environment
+.. slug: making-an-exercise-and-solution-environment
+.. date: 2023-12-29 20:30:01 UTC+01:00
+.. tags:
+.. category:
+.. link:
+.. description:
+.. type: text
+
+#+END_COMMENT
+
+#+title:  Making an Exercise and Solution Environment
+#+author: Nicky
+#+setupfile: ../preamble.org
+
+#+options: toc:nil
+
+* The Problem
+
+In a number of my org mode files I include exercise with hints and solutions.
+In the pdf files, which I make via \LaTeX, I use the ~answers~ package print the exercises in the main text and the hints and solutions at the end of the file.
+When exporting the file to ~html~ via my homepage I would like to see the exercises, hints and solutions printed like so:
+
+#+begin_exercise
+How to make an excercise environment like this?
+#+begin_hint
+And a hint like this?
+#+end_hint
+#+begin_solution
+To see how to do this, read on.
+#+end_solution
+#+end_exercise
+
+* My Environment
+
+I use ~emacs~ and ~org mode~ to write files, and ~nikola~ to make my homepage.
+After some searching on the web, I found the [[http://alhassy.com/org-special-block-extras/][~org-special-blocks-extra~]] package which proved promissing for my goal.
+The related [[https://github.com/alhassy/org-special-block-extras][github]] page shows how to install it.
+Here are the steps I followed.
+
+First I installed the ~org mode~ plugin for ~nikola~. The ~orgmode.py~ file shows that the next command can used to convert an ~org~ to an ~html~ file that ~nikola~ can read.
+#+begin_src shell
+/usr/bin/emacs --batch -l init.el --eval '(nikola-html-export "input.org" "output.html")'
+#+end_src
+The org mode plugin also provides an ~init.el~ file that I used as a starting point.
+
+#+begin_exercise
+The ~init.el~ file contains the line ~(setq package-load-list '((htmlize t)))~. This should be removed. Why?
+#+begin_solution
+I need to install ~org-special-blocks-extra~, and this command prevents that.
+#+end_solution
+#+end_exercise
+
+Since I need functionality from the special org blocks, I have to update the ~init.el~ anyway, so here it is.
+
+* The adapted ~init.el~
+
+** Loading the relevant packages
+
+Since I use  ~straight~ and ~use-package~, I need to put this on the top of the ~init.el~ file. I copied this straight from my regular ~init.el~
+
+#+begin_src emacs-lisp  :tangle "init.el"
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+(setq package-enable-at-startup nil)
+
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
+#+end_src
+
+Next I load two packages. The hook on ~org-mode~ is necessary.
+
+#+begin_src emacs-lisp :tangle "init.el"
+(use-package htmlize
+  :ensure t)
+
+(use-package org-special-block-extras
+  :ensure t
+  ;; All relevant Lisp functions are prefixed ‘o-’; e.g., `o-docs-insert'.
+  :hook (org-mode . org-special-block-extras-mode)
+  :custom
+    (o-docs-libraries
+     '("~/org-special-block-extras/documentation.org")
+     "The places where I keep my ‘#+documentation’"))
+
+
+
+(require 'org)
+(require 'ox-html)
+(require 'org-special-block-extras)
+#+end_src
+
+** Updating the code for ~box~ and ~details~ blocks
+
+I adapted the fontsizes and the padding of the ~details~ block of ~org-special-blocks-extra~.
+I just copied the relevant part of  ~org-special-blocks-extra.el~, removed the documentation string, and changed the padding and font size.
+#+begin_src emacs-lisp :tangle "init.el"
+(org-defblock details (title "Details"
+              background-color "#e5f5e5" title-color "green")
+   (pcase backend
+     (`latex (concat (pcase (substring background-color 0 1)
+                       ("#" (format "\\definecolor{osbe-bg}{HTML}{%s}" (substring background-color 1)))
+                       (_ (format "\\colorlet{osbe-bg}{%s}" background-color)))
+                     (pcase (substring title-color 0 1)
+                       ("#" (format "\\definecolor{osbe-fg}{HTML}{%s}" (substring title-color 1)))
+                       (_ (format "\\colorlet{osbe-fg}{%s}" title-color)))
+                     (format "\\begin{quote}
+                              \\begin{tcolorbox}[colback=osbe-bg,colframe=osbe-fg,title={%s},sharp corners,boxrule=0.4pt]
+                                   %s
+                               \\end{tcolorbox}
+                \\end{quote}" title contents)))
+     (_ (format "<details class=\"code-details\"
+                 style =\"padding: 0.6em;
+                          background-color: %s;
+                          border-radius: 15px;
+                          color: hsl(157 75% 20%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;\">
+                  <summary>
+                    <strong>
+                      <font face=\"Courier\" size=\"3\" color=\"%s\">
+                         %s
+                      </font>
+                    </strong>
+                  </summary>
+                  %s
+               </details>" background-color title-color title contents))))
+#+end_src
+
+And also for the  ~box~ block.
+
+#+begin_src emacs-lisp :tangle "init.el"
+
+(org-defblock box (title "" background-color nil shadow nil)
+  (pcase backend
+    (`latex
+     (apply #'concat
+            `("\\begin{tcolorbox}[title={" ,title "}"
+              ",colback=" ,(pp-to-string (or background-color 'red!5!white))
+              ",colframe=red!75!black, colbacktitle=yellow!50!red"
+              ",coltitle=red!25!black, fonttitle=\\bfseries,"
+              "subtitle style={boxrule=0.4pt, colback=yellow!50!red!25!white}]"
+              ,contents
+              "\\end{tcolorbox}")))
+    ;; CSS syntax: “box-shadow: specification, specification, ...”
+    ;; where a specification is of the shape “[inset] x_offset y_offset [blur [spread]] color”.
+    (_ (-let [haze (lambda (left right deep-right deep-left)
+                     (format "width: 50%%; margin: auto; box-shadow: %s"
+                             (thread-last (list (cons right      "8px 6px 13px 8px %s")
+                                                (cons left       "-16px 12px 20px 16px %s")
+                                                (cons deep-right "48px 36px 71px 28px %s")
+                                                (cons deep-left  "-48px -20px 71px 28px %s"))
+                               (--filter (car it))
+                               (--map (format (cdr it) (car it)))
+                               (s-join ","))))]
+         (format "<div style=\"%s\"> <h3>%s</h3> %s </div>"
+                 (s-join ";" `( "padding: 0.5em;"
+                               ,(format "background-color: %s" (org-subtle-colors (format "%s" (or background-color "green"))))
+                               "border-radius: 15px"
+                               "font-size: 1em"
+                               ,(when shadow
+                                  (cond
+                                   ((equal shadow t)
+                                    (funcall haze "hsl(60, 100%, 50%)" "hsl(1, 100%, 50%)" "hsl(180, 100%, 50%)" nil))
+                                   ((equal shadow 'inset)
+                                    (funcall haze "inset hsl(60, 100%, 50%)" "inset hsl(1, 100%, 50%)" "inset hsl(180, 100%, 50%)" nil))
+                                   ((or (stringp shadow) (symbolp shadow))
+                                    (format "box-shadow: 10px 10px 20px 0px %s; width: 50%%; margin: auto" (pp-to-string shadow)))
+                                   ((json-plist-p shadow)
+                                    (-let [(&plist :left X :right Y :deep-right Z :deep-left W) shadow]
+                                      (funcall haze X Y Z W)))
+                                   (:otherwise (-let [(X Y Z W) shadow]
+                                        (funcall haze X Y Z W)))))))
+                 title contents)))))
+#+end_src
+
+** Making the exercise, hint and solution blocks
+
+The exercise, hint and solution blocks are now simple to implement (after I read the examples on [[http://alhassy.com/org-special-block-extras/][~org-special-blocks-extra~]]).
+#+begin_src emacs-lisp :tangle "init.el"
+(org-defblock exercise (title nil)
+  (org-thread-blockcall raw-contents
+    (box )))
+
+(org-defblock solution (title "Solution")
+  (org-thread-blockcall raw-contents
+    (details title :title-color "red")))
+
+
+(org-defblock hint (title "Hint")
+  (org-thread-blockcall raw-contents
+    (details title))) ; :title-color "red")))
+
+#+end_src
+
+I copied the above on top of the ~init.el~ file, and kept the rest.
+
+* Testing
+
+Let's test in on this file. As this file sits in the ~posts~ we need to include the path to  ~init.el~.
+#+begin_src shell
+/usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "making-an-exercise-environment.org" "~/tmp/output.html")'
+#+end_src
+
+#+RESULTS:
