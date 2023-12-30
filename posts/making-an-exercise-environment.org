@@ -7,6 +7,7 @@
 .. link:
 .. description:
 .. type: text
+.. has_math: true
 
 #+END_COMMENT
 
@@ -19,8 +20,8 @@
 * The Problem
 
 In a number of my org mode files I include exercise with hints and solutions.
-In the pdf files, which I make via \LaTeX, I use the ~answers~ package print the exercises in the main text and the hints and solutions at the end of the file.
-When exporting the file to ~html~ via my homepage I would like to see the exercises, hints and solutions printed like so:
+In the pdf files, which I make via $\LaTeX$, I use the ~answers~ package print the exercises in the main text and the hints and solutions at the end of the file.
+However, when exporting the file to ~html~ via my website I would like to see the exercises, hints and solutions printed like so:
 
 #+begin_exercise
 How to make an excercise environment like this?
@@ -35,7 +36,7 @@ To see how to do this, read on.
 * My Environment
 
 I use ~emacs~ and ~org mode~ to write files, and ~nikola~ to make my homepage.
-After some searching on the web, I found the [[http://alhassy.com/org-special-block-extras/][~org-special-blocks-extra~]] package which proved promissing for my goal.
+After some searching on the web, I found the [[http://alhassy.com/org-special-block-extras/][~org-special-block-extras~]] package which proved promissing for my goal.
 The related [[https://github.com/alhassy/org-special-block-extras][github]] page shows how to install it.
 Here are the steps I followed.
 
@@ -47,14 +48,18 @@ The org mode plugin also provides an ~init.el~ file that I used as a starting po
 
 #+begin_exercise
 The ~init.el~ file contains the line ~(setq package-load-list '((htmlize t)))~. This should be removed. Why?
+#+begin_hint
+What does ~package-load-list~ do?
+#+end_hint
 #+begin_solution
-I need to install ~org-special-blocks-extra~, and this command prevents that.
+I need to install ~org-special-block-extras~, and this command prevents that.
 #+end_solution
 #+end_exercise
 
-Since I need functionality from the special org blocks, I have to update the ~init.el~ anyway, so here it is.
 
 * The adapted ~init.el~
+
+Since I need functionality from ~org-special-block-extras~, I have to update the ~init.el~ anyway, so here it is.
 
 ** Loading the relevant packages
 
@@ -103,8 +108,8 @@ Next I load two packages. The hook on ~org-mode~ is necessary.
 
 ** Updating the code for ~box~ and ~details~ blocks
 
-I adapted the fontsizes and the padding of the ~details~ block of ~org-special-blocks-extra~.
-I just copied the relevant part of  ~org-special-blocks-extra.el~, removed the documentation string, and changed the padding and font size.
+I adapted the fontsizes and the padding of the ~details~ block of ~org-special-block-extras~.
+I just copied the relevant part of  ~org-special-block-extras.el~, removed the documentation string to keep this file small, and changed the padding and font size.
 #+begin_src emacs-lisp :tangle "init.el"
 (org-defblock details (title "Details"
               background-color "#e5f5e5" title-color "green")
@@ -208,7 +213,7 @@ I copied the above on top of the ~init.el~ file, and kept the rest.
 
 * Testing
 
-Let's test in on this file. As this file sits in the ~posts~ we need to include the path to  ~init.el~.
+Let's test this on this file. As this file sits in the ~posts~ we need to include the path to  ~init.el~.
 #+begin_src shell
 /usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "making-an-exercise-environment.org" "~/tmp/output.html")'
 #+end_src

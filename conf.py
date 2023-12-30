@@ -140,13 +140,13 @@ TRANSLATIONS_PATTERN = '{path}.{lang}.{ext}'
 NAVIGATION_LINKS = {
     DEFAULT_LANG: (
         # ("/index.html", "Home"),
-        ("/archive.html", "Archive"),
         ("/bio/", "Bio"),
         ("/books/", "Books"),
+        ("/archive.html", "Posts"),
         ("/presentations/", "Presentations"),
         ("/sites/", "Sites"),
-        ("/categories/", "Tags"),
         ("/tools/", "Tools"),
+        ("/writings/", "Writings"),
         # ("/rss.xml", "RSS feed"),
     ),
 }
@@ -157,9 +157,8 @@ NAVIGATION_LINKS = {
 NAVIGATION_ALT_LINKS = {DEFAULT_LANG: ()}
 
 # Name of the theme to use.
-# THEME = "bootblog4"
-THEME = "bootstrap4"
-
+THEME = "bootblog4"
+# THEME = "libretto"  # mooi, maar geen latex en syntax hightlighting
 
 # Primary color of your theme. This will be used to customize your theme.
 # Must be a HEX value.

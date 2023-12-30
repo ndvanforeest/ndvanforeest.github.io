@@ -1,11 +1,1780 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2023 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Fri, 29 Dec 2023 20:38:39 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Making an Exercise and Solution Environment</title><link>https://ndvanforeest.github.io/posts/making-an-exercise-and-solution-environment/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-org3e2b072" class="outline-2"&gt;
-&lt;h2 id="org3e2b072"&gt;The Problem&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3e2b072"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2023 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Sat, 30 Dec 2023 11:41:07 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>MMM vs MUM: First Step Analysis</title><link>https://ndvanforeest.github.io/posts/mum-and-mmm/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-orgd270054" class="outline-2"&gt;
+&lt;h2 id="orgd270054"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd270054"&gt;
+&lt;p&gt;
+&lt;a id="org371a126"&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+In the previous chapter we developed several algorithms to use multiple throws of a die to give a biscuit to one child out of 19 such that each child has the same probability to win.
+One algorithm to accomplish this worked like this.
+Continue throwing the die until the last two outcomes lie for the first time somewhere in the set \(\{(1,1), (1,2),\ldots, (1,6), (2, 1), \ldots, (2,6), (3,1),\ldots, (3,6), (4,1)\}\). (Note that this set has 19 elements.)
+Child \(1\) wins when the last two outcomes are \( (1,1)\), child \(2\) wins in case when \( (1, 2) \) , and so on.
+This idea, while promising, proved wrong: some children are more likely to win than others.
+&lt;/p&gt;
+
+
+&lt;p&gt;
+In this section we will develop the tools to understand why this algorithm is not fair, as it based on the famous monkey typing problem, which reads like this.
+A monkey types with equal probability, and independent of previous key strokes, any key on a keyboard with 26 letters.
+The monkey problem is find out which of the two words \(mmm\) and \(mum\) has the largest probability to be typed first.
+What is the relation between the monkey and the cookie problem?
+Well, the monkey keeps on typing until the last three key strokes lie in the set \(\{mum, mmm\}\), and it turns out that the word \(mum\) has a larger probability to get hit first. In a similar way, the sequences related to the children do not have equal expected hitting times, hence unequal winning probabilities.
+&lt;/p&gt;
+
+&lt;p&gt;
+To understand this interesting problem, we will develop a few useful concepts: &lt;i&gt;first-step analysis&lt;/i&gt;, &lt;i&gt;stopping times&lt;/i&gt; and &lt;i&gt;hitting times&lt;/i&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+In the typing monkey case, the probability to hit a certain key is \(p=1/26\).
+Below we will see that using such small probabilities in simulation requires long simulation times.
+For this reason, we simplify our alphabet often to just three symbols \(m, u, n\).
+Consequently, the success probability becomes \(p=1/3\), and \(q=2/3\).
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org072fa75" class="outline-2"&gt;
+&lt;h2 id="org072fa75"&gt;First-step analysis&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org072fa75"&gt;
+&lt;p&gt;
+&lt;a id="org43ef04d"&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+We first develop a model for the \(mmm\) sequence.
+We start in some state \(0\); let \(X_{i}\) be the \(i\)th letter typed.
+If \(X_{1}\neq m\), which happens with probability \(q=25/26\), the monkey doesn't make any progress and it remain in state \(0\).
+If, on the other hand, \(X_{1}=m\), which occurs with probability \(p=1-q=1/26\), the monkey moves to state \(m\).
+When in state \(m\), and \(X_{2}\neq m\), it returns to state \(0\); if \(X_{2}=m\), it moves to state \(mm\).
+Finally, in state \(mm\), if \(X_{3}\neq m\), it returns to state \(0\); otherwise it moves to state \(mmm\) and the game stops.
+Thus, more generally, the monkey is interested in the &lt;i&gt;stopping time&lt;/i&gt; \(\tau = \inf\{n \geq 3 : X_{n-2} = X_{n-1} = X_n = m\}\).
+&lt;/p&gt;
+
+&lt;p&gt;
+As we only have to check the last three key strokes, it suffices to take as state space \(S = \{0, m, mm, mmm\}\).
+For notational ease, we often label these states as \(\{0, 1, 2, 3\}\), where the number represents the number of consecutive \(m\)'s, and when the monkey reaches state \(3\) it achieves its goal.
+&lt;/p&gt;
+
+&lt;p&gt;
+When we are in state \(i\), \(i\in \{0, 1, 2, 3\}\), let  \(T(i)\) be  the expected time to hit the final state state.
+Obviously, \(T(3)=0\) since state \(3\) corresponds to \(mmm\).
+What can we say about \(T(0), T(1)\) and \(T(2)\)?
+&lt;sup&gt;&lt;a id="fnr.1" class="footref" href="https://ndvanforeest.github.io/posts/mum-and-mmm/#fn.1" role="doc-backlink"&gt;1&lt;/a&gt;&lt;/sup&gt;
+&lt;/p&gt;
+
+
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Explain that the expected times have to satisfy the system of equations:
+&lt;/p&gt;
+\begin{align*}
+  T(0) &amp;amp;= 1 + q T(0) + p T(1), \\
+ T(1) &amp;amp;= 1 + q T(0) + p T(2),\\
+  T(2) &amp;amp;= 1 + q T(0) + p T(3).
+\end{align*}
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+To move from one state to the next, the monkey always types one key.
+Then, depending on the outcome \(X\), we move to a certain state.
+Consider the first equation.
+When in state \(0\), and the monkey does not hit \(m\) we have to start again, hence, we remain in state \(0\).
+Otherwise, when the monkey types the good key, i.e., \(X=m\), we progress with one extra \(m\).
+Similar reasoning gives the other expressions for the other states. Once state \(3\) is hit, we stop.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Clearly, we obtain a set of equations by considering for each state what can happen in the next step; this process is called &lt;i&gt;first-step analysis&lt;/i&gt;.
+Once we have this system, it remains to solve it by hand or numerically.
+Now this system can be solved by hand with a little effort, but knowing how to tackle this with numerical tools is much more useful.
+&lt;/p&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Explain that the above system can be written in matrix form as \(x = b + P x\), with
+&lt;/p&gt;
+\begin{align*}
+  P &amp;amp;=
+  \begin{pmatrix}
+  q &amp;amp; p &amp;amp; 0\\
+  q &amp;amp; 0 &amp;amp; p\\
+  q &amp;amp; 0 &amp;amp; 0\\
+  \end{pmatrix},
+&amp;amp;   b &amp;amp;=
+      \begin{pmatrix}
+      1 \\ 1 \\ 1
+      \end{pmatrix}, &amp;amp; x &amp;amp;=
+                           \begin{pmatrix}
+                           T(0) \\ T(1) \\ T(2)
+                           \end{pmatrix}.
+\end{align*}
+&lt;p&gt;
+The matrix \(P\) is known as the &lt;i&gt;transition matrix&lt;/i&gt;.
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+Since \(T(3)=0\), we don't have to include that in the system of equations. The other equations are a one-to-one copy of the the system.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Numerical solvers work with linear systems of the type \(A x = b\) for a matrix \(A\) and a vector \(b\).
+Thus, we rewrite \(x = b + P x\) to \((I-P) x = b\), where \(I\) is the identity matrix.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;numpy.linalg&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;solve&lt;/span&gt;
+
+&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;  &lt;span class="c1"&gt;# Probility to hit m&lt;/span&gt;
+&lt;span class="n"&gt;q&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;  &lt;span class="c1"&gt;# Probability to hit u of n&lt;/span&gt;
+
+&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ones&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;P&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;([[&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]])&lt;/span&gt;
+&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;eye&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;P&lt;/span&gt;  &lt;span class="c1"&gt;# Eye gives the identity matrix&lt;/span&gt;
+&lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;solve&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+T=array([39., 36., 27.])
+&lt;/pre&gt;
+
+
+&lt;p&gt;
+We conclude that it takes \(T(0)=39\) keys for the monkey to arrive at \(mmm\) when \(p=1/3\).
+&lt;/p&gt;
+
+
+&lt;p&gt;
+&lt;strong style="font-variant: all-small-caps"&gt;We follow the&lt;/strong&gt; same line of reasoning  for the \(mum\) case.
+&lt;/p&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Now  the states  are \(\{0, m, mu, mum\}\). Why?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+We move from \(0\) to \(m\), just like earlier. In state \(m\), if the next key hit gives a \(u\), we move to \(mu\). Once in \(mu\), hitting \(m\)  brings us to \(mum\).
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+We use the same notation for the expected times \(T(0), T(1)\) and \(T(2)\) as in the \(mmm\) case; \(T(3)=0\) is both problems.
+&lt;/p&gt;
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Explain that for the \(mum\) sequence the expected times have to satisfy:
+&lt;/p&gt;
+\begin{align*}
+  T(0) &amp;amp;= 1 + q T(0) + pT(1),\\
+  T(1) &amp;amp;= 1 + (1-2p)T(0) + p T(1) + p T(2),\\
+  T(2) &amp;amp;= 1 + q T(0).
+\end{align*}
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+Consider the second equation, corresponding to state \(0\), i.e., state \(m\).
+Hitting the key \(m\) brings us back to state \(m\), key \(u\) brings us to \(mu\); other keys make us return to \(0\).
+The probability to hit \(m\) or \(u\) is \(p\), thus the probability to return to \(0\) is \(1-2p\).
+In state \(mu\), if the monkey hits \(m\), we move to \(mum\), otherwise, we go back to \(0\) again.
+&lt;/p&gt;
+
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+While the vector \(b\) is the same for both problems, the (transition) matrix \(P\) for the \(mum\) case becomes:
+&lt;/p&gt;
+\begin{align*}
+  P &amp;amp;=
+  \begin{pmatrix}
+  q &amp;amp; p &amp;amp; 0\\
+  1-2p &amp;amp; p &amp;amp; p\\
+  q &amp;amp; 0 &amp;amp; 0\\
+  \end{pmatrix}.
+\end{align*}
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;P&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;([[&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]])&lt;/span&gt;
+&lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;eye&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;P&lt;/span&gt;
+&lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;solve&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;eye&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;P&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ones&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+T=array([30., 27., 21.])
+&lt;/pre&gt;
+
+
+&lt;p&gt;
+Apparently the number of keys is \(T(0)=30\) to get to  \(mum\). This is quite a bit smaller than the \(39\) expected strokes to reach \(mmm\).
+&lt;/p&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Compare the two matrices \(P\) between the two cases to provide an intuitive explanation for this difference, i.e., \(30\) versus \(39\).
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+For the \(mum\) case, when in state \(m\) we can move on to \(mu\), but also move to state \(m\) again (by typing \(m\)). Thus, with probability \(p\) we don't fall back entirely to state~\(0\). In the \(mmm\) case, we either return to \(0\) or move on.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+In the numerical example, our monkey had just three keys to hit.
+Adapt the code to show that \(T(0)=17602\) when the monkey has the original keyboard with 26 keys at its disposal.
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+Just change \(p=1/3\) to \(p=1/26\) in the code and run it.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Here is a related fun problem to analyze with first-step analyis.
+A mouse sits on one corner of a cube whose edges are made of wire.  There is some chese diagonally opposite the mouse.
+One any corner, the mouse chooses at uniformly any edge, and moves to the next corner.
+When traversing an edge takes one minute, what is the expected time for the mouse to reach the cheese?
+&lt;sup&gt;&lt;a id="fnr.2" class="footref" href="https://ndvanforeest.github.io/posts/mum-and-mmm/#fn.2" role="doc-backlink"&gt;2&lt;/a&gt;&lt;/sup&gt;
+&lt;/p&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Show that the expected time is \(10\)  minutes.
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+The mouse starts at the far side of the cheese.
+Thus, it takes at minimum three edges to get to the cheese..
+Let the expected time to hit the cheese be given by \(T(3)\).
+Now the mouse takes one edge, and then it has at least two edges to travel, which takes expected time \(T(2)\).
+\(T(1)\) is defined similarly.
+A tiny bit of though shows that the times should satisfy the relations:
+&lt;/p&gt;
+\begin{align*}
+T(3) &amp;amp;= 1 + T(2), &amp;amp;
+T(2) &amp;amp;= 1 + T(1) \frac 2 3 + T(3)\frac 13, &amp;amp;
+T(1) &amp;amp;= 1 + T(2)\frac 23.
+\end{align*}
+&lt;p&gt;
+Solving gives \(T(1)= 7, T(2)=9, T(3) = 10\).
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgace3031" class="outline-2"&gt;
+&lt;h2 id="orgace3031"&gt;Estimating hitting times with simulation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgace3031"&gt;
+&lt;p&gt;
+&lt;a id="org2bfa3bb"&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+We can also use simulation to estimate the hitting times for words \(mmm\) and \(mum\).
+We do this in two steps.
+First we consider some ideas that seem correct, but turn out to be wrong.
+The explanation of why this is so, is interesting in itself, and provides another view on why it takes more keys to get to \(mmm\) than to \(mum\).
+Once we figured out what is wrong, we'll develop the correct code.
+Note from the last exercise above that it takes \(17602\) keys on average to reach \(mmm\) when \(p=1/26\).
+As this requires much more simulation effort than to estimate the same hitting time with \(p=1/3\), we consider just the keys \(m, n, u\)$ instead of the full alphabet.
+&lt;/p&gt;
+
+
+&lt;p&gt;
+&lt;strong style="font-variant: all-small-caps"&gt;Here is an&lt;/strong&gt; initial idea to estimate \(T(0)\).
+Generate a large string of \(N\) iid rvs on \(\{0, 1, 2\}\).
+(Once again, we use just three outcomes to speed up the computation.)
+Then, count how often the sequences \((0,0,0)\), which codes for \(mmm\), and \((0, 1, 0)\), which codes for \(mum\), occur.
+If \(N_{m}\) counts \(mmm\) and \(N_{u}\) counts \(mum\), then it might seems that \(N/N_{m}\) must be a good estimator for \(T(0)\) for the \(mmm\) problem, and likewise, \(N/N_{u}\) for the \(mum\) problem.
+&lt;/p&gt;
+
+&lt;p&gt;
+It is not hard to write code to count the number occurrences of sub string within a string.
+However, this is such a common problem in computer science that people wrote very efficient algorithms for this.
+So we use &lt;i&gt;regular expressions&lt;/i&gt; instead of doing the work ourselves.
+(I used ChatGPT to construct the regular expressions.)
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
+
+&lt;span class="n"&gt;gen&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;default_rng&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;N&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;1e6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;L&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;''&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gen&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;choice&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"mnu"&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;Nm&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;findall&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;'(?=mmm)'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;L&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;Nu&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;findall&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;'(?=mum)'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;L&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Nm&lt;/span&gt;&lt;span class="si"&gt;=:&lt;/span&gt;&lt;span class="s2"&gt;2.2f&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;, &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Nu&lt;/span&gt;&lt;span class="si"&gt;=:&lt;/span&gt;&lt;span class="s2"&gt;2.2f&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+N/Nm=27.03, N/Nu=26.89
+&lt;/pre&gt;
+
+
+&lt;p&gt;
+This results is strange at first sight.
+Why are both results nearly equal to 27, while from the above we know that \(T(0)\) is 39 for the \(mmm\) case and \(30\) for the \(mum\) case?
+&lt;/p&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Why is doesn't  the above counting algorithm  provide an estimator for \(T(0)\) for the \(mmm\) case?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+The probability to see \(mmm\) at an arbitrary location in a string with characters \(m\), \(n\) and \(n\) is \((1/3)^3=1/27\); and this is the same for \(mum\).
+Note that this explains the simulation results above: when success occurs with probability \(1/27\), the expected time between two successes is \(27\).
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+But then, if the probabilities to see \(mmm\) and \(mum\) in a long strong of letters are the same, why then does it take longer to see \(mmm\) than \(mum\) when we start from state \(0\)?
+This is somewhat puzzling; we need a new idea to make progress.
+&lt;/p&gt;
+
+&lt;p&gt;
+Suppose that in the long array of letters, we saw the pattern \(mmm\), at positions \(i-2, i-1, i\).
+Let the monkey type the key for the \(i+1\)th time.
+When \(X_{i+1}\neq m\), we have to start all over again, while if \(X_{i+1}=m\) we get the string \(mmmm\), i.e., \(4\) times an \(m\) in row, of which the last three also forms\(mmm\).
+Hence, when \(X_{i+1}=m\) we immediately have another occurrence of the pattern \(mmm\).
+&lt;/p&gt;
+
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Write \(T\) for the expected time between two occurrences of the pattern \(mmm\). Why does\(T\)  satisfy the relation
+&lt;/p&gt;
+\begin{equation}
+\label{org93f03a5}
+T = 1 + q T(0),
+\end{equation}
+&lt;p&gt;
+where \(T(0)\) is the expected time to hit \(mmm\)?
+&lt;/p&gt;
+
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+Suppose we are in state \(mmm\), and the monkey hits a key \(X\).
+Clearly \(\E{T|X=m} = 1\), that is, if the next key is an \(m\), the time \(T\) to see \(mmm\) again is just this one key.
+However, \(\E{T | X \neq m} = 1 + T(0)\).
+To see this last equation, if \(X_{i}\neq m\) we start anew and it takes an expected number of keys \(T(0)\) keys to hit \(mmm\) again, and the 1 counts the key hit by the monkey.
+Combining this with the law of total expectation, \(T = p\E{T|X=m} + q \E{T|X\neq m}\), gives the result.
+&lt;/p&gt;
+
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Check the numerical results we obtained above to see that \eqref{org93f03a5} indeed is satisfied for \(mmm\).
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+Recall that \(T=27\), \(q=2/3\) and \(T(0)= 39\) for \(mmm\) string. Indeed, \(27 = 1 + 39\cdot 2/3 = 1+ 26\).
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+We next consider the \(mum\)  case.
+&lt;/p&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+For the \(mum\) sequence, explain that \(T = 1+(1-2p) T(0) + p T(1) + p T(2)\), and check the numbers for the example.
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+Starting from \(mum\), when \(X_{}=m\) we move to string \(mumm\) which corresponds to state \(m\).
+When \(X_{}=u\), we get string \(mumu\) which is state \(mu\).
+Only  after \(X_{i} = n\) we return to \(0\).
+&lt;/p&gt;
+
+&lt;p&gt;
+To check, note that \(T=27, p = 1/3, T(0)=30, T(1)=27, T(2)=21\).
+Filling it in: \(27=1+30/3 + 27/3 + 21/3 = 1 + 10+9+7\).
+&lt;/p&gt;
+
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+And now it is time to reconcile all the above.
+&lt;/p&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Explain why stopping to throw a die as soon as a winning pattern emerges does not necessarily lead to equal winning chances?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+The pattern \(mum\) has more potential to build up from previous outcomes.
+Therefore it can appear sooner.
+However, once we have seen \(mmm\), it can appear within one extra throw again, while \(mum\) can never recur after one key stroke.
+These two effects balance out for \(mum\) and \(mmm\), so that \(T=27\) for both sequences.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Now we know this, we also understand why the children need not have the same winning probabilities if we use hitting times of different types of outcomes (compare \((1,6)\) to \((1,1)\) for example) to determine which child should win the cookie.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org1a40373" class="outline-2"&gt;
+&lt;h2 id="org1a40373"&gt;Summary&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1a40373"&gt;
+&lt;p&gt;
+By studying the above toy problem we covered many nice and useful ideas.
+With the typing monkey, we observed the subtle fact that the expected time to first hit a pattern need not be equal to the average time between such a pattern occuring in the long run.
+The model and methods of this section can be formulated in terms Markov chains, which form a very useful and powerful framework to analyze probability problems.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="footnotes"&gt;
+&lt;h2 class="footnotes"&gt;Footnotes: &lt;/h2&gt;
+&lt;div id="text-footnotes"&gt;
+
+&lt;div class="footdef"&gt;&lt;sup&gt;&lt;a id="fn.1" class="footnum" href="https://ndvanforeest.github.io/posts/mum-and-mmm/#fnr.1" role="doc-backlink"&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;div class="footpara" role="doc-footnote"&gt;&lt;p class="footpara"&gt;There is a subtle point. For the argument to work the expected times \(T_{i}\) should be finite. We will assume that this is the case.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class="footdef"&gt;&lt;sup&gt;&lt;a id="fn.2" class="footnum" href="https://ndvanforeest.github.io/posts/mum-and-mmm/#fnr.2" role="doc-backlink"&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;div class="footpara" role="doc-footnote"&gt;&lt;p class="footpara"&gt;We assume that the cheese does not move.
+A really interesting extension is to suppose that the cheese is also moving.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/mum-and-mmm/</guid><pubDate>Sat, 30 Dec 2023 11:37:09 GMT</pubDate></item><item><title>Throwing a die for a cookie; Acceptance-rejection policies</title><link>https://ndvanforeest.github.io/posts/one-cookie/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-org079777a" class="outline-2"&gt;
+&lt;h2 id="org079777a"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org079777a"&gt;
+&lt;p&gt;
+We have a class with \(N=19\) children and one biscuit.
+We would like to select one child to give the biscuit, but fate should decide which child.
+If we have a six-sided die, can we use this to select a winner, perhaps with multiple throws, such that each child has the same probability of winning?
+And if so, what strategy would be best, in the sense that it minimizes the expected number of throws?
+&lt;/p&gt;
+
+&lt;p&gt;
+To answer these questions, we first consider some obvious throwing strategies to select a child, uniformly on \(\{1, \ldots, 19\}\).
+As a second step, we suggest a simple strategy that needs less throws on average.
+This policy is somehwat hard to analyze mathematically, so we'll use simulation to assess its quality.
+It turns out that this policy is unfair: some children will have a larger probability of winning than others.
+Interestinly, while this policy is not suitable for our goal, it leads us to a much better algorithm, which &lt;i&gt;is&lt;/i&gt; fair &lt;i&gt;and&lt;/i&gt; optimal in the sense that is requires the least number of throws on average to select the winner.
+I discussed this problem with Henk Tijms and he pointed out an answer on &lt;a href="https://www.quora.com/How-do-I-use-a-fair-6-sided-die-to-generate-a-random-number-from-1-to-20-with-each-outcome-occurring-with-the-same-probability"&gt;Quora&lt;/a&gt; on how to handle a class with 20 pupils.
+Bases on this, I generalized this answer to an algorithm that can deal with an arbitrary number of children.
+&lt;/p&gt;
+
+&lt;p&gt;
+In this section we introduce some general concepts that are generally useful. The first is &lt;i&gt;recursion&lt;/i&gt;, the second is to use &lt;i&gt;acceptance-rejection&lt;/i&gt; policies to decide whether a game should continue or stop.
+&lt;/p&gt;
+
+&lt;p&gt;
+There is no better way to understand a problem than to think about it; we include many exercises to help you with this.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org9012606" class="outline-2"&gt;
+&lt;h2 id="org9012606"&gt;A general approach&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9012606"&gt;
+&lt;p&gt;
+&lt;a id="orgee42c51"&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The first aim is to find a policy that selects in a fair way a winner.
+But before embarking on how to do this for general classes, we start with considering some simple problems. Perhaps we spot a pattern!
+&lt;/p&gt;
+
+
+&lt;p&gt;
+Obviously, when there is \(N=1\) child, there is no need to choose. The next simplest case is when we have \(N=6\) children: number the children from 1 to 6, and throw the die.
+&lt;/p&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+What strategy  would  you use for \(N=2\) children?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+Throw the die. If the outcome is in \(\{1, 2, 3\}\) give the biscuit to the first child, otherwise to the second.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+What strategy  would  you use for \(N=3\)?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+If the outcome is in \(\{1, 2\}\), give the biscuit to the first child; if in \(\{3, 4\}\) to the second; otherwise to the third.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+When \(N=4\), we can use an inefficient, policy.
+Throw the die for each child.
+Each child whose outcome is below \(5\) `survives' to the next round.
+When there are no survivors after the first round (all threw \(5\) or \(6\) ) let them all throw once again.
+When there are \(1\), \(2\), or \(3\) survivors, use the suitable strategy we developed above.
+Thus, the idea of this algorithm is like this: use the die to reduce the group such that a size remains for which we already have a policy.
+However, while this is a fool-proof strategy, it requires at least \(5\) throws.
+We'd better search for more efficient policies.
+&lt;/p&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+For \(N=4\), find a policy  that uses precisely two throws of the die to  select a child.
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+Throw once.
+If the outcome is in \(\{1,2,3\}\), then we will use the second throw to give the cookie to either child \(1\) or \(2\).
+Instead, if the outcome is in \(\{4,5,6\}\), then we will use the second throw to give the cookie to either child \(3\) or \(4\).
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Note that the first throw splits the group into two subgroups \(\{1,2\}\) and \(\{3, 4\}\) of &lt;i&gt;the same size&lt;/i&gt;.
+Then we have two &lt;i&gt;smaller&lt;/i&gt; groups, and for these smaller group we already know how to find a fair solution.
+Clearly, the &lt;i&gt;pattern&lt;/i&gt; of recursion is to try to express the solution in terms of solutions of problems we solved earlier.
+&lt;/p&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+For \(N=4\) we can also keep on throwing until a child is selected. How would such a strategy work?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+Throw the die once. If the outcome is in \(\{1, 2, 3, 4\}\), there is a winner. Otherwise, when  the outcome is \(5\) or \(6\), throw again, and continue throwing until the outcome \(X\in \{1, 2, 3, 4\}\).
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+This second strategy is known as an &lt;i&gt;acceptance-rejection&lt;/i&gt; policy: accept an outcome of an experiment when the outcome lies in a certain subset of the state space, otherwise reject the outcome, and sample again.&lt;sup&gt;&lt;a id="fnr.1" class="footref" href="https://ndvanforeest.github.io/posts/one-cookie/#fn.1" role="doc-backlink"&gt;1&lt;/a&gt;&lt;/sup&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+We can compute the expected number of throws for the second policy with, so-called, &lt;i&gt;first-step&lt;/i&gt; analysis.
+Write \(Y\) for the number of throws we need for the die to hit the set \(\{1,2,3,4\}\).
+The probability to hit this set is \(p=2/3\), while the probability to hit \(\{5,6\}\) is \(q=1-p\).
+&lt;/p&gt;
+
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+If \(\E Y\) is the expected number of throws until we are successful, explain that it must satisfy the relation \(\E Y = 1 + q \E Y\).
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+We need at least one throw. In case of a success, we can stop. In case of a failure, which happens with probability \(q\), we need another throw.
+&lt;/p&gt;
+
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+In probability terms, we say that \(Y\) has the &lt;i&gt;first success distribution&lt;/i&gt; with failure probablity \(q\).
+This is rv is similar to a geometric rv, but slightly different.
+The first success rv counts the number of throws up &lt;i&gt;and including&lt;/i&gt; the number of throws until a success; the geometric rv counts the number of failures until the success, so one less.&lt;sup&gt;&lt;a id="fnr.2" class="footref" href="https://ndvanforeest.github.io/posts/one-cookie/#fn.2" role="doc-backlink"&gt;2&lt;/a&gt;&lt;/sup&gt;
+From this,&lt;sup&gt;&lt;a id="fnr.3" class="footref" href="https://ndvanforeest.github.io/posts/one-cookie/#fn.3" role="doc-backlink"&gt;3&lt;/a&gt;&lt;/sup&gt;
+&lt;/p&gt;
+\begin{equation*}
+\E Y = 1 + q \E Y \implies (1-q) \E Y = 1 \implies \E Y = \frac{1}{1-q} = \frac{1}{p}.
+\end{equation*}
+&lt;p&gt;
+So, for \(N=4\), \(\E Y = 3/2\).
+&lt;/p&gt;
+
+&lt;p&gt;
+Interestingly, the first strategy, based on recursion, always needs exactly \(2\) throws.
+Instead, the acceptance-rejection method requires less throws on average, but there is no formal bound on \(Y\).
+We remark in passing an important take away in the design of random algorithms.
+Sometimes it is required that an algorithm finishes in a guaranteed fixed amount time, rather than that it finishes fast.
+When time constraints are relevant, it's good to have a deterministic algorithm, even though it can be slower on average.
+&lt;/p&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+What is the performance of the  acceptance-rejection strategy for \(N=5\)?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+The success probability \(p=5/6\), hence \(\E Y = 6/5\).
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+For \(N=7\), design an acceptance-rejection algorithm that uses rounds, each consisting of two throws.
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+We need at least one round of two throws.
+Let's make the acceptance region as large as possible so that the probability of rejection set is as small as possible.
+As \(7\times 5 = 35\), we should chop up the sample space in \(7\) non-overlapping sets of equal size.
+Let \(X_1\) and \(X_2\) be the outcomes of the first and second throw, respectively.
+When \(X_1=1, X_2\leq 5\), that is, when the outcome of both throws lies in \(\{(1,1), (1,2), (1,3), (1,4), (1,5)\}\), child 1 wins.
+When \(X_1=2, X_2 \leq 5\), child 2 wins, and so on until child 6.
+For child \(7\), take the associated set such that \(X_1 \leq 5, X_2 = 6\).
+Observe that these events don't overlap. Finally, if the outcome is \((6,6)\), rethrow the die.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+For \(N=7\), what is the expected number of throws for this acceptance-rejection policy?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+With success probability \(p=35/36\), one of the children is selected.
+If the outcome is \((6,6)\) we need another round of two throws.
+The expected number of rounds is \(1/p=36/35\).
+Since each round contains two throws,  the number of throws is \(\E Y = 2/p = 72/35\), which is  nearly \(2\).
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+For \(N=19\),  what is the expected number of throws under an acceptance-rejection policy similar to the one of &lt;a href="https://ndvanforeest.github.io/posts/one-cookie/#org483121f"&gt;1&lt;/a&gt;?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+Throw twice. Assign student one to \((1,1)\), student two to \((1,2)\), \ldots, student \(19\) to \((4,1)\). Either a student is selected by the pair of throws,  with success probability \(p=19/36\), or none is selected and we throw twice again. Then \(\E Y = 2/p = 72/19 \approx 4\).
+&lt;/p&gt;
+
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Why is this form of acceptance-rejection much more efficient for classes of size  \(N=7\) than when \(N=19\)?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+For \(N=7\) we can cover the sample space nearly, the rejection set contains just one element.
+However, for \(N=19\), the cover of the state space with 36 outcomes is maximally inefficient.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Use the idea of the previous exercise to design a policy that needs slightly over 3 throws on average to select a winner for \(N=19\).
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+Take rounds, each with three throws, to get a sample space of size \(6^{3} = 216\) states.
+Split this into 19 subsets of equal size to guarantee that all children have the same probability to win, but such that the rejection is minimal.
+Since \(19\times 11 = 209\) each subset should contain 11 samples.
+For instance, for child 1 we can take \((1,1,1), (1,1,2), \ldots, (1, 2, 5)\).
+&lt;/p&gt;
+
+&lt;p&gt;
+The rejection set, i.e., the number of states not assigned to any child, is \(216-209=7\). Thus, the probability to need another rounds is \(7/209\), and the expected number of rounds is \(216/209\). Hence, the expected number of throws \(\E Y = 3 \times 216/209 \approx 3\).
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Observe that with the strategy discussed in &lt;a href="https://ndvanforeest.github.io/posts/one-cookie/#org79773e7"&gt;1&lt;/a&gt; for \(N=19\), we always have to throw at least three times.
+However, the strategy of &lt;a href="https://ndvanforeest.github.io/posts/one-cookie/#org9d9b82b"&gt;1&lt;/a&gt; sometimes  completes in just two throws.
+Might there be a optimal policy that needs somewhere between \(2\) and \(3\) throws on average?
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org7eaec52" class="outline-2"&gt;
+&lt;h2 id="org7eaec52"&gt;An appealing, but wrong, strategy&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7eaec52"&gt;
+&lt;p&gt;
+&lt;a id="org23696ca"&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+
+&lt;p&gt;
+One promising idea to improve on the strategy of using complete &lt;i&gt;rounds&lt;/i&gt; of two throws for \(N=19\) is as follows.
+If there is no winner after the first and second throw, just throw the die a third time.
+Now check whether the result of the second and third throw is in the list of winning outcomes.
+To illustrate, if \((X_1, X_2) = (4, 3)\), then, by &lt;a href="https://ndvanforeest.github.io/posts/one-cookie/#org9d9b82b"&gt;1&lt;/a&gt;, the outcome \((4,3)\) is not a winning sequence, so that we have to continue with a third throw.
+After seeing \(X_3=4\), there is winning sequence, since \((X_2, X_3) = (3,4)\), which corresponds to child \((3-1)\cdot 6 + 4 = 16\).
+If, however, \((X_1, X_2, X_3) = (4, 5, 1)\) there is not yet a winner, because neither \((4,5)\) nor \((5,1)\) correspond to a child.
+Supposing that \(X_{4}=3\), the result of the last two throws is \((X_3, X_4) = (1, 3)\) so child \(3\) wins.
+&lt;/p&gt;
+
+&lt;p&gt;
+Notwithstanding that this is an appealing strategy, I was not convinced that this strategy will result in all children having an equal probability to win.
+The reason is that it reminded me of the, so-called, `monkey-typing problem'. In a later chapter we will explore this problem, but since its analysis requires some new mathematical ideas, we will use here simulation to see how our this new `monkey' policy performs when \(N=19\).
+&lt;/p&gt;
+
+&lt;p&gt;
+Before we discuss the code below, you should know that in Python (like in C and many other programming languages) arrays start at index 0.
+This will turn out very practical later in this chapter when we use modulo computions. Hence, in all maths and the code below, children start couting at \(0\), and if we have, for example \(4\) children, the associated set will be \(\{0, 1, 2, 3\}\), and &lt;i&gt;not&lt;/i&gt; \(\{1, 2, 3, 4\}\).
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;strong style="font-variant: all-small-caps"&gt;The main parts&lt;/strong&gt; of the next python code work as follows.
+The tuple &lt;code&gt;last_two&lt;/code&gt; corresponds to the outcomes of the last two throws.
+The rejection set &lt;code&gt;reject&lt;/code&gt; contains the tuples that do not correspond to a winner, hence require at least one further throw; hence, &lt;code&gt;reject&lt;/code&gt; contains the outcome pairs \((3,1), \ldots, (5,5)\).
+If &lt;code&gt;last_two&lt;/code&gt; is an element of &lt;code&gt;reject&lt;/code&gt;, we throw the die again and update &lt;code&gt;last_two&lt;/code&gt; to include the last throw.
+We continue with throwing until &lt;code&gt;last_two&lt;/code&gt; is accepted.
+Once we have a winner, we add one win for this child.
+Finally, the &lt;code&gt;count&lt;/code&gt; object counts how often each outcome occurs.&lt;sup&gt;&lt;a id="fnr.4" class="footref" href="https://ndvanforeest.github.io/posts/one-cookie/#fn.4" role="doc-backlink"&gt;4&lt;/a&gt;&lt;/sup&gt;
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;itertools&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+
+&lt;span class="n"&gt;rng&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;default_rng&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;reject&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;union&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;j&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;itertools&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;product&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)):&lt;/span&gt;
+    &lt;span class="n"&gt;reject&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;collections&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Counter&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;num_runs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100_000&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;num_runs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;last_two&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rng&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;integers&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;rng&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;integers&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;last_two&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;reject&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;last_two&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;last_two&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;rng&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;integers&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;last_two&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="n"&gt;most&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;most_common&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;least&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;most_common&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;mean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;num_runs&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="mi"&gt;19&lt;/span&gt;
+
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;reject&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;, &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;least&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;, &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;, &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;most&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;, &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;total&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+len(reject)=17, len(count)=19
+least=4464, mean=5263, most=5677, count.total()=100000
+&lt;/pre&gt;
+
+
+&lt;p&gt;
+We print three checks: the size of the rejection set is \(17\), as it should, the counter counted \(19 = 35 - 17\) different outcomes, and we see \(10^5\) samples in total.
+The difference between the children that win the most and the least is about 900, i.e., about \(1\%\) for a sample size of \(10^{5}\) throws.
+Is this large?
+To provide some context, we can compare this with a simulation of uniform numbers on \(\{0, 1, \ldots, 18\}\).
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+
+&lt;span class="n"&gt;rng&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;default_rng&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;N&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100_000&lt;/span&gt;
+&lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rng&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;integers&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;19&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;bins&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bincount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="nb"&gt;min&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bins&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;, &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="nb"&gt;max&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bins&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+min(bins)=5144, max(bins)=5363
+&lt;/pre&gt;
+
+
+&lt;p&gt;
+This variation between the numbers that occur the most and least often is quite a bit smaller than the variation under the monkey strategy.
+We can do further statistical tests, but for the moment I simply conclude that, under the monkey-typing strategy, the children don't have uniformly distributed winning chances.
+&lt;/p&gt;
+
+
+&lt;p&gt;
+&lt;strong style="font-variant: all-small-caps"&gt;Still I find&lt;/strong&gt; it interesting to analyze how many throws this monkey strategy needs on average tof inish, in particular how it compares to the acceptance-rejection policy designed in &lt;a href="https://ndvanforeest.github.io/posts/one-cookie/#org79773e7"&gt;1&lt;/a&gt;.
+If it slower, then the policy to use (multiple) rounds of three throws times is better in all respects, but if the monkey policy is faster, we might make a trade off between fairness and speed.
+Note that this is a common theme in optimization: nearly always there are multiple objectives that we like to minimize or maximize, but we cannot perform optimally on all dimenstions at the same time.
+If so, we need to make a choice which objective we prefer over another.&lt;sup&gt;&lt;a id="fnr.5" class="footref" href="https://ndvanforeest.github.io/posts/one-cookie/#fn.5" role="doc-backlink"&gt;5&lt;/a&gt;&lt;/sup&gt;
+&lt;/p&gt;
+
+
+&lt;p&gt;
+Returning to the analysis of the average number of throws it takes the monkey to select a winner, consider the code below.
+The next exercise asks you to explain some parts of it.
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;last_two&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rng&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;integers&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;rng&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;integers&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;last_two&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;reject&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;last_two&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;last_two&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;rng&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;integers&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+T/N=2.94335
+&lt;/pre&gt;
+
+
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Explain why &lt;code&gt;T&lt;/code&gt; counts the total number of throws for &lt;code&gt;N&lt;/code&gt; simulations.
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+We add \(2\) to capture the first two throws for each new game. Then we add a throw  for each time &lt;code&gt;last_two&lt;/code&gt; lies in the rejection set, hence did not lead to a winner.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+As &lt;code&gt;T&lt;/code&gt; counts the total number of throws for \(N\) games, &lt;code&gt;T/N&lt;/code&gt; is the average number of throws per game.
+Apparently, this lies just a bit below \(3\).
+In summary, although unfair, the monkey policy needs less throws on average than the best acceptance-rejection policy so far, as this already needs three throws for the first round.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orga9bad40" class="outline-2"&gt;
+&lt;h2 id="orga9bad40"&gt;An optimal strategy&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga9bad40"&gt;
+&lt;p&gt;
+&lt;a id="orga40f2ab"&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+In the above we learned that when the class contains \(N=19\) children, the monkey strategy, which prescribes to continue throwing the die until a winning pattern emerges, does not give a fair outcome.
+Hence, for the moment, by &lt;a href="https://ndvanforeest.github.io/posts/one-cookie/#org79773e7"&gt;1&lt;/a&gt; the best fair algorithm for \(N=19\) seems to throw three times: if that gives a winner, stop; otherwise throw three times again, and continue with rounds until there is a winner.
+&lt;/p&gt;
+
+&lt;p&gt;
+However, there is a strategy that is fair and  minimizes the expected number of throws at the same time.
+This strategy we discuss now. Although a bit harder to understand, it's an elegant interplay between probability and number theory.
+&lt;/p&gt;
+
+&lt;p&gt;
+In the sequel we write \(Z\sim\Unif{\{0, 1, \ldots, n\}}\) to say that a rv \(Z\) is uniformly distributed on the set \(\{0, 1, \ldots, n\}\).
+We also write \(Z|A\) to denote a rv \(Z\) given that the event \(A\) materialized.
+&lt;/p&gt;
+
+
+&lt;p&gt;
+&lt;strong style="font-variant: all-small-caps"&gt;Let us first&lt;/strong&gt; estimate the number of throws needed for a class with \(N=20\) children; this is somewhat simpler than the  case with \(N=19\).
+Consider the  following code, where \(X\) is an iid uniform rv on \(\{0,\ldots,5\}\) corresponding to the throw of the die.
+The line &lt;code&gt;t % 20&lt;/code&gt; computes the remainder of &lt;code&gt;t&lt;/code&gt; after dividing by \(20\).
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+
+&lt;span class="n"&gt;rng&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;default_rng&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rng&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;integers&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;
+&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Explain that \(t_{1}\sim \Unif{\{0, \ldots, 5\}}\), \(t_{2}\sim \Unif{\{0, \ldots, 35\}}\), and \(t_{i}\sim \Unif{\{16,\ldots 95\}}\) for any throw \(i\geq 3\).
+Then explain why \(t\sim \Unif{\{0, 1, \ldots, 19\}}\) when the algorithm terminates.
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+We start with \(t_{0}=0\).
+After the first throw
+&lt;/p&gt;
+\begin{equation*}
+t_{1} = 6 t_{0} + X_{1} = X_{1} \sim \Unif{\{0, \ldots, 5\}}.
+\end{equation*}
+&lt;p&gt;
+After the second, the rv \(6t_{1} \sim \Unif{\{0, 6, 12, 18, 24, 30\}}\).
+And thus, \(t_{2} = 6t_{1} + X_{2} \sim \Unif{\{0, 1, 2, \ldots, 35\}}\).
+If \(t_{2} \geq 16\), then \(t_{2}\in \{16, 35\}\).
+But in this case \(t_{2} | t_{2} \geq 16\) is uniform on a set with 20 elements.
+Thus, by taking the remainder \(t_{2} \pmod{20}\) we get a uniform rv on \(\{0, 1, 2, \ldots, 19\}\).
+If, on the other hand, \(t_{2} &amp;lt; 16\), then \(t_{2} | t_{2} &amp;lt; 16 \sim \Unif{\{0, 1, \ldots, 15\}}\).
+A third throw then gives \(t_{3} = 6t_{2}+ X_{2} \sim\Unif{\{0, 1, 2, \ldots, 95\}}\).
+When \(t_{3}\in \{16, 95\}\) we can divide by 20 and take the remainder (observe that the set \(\{16, 17,\ldots, 95\}\) has 80 elements).
+And, when \(t_{3}\leq 15\), throw again, and so on.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Why does this algorithm minimize the expected number of throws to obtain a rv uniform on \(\{0, 1, \ldots, 19\}\)?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+After every throw, the set that requires another throw is minimal.
+Specifically, of the set \(\{0, 1, \ldots, 95\}\) we can at most remove 80 elements to guarantee a uniform drawing after dividing by 20 and taking the remainder.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+&lt;strong style="font-variant: all-small-caps"&gt;The above two&lt;/strong&gt; exercises explain the threshold \(16\) of the algorithm for \(N=20\).
+Now that we understand this, we can try to generalize the algorithm to other values for \(N\), such \(N=19\).
+Consider the following update rule for \(i=1, 2, \ldots\), \(t_0=0\), and \(X_1\sim\Unif{\{0, \ldots, 5\}}\),
+&lt;/p&gt;
+\begin{equation*}
+t_i = 6 t_{i-1} + X_{i}.
+\end{equation*}
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Take \(N=19\).
+After the second throw,  \(t_{2}\sim \Unif{\{0, 1, \ldots, 35\}}\).
+In view of the above, what subset of \(\{0, 1, \ldots, 35\}\) can we use as an acceptance set to generate a rv \(\sim \Unif{\{0, \ldots, 18\}}\) from \(t_{2}\)?
+What should be the rejection set for \(t_{2}\)?
+Finally, why should we replace the threshold \(16\) for the case \(N=20\) by \(17\) for \(N=19\)?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+We don't have to rethrow when \(t_{2}\in \{17, 18, \ldots, 35\}\), as this set contains \(35 - 16 = 19\) elements.
+However, when \(t_{2}\) lies in \(\{0, 1, \ldots, 16\}\), we need to throw again.
+Thus, the threshold for \(t_{2}\) should be \(17\) rather than \(16\).
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+For \(N=19\), we should change the acceptance threshold to 7 after the third throw. Why?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+As \(t_2\) is maximally \(16\), the largest value of \(t_{3}\) is \(6 \times 16 + 5 = 101\).
+To make the probability of a rethrow as small as possible, we take \(7\) as a threshold since \(101 - 5\times 19 = 6\).
+The event \(\{7, 8, \ldots, 101\}\) contains \(95 = 5\times 19\) elements, so on this subset we can divide by \(19\) and take the remainder to get a uniform rv on \(\{0, 1, \ldots, 18\}\).
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Notice that for \(N=19\) the threshold is not the same for each throw, i.e., 17 for the second and 7 for the third throw.
+&lt;/p&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Explain again why for \(N=20\) the threshold remains \(15\).
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+\(N=20\) is a special case.
+We have seen earlier that \(t_2\) is maximally \(15\) in this case.
+But then, \(t_{3} = 6 \times 15 = 95\).
+Removing the largest possible acceptance set containing \(4\times 20 = 80\), we see that \(6\times 15 + 5 - 4 \times 20 = 15\). Thus, the thresold \(15\) is a fixed point.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Clearly, to deal with cases such as \(N=19\) we need to modify the above algorithm.
+Here is a generalized version.&lt;sup&gt;&lt;a id="fnr.6" class="footref" href="https://ndvanforeest.github.io/posts/one-cookie/#fn.6" role="doc-backlink"&gt;6&lt;/a&gt;&lt;/sup&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;select_uniformly_with_a_die&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rng&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;integers&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;
+        &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;
+        &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+What sequence of &lt;code&gt;(n,r)&lt;/code&gt; does &lt;code&gt;select_uniformly_with_a_die&lt;/code&gt; produce for the cases \(N=2\), \(N=3\), and \(N=6^{3}=216\) (or any other power of 6)?
+When does it terminate?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+For \(N=2\), starting with &lt;code&gt;n = r = 1, t = 0&lt;/code&gt;, after one throw &lt;code&gt;(n,r) = (6,0)&lt;/code&gt;, hence \(t_{1} = 6t_{0}+X = 6\cdot 0 + X \geq  0 = r\).
+Thus, the algo terminates, and the winning child is \(t_{1}= X \pmod{2} \in \{0, 1\}\).
+For \(N=3\) it works the same: we have that \(t=X \pmod{3} \in \{0, 1, 2\}\).
+For \(N=6^3=216\), we see that &lt;code&gt;(n, r)&lt;/code&gt; progresses as \((1,1) \to (6,6) \to (36, 36) \to (216, 0)\).
+Since now \(r=0\), the algorithm necessarily terminates after three steps.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+The same questions, but now for \(N=4\). With this, show that \(\E Y = 4/3\).
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+For \(N=4\), &lt;code&gt;(n, r)&lt;/code&gt; develops as \((1,1) \to (6, 2) \to (12, 0)\).
+As after the first throw \((n,r)=(6,2)\), the probability to accept the outcome is \((n-r)/n = 4/6\), and to reject is \(r/n = 2/6\).
+After the second throw \((n,r)=(12,0)\), so any outcome will be accepted, and the algorithm terminates
+Hence, the expected number of throws is \(E Y =\frac{4}{6} + 2\cdot \frac{2}{6} = \frac{4}{3}\).
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Explain that  \(\E Y = 72/35\) for \(N=7\).
+Compare with &lt;a href="https://ndvanforeest.github.io/posts/one-cookie/#orgfb92208"&gt;1&lt;/a&gt;.
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+For \(N=7\), the tuple &lt;code&gt;(n, r)&lt;/code&gt; progresses as \((1,1) \to (6, 6) \to (36, 1)\to (6, 6) \to \) and so on. Hence,
+&lt;/p&gt;
+\begin{equation}
+\E Y= 1 + 1 + \frac{1}{36}\left(1 + 1 + \frac{1}{36}( 1 + 1 \ldots)\right).
+\end{equation}
+&lt;p&gt;
+In other words,
+&lt;/p&gt;
+\begin{equation*}
+\E Y = 2 + \frac{1}{36}\E Y \implies \frac{35}{36}\E Y = 2 \implies \E Y = 72/35.
+\end{equation*}
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Why does this algorithm work for general \(N\)?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+The variable \(r\) contains the remainder of \(n\) after dividing by \(N\).
+The largest that \(t\) can become after a new iteration is \(6r + 5\), while the smallest value of \(t\) is \(0\), which we get after successive outcomes of \(X=0\).
+Thus, \(t\in \{0, 1, \ldots 6r + 5\}\). This set contains \(n=6r\) elements.  By taking \(r\) to \(n \pmod{N}\) we minimize the size of the rejection set for the next throw.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+&lt;strong style="font-variant: all-small-caps"&gt;Let us test&lt;/strong&gt; this generalized algorithm numerically. Here is the code.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;collections&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Counter&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;num_runs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;select_uniformly_with_a_die&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;19&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+
+&lt;span class="n"&gt;most&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;most_common&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;least&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;most_common&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;mean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;num_runs&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="mi"&gt;19&lt;/span&gt;
+
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;, &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;total&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;least&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;, &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;, &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;most&lt;/span&gt;&lt;span class="si"&gt;=}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+len(count)=19, count.total()=100000
+least=5144, mean=5263, most=5434
+&lt;/pre&gt;
+
+
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Think about the simplest possible test of the correctness of this algorithm. Does the output satisfy this test?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+We see that at least all children can become a winner because &lt;code&gt;count&lt;/code&gt; has 19 elements..
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+If we compare this output to our earlier results, the difference between the least and most winning child is  reasonable.
+In fact, comparing the occurrences, we see that our algorithm  performs very well!
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;strong style="font-variant: all-small-caps"&gt;The last step&lt;/strong&gt; is to estimate the expected number of throws \(\E Y\) required for the case \(N=19\).
+First, however, we consider \(N=20\) because in this case we can obtain a simple closed-form expression for \(\E Y\).
+&lt;/p&gt;
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+For \(N=20\) explain that
+&lt;/p&gt;
+\begin{align*}
+\E Y &amp;amp;= 2 + \frac{16}{36} \E Z, &amp;amp; \E Z &amp;amp;= 1 + \frac{16}{96} \E Z.
+\end{align*}
+&lt;p&gt;
+Hence \(\E Z = 6/5\) and \(\E Y = 2.5333\).
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+We need at least 2 throws. When \(t &amp;lt; 16\), which happens with probability \(16/36\), we need to rethrow. The rv \(Z\) is the number of throws, if we need to rethrow. Since \((r, n)=(16, 96)\),
+&lt;/p&gt;
+\begin{equation*}
+\E Z = 1 + \frac{16}{96} \E Z \implies \E Z = 1 + \frac{1}{6}\E Z \implies \E Z = \frac{6}{5}.
+\end{equation*}
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;p&gt;
+To compute \(\E Y\) for general \(N\) we can slightly  modify the above algorithm.
+&lt;/p&gt;
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Explain the  algorithm below.
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+The overall algorithm specifies to continue after iteration \(i\) when \(t &amp;lt; r_{i}\), and otherwise to stop.
+The probability per iteration to continue is \(r_{i}/n_{i}\).
+Thus, the probality to survive for \(i\) rounds is \(\alpha_i = \alpha_{i-1} r_i/n_i\).
+Adding up these probabilities gives us \(\E Y\).
+&lt;/p&gt;
+
+&lt;p&gt;
+Numerically we stop when \(\alpha_i \leq \epsilon\), with \(\epsilon\) some small number.
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt;
+&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;eps&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;1e-3&lt;/span&gt;
+&lt;span class="n"&gt;EY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;alpha&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;EY&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;alpha&lt;/span&gt;
+    &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;
+    &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt;
+    &lt;span class="n"&gt;alpha&lt;/span&gt; &lt;span class="o"&gt;*=&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="si"&gt;=:&lt;/span&gt;&lt;span class="s2"&gt;3d&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;, &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="si"&gt;=:&lt;/span&gt;&lt;span class="s2"&gt;3d&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;, &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="si"&gt;=:&lt;/span&gt;&lt;span class="s2"&gt;2.4f&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;, &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="si"&gt;=:&lt;/span&gt;&lt;span class="s2"&gt;2.4f&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;, &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;EY&lt;/span&gt;&lt;span class="si"&gt;=:&lt;/span&gt;&lt;span class="s2"&gt;2.4f&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre class="example"&gt;
+n=  6, r=  6, r/n=1.0000, alpha=1.0000, EY=1.0000
+n= 36, r= 16, r/n=0.4444, alpha=0.4444, EY=2.0000
+n= 96, r= 16, r/n=0.1667, alpha=0.0741, EY=2.4444
+n= 96, r= 16, r/n=0.1667, alpha=0.0123, EY=2.5185
+n= 96, r= 16, r/n=0.1667, alpha=0.0021, EY=2.5309
+n= 96, r= 16, r/n=0.1667, alpha=0.0003, EY=2.5329
+&lt;/pre&gt;
+
+
+&lt;p&gt;
+This seems to converges to \(2.533\). The last task is to run the code for \(N=19\).
+This gives \(\E Y=2.509\).
+Comparing this to the monkey strategy of &lt;a href="https://ndvanforeest.github.io/posts/one-cookie/#org99a1970"&gt;1&lt;/a&gt; we see that this algorithm  does better on all respects: it is fair &lt;i&gt;and&lt;/i&gt; requires less throws on average.
+&lt;/p&gt;
+
+&lt;p&gt;
+And now two final questions.
+&lt;/p&gt;
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+What is the relation between this good algorithm and the monkey-typing strategy, and what is the major difference?
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+Both policies start with throwing twice, and then continue with single throws to decide to stop or not.  So, both policies don't work with rounds of throws. The difference is in the acceptance set. In particular, for the good policy, this set is dynamic, i.e., depends on the value of \((n,r)\).
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;br&gt;
+
+
+&lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
+&lt;p&gt;
+Can it ever happen for \(N=19\) and a \(6\) sided die that the rejection set becomes empty? Recall, when \(N=4\), the rejection set is empty after two steps, since \(r_2=0\).
+&lt;/p&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="red"&gt;
+                         Solution
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+No, this is impossible.
+Take any \(r\in \{0,1,\ldots, 17\}\), and set \(n=6r\).
+Then \(n\) and \(19\) are co-prime, in other words, the greatest common divisor of \(n\) and \(19\) is \(1\).
+This implies that \(r = n \pmod 19 \in \{0, 1,\ldots, 17\}\).
+&lt;/p&gt;
+
+
+
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org943e670" class="outline-2"&gt;
+&lt;h2 id="org943e670"&gt;Summary&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org943e670"&gt;
+&lt;p&gt;
+By studying the above toy problem we covered many nice and useful ideas.
+We developed acceptance-rejection strategies to select a winner.
+Then we tried to speed up this algorithm to the monkey algorithm, but this algorithm turned out to be unfair.
+However, by improving the idea, we were able to find a fair and optimal algorithm.
+This final algorithm is not quite trivial, but effective and suprisingly short.
+&lt;/p&gt;
+
+&lt;p&gt;
+In the next section we'll look at the monkey-typing strategy.
+This will provide us with a number of useful tools, in particular first-step analysis.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="footnotes"&gt;
+&lt;h2 class="footnotes"&gt;Footnotes: &lt;/h2&gt;
+&lt;div id="text-footnotes"&gt;
+
+&lt;div class="footdef"&gt;&lt;sup&gt;&lt;a id="fn.1" class="footnum" href="https://ndvanforeest.github.io/posts/one-cookie/#fnr.1" role="doc-backlink"&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;div class="footpara" role="doc-footnote"&gt;&lt;p class="footpara"&gt;It seems like an experiment in which the aim is to prove that a new medicine works.
+If the data shows that the medicine does not work, just repeat.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class="footdef"&gt;&lt;sup&gt;&lt;a id="fn.2" class="footnum" href="https://ndvanforeest.github.io/posts/one-cookie/#fnr.2" role="doc-backlink"&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;div class="footpara" role="doc-footnote"&gt;&lt;p class="footpara"&gt;I  frequently mess up these rvs.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class="footdef"&gt;&lt;sup&gt;&lt;a id="fn.3" class="footnum" href="https://ndvanforeest.github.io/posts/one-cookie/#fnr.3" role="doc-backlink"&gt;3&lt;/a&gt;&lt;/sup&gt; &lt;div class="footpara" role="doc-footnote"&gt;&lt;p class="footpara"&gt;There is subtle detail for this idea to work, \(\E Y\) should be finite.
+We will ignore such mathematical points in the sequel.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class="footdef"&gt;&lt;sup&gt;&lt;a id="fn.4" class="footnum" href="https://ndvanforeest.github.io/posts/one-cookie/#fnr.4" role="doc-backlink"&gt;4&lt;/a&gt;&lt;/sup&gt; &lt;div class="footpara" role="doc-footnote"&gt;&lt;p class="footpara"&gt;Ask ChatGPT to explain code you don't understand.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class="footdef"&gt;&lt;sup&gt;&lt;a id="fn.5" class="footnum" href="https://ndvanforeest.github.io/posts/one-cookie/#fnr.5" role="doc-backlink"&gt;5&lt;/a&gt;&lt;/sup&gt; &lt;div class="footpara" role="doc-footnote"&gt;&lt;p class="footpara"&gt;Finding good objectives is most often not a mathematical problem, in fact, some (or much) wisdom is needed to understand when to use mathematics, and when to stop using mathematics.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class="footdef"&gt;&lt;sup&gt;&lt;a id="fn.6" class="footnum" href="https://ndvanforeest.github.io/posts/one-cookie/#fnr.6" role="doc-backlink"&gt;6&lt;/a&gt;&lt;/sup&gt; &lt;div class="footpara" role="doc-footnote"&gt;&lt;p class="footpara"&gt;We assign the outcome of the throw of the die to the variable \(X\) just for clarity.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/one-cookie/</guid><pubDate>Sat, 30 Dec 2023 10:14:57 GMT</pubDate></item><item><title>Making an Exercise and Solution Environment</title><link>https://ndvanforeest.github.io/posts/making-an-exercise-and-solution-environment/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="outline-container-org9a0713d" class="outline-2"&gt;
+&lt;h2 id="org9a0713d"&gt;The Problem&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9a0713d"&gt;
 &lt;p&gt;
 In a number of my org mode files I include exercise with hints and solutions.
-In the pdf files, which I make via \LaTeX, I use the &lt;code&gt;answers&lt;/code&gt; package print the exercises in the main text and the hints and solutions at the end of the file.
-When exporting the file to &lt;code&gt;html&lt;/code&gt; via my homepage I would like to see the exercises, hints and solutions printed like so:
+In the pdf files, which I make via \(\LaTeX\), I use the &lt;code&gt;answers&lt;/code&gt; package print the exercises in the main text and the hints and solutions at the end of the file.
+However, when exporting the file to &lt;code&gt;html&lt;/code&gt; via my website I would like to see the exercises, hints and solutions printed like so:
 &lt;/p&gt;
 
 &lt;div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"&gt; &lt;h3&gt;&lt;/h3&gt; 
@@ -53,12 +1822,12 @@ To see how to do this, read on.
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org36df5a4" class="outline-2"&gt;
-&lt;h2 id="org36df5a4"&gt;My Environment&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org36df5a4"&gt;
+&lt;div id="outline-container-org841ae6f" class="outline-2"&gt;
+&lt;h2 id="org841ae6f"&gt;My Environment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org841ae6f"&gt;
 &lt;p&gt;
 I use &lt;code&gt;emacs&lt;/code&gt; and &lt;code&gt;org mode&lt;/code&gt; to write files, and &lt;code&gt;nikola&lt;/code&gt; to make my homepage.
-After some searching on the web, I found the &lt;a href="http://alhassy.com/org-special-block-extras/"&gt;&lt;code&gt;org-special-blocks-extra&lt;/code&gt;&lt;/a&gt; package which proved promissing for my goal.
+After some searching on the web, I found the &lt;a href="http://alhassy.com/org-special-block-extras/"&gt;&lt;code&gt;org-special-block-extras&lt;/code&gt;&lt;/a&gt; package which proved promissing for my goal.
 The related &lt;a href="https://github.com/alhassy/org-special-block-extras"&gt;github&lt;/a&gt; page shows how to install it.
 Here are the steps I followed.
 &lt;/p&gt;
@@ -84,30 +1853,49 @@ The &lt;code&gt;init.el&lt;/code&gt; file contains the line &lt;code&gt;(setq pa
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
                   &lt;summary&gt;
                     &lt;strong&gt;
+                      &lt;font face="Courier" size="3" color="green"&gt;
+                         Hint
+                      &lt;/font&gt;
+                    &lt;/strong&gt;
+                  &lt;/summary&gt;
+&lt;p&gt;
+What does &lt;code&gt;package-load-list&lt;/code&gt; do?
+&lt;/p&gt;
+
+
+&lt;/details&gt;
+&lt;details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"&gt;
+                  &lt;summary&gt;
+                    &lt;strong&gt;
                       &lt;font face="Courier" size="3" color="red"&gt;
                          Solution
                       &lt;/font&gt;
                     &lt;/strong&gt;
                   &lt;/summary&gt;
 &lt;p&gt;
-I need to install &lt;code&gt;org-special-blocks-extra&lt;/code&gt;, and this command prevents that.
+I need to install &lt;code&gt;org-special-block-extras&lt;/code&gt;, and this command prevents that.
 &lt;/p&gt;
 
 
 &lt;/details&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org600e0d8" class="outline-2"&gt;
+&lt;h2 id="org600e0d8"&gt;The adapted &lt;code&gt;init.el&lt;/code&gt;&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org600e0d8"&gt;
 &lt;p&gt;
-Since I need functionality from the special org blocks, I have to update the &lt;code&gt;init.el&lt;/code&gt; anyway, so here it is.
+Since I need functionality from &lt;code&gt;org-special-block-extras&lt;/code&gt;, I have to update the &lt;code&gt;init.el&lt;/code&gt; anyway, so here it is.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-org74a3f4d" class="outline-2"&gt;
-&lt;h2 id="org74a3f4d"&gt;The adapted &lt;code&gt;init.el&lt;/code&gt;&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org74a3f4d"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orgefc1ab9" class="outline-3"&gt;
-&lt;h3 id="orgefc1ab9"&gt;Loading the relevant packages&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgefc1ab9"&gt;
+&lt;div id="outline-container-org1ff75c1" class="outline-3"&gt;
+&lt;h3 id="org1ff75c1"&gt;Loading the relevant packages&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1ff75c1"&gt;
 &lt;p&gt;
 Since I use  &lt;code&gt;straight&lt;/code&gt; and &lt;code&gt;use-package&lt;/code&gt;, I need to put this on the top of the &lt;code&gt;init.el&lt;/code&gt; file. I copied this straight from my regular &lt;code&gt;init.el&lt;/code&gt;
 &lt;/p&gt;
@@ -154,12 +1942,12 @@ Next I load two packages. The hook on &lt;code&gt;org-mode&lt;/code&gt; is neces
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org88b3550" class="outline-3"&gt;
-&lt;h3 id="org88b3550"&gt;Updating the code for &lt;code&gt;box&lt;/code&gt; and &lt;code&gt;details&lt;/code&gt; blocks&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org88b3550"&gt;
+&lt;div id="outline-container-org11019fe" class="outline-3"&gt;
+&lt;h3 id="org11019fe"&gt;Updating the code for &lt;code&gt;box&lt;/code&gt; and &lt;code&gt;details&lt;/code&gt; blocks&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org11019fe"&gt;
 &lt;p&gt;
-I adapted the fontsizes and the padding of the &lt;code&gt;details&lt;/code&gt; block of &lt;code&gt;org-special-blocks-extra&lt;/code&gt;.
-I just copied the relevant part of  &lt;code&gt;org-special-blocks-extra.el&lt;/code&gt;, removed the documentation string, and changed the padding and font size.
+I adapted the fontsizes and the padding of the &lt;code&gt;details&lt;/code&gt; block of &lt;code&gt;org-special-block-extras&lt;/code&gt;.
+I just copied the relevant part of  &lt;code&gt;org-special-block-extras.el&lt;/code&gt;, removed the documentation string to keep this file small, and changed the padding and font size.
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;org-defblock&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;details&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;title&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"Details"&lt;/span&gt;
 &lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nv"&gt;background-color&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"#e5f5e5"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;title-color&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"green"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -241,9 +2029,9 @@ And also for the  &lt;code&gt;box&lt;/code&gt; block.
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgfe0940e" class="outline-3"&gt;
-&lt;h3 id="orgfe0940e"&gt;Making the exercise, hint and solution blocks&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgfe0940e"&gt;
+&lt;div id="outline-container-org77ded42" class="outline-3"&gt;
+&lt;h3 id="org77ded42"&gt;Making the exercise, hint and solution blocks&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org77ded42"&gt;
 &lt;p&gt;
 The exercise, hint and solution blocks are now simple to implement (after I read the examples on &lt;a href="http://alhassy.com/org-special-block-extras/"&gt;&lt;code&gt;org-special-blocks-extra&lt;/code&gt;&lt;/a&gt;).
 &lt;/p&gt;
@@ -267,11 +2055,11 @@ I copied the above on top of the &lt;code&gt;init.el&lt;/code&gt; file, and kept
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgad0b705" class="outline-2"&gt;
-&lt;h2 id="orgad0b705"&gt;Testing&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgad0b705"&gt;
+&lt;div id="outline-container-orgff562cc" class="outline-2"&gt;
+&lt;h2 id="orgff562cc"&gt;Testing&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgff562cc"&gt;
 &lt;p&gt;
-Let's test in on this file. As this file sits in the &lt;code&gt;posts&lt;/code&gt; we need to include the path to  &lt;code&gt;init.el&lt;/code&gt;.
+Let's test this on this file. As this file sits in the &lt;code&gt;posts&lt;/code&gt; we need to include the path to  &lt;code&gt;init.el&lt;/code&gt;.
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "making-an-exercise-environment.org" "~/tmp/output.html")'
 &lt;/pre&gt;&lt;/div&gt;
@@ -1208,34 +2996,4 @@ If you like to include the code to show how you made the graph, use the &lt;code
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/latex-pythontex-matplotlib-tikzplotlib/</guid><pubDate>Wed, 30 Sep 2020 19:18:52 GMT</pubDate></item><item><title>My first post</title><link>https://ndvanforeest.github.io/posts/my-first-post/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;div id="table-of-contents" role="doc-toc"&gt;
-&lt;h2&gt;Table of Contents&lt;/h2&gt;
-&lt;div id="text-table-of-contents" role="doc-toc"&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href="https://ndvanforeest.github.io/posts/my-first-post/#orgeeb130e"&gt;Here is my first post&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgeeb130e" class="outline-2"&gt;
-&lt;h2 id="orgeeb130e"&gt;Here is my first post&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgeeb130e"&gt;
-&lt;p&gt;
-I want to write posts and a homepage in org mode.
-(I dislike &lt;code&gt;markdown&lt;/code&gt;, and I detest typing math in &lt;code&gt;rst&lt;/code&gt;.)
-After watching one of the blogs on &lt;a href="https://cestlaz.github.io/stories/emacs/"&gt;Cest la Z&lt;/a&gt;  I considered &lt;code&gt;nikola&lt;/code&gt; as a good option to set things up.
-It turned out to be really easy; I just followed the steps as described &lt;a href="https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/"&gt;Here&lt;/a&gt;. I had to install some python packages, but with &lt;code&gt;pip&lt;/code&gt; this was a no brainer.
-&lt;/p&gt;
-
-
-&lt;p&gt;
-There was one caveat with including source code blocks in &lt;code&gt;org&lt;/code&gt; files.
-After reading the error messages, I noticed that I had to install the emacs &lt;code&gt;htlmize&lt;/code&gt; package.
-The &lt;code&gt;init.el&lt;/code&gt; and &lt;code&gt;myinit.org&lt;/code&gt; files on my &lt;a href="https://github.com/ndvanforeest/emacs"&gt;emacs repo&lt;/a&gt; show how to set this up.
-&lt;/p&gt;
-
-&lt;p&gt;
-And now all works!
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/my-first-post/</guid><pubDate>Wed, 30 Sep 2020 19:15:13 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><guid>https://ndvanforeest.github.io/posts/latex-pythontex-matplotlib-tikzplotlib/</guid><pubDate>Wed, 30 Sep 2020 19:18:52 GMT</pubDate></item></channel></rss>
