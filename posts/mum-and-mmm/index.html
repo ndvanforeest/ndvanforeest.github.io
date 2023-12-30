@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MMM vs MUM: First Step Analysis | Nicky's site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://ndvanforeest.github.io/posts/mum-and-mmm/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+<meta name="author" content="Nicky van Foreest">
+<link rel="prev" href="../one-cookie/" title="Throwing a die for a cookie; Acceptance-rejection policies" type="text/html">
+<meta property="og:site_name" content="Nicky's site">
+<meta property="og:title" content="MMM vs MUM: First Step Analysis">
+<meta property="og:url" content="https://ndvanforeest.github.io/posts/mum-and-mmm/">
+<meta property="og:description" content="Introduction
+
+
+
+
+
+
+In the previous chapter we developed several algorithms to use multiple throws of a die to give a biscuit to one child out of 19 such that each child has the same probability to win">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-12-30T12:37:09+01:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="../../">
+
+            <span id="blog-title">Nicky's site</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                    
+            </ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="../../bio/" class="nav-link">Bio</a>
+                </li>
+<li class="nav-item">
+<a href="../../books/" class="nav-link">Books</a>
+                </li>
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Posts</a>
+                </li>
+<li class="nav-item">
+<a href="../../presentations/" class="nav-link">Presentations</a>
+                </li>
+<li class="nav-item">
+<a href="../../sites/" class="nav-link">Sites</a>
+                </li>
+<li class="nav-item">
+<a href="../../tools/" class="nav-link">Tools</a>
+                </li>
+<li class="nav-item">
+<a href="../../writings/" class="nav-link">Writings</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">MMM vs MUM: First Step Analysis</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Nicky van Foreest
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2023-12-30T12:37:09+01:00" itemprop="datePublished" title="2023-12-30 12:37">2023-12-30 12:37</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-orgd270054" class="outline-2">
+<h2 id="orgd270054">Introduction</h2>
+<div class="outline-text-2" id="text-orgd270054">
+<p>
+<a id="org371a126"></a>
+</p>
+
+<p>
+In the previous chapter we developed several algorithms to use multiple throws of a die to give a biscuit to one child out of 19 such that each child has the same probability to win.
+One algorithm to accomplish this worked like this.
+Continue throwing the die until the last two outcomes lie for the first time somewhere in the set \(\{(1,1), (1,2),\ldots, (1,6), (2, 1), \ldots, (2,6), (3,1),\ldots, (3,6), (4,1)\}\). (Note that this set has 19 elements.)
+Child \(1\) wins when the last two outcomes are \( (1,1)\), child \(2\) wins in case when \( (1, 2) \) , and so on.
+This idea, while promising, proved wrong: some children are more likely to win than others.
+</p>
+
+
+<p>
+In this section we will develop the tools to understand why this algorithm is not fair, as it based on the famous monkey typing problem, which reads like this.
+A monkey types with equal probability, and independent of previous key strokes, any key on a keyboard with 26 letters.
+The monkey problem is find out which of the two words \(mmm\) and \(mum\) has the largest probability to be typed first.
+What is the relation between the monkey and the cookie problem?
+Well, the monkey keeps on typing until the last three key strokes lie in the set \(\{mum, mmm\}\), and it turns out that the word \(mum\) has a larger probability to get hit first. In a similar way, the sequences related to the children do not have equal expected hitting times, hence unequal winning probabilities.
+</p>
+
+<p>
+To understand this interesting problem, we will develop a few useful concepts: <i>first-step analysis</i>, <i>stopping times</i> and <i>hitting times</i>.
+</p>
+
+<p>
+In the typing monkey case, the probability to hit a certain key is \(p=1/26\).
+Below we will see that using such small probabilities in simulation requires long simulation times.
+For this reason, we simplify our alphabet often to just three symbols \(m, u, n\).
+Consequently, the success probability becomes \(p=1/3\), and \(q=2/3\).
+</p>
+</div>
+</div>
+<div id="outline-container-org072fa75" class="outline-2">
+<h2 id="org072fa75">First-step analysis</h2>
+<div class="outline-text-2" id="text-org072fa75">
+<p>
+<a id="org43ef04d"></a>
+</p>
+
+<p>
+We first develop a model for the \(mmm\) sequence.
+We start in some state \(0\); let \(X_{i}\) be the \(i\)th letter typed.
+If \(X_{1}\neq m\), which happens with probability \(q=25/26\), the monkey doesn't make any progress and it remain in state \(0\).
+If, on the other hand, \(X_{1}=m\), which occurs with probability \(p=1-q=1/26\), the monkey moves to state \(m\).
+When in state \(m\), and \(X_{2}\neq m\), it returns to state \(0\); if \(X_{2}=m\), it moves to state \(mm\).
+Finally, in state \(mm\), if \(X_{3}\neq m\), it returns to state \(0\); otherwise it moves to state \(mmm\) and the game stops.
+Thus, more generally, the monkey is interested in the <i>stopping time</i> \(\tau = \inf\{n \geq 3 : X_{n-2} = X_{n-1} = X_n = m\}\).
+</p>
+
+<p>
+As we only have to check the last three key strokes, it suffices to take as state space \(S = \{0, m, mm, mmm\}\).
+For notational ease, we often label these states as \(\{0, 1, 2, 3\}\), where the number represents the number of consecutive \(m\)'s, and when the monkey reaches state \(3\) it achieves its goal.
+</p>
+
+<p>
+When we are in state \(i\), \(i\in \{0, 1, 2, 3\}\), let  \(T(i)\) be  the expected time to hit the final state state.
+Obviously, \(T(3)=0\) since state \(3\) corresponds to \(mmm\).
+What can we say about \(T(0), T(1)\) and \(T(2)\)?
+<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup></p>
+
+
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Explain that the expected times have to satisfy the system of equations:
+</p>
+\begin{align*}
+  T(0) &amp;= 1 + q T(0) + p T(1), \\
+ T(1) &amp;= 1 + q T(0) + p T(2),\\
+  T(2) &amp;= 1 + q T(0) + p T(3).
+\end{align*}
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+To move from one state to the next, the monkey always types one key.
+Then, depending on the outcome \(X\), we move to a certain state.
+Consider the first equation.
+When in state \(0\), and the monkey does not hit \(m\) we have to start again, hence, we remain in state \(0\).
+Otherwise, when the monkey types the good key, i.e., \(X=m\), we progress with one extra \(m\).
+Similar reasoning gives the other expressions for the other states. Once state \(3\) is hit, we stop.
+</p>
+
+
+</details>
+</div>
+<p>
+Clearly, we obtain a set of equations by considering for each state what can happen in the next step; this process is called <i>first-step analysis</i>.
+Once we have this system, it remains to solve it by hand or numerically.
+Now this system can be solved by hand with a little effort, but knowing how to tackle this with numerical tools is much more useful.
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Explain that the above system can be written in matrix form as \(x = b + P x\), with
+</p>
+\begin{align*}
+  P &amp;=
+  \begin{pmatrix}
+  q &amp; p &amp; 0\\
+  q &amp; 0 &amp; p\\
+  q &amp; 0 &amp; 0\\
+  \end{pmatrix},
+&amp;   b &amp;=
+      \begin{pmatrix}
+      1 \\ 1 \\ 1
+      \end{pmatrix}, &amp; x &amp;=
+                           \begin{pmatrix}
+                           T(0) \\ T(1) \\ T(2)
+                           \end{pmatrix}.
+\end{align*}
+<p>
+The matrix \(P\) is known as the <i>transition matrix</i>.
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+Since \(T(3)=0\), we don't have to include that in the system of equations. The other equations are a one-to-one copy of the the system.
+</p>
+
+
+</details>
+</div>
+<p>
+Numerical solvers work with linear systems of the type \(A x = b\) for a matrix \(A\) and a vector \(b\).
+Thus, we rewrite \(x = b + P x\) to \((I-P) x = b\), where \(I\) is the identity matrix.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">solve</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mi">3</span>  <span class="c1"># Probility to hit m</span>
+<span class="n">q</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p</span>  <span class="c1"># Probability to hit u of n</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">],</span> <span class="p">[</span><span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="n">P</span>  <span class="c1"># Eye gives the identity matrix</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">T</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+
+<pre class="example">
+T=array([39., 36., 27.])
+</pre>
+
+
+<p>
+We conclude that it takes \(T(0)=39\) keys for the monkey to arrive at \(mmm\) when \(p=1/3\).
+</p>
+
+
+<p>
+<strong style="font-variant: all-small-caps">We follow the</strong> same line of reasoning  for the \(mum\) case.
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Now  the states  are \(\{0, m, mu, mum\}\). Why?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+We move from \(0\) to \(m\), just like earlier. In state \(m\), if the next key hit gives a \(u\), we move to \(mu\). Once in \(mu\), hitting \(m\)  brings us to \(mum\).
+</p>
+
+
+</details>
+</div>
+<p>
+We use the same notation for the expected times \(T(0), T(1)\) and \(T(2)\) as in the \(mmm\) case; \(T(3)=0\) is both problems.
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Explain that for the \(mum\) sequence the expected times have to satisfy:
+</p>
+\begin{align*}
+  T(0) &amp;= 1 + q T(0) + pT(1),\\
+  T(1) &amp;= 1 + (1-2p)T(0) + p T(1) + p T(2),\\
+  T(2) &amp;= 1 + q T(0).
+\end{align*}
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+Consider the second equation, corresponding to state \(0\), i.e., state \(m\).
+Hitting the key \(m\) brings us back to state \(m\), key \(u\) brings us to \(mu\); other keys make us return to \(0\).
+The probability to hit \(m\) or \(u\) is \(p\), thus the probability to return to \(0\) is \(1-2p\).
+In state \(mu\), if the monkey hits \(m\), we move to \(mum\), otherwise, we go back to \(0\) again.
+</p>
+
+
+
+</details>
+</div>
+<p>
+While the vector \(b\) is the same for both problems, the (transition) matrix \(P\) for the \(mum\) case becomes:
+</p>
+\begin{align*}
+  P &amp;=
+  \begin{pmatrix}
+  q &amp; p &amp; 0\\
+  1-2p &amp; p &amp; p\\
+  q &amp; 0 &amp; 0\\
+  \end{pmatrix}.
+\end{align*}
+
+<div class="highlight"><pre><span></span><span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">],</span> <span class="p">[</span><span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="n">P</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="n">P</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">T</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+
+<pre class="example">
+T=array([30., 27., 21.])
+</pre>
+
+
+<p>
+Apparently the number of keys is \(T(0)=30\) to get to  \(mum\). This is quite a bit smaller than the \(39\) expected strokes to reach \(mmm\).
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Compare the two matrices \(P\) between the two cases to provide an intuitive explanation for this difference, i.e., \(30\) versus \(39\).
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+For the \(mum\) case, when in state \(m\) we can move on to \(mu\), but also move to state \(m\) again (by typing \(m\)). Thus, with probability \(p\) we don't fall back entirely to state~\(0\). In the \(mmm\) case, we either return to \(0\) or move on.
+</p>
+
+
+</details>
+</div>
+<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+In the numerical example, our monkey had just three keys to hit.
+Adapt the code to show that \(T(0)=17602\) when the monkey has the original keyboard with 26 keys at its disposal.
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+Just change \(p=1/3\) to \(p=1/26\) in the code and run it.
+</p>
+
+
+</details>
+</div>
+<p>
+Here is a related fun problem to analyze with first-step analyis.
+A mouse sits on one corner of a cube whose edges are made of wire.  There is some chese diagonally opposite the mouse.
+One any corner, the mouse chooses at uniformly any edge, and moves to the next corner.
+When traversing an edge takes one minute, what is the expected time for the mouse to reach the cheese?
+<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup></p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Show that the expected time is \(10\)  minutes.
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+The mouse starts at the far side of the cheese.
+Thus, it takes at minimum three edges to get to the cheese..
+Let the expected time to hit the cheese be given by \(T(3)\).
+Now the mouse takes one edge, and then it has at least two edges to travel, which takes expected time \(T(2)\).
+\(T(1)\) is defined similarly.
+A tiny bit of though shows that the times should satisfy the relations:
+</p>
+\begin{align*}
+T(3) &amp;= 1 + T(2), &amp;
+T(2) &amp;= 1 + T(1) \frac 2 3 + T(3)\frac 13, &amp;
+T(1) &amp;= 1 + T(2)\frac 23.
+\end{align*}
+<p>
+Solving gives \(T(1)= 7, T(2)=9, T(3) = 10\).
+</p>
+
+
+</details>
+</div>
+</div>
+</div>
+<div id="outline-container-orgace3031" class="outline-2">
+<h2 id="orgace3031">Estimating hitting times with simulation</h2>
+<div class="outline-text-2" id="text-orgace3031">
+<p>
+<a id="org2bfa3bb"></a>
+</p>
+
+<p>
+We can also use simulation to estimate the hitting times for words \(mmm\) and \(mum\).
+We do this in two steps.
+First we consider some ideas that seem correct, but turn out to be wrong.
+The explanation of why this is so, is interesting in itself, and provides another view on why it takes more keys to get to \(mmm\) than to \(mum\).
+Once we figured out what is wrong, we'll develop the correct code.
+Note from the last exercise above that it takes \(17602\) keys on average to reach \(mmm\) when \(p=1/26\).
+As this requires much more simulation effort than to estimate the same hitting time with \(p=1/3\), we consider just the keys \(m, n, u\)$ instead of the full alphabet.
+</p>
+
+
+<p>
+<strong style="font-variant: all-small-caps">Here is an</strong> initial idea to estimate \(T(0)\).
+Generate a large string of \(N\) iid rvs on \(\{0, 1, 2\}\).
+(Once again, we use just three outcomes to speed up the computation.)
+Then, count how often the sequences \((0,0,0)\), which codes for \(mmm\), and \((0, 1, 0)\), which codes for \(mum\), occur.
+If \(N_{m}\) counts \(mmm\) and \(N_{u}\) counts \(mum\), then it might seems that \(N/N_{m}\) must be a good estimator for \(T(0)\) for the \(mmm\) problem, and likewise, \(N/N_{u}\) for the \(mum\) problem.
+</p>
+
+<p>
+It is not hard to write code to count the number occurrences of sub string within a string.
+However, this is such a common problem in computer science that people wrote very efficient algorithms for this.
+So we use <i>regular expressions</i> instead of doing the work ourselves.
+(I used ChatGPT to construct the regular expressions.)
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">gen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">)</span>
+<span class="n">L</span> <span class="o">=</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gen</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="s2">"mnu"</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">))</span>
+<span class="n">Nm</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">'(?=mmm)'</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span>
+<span class="n">Nu</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">'(?=mum)'</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">N</span><span class="o">/</span><span class="n">Nm</span><span class="si">=:</span><span class="s2">2.2f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">N</span><span class="o">/</span><span class="n">Nu</span><span class="si">=:</span><span class="s2">2.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+
+<pre class="example">
+N/Nm=27.03, N/Nu=26.89
+</pre>
+
+
+<p>
+This results is strange at first sight.
+Why are both results nearly equal to 27, while from the above we know that \(T(0)\) is 39 for the \(mmm\) case and \(30\) for the \(mum\) case?
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Why is doesn't  the above counting algorithm  provide an estimator for \(T(0)\) for the \(mmm\) case?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+The probability to see \(mmm\) at an arbitrary location in a string with characters \(m\), \(n\) and \(n\) is \((1/3)^3=1/27\); and this is the same for \(mum\).
+Note that this explains the simulation results above: when success occurs with probability \(1/27\), the expected time between two successes is \(27\).
+</p>
+
+
+</details>
+</div>
+<p>
+But then, if the probabilities to see \(mmm\) and \(mum\) in a long strong of letters are the same, why then does it take longer to see \(mmm\) than \(mum\) when we start from state \(0\)?
+This is somewhat puzzling; we need a new idea to make progress.
+</p>
+
+<p>
+Suppose that in the long array of letters, we saw the pattern \(mmm\), at positions \(i-2, i-1, i\).
+Let the monkey type the key for the \(i+1\)th time.
+When \(X_{i+1}\neq m\), we have to start all over again, while if \(X_{i+1}=m\) we get the string \(mmmm\), i.e., \(4\) times an \(m\) in row, of which the last three also forms\(mmm\).
+Hence, when \(X_{i+1}=m\) we immediately have another occurrence of the pattern \(mmm\).
+</p>
+
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Write \(T\) for the expected time between two occurrences of the pattern \(mmm\). Why does\(T\)  satisfy the relation
+</p>
+\begin{equation}
+\label{org93f03a5}
+T = 1 + q T(0),
+\end{equation}
+<p>
+where \(T(0)\) is the expected time to hit \(mmm\)?
+</p>
+
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+Suppose we are in state \(mmm\), and the monkey hits a key \(X\).
+Clearly \(\E{T|X=m} = 1\), that is, if the next key is an \(m\), the time \(T\) to see \(mmm\) again is just this one key.
+However, \(\E{T | X \neq m} = 1 + T(0)\).
+To see this last equation, if \(X_{i}\neq m\) we start anew and it takes an expected number of keys \(T(0)\) keys to hit \(mmm\) again, and the 1 counts the key hit by the monkey.
+Combining this with the law of total expectation, \(T = p\E{T|X=m} + q \E{T|X\neq m}\), gives the result.
+</p>
+
+
+
+</details>
+</div>
+<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Check the numerical results we obtained above to see that \eqref{org93f03a5} indeed is satisfied for \(mmm\).
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+Recall that \(T=27\), \(q=2/3\) and \(T(0)= 39\) for \(mmm\) string. Indeed, \(27 = 1 + 39\cdot 2/3 = 1+ 26\).
+</p>
+
+
+</details>
+</div>
+<p>
+We next consider the \(mum\)  case.
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+For the \(mum\) sequence, explain that \(T = 1+(1-2p) T(0) + p T(1) + p T(2)\), and check the numbers for the example.
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+Starting from \(mum\), when \(X_{}=m\) we move to string \(mumm\) which corresponds to state \(m\).
+When \(X_{}=u\), we get string \(mumu\) which is state \(mu\).
+Only  after \(X_{i} = n\) we return to \(0\).
+</p>
+
+<p>
+To check, note that \(T=27, p = 1/3, T(0)=30, T(1)=27, T(2)=21\).
+Filling it in: \(27=1+30/3 + 27/3 + 21/3 = 1 + 10+9+7\).
+</p>
+
+
+
+</details>
+</div>
+<p>
+And now it is time to reconcile all the above.
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Explain why stopping to throw a die as soon as a winning pattern emerges does not necessarily lead to equal winning chances?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+The pattern \(mum\) has more potential to build up from previous outcomes.
+Therefore it can appear sooner.
+However, once we have seen \(mmm\), it can appear within one extra throw again, while \(mum\) can never recur after one key stroke.
+These two effects balance out for \(mum\) and \(mmm\), so that \(T=27\) for both sequences.
+</p>
+
+
+</details>
+</div>
+<p>
+Now we know this, we also understand why the children need not have the same winning probabilities if we use hitting times of different types of outcomes (compare \((1,6)\) to \((1,1)\) for example) to determine which child should win the cookie.
+</p>
+</div>
+</div>
+<div id="outline-container-org1a40373" class="outline-2">
+<h2 id="org1a40373">Summary</h2>
+<div class="outline-text-2" id="text-org1a40373">
+<p>
+By studying the above toy problem we covered many nice and useful ideas.
+With the typing monkey, we observed the subtle fact that the expected time to first hit a pattern need not be equal to the average time between such a pattern occuring in the long run.
+The model and methods of this section can be formulated in terms Markov chains, which form a very useful and powerful framework to analyze probability problems.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef">
+<sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup><div class="footpara" role="doc-footnote"><p class="footpara">There is a subtle point. For the argument to work the expected times \(T_{i}\) should be finite. We will assume that this is the case.</p></div>
+</div>
+
+<div class="footdef">
+<sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup><div class="footpara" role="doc-footnote"><p class="footpara">We assume that the cheese does not move.
+A really interesting extension is to suppose that the cheese is also moving.</p></div>
+</div>
+
+
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../one-cookie/" rel="prev" title="Throwing a die for a cookie; Acceptance-rejection policies">Previous post</a>
+            </li>
+        </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+    Macros: {
+      P: ["\\textrm{P}\\left\\{#1\\right\\}", 1],
+      E: ["\\textrm{E}\\left\\{#1\\right\\}", 1],
+      F: "\\mathcal{F}",
+      1: ["\\mathbf{1}\\{#1\\}",1],
+      d: ["\\,\\textrm{d}#1", 1],
+      Unif: ["\\mathrm{Unif}#1", 1],
+    }
+  }
+});
+</script></article><!--End of body content--><footer id="footer"><div class="text-center">
+<p>
+<span class="fa-stack">
+  <a href="https://github.com/ndvanforeest">
+    <i class="fa fa-github-square fa-stack-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="http://scholar.google.com/citations?user=IEjX_w4AAAAJ">
+     <i class="ai ai-google-scholar-square ai-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="https://orcid.org/0000-0001-5428-1723">
+     <i class="ai ai-orcid-square ai-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="mailto:vanforeest@gmail.com">
+    <i class="fa fa-square fa-stack-2x"></i>
+    <i class="fa fa-envelope fa-inverse fa-stack-1x"></i>
+  </a>
+</span>
+</p>
+<p>
+  Contents © 2023  Nicky van Foreest
+  —
+  
+  —
+  Powered by <a href="https://getnikola.com" rel="nofollow">Nikola</a>
+</p>
+</div>
+
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>
