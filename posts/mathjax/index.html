@@ -3,34 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vickery auctions | Nicky's site</title>
+<title>Mathjax tricks | Nicky's site</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
-<link rel="canonical" href="https://ndvanforeest.github.io/posts/vickery-auctions/">
+<link rel="canonical" href="https://ndvanforeest.github.io/posts/mathjax/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
 <meta name="author" content="Nicky van Foreest">
-<link rel="prev" href="../solving-a-number-game-with-a-mip-solver/" title="Solving a number game with a MIP solver" type="text/html">
-<link rel="next" href="../snells-envelope-house-selling-and-buying/" title="Snell's Envelope, House Selling and Buying" type="text/html">
+<link rel="prev" href="../complex-graphs/" title="(Very) Complex Graphs form (Very) Simple Ideas" type="text/html">
 <meta property="og:site_name" content="Nicky's site">
-<meta property="og:title" content="Vickery auctions">
-<meta property="og:url" content="https://ndvanforeest.github.io/posts/vickery-auctions/">
-<meta property="og:description" content="To practice a bit more with the \(O\) hoi symbol, given a list of \(n\) elements,  the following code finds the largest element:
-
-X = [5, 8, 3]
-M = X[0]
-for x in X[1:]:
-    M = max(M, x)
+<meta property="og:title" content="Mathjax tricks">
+<meta property="og:url" content="https://ndvanforeest.github.io/posts/mathjax/">
+<meta property="og:description" content="Sometimes I want to use  mathjax macros in just file. Put these lines on top of the file so that the macros apply just this document.
 
 
-
-
-Explain t">
+\(
+   \def\RR{{\bf R}}
+    \def\bold#1{{\bf #1}}
+\)">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2022-04-26T14:58:08+02:00">
+<meta property="article:published_time" content="2023-12-31T12:13:18+01:00">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -72,7 +67,7 @@ Explain t">
 <a href="../../books/" class="nav-link">Books</a>
                 </li>
 <li class="nav-item">
-<a href="../../archive.html" class="nav-link">Posts</a>
+<a href="../../writings/" class="nav-link">Posts</a>
                 </li>
 <li class="nav-item">
 <a href="../../presentations/" class="nav-link">Presentations</a>
@@ -82,9 +77,6 @@ Explain t">
                 </li>
 <li class="nav-item">
 <a href="../../tools/" class="nav-link">Tools</a>
-                </li>
-<li class="nav-item">
-<a href="../../writings/" class="nav-link">Writings</a>
 
                 
             </li>
@@ -100,7 +92,7 @@ Explain t">
         
         
         
-<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Vickery auctions</a></h1>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Mathjax tricks</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
@@ -108,7 +100,7 @@ Explain t">
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
-            <time class="published dt-published" datetime="2022-04-26T14:58:08+02:00" itemprop="datePublished" title="2022-04-26 14:58">2022-04-26 14:58</time></a>
+            <time class="published dt-published" datetime="2023-12-31T12:13:18+01:00" itemprop="datePublished" title="2023-12-31 12:13">2023-12-31 12:13</time></a>
             </p>
             
         <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
@@ -118,35 +110,18 @@ Explain t">
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <p>
-To practice a bit more with the \(O\) hoi symbol, given a list of \(n\) elements,  the following code finds the largest element:
+Sometimes I want to use  mathjax macros in just file. Put these lines on top of the file so that the macros apply just this document.
 </p>
-<div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-<span class="n">M</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-    <span class="n">M</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+<div class="highlight"><pre><span></span><span class="s">\(</span>
+<span class="nb">   </span><span class="nv">\def\RR</span><span class="nb">{{</span><span class="nv">\bf</span><span class="nb"> R}}</span>
+<span class="nb">    </span><span class="nv">\def\bold</span><span class="nb">#</span><span class="m">1</span><span class="nb">{{</span><span class="nv">\bf</span><span class="nb"> #</span><span class="m">1</span><span class="nb">}}</span>
+<span class="s">\)</span>
 </pre></div>
-
-<div class="exercise" id="org4255a34">
-<p>
-Explain that this algorithm requires \(O(n)\) comparisons.
-</p>
-<div class="solution" id="orgcc26330">
-<p>
-We store the value of first element in a variable \(M\), say.
-Then we compare \(M\) to the second element, and replace the value of \(M\) by the second if the second value is larger than \(M\), and so on.
-Since we need \(n-1\) comparisons in total, we say that the complexity is \(O(n)\) because we neglect the constant \(1\).
-</p>
-
-</div>
-
-</div>
     </div>
     <aside class="postpromonav"><nav><ul class="pager hidden-print">
 <li class="previous">
-                <a href="../solving-a-number-game-with-a-mip-solver/" rel="prev" title="Solving a number game with a MIP solver">Previous post</a>
-            </li>
-            <li class="next">
-                <a href="../snells-envelope-house-selling-and-buying/" rel="next" title="Snell's Envelope, House Selling and Buying">Next post</a>
+                <a href="../complex-graphs/" rel="prev" title="(Very) Complex Graphs form (Very) Simple Ideas">Previous post</a>
             </li>
         </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -157,7 +132,8 @@ MathJax.Hub.Config({
       F: "\\mathcal{F}",
       1: ["\\mathbf{1}\\{#1\\}",1],
       d: ["\\,\\textrm{d}#1", 1],
-      Unif: ["\\mathrm{Unif}#1", 1],
+      Norm: ["\\mathrm{Norm}(#1)", 1],
+      Unif: ["\\mathrm{Unif}(#1)", 1],
     }
   }
 });

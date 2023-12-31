@@ -18,11 +18,16 @@
 <meta property="og:site_name" content="Nicky's site">
 <meta property="og:title" content="Making an Exercise and Solution Environment">
 <meta property="og:url" content="https://ndvanforeest.github.io/posts/making-an-exercise-and-solution-environment/">
-<meta property="og:description" content="The Problem
+<meta property="og:description" content="Table of Contents
 
 
-In a number of my org mode files I include exercise with hints and solutions.
-In the pdf files, which I make via \(\LaTeX\), I use the answers package print the exercises in the main tex">
+1. The Problem
+2. My Environment
+3. The adapted init.el
+
+3.1. Loading the relevant packages
+3.2. Updating the code for box and details blocks
+3.3. Making the exercise, hint and sol">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2023-12-29T20:30:01+01:00">
 </head>
@@ -66,7 +71,7 @@ In the pdf files, which I make via \(\LaTeX\), I use the answers package print t
 <a href="../../books/" class="nav-link">Books</a>
                 </li>
 <li class="nav-item">
-<a href="../../archive.html" class="nav-link">Posts</a>
+<a href="../../writings/" class="nav-link">Posts</a>
                 </li>
 <li class="nav-item">
 <a href="../../presentations/" class="nav-link">Presentations</a>
@@ -76,9 +81,6 @@ In the pdf files, which I make via \(\LaTeX\), I use the answers package print t
                 </li>
 <li class="nav-item">
 <a href="../../tools/" class="nav-link">Tools</a>
-                </li>
-<li class="nav-item">
-<a href="../../writings/" class="nav-link">Writings</a>
 
                 
             </li>
@@ -111,9 +113,28 @@ In the pdf files, which I make via \(\LaTeX\), I use the answers package print t
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org9a0713d" class="outline-2">
-<h2 id="org9a0713d">The Problem</h2>
-<div class="outline-text-2" id="text-org9a0713d">
+    <div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org53b3800">1. The Problem</a></li>
+<li><a href="#org8ead96d">2. My Environment</a></li>
+<li>
+<a href="#org231224a">3. The adapted <code>init.el</code></a>
+<ul>
+<li><a href="#orgbb85997">3.1. Loading the relevant packages</a></li>
+<li><a href="#orgfee24eb">3.2. Updating the code for <code>box</code> and <code>details</code> blocks</a></li>
+<li><a href="#org4771507">3.3. Making the exercise, hint and solution blocks</a></li>
+</ul>
+</li>
+<li><a href="#org07e172d">4. Testing</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org53b3800" class="outline-2">
+<h2 id="org53b3800">
+<span class="section-number-2">1.</span> The Problem</h2>
+<div class="outline-text-2" id="text-1">
 <p>
 In a number of my org mode files I include exercise with hints and solutions.
 In the pdf files, which I make via \(\LaTeX\), I use the <code>answers</code> package print the exercises in the main text and the hints and solutions at the end of the file.
@@ -158,9 +179,10 @@ To see how to do this, read on.
 </div>
 </div>
 </div>
-<div id="outline-container-org841ae6f" class="outline-2">
-<h2 id="org841ae6f">My Environment</h2>
-<div class="outline-text-2" id="text-org841ae6f">
+<div id="outline-container-org8ead96d" class="outline-2">
+<h2 id="org8ead96d">
+<span class="section-number-2">2.</span> My Environment</h2>
+<div class="outline-text-2" id="text-2">
 <p>
 I use <code>emacs</code> and <code>org mode</code> to write files, and <code>nikola</code> to make my homepage.
 After some searching on the web, I found the <a href="http://alhassy.com/org-special-block-extras/"><code>org-special-block-extras</code></a> package which proved promissing for my goal.
@@ -215,17 +237,19 @@ I need to install <code>org-special-block-extras</code>, and this command preven
 </div>
 </div>
 </div>
-<div id="outline-container-org600e0d8" class="outline-2">
-<h2 id="org600e0d8">The adapted <code>init.el</code>
+<div id="outline-container-org231224a" class="outline-2">
+<h2 id="org231224a">
+<span class="section-number-2">3.</span> The adapted <code>init.el</code>
 </h2>
-<div class="outline-text-2" id="text-org600e0d8">
+<div class="outline-text-2" id="text-3">
 <p>
 Since I need functionality from <code>org-special-block-extras</code>, I have to update the <code>init.el</code> anyway, so here it is.
 </p>
 </div>
-<div id="outline-container-org1ff75c1" class="outline-3">
-<h3 id="org1ff75c1">Loading the relevant packages</h3>
-<div class="outline-text-3" id="text-org1ff75c1">
+<div id="outline-container-orgbb85997" class="outline-3">
+<h3 id="orgbb85997">
+<span class="section-number-3">3.1.</span> Loading the relevant packages</h3>
+<div class="outline-text-3" id="text-3-1">
 <p>
 Since I use  <code>straight</code> and <code>use-package</code>, I need to put this on the top of the <code>init.el</code> file. I copied this straight from my regular <code>init.el</code>
 </p>
@@ -272,9 +296,10 @@ Next I load two packages. The hook on <code>org-mode</code> is necessary.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org11019fe" class="outline-3">
-<h3 id="org11019fe">Updating the code for <code>box</code> and <code>details</code> blocks</h3>
-<div class="outline-text-3" id="text-org11019fe">
+<div id="outline-container-orgfee24eb" class="outline-3">
+<h3 id="orgfee24eb">
+<span class="section-number-3">3.2.</span> Updating the code for <code>box</code> and <code>details</code> blocks</h3>
+<div class="outline-text-3" id="text-3-2">
 <p>
 I adapted the fontsizes and the padding of the <code>details</code> block of <code>org-special-block-extras</code>.
 I just copied the relevant part of  <code>org-special-block-extras.el</code>, removed the documentation string to keep this file small, and changed the padding and font size.
@@ -359,9 +384,10 @@ And also for the  <code>box</code> block.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org77ded42" class="outline-3">
-<h3 id="org77ded42">Making the exercise, hint and solution blocks</h3>
-<div class="outline-text-3" id="text-org77ded42">
+<div id="outline-container-org4771507" class="outline-3">
+<h3 id="org4771507">
+<span class="section-number-3">3.3.</span> Making the exercise, hint and solution blocks</h3>
+<div class="outline-text-3" id="text-3-3">
 <p>
 The exercise, hint and solution blocks are now simple to implement (after I read the examples on <a href="http://alhassy.com/org-special-block-extras/"><code>org-special-blocks-extra</code></a>).
 </p>
@@ -385,9 +411,10 @@ I copied the above on top of the <code>init.el</code> file, and kept the rest.
 </div>
 </div>
 </div>
-<div id="outline-container-orgff562cc" class="outline-2">
-<h2 id="orgff562cc">Testing</h2>
-<div class="outline-text-2" id="text-orgff562cc">
+<div id="outline-container-org07e172d" class="outline-2">
+<h2 id="org07e172d">
+<span class="section-number-2">4.</span> Testing</h2>
+<div class="outline-text-2" id="text-4">
 <p>
 Let's test this on this file. As this file sits in the <code>posts</code> we need to include the path to  <code>init.el</code>.
 </p>
@@ -412,7 +439,8 @@ MathJax.Hub.Config({
       F: "\\mathcal{F}",
       1: ["\\mathbf{1}\\{#1\\}",1],
       d: ["\\,\\textrm{d}#1", 1],
-      Unif: ["\\mathrm{Unif}#1", 1],
+      Norm: ["\\mathrm{Norm}(#1)", 1],
+      Unif: ["\\mathrm{Unif}(#1)", 1],
     }
   }
 });

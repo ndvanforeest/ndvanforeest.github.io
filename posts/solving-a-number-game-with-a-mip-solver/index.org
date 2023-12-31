@@ -11,10 +11,11 @@
 
 #+END_COMMENT
 
+#+setupfile: ../preamble.org
+#+PROPERTY: header-args:python :session :eval no-export :exports both
+
 #+STARTUP: indent
 #+STARTUP: showall
-#+PROPERTY: header-args:python :session  :exports both  :results output :tangle yes
-#+OPTIONS:  toc:nil
 
 
 * The problem
@@ -23,7 +24,7 @@ Consider the following puzzle: Chose numbers 1 to 5 such that in the diagram bel
 The numbers in the fields should respect any inequality between two fields. We number the fields from the left top, e.g., field $(1,5)$ contains the number 4.
 
 #+attr_html: :width 150px
-[[file:/images/number_game.png]]
+[[file:images/number_game.png]]
 
 
 * Finding a Solution
@@ -34,12 +35,8 @@ We will use  [[https://pythonhosted.org/PuLP/][pulp]] to solve this puzzle. The 
 from pulp import lpSum, LpVariable, LpMinimize
 from pulp import LpProblem, LpStatus, value, LpInteger
 
-prob = LpProblem("Number Puzzle Problem", LpMinimize)
+prob = LpProblem("Number-Puzzle-Problem", LpMinimize)
 #+end_src
-
-#+RESULTS:
-: /home/nicky/.local/lib/python3.10/site-packages/pulp/pulp.py:1352: UserWarning: Spaces are not permitted in the name. Converted to '_'
-:   warnings.warn("Spaces are not permitted in the name. Converted to '_'")
 
 
 * The decision variables

@@ -29,11 +29,10 @@
 
 
 
-
 1. Weighted random shuffling
 
 
-For some application I needed a random shuff">
+For some application I needed a random shuffl">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2022-03-14T16:44:53+01:00">
 </head>
@@ -77,7 +76,7 @@ For some application I needed a random shuff">
 <a href="../../books/" class="nav-link">Books</a>
                 </li>
 <li class="nav-item">
-<a href="../../archive.html" class="nav-link">Posts</a>
+<a href="../../writings/" class="nav-link">Posts</a>
                 </li>
 <li class="nav-item">
 <a href="../../presentations/" class="nav-link">Presentations</a>
@@ -87,9 +86,6 @@ For some application I needed a random shuff">
                 </li>
 <li class="nav-item">
 <a href="../../tools/" class="nav-link">Tools</a>
-                </li>
-<li class="nav-item">
-<a href="../../writings/" class="nav-link">Writings</a>
 
                 
             </li>
@@ -126,16 +122,15 @@ For some application I needed a random shuff">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org1a54d81">1. Weighted random shuffling</a></li>
-<li><a href="#org03dcb3d">2. Weighted shuffling in pure python</a></li>
-<li><a href="#org8b1f33c">3. Fast shuffling</a></li>
-<li><a href="#org0bbfc38">4. A wrong idea</a></li>
+<li><a href="#orge48b6c9">1. Weighted random shuffling</a></li>
+<li><a href="#org89f9f86">2. Weighted shuffling in pure python</a></li>
+<li><a href="#org701bc1f">3. Fast shuffling</a></li>
+<li><a href="#orgfd92ce0">4. A wrong idea</a></li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org1a54d81" class="outline-2">
-<h2 id="org1a54d81">
+<div id="outline-container-orge48b6c9" class="outline-2">
+<h2 id="orge48b6c9">
 <span class="section-number-2">1.</span> Weighted random shuffling</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -150,21 +145,23 @@ this code.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org03dcb3d" class="outline-2">
-<h2 id="org03dcb3d">
+<div id="outline-container-org89f9f86" class="outline-2">
+<h2 id="org89f9f86">
 <span class="section-number-2">2.</span> Weighted shuffling in pure python</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Weighted random shuffling is the same as weighted random sampling from a
-list \(a\) without replacement. That is, choose with probability
-\(w_{i}/\sum_{i} w_{i}\) element \(a_{i}\) from \(a\). Store this element in a list \(r\).
-Then, remove element \(a_{i}\) from \(a\) and \(w_{i}\) from \(w\), and select a
-new element of the modified list \(a\), and so on until \(a\) is empty.
+list \(a\) without replacement. In steps:
 </p>
-
+<ol class="org-ol">
+<li>Choose with probability \(w_{i}/\sum_{i} w_{i}\) element \(a_{i}\) from \(a\).</li>
+<li>Store this element in a list \(r\).</li>
+<li>Remove element \(a_{i}\) from \(a\) and \(w_{i}\) from \(w\).</li>
+<li>Stop if \(a\) is empty, else,</li>
+<li>Return to step 1 with the modified list \(a\).</li>
+</ol>
 <p>
-However, I found the code below for weighted random sampling on  <a href="https://eli.thegreenplace.net/2010/01/22/weighted-random-generation-in-python">this page</a> of Eli Bendersky.
+However, I found the code below for weighted random sampling on  <a href="https://eli.thegreenplace.net/2010/01/22/weighted-random-generation-in-python">this page</a>.
 </p>
 
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
@@ -204,9 +201,8 @@ element \(i\) cannot be selected the next time.
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-org8b1f33c" class="outline-2">
-<h2 id="org8b1f33c">
+<div id="outline-container-org701bc1f" class="outline-2">
+<h2 id="org701bc1f">
 <span class="section-number-2">3.</span> Fast shuffling</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -246,9 +242,8 @@ Some testing shows, for a reason unknown to me, that <code>np.searchsorted</code
 </p>
 </div>
 </div>
-
-<div id="outline-container-org0bbfc38" class="outline-2">
-<h2 id="org0bbfc38">
+<div id="outline-container-orgfd92ce0" class="outline-2">
+<h2 id="orgfd92ce0">
 <span class="section-number-2">4.</span> A wrong idea</h2>
 <div class="outline-text-2" id="text-4">
 <p>
@@ -285,7 +280,8 @@ MathJax.Hub.Config({
       F: "\\mathcal{F}",
       1: ["\\mathbf{1}\\{#1\\}",1],
       d: ["\\,\\textrm{d}#1", 1],
-      Unif: ["\\mathrm{Unif}#1", 1],
+      Norm: ["\\mathrm{Norm}(#1)", 1],
+      Unif: ["\\mathrm{Unif}(#1)", 1],
     }
   }
 });

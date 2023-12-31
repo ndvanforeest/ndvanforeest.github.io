@@ -14,17 +14,29 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
 <meta name="author" content="Nicky van Foreest">
 <link rel="prev" href="../one-cookie/" title="Throwing a die for a cookie; Acceptance-rejection policies" type="text/html">
+<link rel="next" href="../complex-graphs/" title="(Very) Complex Graphs form (Very) Simple Ideas" type="text/html">
 <meta property="og:site_name" content="Nicky's site">
 <meta property="og:title" content="MMM vs MUM: First Step Analysis">
 <meta property="og:url" content="https://ndvanforeest.github.io/posts/mum-and-mmm/">
-<meta property="og:description" content="Introduction
+<meta property="og:description" content="Table of Contents
+
+
+1. Introduction
+2. First-step analysis
+3. Estimating hitting times with simulation
+4. Summary
+
+
+
+
+1. Introduction
 
 
 
 
 
 
-In the previous chapter we developed several algorithms to use multiple throws of a die to give a biscuit to one child out of 19 such that each child has the same probability to win">
+In the previous chapter we developed several algorithms to u">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2023-12-30T12:37:09+01:00">
 </head>
@@ -68,7 +80,7 @@ In the previous chapter we developed several algorithms to use multiple throws o
 <a href="../../books/" class="nav-link">Books</a>
                 </li>
 <li class="nav-item">
-<a href="../../archive.html" class="nav-link">Posts</a>
+<a href="../../writings/" class="nav-link">Posts</a>
                 </li>
 <li class="nav-item">
 <a href="../../presentations/" class="nav-link">Presentations</a>
@@ -78,9 +90,6 @@ In the previous chapter we developed several algorithms to use multiple throws o
                 </li>
 <li class="nav-item">
 <a href="../../tools/" class="nav-link">Tools</a>
-                </li>
-<li class="nav-item">
-<a href="../../writings/" class="nav-link">Writings</a>
 
                 
             </li>
@@ -113,11 +122,23 @@ In the previous chapter we developed several algorithms to use multiple throws o
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgd270054" class="outline-2">
-<h2 id="orgd270054">Introduction</h2>
-<div class="outline-text-2" id="text-orgd270054">
+    <div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org8e507f4">1. Introduction</a></li>
+<li><a href="#org4aa16ca">2. First-step analysis</a></li>
+<li><a href="#org69eae43">3. Estimating hitting times with simulation</a></li>
+<li><a href="#org1faf802">4. Summary</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org8e507f4" class="outline-2">
+<h2 id="org8e507f4">
+<span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
 <p>
-<a id="org371a126"></a>
+<a id="org3022b72"></a>
 </p>
 
 <p>
@@ -149,11 +170,12 @@ Consequently, the success probability becomes \(p=1/3\), and \(q=2/3\).
 </p>
 </div>
 </div>
-<div id="outline-container-org072fa75" class="outline-2">
-<h2 id="org072fa75">First-step analysis</h2>
-<div class="outline-text-2" id="text-org072fa75">
+<div id="outline-container-org4aa16ca" class="outline-2">
+<h2 id="org4aa16ca">
+<span class="section-number-2">2.</span> First-step analysis</h2>
+<div class="outline-text-2" id="text-2">
 <p>
-<a id="org43ef04d"></a>
+<a id="org1db953c"></a>
 </p>
 
 <p>
@@ -454,11 +476,12 @@ Solving gives \(T(1)= 7, T(2)=9, T(3) = 10\).
 </div>
 </div>
 </div>
-<div id="outline-container-orgace3031" class="outline-2">
-<h2 id="orgace3031">Estimating hitting times with simulation</h2>
-<div class="outline-text-2" id="text-orgace3031">
+<div id="outline-container-org69eae43" class="outline-2">
+<h2 id="org69eae43">
+<span class="section-number-2">3.</span> Estimating hitting times with simulation</h2>
+<div class="outline-text-2" id="text-3">
 <p>
-<a id="org2bfa3bb"></a>
+<a id="orgccf0a07"></a>
 </p>
 
 <p>
@@ -548,7 +571,7 @@ Hence, when \(X_{i+1}=m\) we immediately have another occurrence of the pattern 
 Write \(T\) for the expected time between two occurrences of the pattern \(mmm\). Why does\(T\)  satisfy the relation
 </p>
 \begin{equation}
-\label{org93f03a5}
+\label{org1940063}
 T = 1 + q T(0),
 \end{equation}
 <p>
@@ -579,7 +602,7 @@ Combining this with the law of total expectation, \(T = p\E{T|X=m} + q \E{T|X\ne
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Check the numerical results we obtained above to see that \eqref{org93f03a5} indeed is satisfied for \(mmm\).
+Check the numerical results we obtained above to see that \eqref{org1940063} indeed is satisfied for \(mmm\).
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -664,9 +687,10 @@ Now we know this, we also understand why the children need not have the same win
 </p>
 </div>
 </div>
-<div id="outline-container-org1a40373" class="outline-2">
-<h2 id="org1a40373">Summary</h2>
-<div class="outline-text-2" id="text-org1a40373">
+<div id="outline-container-org1faf802" class="outline-2">
+<h2 id="org1faf802">
+<span class="section-number-2">4.</span> Summary</h2>
+<div class="outline-text-2" id="text-4">
 <p>
 By studying the above toy problem we covered many nice and useful ideas.
 With the typing monkey, we observed the subtle fact that the expected time to first hit a pattern need not be equal to the average time between such a pattern occuring in the long run.
@@ -695,6 +719,9 @@ A really interesting extension is to suppose that the cheese is also moving.</p>
 <li class="previous">
                 <a href="../one-cookie/" rel="prev" title="Throwing a die for a cookie; Acceptance-rejection policies">Previous post</a>
             </li>
+            <li class="next">
+                <a href="../complex-graphs/" rel="next" title="(Very) Complex Graphs form (Very) Simple Ideas">Next post</a>
+            </li>
         </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   TeX: {
@@ -704,7 +731,8 @@ MathJax.Hub.Config({
       F: "\\mathcal{F}",
       1: ["\\mathbf{1}\\{#1\\}",1],
       d: ["\\,\\textrm{d}#1", 1],
-      Unif: ["\\mathrm{Unif}#1", 1],
+      Norm: ["\\mathrm{Norm}(#1)", 1],
+      Unif: ["\\mathrm{Unif}(#1)", 1],
     }
   }
 });

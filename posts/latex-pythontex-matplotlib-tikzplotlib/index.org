@@ -7,17 +7,23 @@
 .. link:
 .. description:
 .. type: text
+.. has_math: true
 
 #+END_COMMENT
 
+#+title: latex-pythontex-matplotlib-tikzplotlib
+#+author: Nicky
+#+setupfile: ../preamble.org
+
+
 * The  problem
 
-Sometimes I want to use a python script to produce a plot and include this plot in LaTeX.
+Sometimes I want to use a python script to produce a plot and include this plot in $\LaTeX$.
 My usual approach was like this.
 First I wrote a python script that, after some computations, exported the plot to a pdf file (or some other format).
-Then I imported the pdf file within a figure environment in a LaTeX file.
+Then I imported the pdf file within a figure environment in a $\LaTeX$ file.
 Thus, I had three files, of which two were kind of superfluous, i.e., the python script and the pdf file with the figure.
-And, after some time, I typically forgot which python script I used to make which pdf file, so I had to include comments in my LaTeX file to explain where to find what, and what did what.
+And, after some time, I typically forgot which python script I used to make which pdf file, so I had to include comments in my $\LaTeX$ file to explain where to find what, and what did what.
 
 And then there came a day that I did not like this anymore.
 
@@ -67,7 +73,7 @@ Note that this is an MWE; for a good figure you'll need to tune it to your needs
 
 ** Another option
 
-If you like to include the code to show how you made the graph, use the =pyblock= environment, and then =\printpythontex= within a figure environment.
+If you like to include in the main text the code to show how you made the graph, use the =pyblock= environment, and then =\printpythontex= within a figure environment.
 
 #+BEGIN_SRC latex
 % arara: pdflatex: { shell: yes }

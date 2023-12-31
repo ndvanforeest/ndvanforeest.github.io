@@ -13,16 +13,26 @@
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
 <meta name="author" content="Nicky van Foreest">
-<link rel="prev" href="../vickery-auctions/" title="Vickery auctions" type="text/html">
+<link rel="prev" href="../vickrey-auctions/" title="Vickrey auctions" type="text/html">
 <link rel="next" href="../making-an-exercise-and-solution-environment/" title="Making an Exercise and Solution Environment" type="text/html">
 <meta property="og:site_name" content="Nicky's site">
 <meta property="og:title" content="Snell's Envelope, House Selling and Buying">
 <meta property="og:url" content="https://ndvanforeest.github.io/posts/snells-envelope-house-selling-and-buying/">
-<meta property="og:description" content="Problem Setting
+<meta property="og:description" content="Table of Contents
 
 
-I have house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
-Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept an offer on th">
+1. Problem Setting
+2. Selling a House
+
+2.1. Best Price Under a Fixed Threshold Policy
+2.2. Best Price Under a Dynamic  Threshold Policy
+2.3. Snell's Envelope
+
+
+3. Buying a House
+
+
+">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2023-12-26T19:07:41+01:00">
 </head>
@@ -66,7 +76,7 @@ Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept 
 <a href="../../books/" class="nav-link">Books</a>
                 </li>
 <li class="nav-item">
-<a href="../../archive.html" class="nav-link">Posts</a>
+<a href="../../writings/" class="nav-link">Posts</a>
                 </li>
 <li class="nav-item">
 <a href="../../presentations/" class="nav-link">Presentations</a>
@@ -76,9 +86,6 @@ Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept 
                 </li>
 <li class="nav-item">
 <a href="../../tools/" class="nav-link">Tools</a>
-                </li>
-<li class="nav-item">
-<a href="../../writings/" class="nav-link">Writings</a>
 
                 
             </li>
@@ -111,9 +118,27 @@ Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept 
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgf74ec8e" class="outline-2">
-<h2 id="orgf74ec8e">Problem Setting</h2>
-<div class="outline-text-2" id="text-orgf74ec8e">
+    <div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org28b756b">1. Problem Setting</a></li>
+<li>
+<a href="#orgaa9c3a3">2. Selling a House</a>
+<ul>
+<li><a href="#orgc058591">2.1. Best Price Under a Fixed Threshold Policy</a></li>
+<li><a href="#org2e87f1f">2.2. Best Price Under a Dynamic  Threshold Policy</a></li>
+<li><a href="#org6f48091">2.3. Snell's Envelope</a></li>
+</ul>
+</li>
+<li><a href="#org3298e5a">3. Buying a House</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org28b756b" class="outline-2">
+<h2 id="org28b756b">
+<span class="section-number-2">1.</span> Problem Setting</h2>
+<div class="outline-text-2" id="text-1">
 <p>
 I have house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
 Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept an offer on the spot or reject it.
@@ -134,9 +159,10 @@ I include some python code to get numerical output.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd7c2f40" class="outline-2">
-<h2 id="orgd7c2f40">Selling a House</h2>
-<div class="outline-text-2" id="text-orgd7c2f40">
+<div id="outline-container-orgaa9c3a3" class="outline-2">
+<h2 id="orgaa9c3a3">
+<span class="section-number-2">2.</span> Selling a House</h2>
+<div class="outline-text-2" id="text-2">
 <p>
 When selling a house, at most \(n\) buyers will present their offers \(\{X_i\}_{i=1}^n\) , iid and uniform on \([0,1]\), one after the other.
 Rejected offers are lost.
@@ -144,9 +170,10 @@ What is the best price?
 I used <a href="https://arminstraub.com/math/hiringsecretary">this site</a>, where the same problem is discussed in terms of the <a href="https://en.wikipedia.org/wiki/Secretary_problem">Secretary Problem</a>.
 </p>
 </div>
-<div id="outline-container-org5253dcf" class="outline-3">
-<h3 id="org5253dcf">Best Price Under a Fixed Threshold Policy</h3>
-<div class="outline-text-3" id="text-org5253dcf">
+<div id="outline-container-orgc058591" class="outline-3">
+<h3 id="orgc058591">
+<span class="section-number-3">2.1.</span> Best Price Under a Fixed Threshold Policy</h3>
+<div class="outline-text-3" id="text-2-1">
 <p>
 Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\) that remains fixed for the entire sales period.
 This threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i &lt; q\).
@@ -294,9 +321,10 @@ For the future I might consider some additional questions.
 </ol>
 </div>
 </div>
-<div id="outline-container-org0e45c6b" class="outline-3">
-<h3 id="org0e45c6b">Best Price Under a Dynamic  Threshold Policy</h3>
-<div class="outline-text-3" id="text-org0e45c6b">
+<div id="outline-container-org2e87f1f" class="outline-3">
+<h3 id="org2e87f1f">
+<span class="section-number-3">2.2.</span> Best Price Under a Dynamic  Threshold Policy</h3>
+<div class="outline-text-3" id="text-2-2">
 <p>
 A fixed threshold policy cannot be optimal, because the less visits we have left, the lower the acceptance threshold should be.
 We next find the optimal levels when we have \(1 \leq k \leq  n\) visits to go.
@@ -337,9 +365,10 @@ v(10)=0.861098212205712
 </pre>
 </div>
 </div>
-<div id="outline-container-orgecb2a20" class="outline-3">
-<h3 id="orgecb2a20">Snell's Envelope</h3>
-<div class="outline-text-3" id="text-orgecb2a20">
+<div id="outline-container-org6f48091" class="outline-3">
+<h3 id="org6f48091">
+<span class="section-number-3">2.3.</span> Snell's Envelope</h3>
+<div class="outline-text-3" id="text-2-3">
 <p>
 The optimal policy can be found by using a more general, but more abstract, framework, namely by means of <i>Snell's envelope</i>.
 Perhaps the easiest way to see how this works is to start with a theorem, stripped from some of its technical clutter.
@@ -347,7 +376,7 @@ I  copied it from `Promenade alétoire' by M. Benaïm and N. El Karoui.
 </p>
 
 
-<div class="theorem" id="org70b94b4">
+<div class="theorem" id="org6958abd">
 <p>
 Consider a sequence of rvs \(\{X_i\}_{i=1}^n\) adapted to a filtration \(\{\F_{i}\}_{i=1}^{n}\).
 Introduce the sequence of rvs \(\{Y_i\}\) by backward recurrence as
@@ -370,7 +399,7 @@ The rv \(Y_i\) is the <i>Snell envelope</i> of \(X_i\), which is defined as the 
 
 </div>
 
-<div class="proof" id="org51c8399">
+<div class="proof" id="orgb516937">
 <p>
 To be included
 </p>
@@ -401,13 +430,14 @@ By the theorem the stopping time \(\tau^*\) is optimal among all sellers (polici
 </div>
 </div>
 </div>
-<div id="outline-container-orge2cde71" class="outline-2">
-<h2 id="orge2cde71">Buying a House</h2>
+<div id="outline-container-org3298e5a" class="outline-2">
+<h2 id="org3298e5a">
+<span class="section-number-2">3.</span> Buying a House</h2>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul class="pager hidden-print">
 <li class="previous">
-                <a href="../vickery-auctions/" rel="prev" title="Vickery auctions">Previous post</a>
+                <a href="../vickrey-auctions/" rel="prev" title="Vickrey auctions">Previous post</a>
             </li>
             <li class="next">
                 <a href="../making-an-exercise-and-solution-environment/" rel="next" title="Making an Exercise and Solution Environment">Next post</a>
@@ -421,7 +451,8 @@ MathJax.Hub.Config({
       F: "\\mathcal{F}",
       1: ["\\mathbf{1}\\{#1\\}",1],
       d: ["\\,\\textrm{d}#1", 1],
-      Unif: ["\\mathrm{Unif}#1", 1],
+      Norm: ["\\mathrm{Norm}(#1)", 1],
+      Unif: ["\\mathrm{Unif}(#1)", 1],
     }
   }
 });

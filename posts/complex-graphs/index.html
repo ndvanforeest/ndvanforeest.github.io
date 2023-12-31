@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>(Very) Complex Graphs form (Very) Simple Ideas | Nicky's site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://ndvanforeest.github.io/posts/complex-graphs/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+<meta name="author" content="Nicky van Foreest">
+<link rel="prev" href="../mum-and-mmm/" title="MMM vs MUM: First Step Analysis" type="text/html">
+<link rel="next" href="../mathjax/" title="Mathjax tricks" type="text/html">
+<meta property="og:site_name" content="Nicky's site">
+<meta property="og:title" content="(Very) Complex Graphs form (Very) Simple Ideas">
+<meta property="og:url" content="https://ndvanforeest.github.io/posts/complex-graphs/">
+<meta property="og:description" content="Table of Contents
+
+
+1. Introduction
+2. You always thought you understood multiplication
+3. You always thought you understood division
+4. You always thought you understood stability in 1D
+5. You always">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-12-30T21:41:40+01:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="../../">
+
+            <span id="blog-title">Nicky's site</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                    
+            </ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="../../bio/" class="nav-link">Bio</a>
+                </li>
+<li class="nav-item">
+<a href="../../books/" class="nav-link">Books</a>
+                </li>
+<li class="nav-item">
+<a href="../../writings/" class="nav-link">Posts</a>
+                </li>
+<li class="nav-item">
+<a href="../../presentations/" class="nav-link">Presentations</a>
+                </li>
+<li class="nav-item">
+<a href="../../sites/" class="nav-link">Sites</a>
+                </li>
+<li class="nav-item">
+<a href="../../tools/" class="nav-link">Tools</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">(Very) Complex Graphs form (Very) Simple Ideas</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Nicky van Foreest
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2023-12-30T21:41:40+01:00" itemprop="datePublished" title="2023-12-30 21:41">2023-12-30 21:41</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org3aae28a">1. Introduction</a></li>
+<li><a href="#orgafc4494">2. You always thought you understood multiplication</a></li>
+<li><a href="#org466bafd">3. You always thought you understood division</a></li>
+<li><a href="#org038c2a7">4. You always thought you understood stability in 1D</a></li>
+<li><a href="#org6d3a71d">5. You always thought you understood stability in 2D</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org3aae28a" class="outline-2">
+<h2 id="org3aae28a">
+<span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+In this chapter we will explore how very simple ideas and lots of computations lead to astonishingly intricate graphs.
+There are no exercises this time, but you should study the graphs carefully.
+Except for the first example we will use recursion again, but this time to make graphs.
+</p>
+</div>
+</div>
+<div id="outline-container-orgafc4494" class="outline-2">
+<h2 id="orgafc4494">
+<span class="section-number-2">2.</span> You always thought you understood multiplication</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+We all know that \(2\times 3 = 6\), and that \(2\times 8 = 16\).
+We also know that \(2\times 3 \bmod 10 = 6\) and \(2 \times 8 \bmod 10 = 6\).
+As a variation on this theme, let's lay out the numbers \(0, 1, \ldots, 9\) on a circle  at equally spaced intervals, like the hours on a clock, and draw lines between points that relate through multiplication by \(2\) modulo 10.
+Thus, we draw a line from \(1\) to \(2\), from \(2\) to \(4\), from \(3\) to \(6\), and so on.
+Realize that \(2 \times 9 \bmod 10 = 18 \bmod 10 = 8\), so from \(9\) we draw a line to \(8\).
+In more formal terms, we place the  remainders  \((2a) \bmod b\) on the circle where \(2\) is the multiplier, \(2a\) the divident, and  \(b\) the divisor.
+</p>
+
+<p>
+To actually draw the line from \(1\) to \(2\), we need a bit of geometry.
+The unit circle can be cut into \(10\) pieces of equal length by using an angle \(\phi= 2\pi/10\). Then, by setting
+</p>
+\begin{align*}
+x(n) &amp;= \sin \phi n, &amp; y(n) &amp;= \cos  \phi n,
+\end{align*}
+<p>
+we find that \((x(0), y(0)) = (0, 1)\), \((x(1), y(1)) = (\sin \phi, \cos \phi)\), \ldots.
+It's best to show how all this works by means of a figure, so we need to set up that first.
+</p>
+
+<p>
+In the left most circle of the next figure, we draw a line from \(1\) to \(2\).
+In the second cicle we add the line that corresponds to multiplying \(2\) by \(2\), in the third \(3\times 2\).
+In the last we see that \(5\times 2\bmod 10 = 0\).
+If we would continue, we would obtain a line from \(6\) to \(2\), and continuing until \(9\) we obtain a line from \(9\) to \(8\), as explained above.
+Then we are full circle, and the lines will start to overlap with previously drawn lines.
+</p>
+
+
+<p>
+Here is the code to make the  figure below. (If you want to code along, load the standard modules first.)
+</p>
+<div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="n">divisor</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">divisor</span>
+<span class="n">multiplier</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">Circle</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s1">'none'</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_frame_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">1.02</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span> <span class="c1"># put the ticks on the circle</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="n">phi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="n">phi</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">r1</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">r2</span> <span class="o">*</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="n">r1</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="n">r2</span> <span class="o">*</span> <span class="n">y</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">):</span> <span class="c1"># draw the lines</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="n">phi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="n">multiplier</span> <span class="o">*</span> <span class="n">phi</span><span class="p">)]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="n">phi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="n">multiplier</span> <span class="o">*</span> <span class="n">phi</span><span class="p">)]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="c1"># fig.savefig("../figures/circle-multiply.pdf")</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"../images/circle-multiply.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="green">
+                         Figure for above code.
+                      </font>
+                    </strong>
+                  </summary><div id="orgb494d9d" class="figure">
+<p><img src="../../images/circle-multiply.png" alt="nil"></p>
+</div>
+
+
+</details><p>
+All this seems pretty dull and simple.
+However, the figures on the next page show what happens if we stick to using 2 as the multiplier but vary the divisor over the numbers \(10\), \(20\), \(50\), \(75\), \(100\).
+We made the graphs with the next pieces of code.
+The next function  plots the lines from a point \(x\) on the circle boundary to \(2x\), as shown in the figure above, for all points equally spaced on the circle boundary with distance \(2\pi/n\), where \(n\) is the divisor.
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">draw_lines</span><span class="p">(</span><span class="n">multiplier</span><span class="p">,</span> <span class="n">divisor</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"-"</span><span class="p">):</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">divisor</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">divisor</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">phi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">multiplier</span> <span class="o">*</span> <span class="n">phi</span><span class="p">)]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">phi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">multiplier</span> <span class="o">*</span> <span class="n">phi</span><span class="p">)]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">)</span>
+</pre></div>
+
+<p>
+This is the loop to plot the circles with the lines corresponding to multiplication with \(2, 3, \ldots, 7\).
+The next set of figures contains the result; I admit that I was astonished by this result.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">multiplier</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">modulo</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">100</span><span class="p">]):</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+        <span class="n">draw_lines</span><span class="p">(</span><span class="n">multiplier</span><span class="p">,</span> <span class="n">modulo</span><span class="p">,</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">Circle</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s1">'none'</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s2">"../images/circle-tables.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="c1"># fig.savefig(f"../figures/circle-tables.pdf")</span>
+</pre></div>
+
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="green">
+                         Figure for the code above.
+                      </font>
+                    </strong>
+                  </summary><div id="orge69b72b" class="figure">
+<p><img src="../../images/circle-tables.png" alt="nil"></p>
+</div>
+
+
+</details><p>
+But this is not the end of matter.
+The graph can become much more interesting.
+We can fix the modulo to \(200\), and vary the multiplier from \(2\) to \(7\) in small steps.
+The code below contains yet some further variations.
+The results are amazing in my opinion; I did not know that simple multiplication could lead to such beautiful graphs.
+If you run the code on your screen you can see yet more detail.
+The graphs are wonderfully complex: reading from left to right, we can see that the cusps are `woven into the graphs', and the larger the divisor, the more cusps.
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">vary_multiplier</span><span class="p">(</span><span class="n">fr</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">modulo</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">multiplier</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">fr</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">axes</span><span class="p">))):</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+        <span class="n">draw_lines</span><span class="p">(</span><span class="n">multiplier</span><span class="p">,</span> <span class="n">modulo</span><span class="p">,</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="n">ls</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">Circle</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s1">'none'</span><span class="p">))</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s2">"../images/circle-modulo-</span><span class="si">{</span><span class="n">modulo</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">fr</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">to</span><span class="si">}</span><span class="s2">.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+    <span class="c1"># fig.savefig(f"circle-modulo-{modulo}-{fr}-{to}.pdf")</span>
+
+<span class="n">vary_multiplier</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">vary_multiplier</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">vary_multiplier</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">vary_multiplier</span><span class="p">(</span><span class="mi">380</span><span class="p">,</span> <span class="mf">381.5</span><span class="p">,</span> <span class="mi">855</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">":"</span><span class="p">)</span>
+</pre></div>
+
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="green">
+                         Figure for case 2, 7, 200
+                      </font>
+                    </strong>
+                  </summary><div id="orgd965506" class="figure">
+<p><img src="../../images/circle-modulo-200-2-7.png" alt="nil"></p>
+</div>
+
+
+</details><details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="green">
+                         Figure for case 22, 23, 200
+                      </font>
+                    </strong>
+                  </summary><div id="orgc0179ee" class="figure">
+<p><img src="../../images/circle-modulo-200-22-23.png" alt="nil"></p>
+</div>
+
+
+</details><details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="green">
+                         Figure for case 50, 52, 200
+                      </font>
+                    </strong>
+                  </summary><div id="org1725b31" class="figure">
+<p><img src="../../images/circle-modulo-200-50-52.png" alt="nil"></p>
+</div>
+
+
+</details><details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="green">
+                         Figure for case 380, 381.5, 800
+                      </font>
+                    </strong>
+                  </summary><div id="orgd08039e" class="figure">
+<p><img src="../../images/circle-modulo-855-380-381.5.png" alt="nil"></p>
+</div>
+
+
+</details><p>
+The figures can be turned into a movie  with the next code.
+</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">imageio.v2</span> <span class="k">as</span> <span class="nn">imageio</span>
+
+
+<span class="n">divisor</span> <span class="o">=</span> <span class="mi">855</span>
+<span class="n">filenames</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">multiplier</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">380</span><span class="p">,</span> <span class="mf">381.5</span><span class="p">,</span> <span class="mi">300</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">multiplier</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">draw_lines</span><span class="p">(</span><span class="n">multiplier</span><span class="p">,</span> <span class="n">divisor</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">multiplier</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"frame_</span><span class="si">{</span><span class="n">multiplier</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">.png"</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+    <span class="n">filenames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">imageio</span><span class="o">.</span><span class="n">get_writer</span><span class="p">(</span><span class="s1">'circle_movie.gif'</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">'I'</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">imageio</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">append_data</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+<span class="c1"># remove the temporary files</span>
+<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org466bafd" class="outline-2">
+<h2 id="org466bafd">
+<span class="section-number-2">3.</span> You always thought you understood division</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Draw an equilateral triangle on a unit circle with its tip on \(z_{3} = x(0,1)\), and \(z_1\) and \(z_2\) as the two corners at the base.
+Start a walk at \(x_{0}\) somewhere in the triangle, and throw a die.
+Suppose the outcome lies in \(1, 2\), then select point corner \(1\) and plot a point half way \(x_0\) and \(z_1\), i.e., at \(x_1 = (x_{0}+z_{1})/2\).
+If the outcome lies in \(3, 4\), draw \(x_1\)  halfway between \(x_0\) and \(z_2\), and otherwise between \(x_0\) and \(z_3\).
+Throw the die again to select one of the three corners, and draw \(x_2\) halfway \(x_1\) and the seleced corner.
+Keep on repeating this until bored, and then ask the computer to take over to generate an enormous sequence of points \(\{X_k\}\).
+</p>
+
+<p>
+First we make the three corners of the equilateral triangle with its tip on \((0,1)\).
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">gnuplotlib</span> <span class="k">as</span> <span class="nn">gp</span>
+
+<span class="n">n_angles</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># make the triangle</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_angles</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_angles</span><span class="p">):</span>
+    <span class="n">Z</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">n_angles</span><span class="p">)</span>
+    <span class="n">Z</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">n_angles</span><span class="p">)</span>
+</pre></div>
+
+<p>
+Next, we make the iterated sef  of points half way a uniformly selected  corner and the current point.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">num</span> <span class="o">=</span> <span class="mi">50000</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_angles</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num</span><span class="p">)</span>
+
+<span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+    <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Z</span><span class="p">[</span><span class="n">U</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span> <span class="o">/</span> <span class="mi">2</span>
+</pre></div>
+
+<p>
+It remains to plot the points.
+In the code below I use gnuplot, rather than matplotlib, because gnuplot works faster with many points and it's also better at plotting many single points.
+The pointsize can be tuned with <code>ps 0.1</code>, and the point type by <code>pt</code>.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup></p>
+
+
+<div class="highlight"><pre><span></span><span class="n">gp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">X</span><span class="p">[:</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+    <span class="p">(</span><span class="n">X</span><span class="p">[:</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+    <span class="p">(</span><span class="n">X</span><span class="p">[:</span><span class="mi">50000</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:</span><span class="mi">50000</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+    <span class="n">_with</span><span class="o">=</span><span class="s2">"points pt 0 lc 'black'"</span><span class="p">,</span>
+    <span class="n">unset</span><span class="o">=</span><span class="p">[</span><span class="s1">'xtics'</span><span class="p">,</span> <span class="s1">'ytics'</span><span class="p">],</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+    <span class="n">multiplot</span><span class="o">=</span><span class="s1">'layout 1,3'</span><span class="p">,</span>
+    <span class="n">hardcopy</span><span class="o">=</span><span class="s1">'../images/sierpinsky.png'</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="green">
+                         Figure of the Sierpinksy triangle.
+                      </font>
+                    </strong>
+                  </summary><div id="orgaf463c0" class="figure">
+<p><img src="../../images/sierpinsky.png" alt="nil"></p>
+</div>
+
+
+</details><p>
+<strong style="font-variant: all-small-caps">What works for</strong> a triangle might also work for a hexagonal.
+For \(j=0, 1, \ldots, 5)\), take \(z_j = (\cos (2\pi j/ 6), \sin(2\pi j/6))\), so that \(z_j\) corresponds to the \(j\) th corner of a hexagon.
+A bit of experimentation shows that the update rule \((x_k + z_{i})/3\), i.e., dividing by \(3\) instead of \(2\), gives nice results.
+For the rest, the code is the same as above.
+</p>
+
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="green">
+                         Figure of the hexagonal triangle.
+                      </font>
+                    </strong>
+                  </summary><div id="org68b0a84" class="figure">
+<p><img src="../../images/hexagonal.png" alt="nil"></p>
+</div>
+
+
+</details><p>
+These are suprising results, aren't they?
+The first example is known as Sierpinsky's triangle, and, interestingly, there exists a direct relation with Pascal's triangle.
+For further background and explanations, you should consult the book `Chaos and Fractals' by H.O.Peitgen, H.Jürgens and D.Saupe.
+</p>
+</div>
+</div>
+<div id="outline-container-org038c2a7" class="outline-2">
+<h2 id="org038c2a7">
+<span class="section-number-2">4.</span> You always thought you understood stability in 1D</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Time series appear to be relatively simple objects: let \(X_{k+1} = a X_{k} + U_{k+1}\), with \(a \in (-1, 1)\) and \(U_{k}\sim\Unif{\{-1, 1\}}\).
+It may seems that this will lead to simple stochastic process: since \(|a|&lt;1\), it stays in the neighborhood of \(0\), and that's it.
+To see whether this is indeed true, let's apply this rule many, many times, first with \(a=0.8\), then with \(a=0.61\).
+</p>
+
+<p>
+We make bins such that each bin contains \(1\%\) of the observed valued of \(\{X_k\}\).
+It's easy to <code>np.histogram</code>, but there is one small detail: this function returns the (scaled) number of observations per bin as <code>hist</code>, and the boundaries of the bins as <code>bins</code>.
+Now there is one more boundary than bins, that is, to make one bin, we need two `walls', to make two bins, we need three `walls'.
+Thus, to plot the points, we remove the left most boundary, so that we have just as many values for the $xS coordinate as for the \(y\) coordinate.
+Here is the code.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="mi">2000000</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">U</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+    <span class="n">n_bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">hist</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_bins</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">hist</span>
+    <span class="k">return</span> <span class="n">X</span>
+
+
+<span class="n">X1</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">X2</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.61</span><span class="p">)</span>
+
+<span class="n">gp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">X1</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X1</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]),</span>
+    <span class="p">(</span><span class="n">X2</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X2</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]),</span>
+    <span class="n">_with</span><span class="o">=</span><span class="s2">"points pt 0 lc 'black'"</span><span class="p">,</span>
+    <span class="n">unset</span><span class="o">=</span><span class="p">[</span><span class="s1">'xtics'</span><span class="p">,</span> <span class="s1">'ytics'</span><span class="p">],</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+    <span class="n">multiplot</span><span class="o">=</span><span class="s1">'layout 1,2'</span><span class="p">,</span>
+    <span class="n">hardcopy</span><span class="o">=</span><span class="sa">f</span><span class="s2">"../images/time_series.png"</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+<p>
+These are the densities of the time series, the left is for \(a=0.8\), the rigth for \(a=0.61\).
+Perhaps a bit unexpected, but the densities turn out to be very complicated objects.
+If you're interested in a more profound mathematical analysis, consult Promenade Aleatoire by M.Benaim and N.El Karoui.
+</p>
+
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="green">
+                         Figure of the density for time series.
+                      </font>
+                    </strong>
+                  </summary><div id="org4df3b28" class="figure">
+<p><img src="../../images/time_series.png" alt="nil"></p>
+</div>
+
+
+</details>
+</div>
+</div>
+<div id="outline-container-org6d3a71d" class="outline-2">
+<h2 id="org6d3a71d">
+<span class="section-number-2">5.</span> You always thought you understood stability in 2D</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+This final example is just a straightforward generalization of the above time series, but now in 2D.
+(This is again one these ideas that are straightforward once you see it, but they are often hard to invent.)
+We have two matrices \(A_0\) and \(A_1\), and two vectors \(B_0\) and \(B_1\).
+Then, let
+</p>
+\begin{align*}
+X_{k+1} = A_{U_{k+1}} X_k + B_{U_{k+1}},
+\end{align*}
+<p>
+where \(U_k \sim \Unif{\{0, 1\}}\).
+</p>
+
+<p>
+In the code below we call the <code>numba</code> package to speed up the computation; it saves about a factor \(10\) while it costs us nothing except loading the package, and typing <code>@jit</code> on top of a function.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">jit</span>
+<span class="kn">import</span> <span class="nn">gnuplotlib</span> <span class="k">as</span> <span class="nn">gp</span>
+
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.839</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.303</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.383</span><span class="p">,</span> <span class="mf">0.924</span><span class="p">]])</span>
+<span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.161</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.136</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.138</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.182</span><span class="p">]])</span>
+
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.232</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.080</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.921</span><span class="p">,</span> <span class="mf">0.178</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+
+<span class="n">num</span> <span class="o">=</span> <span class="mi">500</span> <span class="o">*</span> <span class="mi">1000</span>
+
+<span class="n">gen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num</span><span class="p">)</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+
+<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">do_run</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">U</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">@</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">B</span><span class="p">[</span><span class="n">U</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span>
+
+
+<span class="n">do_run</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+
+<span class="n">gp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="nb">dict</span><span class="p">(</span><span class="n">_with</span><span class="o">=</span><span class="s2">"points pt 7 ps 0.02 lc 'black'"</span><span class="p">)),</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+    <span class="n">hardcopy</span><span class="o">=</span><span class="s2">"../images/spiral.png"</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+<p>
+This is the spectacular result.
+By the way, you might try to make the same result with matplotlib, but I am underwhelmed about its performance on making such plots.
+</p>
+
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="green">
+                         Figure of the spiral.
+                      </font>
+                    </strong>
+                  </summary><div id="org35aa025" class="figure">
+<p><img src="../../images/spiral.png" alt="nil"></p>
+</div>
+
+
+</details>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef">
+<sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup><div class="footpara" role="doc-footnote"><p class="footpara">Gnuplot is a great plotting tool.
+It loads super fast and deals easily with a million points.</p></div>
+</div>
+
+
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../mum-and-mmm/" rel="prev" title="MMM vs MUM: First Step Analysis">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../mathjax/" rel="next" title="Mathjax tricks">Next post</a>
+            </li>
+        </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+    Macros: {
+      P: ["\\textrm{P}\\left\\{#1\\right\\}", 1],
+      E: ["\\textrm{E}\\left\\{#1\\right\\}", 1],
+      F: "\\mathcal{F}",
+      1: ["\\mathbf{1}\\{#1\\}",1],
+      d: ["\\,\\textrm{d}#1", 1],
+      Norm: ["\\mathrm{Norm}(#1)", 1],
+      Unif: ["\\mathrm{Unif}(#1)", 1],
+    }
+  }
+});
+</script></article><!--End of body content--><footer id="footer"><div class="text-center">
+<p>
+<span class="fa-stack">
+  <a href="https://github.com/ndvanforeest">
+    <i class="fa fa-github-square fa-stack-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="http://scholar.google.com/citations?user=IEjX_w4AAAAJ">
+     <i class="ai ai-google-scholar-square ai-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="https://orcid.org/0000-0001-5428-1723">
+     <i class="ai ai-orcid-square ai-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="mailto:vanforeest@gmail.com">
+    <i class="fa fa-square fa-stack-2x"></i>
+    <i class="fa fa-envelope fa-inverse fa-stack-1x"></i>
+  </a>
+</span>
+</p>
+<p>
+  Contents © 2023  Nicky van Foreest
+  —
+  
+  —
+  Powered by <a href="https://getnikola.com" rel="nofollow">Nikola</a>
+</p>
+</div>
+
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>
