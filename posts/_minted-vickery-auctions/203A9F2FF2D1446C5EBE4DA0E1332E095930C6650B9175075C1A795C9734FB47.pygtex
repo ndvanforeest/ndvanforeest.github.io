@@ -1,0 +1,23 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{city\PYGZus{}id} \PYG{o}{=} \PYG{n+nb}{int}
+\PYG{n}{length} \PYG{o}{=} \PYG{n+nb}{float}
+
+
+\PYG{k}{def} \PYG{n+nf}{dist}\PYG{p}{(}\PYG{n}{i}\PYG{p}{:} \PYG{n}{city\PYGZus{}id}\PYG{p}{,} \PYG{n}{j}\PYG{p}{:} \PYG{n}{city\PYGZus{}id}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{length}\PYG{p}{:}
+    \PYG{c+c1}{\PYGZsh{} An arbitrary distance function between cities i and j}
+    \PYG{k}{return} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{i} \PYG{o}{\PYGZhy{}} \PYG{n}{j}\PYG{p}{)}
+
+
+\PYG{k}{def} \PYG{n+nf}{tsp}\PYG{p}{(}\PYG{n}{current}\PYG{p}{:} \PYG{n}{city\PYGZus{}id}\PYG{p}{,} \PYG{n}{cities}\PYG{p}{:} \PYG{n+nb}{set}\PYG{p}{[}\PYG{n}{city\PYGZus{}id}\PYG{p}{])} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{length}\PYG{p}{:}
+    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{cities}\PYG{p}{:}  \PYG{c+c1}{\PYGZsh{} There are no remaining cities, so return home}
+        \PYG{k}{return} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{current}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+    \PYG{n}{L} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{k}{for} \PYG{n}{city} \PYG{o+ow}{in} \PYG{n}{cities}\PYG{p}{:}
+        \PYG{n}{d} \PYG{o}{=} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{current}\PYG{p}{,} \PYG{n}{city}\PYG{p}{)} \PYG{o}{+} \PYG{n}{tsp}\PYG{p}{(}\PYG{n}{city}\PYG{p}{,} \PYG{n}{cities}\PYG{o}{.}\PYG{n}{difference}\PYG{p}{([}\PYG{n}{city}\PYG{p}{]))}
+        \PYG{n}{L}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{d}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n+nb}{min}\PYG{p}{(}\PYG{n}{L}\PYG{p}{)}
+
+\PYG{n}{depot} \PYG{o}{=} \PYG{l+m+mi}{0}
+\PYG{n}{cities} \PYG{o}{=} \PYG{n+nb}{set}\PYG{p}{([}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{])}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{tsp}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{cities}\PYG{p}{))}
+\end{Verbatim}

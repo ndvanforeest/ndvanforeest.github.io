@@ -142,11 +142,11 @@ NAVIGATION_LINKS = {
         # ("/index.html", "Home"),
         ("/bio/", "Bio"),
         ("/books/", "Books"),
-        ("/archive.html", "Posts"),
+        # ("/archive.html", "posts"),
+        ("/writings/", "Posts"),
         ("/presentations/", "Presentations"),
         ("/sites/", "Sites"),
         ("/tools/", "Tools"),
-        ("/writings/", "Writings"),
         # ("/rss.xml", "RSS feed"),
     ),
 }
@@ -1124,7 +1124,8 @@ MathJax.Hub.Config({
       F: "\\\\mathcal{F}",
       1: ["\\\\mathbf{1}\\\\{#1\\\\}",1],
       d: ["\\\\,\\\\textrm{d}#1", 1],
-      Unif: ["\\\\mathrm{Unif}#1", 1],
+      Norm: ["\\\\mathrm{Norm}(#1)", 1],
+      Unif: ["\\\\mathrm{Unif}(#1)", 1],
     }
   }
 });

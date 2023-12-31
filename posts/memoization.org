@@ -13,27 +13,12 @@
 
 #+TITLE:     Memoization with python
 #+AUTHOR:    Nicky van Foreest
-#+EMAIL:     vanforeest@gmail.com
 #+DATE:      2022-03-14
 
-#+LANGUAGE:  en
-#+OPTIONS:  H:2 toc:t num:t
+#+setupfile: ../preamble.org
+#+PROPERTY: header-args:python :session :eval no-export :exports both :results output
 
-#+include: ../preamble.org
 
-#+STARTUP: showall
-#+PROPERTY: header-args:python :session
-#+PROPERTY: header-args:python+ :exports both
-#+PROPERTY: header-args:python+ :results output
-
-#+BEGIN_COMMENT
-By including the definitions here, they apply to the entire document. Remove the comments of course.
-
-\(
-   \def\RR{{\bf R}}
-    \def\bold#1{{\bf #1}}
-\)
-#+END_COMMENT
 
 
 * Content of a Discrete Hyper Pyramid
@@ -68,7 +53,7 @@ What is the probability $\P{n,k}$ to see at least $k$ heads in row when you thro
 
 A bit of thinking shows  that $\P{n,k}$ must satisfy the recursion
 $$\P{n,k} = p^k + \sum_{i=1}^k p^{i-1} q\, \P{n-i,k},$$
-because it is possible to throw $k$ times heads from the first throw, but otherwise you throw $i$, $i<k$, times a heads, then a tails, after which you have to start all over again.
+because it is possible to throw $k$ times heads from the first throw, but otherwise you throw \(i\), \(i < k\), times a heads, then a tails, after which you have to start all over again.
 
 Reasoning similarly, the expected number times $\E{n,k}$ to see at least $k$ heads in row when you throw a coin $n$ times must satisfy the recursion
 $$\E{n,k} = p^k(1+\E{n-k,k}) + \sum_{i=1}^k p^{i-1} q\, \E{n-i,k}.$$
