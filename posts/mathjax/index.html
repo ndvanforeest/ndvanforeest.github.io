@@ -14,16 +14,28 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
 <meta name="author" content="Nicky van Foreest">
 <link rel="prev" href="../complex-graphs/" title="(Very) Complex Graphs form (Very) Simple Ideas" type="text/html">
+<link rel="next" href="../nhpp/" title="Simulating  Arrival Times for a Non-homogeneous Poisson Process" type="text/html">
 <meta property="og:site_name" content="Nicky's site">
 <meta property="og:title" content="Mathjax tricks">
 <meta property="og:url" content="https://ndvanforeest.github.io/posts/mathjax/">
-<meta property="og:description" content="Sometimes I want to use  mathjax macros in just file. Put these lines on top of the file so that the macros apply just this document.
+<meta property="og:description" content="Table of Contents
 
 
-\(
-   \def\RR{{\bf R}}
-    \def\bold#1{{\bf #1}}
-\)">
+1. Mathjax in Nikola
+2. Single Shot Remarks
+
+
+
+
+1. Mathjax in Nikola
+
+
+It took a bit of time to set up Mathjax for Nikola. This is what I had to add.
+
+
+
+
+The equationNumbers part a">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2023-12-31T12:13:18+01:00">
 </head>
@@ -109,7 +121,67 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <p>
+    <div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgc539582">1. Mathjax in Nikola</a></li>
+<li><a href="#org7f16437">2. Single Shot Remarks</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc539582" class="outline-2">
+<h2 id="orgc539582">
+<span class="section-number-2">1.</span> Mathjax in Nikola</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+It took a bit of time to set up Mathjax for Nikola. This is what I had to add.
+</p>
+
+
+<p>
+The <code>equationNumbers</code> part adds equation numbers. The <code>Macros</code> part contain the equivalent of the \(\LaTeX\) <code>newcommand~s.
+I'll add more commands over time, but the list below shows how to do that. Mind that ~\\\\</code> is necessary to escape a single backslash.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">MATHJAX_CONFIG</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">&lt;script type="text/x-mathjax-config"&gt;</span>
+<span class="s2">MathJax.Hub.Config({</span>
+<span class="s2">  TeX: {</span>
+<span class="s2">    equationNumbers: { autoNumber: "AMS" },</span>
+<span class="s2">    tagSide: "right",</span>
+<span class="s2">    tex2jax: {</span>
+<span class="s2">        inlineMath: [ ['$','$'], ["</span><span class="se">\\</span><span class="s2">\(","</span><span class="se">\\</span><span class="s2">\)"] ],</span>
+<span class="s2">        displayMath: [ ['$$','$$'], ["</span><span class="se">\\</span><span class="s2">\[","</span><span class="se">\\</span><span class="s2">\]"] ],</span>
+<span class="s2">        processEscapes: true</span>
+<span class="s2">    },</span>
+<span class="s2">    Macros: {</span>
+<span class="s2">      P: ["</span><span class="se">\\\\</span><span class="s2">textrm</span><span class="si">{P}</span><span class="se">\\\\</span><span class="s2">left</span><span class="se">\\\\</span><span class="s2">{#1</span><span class="se">\\\\</span><span class="s2">right</span><span class="se">\\\\</span><span class="s2">}", 1],</span>
+<span class="s2">      E: ["</span><span class="se">\\\\</span><span class="s2">textrm</span><span class="si">{E}</span><span class="se">\\\\</span><span class="s2">left</span><span class="se">\\\\</span><span class="s2">{#1</span><span class="se">\\\\</span><span class="s2">right</span><span class="se">\\\\</span><span class="s2">}", 1],</span>
+<span class="s2">      F: "</span><span class="se">\\\\</span><span class="s2">mathcal</span><span class="si">{F}</span><span class="s2">",</span>
+<span class="s2">      mineq: "</span><span class="se">\\\\</span><span class="s2">mathrel{-}=",</span>
+<span class="s2">      pluseq: "</span><span class="se">\\\\</span><span class="s2">mathrel{+}=",</span>
+<span class="s2">      R: "</span><span class="se">\\\\</span><span class="s2">mathbb</span><span class="si">{R}</span><span class="s2">",</span>
+<span class="s2">      1: ["</span><span class="se">\\\\</span><span class="s2">mathbf</span><span class="si">{1}</span><span class="se">\\\\</span><span class="s2">{#1</span><span class="se">\\\\</span><span class="s2">}",1],</span>
+<span class="s2">      d: ["</span><span class="se">\\\\</span><span class="s2">,</span><span class="se">\\\\</span><span class="s2">textrm</span><span class="si">{d}</span><span class="s2">#1", 1],</span>
+<span class="s2">      Norm: ["</span><span class="se">\\\\</span><span class="s2">mathrm</span><span class="si">{Norm}</span><span class="s2">(#1)", 1],</span>
+<span class="s2">      Unif: ["</span><span class="se">\\\\</span><span class="s2">mathrm</span><span class="si">{Unif}</span><span class="s2">(#1)", 1],</span>
+<span class="s2">    },</span>
+<span class="s2">  }</span>
+<span class="s2">});</span>
+<span class="s2">&lt;/script&gt;</span>
+<span class="s2">&lt;script type="text/javascript" charset="utf-8"</span>
+<span class="s2">  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML"&gt;</span>
+<span class="s2">&lt;/script&gt;</span>
+<span class="s2">"""</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org7f16437" class="outline-2">
+<h2 id="org7f16437">
+<span class="section-number-2">2.</span> Single Shot Remarks</h2>
+<div class="outline-text-2" id="text-2">
+<p>
 Sometimes I want to use  mathjax macros in just file. Put these lines on top of the file so that the macros apply just this document.
 </p>
 
@@ -118,25 +190,46 @@ Sometimes I want to use  mathjax macros in just file. Put these lines on top of 
 <span class="nb">    </span><span class="nv">\def\bold</span><span class="nb">#</span><span class="m">1</span><span class="nb">{{</span><span class="nv">\bf</span><span class="nb"> #</span><span class="m">1</span><span class="nb">}}</span>
 <span class="s">\)</span>
 </pre></div>
+</div>
+</div>
     </div>
     <aside class="postpromonav"><nav><ul class="pager hidden-print">
 <li class="previous">
                 <a href="../complex-graphs/" rel="prev" title="(Very) Complex Graphs form (Very) Simple Ideas">Previous post</a>
             </li>
+            <li class="next">
+                <a href="../nhpp/" rel="next" title="Simulating  Arrival Times for a Non-homogeneous Poisson Process">Next post</a>
+            </li>
         </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   TeX: {
+    equationNumbers: { autoNumber: "AMS" },
+    tagSide: "right",
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
     Macros: {
       P: ["\\textrm{P}\\left\\{#1\\right\\}", 1],
       E: ["\\textrm{E}\\left\\{#1\\right\\}", 1],
       F: "\\mathcal{F}",
+      iid: " \\mathrm{iid.}",
+      mineq: "\\mathrel{-}=",
+      pluseq: "\\mathrel{+}=",
+      R: "\\mathbb{R}",
       1: ["\\mathbf{1}\\{#1\\}",1],
       d: ["\\,\\textrm{d}#1", 1],
+      Exp: ["\\mathrm{Exp}(#1)", 1],
+      FS: ["\\mathrm{FS}(#1)", 1],
+      Geo: ["\\mathrm{Geo}(#1)", 1],
       Norm: ["\\mathrm{Norm}(#1)", 1],
+      Pois: ["\\mathrm{Pois}(#1)", 1],
       Unif: ["\\mathrm{Unif}(#1)", 1],
-    }
+    },
   }
 });
+</script><script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
 </script></article><!--End of body content--><footer id="footer"><div class="text-center">
 <p>
 <span class="fa-stack">
@@ -162,7 +255,7 @@ MathJax.Hub.Config({
 </span>
 </p>
 <p>
-  Contents © 2023  Nicky van Foreest
+  Contents © 2024  Nicky van Foreest
   —
   
   —

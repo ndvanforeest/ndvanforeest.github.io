@@ -15,10 +15,19 @@
 #+author: Nicky
 #+setupfile: ../preamble.org
 
+* COMMENT Test the page
+
+#+begin_src shell
+/usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "Snell.org" "../output/posts/snells-envelope-house-selling-and-buying/index.html")'
+#+end_src
+
+#+RESULTS:
+
+
 
 * Problem Setting
 
-I have house for sale and I am prepared to organize at most $n\geq 1$ house viewings.
+I have a house for sale and I am prepared to organize at most $n\geq 1$ house viewings.
 Assume that offers are idd rvs $\sim \Unif{[0,1]}$, and that I have to accept an offer on the spot or reject it.
 If rejected, the offer is retracted, hence I cannot accept it at a later date.
 Under these rules, what is the best price I can expect?
@@ -30,7 +39,6 @@ In this case I just assume I can rank the houses from best to worse.  Thus, I ca
 Both these problems can be solved as an optimal stopping problem.
 So, let's see how to do this, partly with Snell's envelope.
 I include some python code to get numerical output.
-
 
 
 * Selling a House
@@ -46,11 +54,11 @@ I used [[https://arminstraub.com/math/hiringsecretary][this site]], where the sa
 Let's start with a simple policy: I accept the first offer that exceeds some threshold $q$ that remains fixed for the entire sales period.
 This threshold policy can be formulated in terms of the stopping time $\tau = \inf\{i : X_i \geq q\}$, where $\inf \varnothing = \infty$ so that $\tau=\infty$ when all $X_i < q$.
 The expected sales price becomes
-\begin{equation*}
+<<snell-eq1>>
+\begin{equation}\label{snell-eq1}
 \E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}},
-\end{equation*}
+\end{equation}
 because the event $\{\tau = i \}$ implies that the offer $X_i$ of buyer $i$ exceeds $q$, and when $\tau=\infty$ the threshold $q$ was too high so that I have to accept the offer $X_n$ of the last buyer.
-
 
 #+begin_exercise
 Why is $\E{X_i \1{\tau=i}} = q^{i-1} \frac{1-q^{2}}{2}$ for $i < n$?
@@ -73,8 +81,9 @@ Why is  $\E{X_n \1{\tau=\infty}}= \frac{q^{n+1}}2$ for $n$?
 #+end_solution
 #+end_exercise
 #+html: <br>
+
 #+begin_exercise
-Conclude that:
+Conclude  from [[snell-eq1]] that:
 \begin{align*}
 v_{n}(q) := \E{X_{\tau}} &= \frac{1}{2}(1-q^{n} + q).
 \end{align*}
@@ -98,6 +107,7 @@ Solve for $q$ in $\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0$.
 #+end_exercise
 
 Here is an example in code to see how to implement all this.
+
 
 #+begin_src python :results output :exports both
 def best_q(n):
@@ -136,7 +146,7 @@ Suppose we have rejected the first $n-1$ offers, so that we have only $k=1$ visi
 Then our expected price is $v_1 = \E{X_n} = 1/2$.
 In general we accept offer $X_{i}$ of buyer $i$ when this exceeds the expected price $v_{k}$ of the remaining $k=n-i$ visits. Otherwise, we reject this offer. In other words, the expected price for $k$ periods to go satisfies the recursion
 \begin{align*}
-v_k &:= \E{\max\{X_{n-k}, v_{k-1}\}}  = \int_{v_{k-1}}^1 x \d x + \int_0^{v_{k-1}} v_{k-1} \d x = \frac{1}{2}(1-v_{k-1}^2) + v_{k-1}^2 \\
+v_k &:= \E{\max{X_{n-k}, v_{k-1}}}  = \int_{v_{k-1}}^1 x \d x + \int_0^{v_{k-1}} v_{k-1} \d x = \frac{1}{2}(1-v_{k-1}^2) + v_{k-1}^2 \\
 &= \frac{1}{2}(1 + v_{k-1}^2).
 \end{align*}
 Note that  $v_{k} > v_{k-1}$ when $v_{k-1}\neq 1$ because $1 + v_{k-1}^2 > 2 v_{k-1} \iff v_{k-1} \neq 1$. Thus, a policy with a fixed threshold is not optimal.
@@ -167,7 +177,8 @@ The optimal policy can be found by using a more general, but more abstract, fram
 Perhaps the easiest way to see how this works is to start with a theorem, stripped from some of its technical clutter.
 I  copied it from `Promenade alétoire' by M. Benaïm and N. El Karoui.
 
-
+<<th:snell>>
+#+ATTR_HTML: :text Snell
 #+begin_theorem
 Consider a sequence of rvs $\{X_i\}_{i=1}^n$ adapted to a filtration $\{\F_{i}\}_{i=1}^{n}$.
 Introduce the sequence of rvs $\{Y_i\}$ by backward recurrence as
@@ -182,9 +193,6 @@ and the stopping time $\tau^*= \inf\{ i\leq n: Y_i = X_i\}$. Then,
 The rv $Y_i$ is the /Snell envelope/ of $X_i$, which is defined as the smallest super martingale  $\geq X_i$.
 #+end_theorem
 
-#+begin_proof
-To be included
-#+end_proof
 
 Let's apply this theorem to the house selling problem. Take $\F_{i} = \sigma\{X_k : k \leq i\}$. Starting the recursion from right to left,
 \begin{align*}
@@ -193,8 +201,8 @@ Let's apply this theorem to the house selling problem. Take $\F_{i} = \sigma\{X_
 since just before period $n$, we have $k=1$ buyers to go. From this,  using independence,
 \begin{align*}
 \E{Y_{n} |\F_{n-1}} &= \E{X_{n}|\F_{n-1}} = \E{X_{n}} = v_{1}, \\
-Y_{n-1} &= \max\{\E{Y_{n} |\F_{n-1}}, X_{n-1}\} = \max\{v_1, X_{n-1}\}, \\
-\E{Y_{n-1}|\F_{n-2}} &= \E{\max\{v_1, X_{n-1}\}} = v_{2},
+Y_{n-1} &= \max{\E{Y_{n} |\F_{n-1}}, X_{n-1}} = \max{v_1, X_{n-1}}, \\
+\E{Y_{n-1}|\F_{n-2}} &= \E{\max{v_1, X_{n-1}}} = v_{2},
 \end{align*}
 as just before buyer $n-1$ makes an offer, we have $2$ offers to go.
 Continuing like this we retrieve our earlier values $v_k$.
@@ -203,3 +211,171 @@ But this is precisely the policy we found above.
 By the theorem the stopping time $\tau^*$ is optimal among all sellers (policies) that are willing to have $n$ house visits.
 
 * Buying a House
+
+Contrary to when selling a house, when buying a house I don't have an absolute benchmark.
+In the house selling case, all offers are capped by $1$, and when the very first bid is already very close to $1$, I know that that the probability of getting a better offer at a later date will be small.
+However, when buying a house, I assume I can just rank the houses, but I don't have benchmark.
+Therefore I will use the first $r$ say visits out of maximally $n$ to sample the quality of the houses.
+
+To understand how to apply Snell's envelope to the house selection problem, I used these two  resources besides `Promenade aléatoire' by M. Benaïm and N. El Karoui.
+- [[https://www.ihes.fr/~bodineau/docs/MAP432.pdf][Bodineau, Modélisation de phénomènes aléatoires]]
+- [[https://www.math.ucla.edu/~tom/Stopping/sr2.pdf][Ferguson lecture notes]]. These notes provide a formal statement of the house selection problem and some interesting discussions on further work.
+These accounts are clear, but leave quite a bit of work to the reader. The idea here is to also do this work.
+
+We assume that $n > 2$, because when $n=1,2$ the problem is not interesting.
+
+
+** A heuristic procedure
+
+A simple policy to select a house is like this: choose a level $r>1$, reject the first $r-1$ houses visited, then continue sampling and choose house $k \geq r$ when house $k$ is the best so far.
+Thus, the first $r-1$ visits form a sampling set and the threshold is the best of the houses in this sampling set.
+The problem is to find the threshold $r$ that maximizes the probability of selecting the best house of all $n$ houses.
+As it turns out, this is the also the best policy overall.
+Before developing notation and using Snell's envelope to prove the optimality, we discuss this policy in heuristic terms.
+
+We approach the problem in steps. Suppose we would choose house $k$ no matter what. Then, clearly, for any $k$,
+\begin{align*}
+\P{\text{House $k$ is best}} = \frac{1}{n}.
+\end{align*}
+So, let us follow the policy to reject the first $r-1$ houses. Then,
+\begin{align*}
+\P{\text{Select house $k$, given that house $k$ is best}} = \frac{r-1}{k-1}.
+\end{align*}
+
+#+begin_exercise
+Explain this result.
+#+begin_solution
+Under our simple policy, to select house $k$ it is necessary that house $k$ is better than all earlier houses, and that all houses $r, r+1, \ldots, k-1$ are worse than the best house in $1, 2, \ldots r-1$.
+Since all sequences of houses are equaly likely, the probability that this second best house occurs in the first $r-1$ visits of the $k-1$ visits before house $k$, is $(r-1)/(k-1)$.
+#+end_solution
+#+end_exercise
+
+The best house can be visited at any visit from $r, r+1, \ldots, n$. Thus, using the above,
+\begin{align*}
+P(r)&:=\P{\text{Select the best house}} \\
+&= \sum_{k=r}^{n} \P{\text{Select the best house, house $k$ is best}} \\
+&= \sum_{k=r}^{n} \P{\text{Select the best house, given house $k$ is best}} \P{\text{House $k$ is best}} \\
+&= \frac{r-1}{n}\sum_{k=r}^{n} \frac{1}{k-1}.
+\end{align*}
+
+The best sampling level $r$ maximizes $P(r)$.
+Now, heuristically, $P(r)$ must first increase as a function of $r$, and then decrease.
+When $r$ is small, the threshold to accept a house is too low because we did not sample enough houses, while if $r$ is large, it is likely that the best house will rejected because it will lie in the sampling set.
+So, we have to look for the $r$ after which $P(r)$ starts to decrease.
+
+#+begin_exercise
+Show that $P(r) \geq P(r+1) \iff 1 \geq \sum_{k=r}^n \frac{1}{k-1}$.
+#+begin_solution
+\begin{align*}
+P(r) \geq P(r+1)
+&\iff \frac{r-1}{n} \sum_{k=r}^n \frac{1}{k-1} \geq \frac{r}{n} \sum_{k=r+1}^n \frac{1}{k-1} \\
+&\iff r\left( \sum_{k=r}^n \frac{1}{k-1} - \sum_{k=r+1}^n \frac{1}{k-1} \right)  \geq  \sum_{k=r}^n \frac{1}{k-1} \\
+&\iff \frac{r}{r-1} \geq  \frac{1}{r-1} + \sum_{k=r+1}^n \frac{1}{k-1}\\
+&\iff 1 \geq  \sum_{k=r+1}^n \frac{1}{k-1}.
+\end{align*}
+#+end_solution
+#+end_exercise
+
+Consequently, the best $r$ is given by
+#+name: eq:snell2
+\begin{equation}
+r^{*} = \min{r > 1: P(r) > P(r+1) } = \min {r>1 :  \sum_{k=r}^n \frac{1}{k-1} \geq 1}.
+\end{equation}
+Note that for $n > 2$, the policy with $r=1$ can be ruled out right away as not optimal.
+
+** The formal procedure
+
+We formalize the problem specification so that we can apply Snell's envelope to prove that the sampling policy with threshold [[eq:snell2]]just developed is optimal.
+
+If we have seen all houses, we can rank them so that $R_i$ is the rank of the \(i\)th house visited.
+We say that house $i$ is better than house $j$ when $R_i < R_j$; the best house overall has rank $1$.
+The problem, once again, is to maximize the probability to find the best house.
+
+Write $\xi_i = 1$ if house $i$ is the highest ranked so far and $\xi_i=0$ otherwise, that is,
+\begin{align*}
+\xi_i := \1{R_i < \min{R_{1}, \ldots, R_{i-1}}}.
+\end{align*}
+All permutation of the rankings are equally likely, implying that,
+1. $\P{\xi_i = 1} = 1/i$ for $i=1, \ldots n$,
+2. The rvs $\{\xi_i\}$ are independent.
+Let $\F_{i}$ be  $\sigma\{\xi_1, \ldots, \xi_i\}$, and $\{\F_{i}\}_{i=0}^{n}$ the associated filtration.
+
+#+begin_exercise
+Prove properties 1 and 2.
+#+begin_solution
+For 1, observe that $\{\xi_i=1\}$ imposes the condition that of all permutations only the ones are allowed such  that the best ranking of the first $i$ visits appears at visit $i$. By symmetry, the probability that visit $i$ is the best of all $i$ visits is equal to $1/i$.
+
+For 2, suppose that $j>i$.
+By 1, the probability that $\xi_j = 1$ is $1/j$.
+Next, consider the subset of permutations such that $\xi_j=1$.
+All of these permutations have the same probability.
+Thus, the probability that one of these permutations is such that $\xi_i=1$ is $1/i$.
+Therefore $\P{\xi_i=\xi_j=1} = \frac{1}{ij}$.
+By recursion, this argument applies to any number of $\xi_k$.
+#+end_solution
+#+end_exercise
+
+Suppose we would stop according to stopping rule $\tau$, the probability we have the best house is given by
+\begin{align*}
+\E{\1{R_{\tau}=1}} = \P{R_{\tau} = 1} = \P{\xi_{\tau} = 1, \xi_{\tau+1} = \cdots = \xi_n = 0}.
+\end{align*}
+There is a fundamental problem with the event $\{\xi_{i} = 1, \xi_{i+1} = \cdots = \xi_n = 0\}$ because this is not an element of $\F_{i}$ since $\xi_{j} \not \in \F_{i}$ for $j> i$. Let us therefore look instead at the rvs that are adapted to $\{F_i\}$,
+\begin{align*}
+X_i &= \E{\1{R_i=1}|\F_{i}} \\
+&= \P{\xi_{i} = 1, \xi_{i+1} = \cdots = \xi_n = 0|\F_i} \\
+&=\xi_{i} \P{\xi_{i+1} = \cdots = \xi_n = 0|\F_i}, \\
+&=\xi_{i} \frac{i}{i+1} \times \cdots \times \frac{n-1}{n} = \xi_i \frac{i}{n}.
+\end{align*}
+
+With regard to the Snell envelope of $X_n$, and using independence,
+\begin{align*}
+Y_n &=  X_n = \xi_n \frac{n}{n}, & \E{Y_n | \F_{n-1}} &= \E{X_{n}} = \E{\xi_{n}} = \frac{1}{n}.
+\end{align*}
+To see whether we can spot a pattern, consider next $X_{n-1}$. By independence and the above,
+\begin{align*}
+Y_{n-1} &= \max{X_{n-1}, \E{Y_{n}|\F_{n-1}}} \\
+&= \max{\xi_{n-1}\frac{n-1}{n}, \frac{1}{n}} = \frac{1}{n} + \frac{n-2}{n} \xi_{n-1},
+\end{align*}
+since $n-1 > 1$ (recall $n\geq 2$ by assumption).
+Therefore,
+\begin{align*}
+\E{Y_{n-1}|\F_{n-2}} &= \E{Y_{n-1}} = \frac{1}{n} + \frac{n-2}{n}\E{\xi_{n-1}} \\
+&=\frac{n-2}{n}\frac{1}{n-2} + \frac{n-2}{n} \frac{1}{n-1} \\
+&= \frac{n-2}{n} \sum_{k=n-1}^n \frac{1}{k-1}.
+\end{align*}
+Based on this, let's guess that for $i$ sufficiently large,
+\begin{align*}
+\E{Y_{i+1}|\F_{i}} = \E{Y_{i+1}}
+= \frac{i}{n} \sum_{k=i+1}^n \frac{1}{k-1}.
+\end{align*}
+Then
+\begin{align*}
+Y_{i}
+&= \max{X_{i}, \E{Y_{i+1}|\F_{i}}}
+= \max{\xi_i \frac{i}{n}, \E{Y_{i+1}|\F_{i}}} \\
+&= \frac{i}{n}\max{\xi_i , \sum_{k=i+1}^n \frac{1}{k-1}}.
+\end{align*}
+If $i$ is in fact so large that $1 \geq \sum_{k=i+1}^{n} \frac{1}{k-1}$,
+\begin{align*}
+\E{Y_{i}|F_{i-1}} &=  \E{Y_{i}}
+= \frac{i}{n}\left(\frac{1}{i} 1   +  \frac{i-1}{i}\sum_{k=i+1}^n \frac{1}{k-1}\right)
+= \frac{i-1}{n} \sum_{k=i}^n \frac{1}{k-1}.
+\end{align*}
+This validates, by induction, our earlier guess. However, if $1 < \sum_{k=i+1}^{n} \frac{1}{k-1}$,
+\begin{align*}
+Y_{i} &= \frac{i}{n}\max{\xi_i , \sum_{k=i+1}^n \frac{1}{k-1}} = \frac{i}{n}\sum_{k=i+1}^n \frac{1}{k-1}.
+\end{align*}
+
+
+#+begin_exercise
+Use [[th:snell][Snell's theorem]] to explain that the stopping time [[eq:snell2]] is optimal.
+#+begin_solution
+Compute Snell's envelope with the formulas above.
+It is evident for all $i$ that $\xi_i = 0 \implies 0 = X_{i} < Y_i$.
+Next, starting from $i=1s, as long as $i$ is such that $1 < \sum_{k=i+1}^{n} \frac{1}{k-1}$, $X_{i} < Y_i$ even when $\xi_i = 1$.
+The earliest visit such that $X_i = Y_i$ becomes possible is when $\xi_i=1 > \sum_{k=i+1}^{n} \frac{1}{k-1}$. But this $i$ is precisely the threshold given by
+[[eq:snell2]].
+#+end_solution
+#+end_exercise
+
+In conclusion, it is optimal to select house $i$ when $i\geq r^{*}$ and when $\xi_{i} = 1$, i.e., when house $i$ is the best house seen among the first $i$ visits.

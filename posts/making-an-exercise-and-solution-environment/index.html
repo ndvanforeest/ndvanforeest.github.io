@@ -117,22 +117,22 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org53b3800">1. The Problem</a></li>
-<li><a href="#org8ead96d">2. My Environment</a></li>
+<li><a href="#orgbc3d40a">1. The Problem</a></li>
+<li><a href="#org6536032">2. My Environment</a></li>
 <li>
-<a href="#org231224a">3. The adapted <code>init.el</code></a>
+<a href="#org3708639">3. The adapted <code>init.el</code></a>
 <ul>
-<li><a href="#orgbb85997">3.1. Loading the relevant packages</a></li>
-<li><a href="#orgfee24eb">3.2. Updating the code for <code>box</code> and <code>details</code> blocks</a></li>
-<li><a href="#org4771507">3.3. Making the exercise, hint and solution blocks</a></li>
+<li><a href="#org88ba241">3.1. Loading the relevant packages</a></li>
+<li><a href="#orga050905">3.2. Updating the code for <code>box</code> and <code>details</code> blocks</a></li>
+<li><a href="#org47b0ae5">3.3. Making the exercise, hint and solution blocks</a></li>
 </ul>
 </li>
-<li><a href="#org07e172d">4. Testing</a></li>
+<li><a href="#org046c5c4">4. Testing</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org53b3800" class="outline-2">
-<h2 id="org53b3800">
+<div id="outline-container-orgbc3d40a" class="outline-2">
+<h2 id="orgbc3d40a">
 <span class="section-number-2">1.</span> The Problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -179,8 +179,8 @@ To see how to do this, read on.
 </div>
 </div>
 </div>
-<div id="outline-container-org8ead96d" class="outline-2">
-<h2 id="org8ead96d">
+<div id="outline-container-org6536032" class="outline-2">
+<h2 id="org6536032">
 <span class="section-number-2">2.</span> My Environment</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -237,8 +237,8 @@ I need to install <code>org-special-block-extras</code>, and this command preven
 </div>
 </div>
 </div>
-<div id="outline-container-org231224a" class="outline-2">
-<h2 id="org231224a">
+<div id="outline-container-org3708639" class="outline-2">
+<h2 id="org3708639">
 <span class="section-number-2">3.</span> The adapted <code>init.el</code>
 </h2>
 <div class="outline-text-2" id="text-3">
@@ -246,8 +246,8 @@ I need to install <code>org-special-block-extras</code>, and this command preven
 Since I need functionality from <code>org-special-block-extras</code>, I have to update the <code>init.el</code> anyway, so here it is.
 </p>
 </div>
-<div id="outline-container-orgbb85997" class="outline-3">
-<h3 id="orgbb85997">
+<div id="outline-container-org88ba241" class="outline-3">
+<h3 id="org88ba241">
 <span class="section-number-3">3.1.</span> Loading the relevant packages</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
@@ -296,8 +296,8 @@ Next I load two packages. The hook on <code>org-mode</code> is necessary.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgfee24eb" class="outline-3">
-<h3 id="orgfee24eb">
+<div id="outline-container-orga050905" class="outline-3">
+<h3 id="orga050905">
 <span class="section-number-3">3.2.</span> Updating the code for <code>box</code> and <code>details</code> blocks</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
@@ -384,8 +384,8 @@ And also for the  <code>box</code> block.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org4771507" class="outline-3">
-<h3 id="org4771507">
+<div id="outline-container-org47b0ae5" class="outline-3">
+<h3 id="org47b0ae5">
 <span class="section-number-3">3.3.</span> Making the exercise, hint and solution blocks</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
@@ -411,14 +411,14 @@ I copied the above on top of the <code>init.el</code> file, and kept the rest.
 </div>
 </div>
 </div>
-<div id="outline-container-org07e172d" class="outline-2">
-<h2 id="org07e172d">
+<div id="outline-container-org046c5c4" class="outline-2">
+<h2 id="org046c5c4">
 <span class="section-number-2">4.</span> Testing</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Let's test this on this file. As this file sits in the <code>posts</code> we need to include the path to  <code>init.el</code>.
 </p>
-<div class="highlight"><pre><span></span>/usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "making-an-exercise-environment.org" "~/tmp/output.html")'
+<div class="highlight"><pre><span></span>/usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "making-an-exercise-environment.org" "../output/output.html")'
 </pre></div>
 </div>
 </div>
@@ -433,17 +433,33 @@ Let's test this on this file. As this file sits in the <code>posts</code> we nee
         </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   TeX: {
+    equationNumbers: { autoNumber: "AMS" },
+    tagSide: "right",
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
     Macros: {
       P: ["\\textrm{P}\\left\\{#1\\right\\}", 1],
       E: ["\\textrm{E}\\left\\{#1\\right\\}", 1],
       F: "\\mathcal{F}",
+      iid: " \\mathrm{iid.}",
+      mineq: "\\mathrel{-}=",
+      pluseq: "\\mathrel{+}=",
+      R: "\\mathbb{R}",
       1: ["\\mathbf{1}\\{#1\\}",1],
       d: ["\\,\\textrm{d}#1", 1],
+      Exp: ["\\mathrm{Exp}(#1)", 1],
+      FS: ["\\mathrm{FS}(#1)", 1],
+      Geo: ["\\mathrm{Geo}(#1)", 1],
       Norm: ["\\mathrm{Norm}(#1)", 1],
+      Pois: ["\\mathrm{Pois}(#1)", 1],
       Unif: ["\\mathrm{Unif}(#1)", 1],
-    }
+    },
   }
 });
+</script><script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
 </script></article><!--End of body content--><footer id="footer"><div class="text-center">
 <p>
 <span class="fa-stack">
@@ -469,7 +485,7 @@ MathJax.Hub.Config({
 </span>
 </p>
 <p>
-  Contents © 2023  Nicky van Foreest
+  Contents © 2024  Nicky van Foreest
   —
   
   —

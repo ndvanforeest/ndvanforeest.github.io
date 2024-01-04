@@ -122,15 +122,15 @@ For some application I needed a random shuffl">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orge48b6c9">1. Weighted random shuffling</a></li>
-<li><a href="#org89f9f86">2. Weighted shuffling in pure python</a></li>
-<li><a href="#org701bc1f">3. Fast shuffling</a></li>
-<li><a href="#orgfd92ce0">4. A wrong idea</a></li>
+<li><a href="#org98cf960">1. Weighted random shuffling</a></li>
+<li><a href="#orgb1a7fc6">2. Weighted shuffling in pure python</a></li>
+<li><a href="#org7a8be5a">3. Fast shuffling</a></li>
+<li><a href="#orge10b45b">4. A wrong idea</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orge48b6c9" class="outline-2">
-<h2 id="orge48b6c9">
+<div id="outline-container-org98cf960" class="outline-2">
+<h2 id="org98cf960">
 <span class="section-number-2">1.</span> Weighted random shuffling</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -145,8 +145,8 @@ this code.
 </p>
 </div>
 </div>
-<div id="outline-container-org89f9f86" class="outline-2">
-<h2 id="org89f9f86">
+<div id="outline-container-orgb1a7fc6" class="outline-2">
+<h2 id="orgb1a7fc6">
 <span class="section-number-2">2.</span> Weighted shuffling in pure python</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -155,10 +155,10 @@ list \(a\) without replacement. In steps:
 </p>
 <ol class="org-ol">
 <li>Choose with probability \(w_{i}/\sum_{i} w_{i}\) element \(a_{i}\) from \(a\).</li>
-<li>Store this element in a list \(r\).</li>
+<li>Add this element to a list \(r\).</li>
 <li>Remove element \(a_{i}\) from \(a\) and \(w_{i}\) from \(w\).</li>
 <li>Stop if \(a\) is empty, else,</li>
-<li>Return to step 1 with the modified list \(a\).</li>
+<li>Return to step 1 with the updated lists \(a\) \(w\).</li>
 </ol>
 <p>
 However, I found the code below for weighted random sampling on  <a href="https://eli.thegreenplace.net/2010/01/22/weighted-random-generation-in-python">this page</a>.
@@ -201,8 +201,8 @@ element \(i\) cannot be selected the next time.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org701bc1f" class="outline-2">
-<h2 id="org701bc1f">
+<div id="outline-container-org7a8be5a" class="outline-2">
+<h2 id="org7a8be5a">
 <span class="section-number-2">3.</span> Fast shuffling</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -242,8 +242,8 @@ Some testing shows, for a reason unknown to me, that <code>np.searchsorted</code
 </p>
 </div>
 </div>
-<div id="outline-container-orgfd92ce0" class="outline-2">
-<h2 id="orgfd92ce0">
+<div id="outline-container-orge10b45b" class="outline-2">
+<h2 id="orge10b45b">
 <span class="section-number-2">4.</span> A wrong idea</h2>
 <div class="outline-text-2" id="text-4">
 <p>
@@ -274,17 +274,33 @@ where \(w_i\) are the weights and \(U_i\) uniform random deviates on
         </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   TeX: {
+    equationNumbers: { autoNumber: "AMS" },
+    tagSide: "right",
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
     Macros: {
       P: ["\\textrm{P}\\left\\{#1\\right\\}", 1],
       E: ["\\textrm{E}\\left\\{#1\\right\\}", 1],
       F: "\\mathcal{F}",
+      iid: " \\mathrm{iid.}",
+      mineq: "\\mathrel{-}=",
+      pluseq: "\\mathrel{+}=",
+      R: "\\mathbb{R}",
       1: ["\\mathbf{1}\\{#1\\}",1],
       d: ["\\,\\textrm{d}#1", 1],
+      Exp: ["\\mathrm{Exp}(#1)", 1],
+      FS: ["\\mathrm{FS}(#1)", 1],
+      Geo: ["\\mathrm{Geo}(#1)", 1],
       Norm: ["\\mathrm{Norm}(#1)", 1],
+      Pois: ["\\mathrm{Pois}(#1)", 1],
       Unif: ["\\mathrm{Unif}(#1)", 1],
-    }
+    },
   }
 });
+</script><script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
 </script></article><!--End of body content--><footer id="footer"><div class="text-center">
 <p>
 <span class="fa-stack">
@@ -310,7 +326,7 @@ MathJax.Hub.Config({
 </span>
 </p>
 <p>
-  Contents © 2023  Nicky van Foreest
+  Contents © 2024  Nicky van Foreest
   —
   
   —

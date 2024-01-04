@@ -79,7 +79,1111 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/links-in-nikola-and-orgmode/" class="u-url">links in nikola and orgmode</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/vickrey-auctions/" class="u-url">Vickrey auctions</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Nicky van Foreest
+                    </span></p>
+            <p class="dateline">
+            <a href="../posts/vickrey-auctions/" rel="bookmark">
+            <time class="published dt-published" datetime="2022-04-26T14:58:08+02:00" itemprop="datePublished" title="2022-04-26 14:58">2022-04-26 14:58</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="../posts/vickrey-auctions/#org2a12755">1. Introduction</a></li>
+<li>
+<a href="../posts/vickrey-auctions/#org8f1fe54">2. Some complexity theory</a>
+<ul>
+<li><a href="../posts/vickrey-auctions/#orgafc5589">2.1. Sorting</a></li>
+</ul>
+</li>
+<li><a href="../posts/vickrey-auctions/#orgad2669c">3. The Vickrey auction</a></li>
+<li><a href="../posts/vickrey-auctions/#org312f998">4. Summary</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2a12755" class="outline-2">
+<h2 id="org2a12755">
+<span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+A Vickrey auction is a sealed-bid auction where bidders submit bids without knowing the bids of other people.
+The winner is the participant with the highest bid, but interestingly, the price paid is the second-highest bid price rather than the highest.
+One way to understand this is to think about an auction in which bidders accept a price announced by the auctioneer by raising their hand.
+If the second highest bidder is prepared to pay \(A\), then s/he will stop when the price is \(A+1\), and this is the price at which the highest bidder gets the item.
+Clearly, the highest bidder does not <i>reveal</i> its own maximum price to win the auction; in fact, all bidders except the highest reveal their bid.<sup><a id="fnr.1" class="footref" href="../posts/vickrey-auctions/#fn.1" role="doc-backlink">1</a></sup></p>
+
+<p>
+If we have large debts, and an expensive car, should we organize a Vickrey auction to sell our car and pay our debts?
+How will the expected value and the variance of the second bid depend on the number of bidders?
+Perhaps we need a minimum number of bidders to reduce the probability of getting a low value for our car.
+To obtain insight into these questions we will make a histogram of simulated prices at which the car is sold in a Vickrey auction.
+</p>
+
+<p>
+As a simple model suppose we have \(10\) bidders whose bids are idd rvs \(\{X_i\}_{i=1}^{10}\) according to some distribution \(F\), say.
+To estimate the value of the second largest bid by simulation, we make a matrix \(X\) of size \(N\times 10\) with entries \(X_{i j} \sim F\); like this, each row corresponds to one round of an auction, and column \(j\) to the bids of the \(j\)th participant.
+Finding the hightest bid per row is easy with the code <code>np.max(X, axis=1)</code>, but for the Vickrey auction we don't need the largest, but the <i>second largest</i> element of each row.
+One way to find this is to sort each row, and then pick the values of \(9\)th column of \(X\), i.e., <code>X[:,8]</code>.
+However, this is algorithmically more expensive than necessary: we don't need to sort all values of the row, we only need to the know the, so-called, \(k\)th median, with \(k=9\).
+</p>
+
+<p>
+To build a better understanding of how to simulate <i>efficiently</i> the Vickrey auction, we first need to discuss some elementary, but highly useful, theory to express the complexity of algorithms.
+Then we apply this theory to an algorithm to solve the Traveling Salesman Problem (TSP) by means of recursion.
+As we will see, the implementation of the TSP is really elegant.
+Then we consider the complexity of two sorting algorithms.
+The second of these, <i>quicksort</i>, provides us with a very nice and efficient recursive algorith to find the \(k\)th median in an array of numbers.
+In the last section we use this algorithm to find the second highest bid in a Vickrey auction and plot of the density of these bids to obtain insight into the price we can expect for our car.
+</p>
+</div>
+</div>
+<div id="outline-container-org8f1fe54" class="outline-2">
+<h2 id="org8f1fe54">
+<span class="section-number-2">2.</span> Some complexity theory</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+In simulation we often repeat the same algorithm with different so that we obtain statistical insight by means of many sample paths.
+Therefore the difference in time required by a dumb and a smart algorithm to complete one simulation run can be huge.
+One way to compare the speed of algorithms is by means of the concept of complexity, for which we use the order symbol \(O(\cdot)\).
+Here are two examples to illustrate the idea.
+First, when adding two \(n\)-digit numbers, we add the \(m\)th digit in the first number with the \(m\)th digit in the second number.
+We do the same operation for all digits, and since there are \(n\)-digits in total, the algorithm requires a number of additions that is \(O(n)\).
+Second, to multiply two \(n\)-digit numbers by hand, we multiply each digit of the first number by each digit of the second.
+Clearly this requires \(O(n^2)\) multiplications.
+Thus, with the \(O(\cdot)\) symbol, we express how the <i>dominating term</i> scales as a function of the input of the data, but we abstract away from the time each specific operation takes.
+In other words, whether an algorithm has \(4 n^3\) or \(5n^3\) complexity, in all such cases we say it is \(O(n^3)\).
+It is evident that the larger the power of the \(n\), the more execution time an algorithm need in general to complete for large input.
+</p>
+
+<p>
+To practice a bit more with the \(O\) symbol, given a list of \(n\) elements,  the following code finds the largest element:
+</p>
+<div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">M</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Explain that this algorithm requires \(O(n)\) comparisons.
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+We store the value of first element in a variable \(M\), say.
+Then we compare \(M\) to the second element, and replace the value of \(M\) by the second if the second value is larger than \(M\), and so on.
+Since we need \(n-1\) comparisons in total,  the complexity is \(O(n)\).
+</p>
+
+
+</details>
+</div>
+<p>
+<strong style="font-variant: all-small-caps">A somewhat more</strong> interesting example is the complexity of the traveling salesman problem (TSP).
+This problem consists of finding the shortest possible route that visits, exactly once, each city of a given set of \(n\) cities, starting from a depot labeled \(0\).
+The next code compute recursively the <i>length</i> of the shortest path.
+We start at the depot and provide a set of cities.
+When in the <code>current</code> city, we solve the tsp that remains after going to each city in <code>cities</code>.
+(Take your time to understand the recursion.)
+We add typing to clarity what sort of argument <code>TSP</code> is supposed to accept.
+By the way, it might seem pointless to overload integers to <code>city_id</code>, but the meaning of the word <code>city_id</code> is much easier to understand.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">city_id</span> <span class="o">=</span> <span class="nb">int</span>
+<span class="n">length</span> <span class="o">=</span> <span class="nb">float</span>
+
+
+<span class="k">def</span> <span class="nf">dist</span><span class="p">(</span><span class="n">i</span><span class="p">:</span> <span class="n">city_id</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">city_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">length</span><span class="p">:</span>
+    <span class="c1"># An arbitrary distance function between cities i and j</span>
+    <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">tsp</span><span class="p">(</span><span class="n">current</span><span class="p">:</span> <span class="n">city_id</span><span class="p">,</span> <span class="n">cities</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="n">city_id</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">length</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cities</span><span class="p">:</span>  <span class="c1"># There are no remaining cities, so return home</span>
+        <span class="k">return</span> <span class="n">dist</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">city</span> <span class="ow">in</span> <span class="n">cities</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">city</span><span class="p">)</span> <span class="o">+</span> <span class="n">tsp</span><span class="p">(</span><span class="n">city</span><span class="p">,</span> <span class="n">cities</span><span class="o">.</span><span class="n">difference</span><span class="p">([</span><span class="n">city</span><span class="p">]))</span>
+        <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+
+<span class="n">depot</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">cities</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tsp</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cities</span><span class="p">))</span>
+</pre></div>
+
+<pre class="example">
+8
+</pre>
+
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Why is the minimal lenght equal to \(8\)?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+The distance from city \(0\) to \(1\)  is \(1\), from city \(1\) to \(2\) also \(1\), and so on, until we arrive at city \(4\). Since returning to \(0\) has a cost of \(4\), the total cost is \(1 + 1 + 1 + 1 + 4\).
+</p>
+
+
+</details>
+</div>
+<p>
+As an aside, the above code can be written as one list comprehension, like so:
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tsp</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">city_id</span><span class="p">,</span> <span class="n">C</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="n">city_id</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">length</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">C</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">dist</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">dist</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="n">tsp</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">C</span><span class="o">.</span><span class="n">difference</span><span class="p">([</span><span class="n">c</span><span class="p">]))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">C</span><span class="p">)</span>
+</pre></div>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Explain that the number of possible routes scales as \(O(n!)\). As a consequence, solving the TSP for any reasonable number of cities is totally infeasible.
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+To start the route we have \(n\) choices, for the second city we have \(n-1\) choices, etc.
+</p>
+
+
+</details>
+</div>
+<p>
+The line <code>if not cities:</code> requires attention: it is the condition to tell the recursion to stop.
+More generally, when applying recursion, it is essential to ensure that eventually some stopping criterion is satisfied, for otherwise the algorithm might never stop running.
+Hence, when desiging recursive algorithms, <i>always check</i> that the algorithm contains a stopping condition.
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Identify the stopping criterion for the game in which we used one die to choose uniformly a winner among 19 children.
+</p>
+
+</div>
+<p>
+This closes our discussion of complexity theory.
+Much more can be said about it, but for our purposes this suffices.
+We now have the means to compare the efficiency of algorithms.
+</p>
+</div>
+<div id="outline-container-orgafc5589" class="outline-3">
+<h3 id="orgafc5589">
+<span class="section-number-3">2.1.</span> Sorting</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+As said, we can identify the second highest bid for the Vickrey auction by sorting the bids per simulated auction.
+Thus, let us consider the complexity of sorting algorithms.
+The first, called <i>bubblesort</i>, is a simple, but bad algorithm; the second, called <i>quicksort</i>, is based on recursion and a very good algorithm.
+</p>
+
+<p>
+<strong style="font-variant: all-small-caps">A simple</strong> silly, idea to sort a list of \(n\) elements is like this.
+Compare the first element to the second element, and swap if the first is larger than the second. Then compare the second to the third and swap if necessary, and so on until the last element. Then we are sure that the largest element is moved to the last position of the list. Now apply the same strategy to the list but just up to the second to last (because the last is already in the right place), and so on. Here is the code.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bubble_sort</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]:</span>
+                <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>  <span class="c1"># swap</span>
+    <span class="k">return</span> <span class="n">A</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">bubble_sort</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+</pre></div>
+
+<pre class="example">
+[2, 5, 8]
+</pre>
+
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Explain that bubblesort requires \(O(n^2)\) comparisons to sort a list of \(n\) elements.
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+There is a for loop in a for loop.
+When this is the case, the complexity is often \(O(n^2)\). Here, in particular, the first pass compares \(n-1\) elements, the second \(n-2\), and so on.
+The total number of comparisons is \(n-1 + n-2 + n-2 + \cdots 1 = n(n-1)/2 = O(n^{2})\).
+</p>
+
+
+</details>
+</div>
+<p>
+<strong style="font-variant: all-small-caps">A much faster</strong> way to sort is to use recursion.
+The idea is simple, but hard to invent.
+Take a random element of the list and call this the <i>pivot</i>.
+Then compare all elements of the list to the pivot.
+If an element is less than the pivot, put it in a <code>left</code> array, if larger into a <code>right</code> array, and otherwise in a <code>middle</code> array.
+Clealry, <code>middle</code> contains all elements equal to the pivot, so this array needs no further attention.
+Then apply recursively the same sorting idea to <code>left</code> and <code>right</code>.
+</p>
+
+<p>
+For the code below, <i>assume</i> that the list has no ordering.
+Thus, any element will do, so we pick <code>pivot = A[0]</code>.
+<sup><a id="fnr.2" class="footref" href="../posts/vickrey-auctions/#fn.2" role="doc-backlink">2</a></sup></p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">quicksort</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">A</span>
+    <span class="n">pivot</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">middle</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">A</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">:</span>
+            <span class="n">left</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">pivot</span><span class="p">:</span>
+            <span class="n">right</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">middle</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pivot</span><span class="p">)</span> <span class="c1"># why not x?</span>
+    <span class="k">return</span> <span class="n">quicksort</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">+</span> <span class="n">middle</span> <span class="o">+</span> <span class="n">quicksort</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+</pre></div>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+This is a recursive algorithm so we need a stopping condition.
+One: Which line implements this condition? Two: Why do we use arrays and not sets?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+Line \(2\) is the stopping criterion. Next, sets are not necessarily ordered.
+</p>
+
+
+</details>
+</div>
+<p>
+How can we estimate the complexity (i.e., the number of comparisons) of this algorithm?
+The for loop requires \(n\) comparisons.
+Then, in expectation, <code>left</code> and <code>right</code> have about \(n/2\) elements.
+Each requires \(n/2\) comparisons, so the second round also needs \(n\) comparisons.
+The third round also needs \(n\) comparisons, but over arrays with \(n/4\) elements.
+So, the arrays will be depleted of elements when the number of rounds \(m\) is such that \(2^{m} \leq n &lt; 2^{m+1}\).
+Clearly, \(m\approx \log_2 n\), and the overall complexity must be \(O(n\log_{2}n)\).
+Therefore, when \(n \geq 10^{3}\), quicksort is much, much faster than bubblesort.
+</p>
+
+<p>
+<strong style="font-variant: all-small-caps">Let us relate</strong> this to our primary problem: finding the second largest bid in a list of \(n=10\) bids.
+If we use sorting for our example auction with \(n=10\) bidders, we run into a complexity of \(n \log_{2} n = \cdot 10 \log_{2} 10 \approx 40\).
+To find the maximum takes \(10\) comparisons in total. Now realize that we are not interested in sorting each and very row, we just want to know the second highest bid. Thus, the work we need to per row must lie somewhere between 10 and 40 comparisons.
+</p>
+
+<p>
+And, indeed, we can do better when we realize that we are actually looking for the \(k\)-median, which is defined as the element in a set that has \(k\) smaller or equal elements.
+In particular, for the Vickrey auction we need \(k=n-1\).
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+What type of \(k\)-median is the normal median of a set of \(n\) elements?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+For the normal median, we want to know the element such half of the set is smaller and the other half is larger. Thus, we should take \(k=n/2\) if \(n\) is even, and otherwise the average of the \(k\)th and \(k+1)\th element.
+</p>
+
+
+</details>
+</div>
+<p>
+The next, pretty, algorithm to find the \(k\)th mediam borrows directly from Quicksort.
+Select a pivot, throw all elements of the set \(A\) that are smaller or equal to the pivot in <code>left</code>, and throw the rest in <code>right</code>.
+If <code>left</code> contains exactly \(k\) then we know that the pivot is the \(k\)-median, and we are done.
+Else, if <code>left</code> contains more than \(k\) elements, the \(k\)-median must lie in <code>left</code>.
+Otherwise, we can focus on <code>right</code>, but look for the \(k-l\)-median instead, where \(l\) is the number of elements of <code>left</code>, as all elements in <code>left</code> are smaller than the pivot.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">k_median</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="n">pivot</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">A</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">pivot</span><span class="p">:</span>
+            <span class="n">left</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">right</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">==</span> <span class="n">k</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pivot</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">k</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">k_median</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">k_median</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">k</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">))</span>
+
+
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">k_median</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+What is the complexity of this \(k\)-median algorithm?
+</p>
+
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgad2669c" class="outline-2">
+<h2 id="orgad2669c">
+<span class="section-number-2">3.</span> The Vickrey auction</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+After the above excursions to identify an efficient algorithm that finds the second highest number \(Y_{2}\), say in a list, we return to our initial questions about selling our car by means of a Vickrey-auction.
+The aim is to obtain a histogram of the density of \(Y_{2}\)}.
+Before actually doing the simulation, let us consider the problem from a somewhat higher perspective.
+Actually, we are interested in the density \(f_{2}\) of the second highest element of the order statistic of the \(\{X_{i}\}\).
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Let the bids \(\{X_i\}\) have cdf \(F\), survivor function \(G\) and density \(f\).
+Then explain that the probability that \(Y_{2}\in [x, x+\d x]\) is given by
+</p>
+\begin{equation*}
+f_{2}(x) \d x = \P{Y_{2}\in [x, x+\d x]} = \frac{10!}{8!} (F(x))^{8} G(x) f(x) \d x.
+\end{equation*}
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+To have \(Y_{2}\in[x, x+\d x]\), one bid must lie in \([x, x+\d x]\), eight in \((-\infty, x)\) and one in \([x+\d x, \infty)\).
+We can order these 10 bids in \(10!\) ways, and the eight bids at the left of \(x\) in \(8!\) ways.
+Since all bids are independent, we can take the product of these probabilities to get the final probability.
+</p>
+
+
+</details>
+</div>
+<p>
+In the next code we compute \(f_2\), carry out a simulation and plot the results.
+We'll use the normal and uniform distributions of scipy.
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span><span class="p">,</span> <span class="n">uniform</span>
+</pre></div>
+
+<p>
+The parameters are like this. The <code>grid</code> is used for plotting.
+</p>
+<div class="highlight"><pre><span></span><span class="n">bidders</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">k</span> <span class="o">=</span> <span class="n">bidders</span> <span class="o">-</span> <span class="mi">2</span>
+<span class="n">num_sim</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">gen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Explain that to get the second highest bid, we have to set <code>k = bidders -2</code> rather than <code>k = bidders-1</code>.
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+Arrays in python start at \(0\). Hence, the last element of an \(n\) array has index \(n-1\). We are look for the second highest, and this has index \(n-2\).
+</p>
+
+
+</details>
+</div>
+<p>
+We start with assuming that \(X_i\sim\Unif{[0,1]}\).
+We need the cdf, sf and pdf for the computation of \(f_2\) by means of the formula of the previous exercise.
+</p>
+<div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">grid</span><span class="p">),</span> <span class="n">X</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">grid</span><span class="p">),</span> <span class="n">X</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">9</span> <span class="o">*</span> <span class="n">f</span> <span class="o">*</span> <span class="n">F</span><span class="o">**</span><span class="mi">8</span> <span class="o">*</span> <span class="n">G</span>
+</pre></div>
+
+<p>
+To simulate, we generate a matrix with bids such that each of its \(N\) rows corresponds to an auction of \(n=10\) bidders, and each element is a bid uniform on \([0,1]\).
+To get the (simulated) value for \(Y_{2}\), we use the numpy function <code>partition</code>, which uses a fast algorithm to compute the \(k\)th median.
+The \(k\)-median is at the \(k\)th column of each row, hence the keyword <code>axis=1</code>.
+</p>
+<div class="highlight"><pre><span></span><span class="n">bids</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">rvs</span><span class="p">((</span><span class="n">num_sim</span><span class="p">,</span> <span class="n">bidders</span><span class="p">),</span> <span class="n">random_state</span><span class="o">=</span><span class="n">gen</span><span class="p">)</span>
+<span class="n">sim2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">bids</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="n">k</span><span class="p">]</span>
+</pre></div>
+
+<p>
+It remains to make plots.
+</p>
+<div class="highlight"><pre><span></span><span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Uniform bids"</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$f_2$"</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">sim2</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"sim"</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">"upper left"</span><span class="p">)</span>
+</pre></div>
+
+<p>
+We run virtually the same code for \(X_i\sim \Norm{1/2, 1/\sqrt{12}}\), and plot in Fig. <a href="../posts/vickrey-auctions/#org8c82a86">1</a> the density \(f_2\) and the histogram obtained by  simulation.
+The right  panel of the figure shows the histogram for a simulation with \(X_i\sim\Norm{\mu=0.5, \sigma=1/\sqrt{12}}\).
+Clearly, the model of the bid sizes has a major effect on the price we can get for our expensive car.
+</p>
+
+
+
+<div id="org8c82a86" class="figure">
+<p><img src="../images/vickrey_graph.png" alt="nil"></p>
+<p><span class="figure-number">Figure 1: </span>The density \(f_2\) of the second highest bid \(Y_{2}\). In the left panel \(X_i\sim\Unif{[0,1]}\), in the right \(X_i\sim\Norm{\mu=0.5, \sigma=1/\sqrt{12}}\).</p>
+</div>
+
+
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+The estimated mean and std of \(Y\) for the left hand panel is \(0.81\).  Can you come up with a simple explanation for the mean?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+When we have 10 bidders, we have to place 10 uniform rvs on the interval \([0,1]\), hence, we divide this interval in 11 pieces, each of expected size \(1/11\). Hence, the second largest must lie at \(9/11 = 0.82\).
+</p>
+
+
+</details>
+</div>
+</div>
+</div>
+<div id="outline-container-org312f998" class="outline-2">
+<h2 id="org312f998">
+<span class="section-number-2">4.</span> Summary</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+In this section we studied a bit of complexity theory.
+This allowed us to understand why the quicksort algorithm, based on recursion, is a much better algorithm than bubblesort.
+Recursion helped us also to develop a nice and efficient method to compute the $k$-median, and to write the TSP in just a few lines.
+We applied all this to estimating the density of the price of the second bid in an Vickrey auction, because this is the value we obtain for good sold under this auction mechanism.
+Finally, we realized that the second bid is actually the second value of the order statistic of a number of iid bids.
+</p>
+
+<p>
+Actually, I did not expect that the density would have such a big tail to the left, as is shown in Fig. <a href="../posts/vickrey-auctions/#org8c82a86">1</a>.
+Perhaps this explains why, instead of Vickrey auctions, sellers might prefer Dutch auctions in which the selling price starts very high and decreases until the first person accepts the price.
+However, let's not draw simplistic conclusions; we should turn to a serious book on auction theory instead.
+In our work we are occupied with showing the many uses of recursion, some maths, and coding.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef">
+<sup><a id="fn.1" class="footnum" href="../posts/vickrey-auctions/#fnr.1" role="doc-backlink">1</a></sup><div class="footpara" role="doc-footnote"><p class="footpara">Read Wikipedia on the advantages and disadvantages of Vickrey auctions.</p></div>
+</div>
+
+<div class="footdef">
+<sup><a id="fn.2" class="footnum" href="../posts/vickrey-auctions/#fnr.2" role="doc-backlink">2</a></sup><div class="footpara" role="doc-footnote"><p class="footpara">Choosing a robust pivot requires some thought.
+We'll address this in a later chapter.
+The speed of quicksort also depends on the order of the input.
+For further background, check Wikipedia.</p></div>
+</div>
+
+
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/solving-a-number-game-with-a-mip-solver/" class="u-url">Solving a number game with a MIP solver</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Nicky van Foreest
+                    </span></p>
+            <p class="dateline">
+            <a href="../posts/solving-a-number-game-with-a-mip-solver/" rel="bookmark">
+            <time class="published dt-published" datetime="2022-04-04T21:02:36+02:00" itemprop="datePublished" title="2022-04-04 21:02">2022-04-04 21:02</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orge284bbe">1. The problem</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orge2f0420">2. Finding a Solution</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgff9bd42">3. The decision variables</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgd2d9ff0">4. Constraints with starting values</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org46f1728">5. Equality Constraints</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orga836952">6. Inequality Constraints</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org9f8491b">7. Objective</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org4149f44">8. Solving the problem</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org82651b7">9. The solution</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge284bbe" class="outline-2">
+<h2 id="orge284bbe">
+<span class="section-number-2">1.</span> The problem</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Consider the following puzzle: Chose numbers 1 to 5 such that in the diagram below each number is contained exactly once in each row and each column.
+The numbers in the fields should respect any inequality between two fields. We number the fields from the left top, e.g., field \((1,5)\) contains the number 4.
+</p>
+
+
+<div id="orgd83b286" class="figure">
+<p><img src="../images/number_game.png" alt="nil"></p>
+</div>
+</div>
+</div>
+<div id="outline-container-orge2f0420" class="outline-2">
+<h2 id="orge2f0420">
+<span class="section-number-2">2.</span> Finding a Solution</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+We will use  <a href="https://pythonhosted.org/PuLP/">pulp</a> to solve this puzzle. The <a href="https://pythonhosted.org/PuLP/CaseStudies/a_sudoku_problem.html">sudoku</a> problem discussed in the pulp documentation provides some inspiration on how to  tackle our problem.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pulp</span> <span class="kn">import</span> <span class="n">lpSum</span><span class="p">,</span> <span class="n">LpVariable</span><span class="p">,</span> <span class="n">LpMinimize</span>
+<span class="kn">from</span> <span class="nn">pulp</span> <span class="kn">import</span> <span class="n">LpProblem</span><span class="p">,</span> <span class="n">LpStatus</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">LpInteger</span>
+
+<span class="n">prob</span> <span class="o">=</span> <span class="n">LpProblem</span><span class="p">(</span><span class="s2">"Number-Puzzle-Problem"</span><span class="p">,</span> <span class="n">LpMinimize</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-orgff9bd42" class="outline-2">
+<h2 id="orgff9bd42">
+<span class="section-number-2">3.</span> The decision variables</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+As decision variables we use \(x_{kij}\) such that \(x_{kij} = 1\) if value \(k\) appears in the field with row \(i\) and column \(j\).
+The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">Vals</span> <span class="o">=</span> <span class="n">Rows</span> <span class="o">=</span> <span class="n">Cols</span> <span class="o">=</span>  <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">LpVariable</span><span class="o">.</span><span class="n">dicts</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="p">(</span><span class="n">Vals</span><span class="p">,</span> <span class="n">Rows</span><span class="p">,</span> <span class="n">Cols</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">LpInteger</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-orgd2d9ff0" class="outline-2">
+<h2 id="orgd2d9ff0">
+<span class="section-number-2">4.</span> Constraints with starting values</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+The simplest constraints deal with the numbers that are given in the diagram.
+</p>
+<div class="highlight"><pre><span></span><span class="n">prob</span> <span class="o">+=</span> <span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org46f1728" class="outline-2">
+<h2 id="org46f1728">
+<span class="section-number-2">5.</span> Equality Constraints</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+There should be precisely one value in each field.
+</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">:</span>
+        <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+
+<p>
+There can be only one value per row.
+</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">:</span>
+        <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+
+<p>
+And also only one value per column.
+</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">:</span>
+        <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-orga836952" class="outline-2">
+<h2 id="orga836952">
+<span class="section-number-2">6.</span> Inequality Constraints</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+The inequality constraints of the board require more work.
+</p>
+
+<p>
+Let's consider an example. In the problem diagram above we see that the value of field \((2,1)\) must be larger than the value in field \((1,1)\). Thus, if field \((2,1)\) has value 3, then field \((1,1)\) is not allowed to have a value of 3, 4, or 5. This means that, in terms of the decision variables, if \(x_{3,21}=1\) then \(\sum_{w=3}^5 x_{w,11} = 0\). More generally, we want that
+</p>
+\begin{equation}
+   x_{k, 21} = 1 \Rightarrow \sum_{w=k}^5 x_{w, 11} = 0.
+\end{equation}
+<p>
+We can implement this implication with the big \(M\) trick. Choose some big \(M\), then set
+</p>
+\begin{equation}
+\sum_{w=k}^5 x_{w, 11} \leq M(1-x_{k, 21}),
+\end{equation}
+<p>
+so that if \(x_{k, 21} = 1\) then \(\sum_{w=k}^5 x_{w, 11}\) must be zero, while if \(x_{k, 21} = 0\), then \(\sum_{w=k}^5 x_{w, 11}\) is unconstrained.
+In code this becomes:
+</p>
+<div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># This is large enough</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">:</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+
+<p>
+In a similar way we implement the other inequalities.
+</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">:</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">])</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">3</span><span class="p">][</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">5</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">5</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">prob</span> <span class="o">+=</span> <span class="n">lpSum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">w</span><span class="p">][</span><span class="mi">5</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="n">M</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+
+
+<p>
+A much simpler way (which occurred to me quite a bit later) is to define supplementary variables \(v\) that correspond to the value of the cell, i.e.,
+</p>
+\begin{equation}
+    v_{ij} = \sum_{k=1}^5 k x_{kij}.
+\end{equation}
+<p>
+Then we must have, for instance, for cells \((1,4)\) and \((1,5)\) that \(v_{14}&gt;v_{15}\).
+In code this becomes
+</p>
+<div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">:</span>
+        <span class="n">v</span><span class="p">[(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)]</span> <span class="o">=</span> <span class="n">lpSum</span><span class="p">([</span><span class="n">k</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">])</span>
+
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">prob</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+</pre></div>
+
+<p>
+Note that since all cells must have different values, all strict inequalities in the constraints can be implemented as a \(\leq\) constraints.
+</p>
+</div>
+</div>
+<div id="outline-container-org9f8491b" class="outline-2">
+<h2 id="org9f8491b">
+<span class="section-number-2">7.</span> Objective</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+The objective is trivial, because there is nothing to optimize.
+We only use pulp to find a feasible solution.
+</p>
+<div class="highlight"><pre><span></span><span class="n">prob</span> <span class="o">+=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"Arbitrary Objective Function"</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org4149f44" class="outline-2">
+<h2 id="org4149f44">
+<span class="section-number-2">8.</span> Solving the problem</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Solving the problem comes down to calling the <code>solve()</code> method of <code>pulp</code>.
+</p>
+<div class="highlight"><pre><span></span><span class="n">prob</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org82651b7" class="outline-2">
+<h2 id="org82651b7">
+<span class="section-number-2">9.</span> The solution</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+Have we found a solution?
+</p>
+<div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Status: "</span><span class="p">,</span> <span class="n">LpStatus</span><span class="p">[</span><span class="n">prob</span><span class="o">.</span><span class="n">status</span><span class="p">])</span>
+</pre></div>
+
+<pre class="example">
+Status:  Optimal
+</pre>
+
+
+<p>
+Yes! Let's print it.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Rows</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Cols</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Vals</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" "</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+
+<pre class="example">
+1 2 3 5 4
+2 4 5 1 3
+3 1 2 4 5
+4 5 1 3 2
+5 3 4 2 1
+</pre>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/weighted-random-shuffling/" class="u-url">Weighted random shuffling</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Nicky van Foreest
+                    </span></p>
+            <p class="dateline">
+            <a href="../posts/weighted-random-shuffling/" rel="bookmark">
+            <time class="published dt-published" datetime="2022-03-14T16:44:53+01:00" itemprop="datePublished" title="2022-03-14 16:44">2022-03-14 16:44</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="../posts/weighted-random-shuffling/#org98cf960">1. Weighted random shuffling</a></li>
+<li><a href="../posts/weighted-random-shuffling/#orgb1a7fc6">2. Weighted shuffling in pure python</a></li>
+<li><a href="../posts/weighted-random-shuffling/#org7a8be5a">3. Fast shuffling</a></li>
+<li><a href="../posts/weighted-random-shuffling/#orge10b45b">4. A wrong idea</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org98cf960" class="outline-2">
+<h2 id="org98cf960">
+<span class="section-number-2">1.</span> Weighted random shuffling</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+For some application I needed a random shuffle \(r\) of a list of numbers
+\(a\). The shuffle, however, should be weighted, such that, given a list
+of weights \(w\), the element \(a_i\) with weight \(w_i\) should be the first
+element of the random shuffle \(r\) with probability \(w_i/\sum_k w_k\). I
+searched for a python implementation of such an algorithm, but I
+couldn't find one. Also, <code>numpy</code> doesnt' provide it, and
+<code>numpy.random.shuffle</code> only offers shuffling with uniform weights. Thus,
+this code.
+</p>
+</div>
+</div>
+<div id="outline-container-orgb1a7fc6" class="outline-2">
+<h2 id="orgb1a7fc6">
+<span class="section-number-2">2.</span> Weighted shuffling in pure python</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Weighted random shuffling is the same as weighted random sampling from a
+list \(a\) without replacement. In steps:
+</p>
+<ol class="org-ol">
+<li>Choose with probability \(w_{i}/\sum_{i} w_{i}\) element \(a_{i}\) from \(a\).</li>
+<li>Add this element to a list \(r\).</li>
+<li>Remove element \(a_{i}\) from \(a\) and \(w_{i}\) from \(w\).</li>
+<li>Stop if \(a\) is empty, else,</li>
+<li>Return to step 1 with the updated lists \(a\) \(w\).</li>
+</ol>
+<p>
+However, I found the code below for weighted random sampling on  <a href="https://eli.thegreenplace.net/2010/01/22/weighted-random-generation-in-python">this page</a>.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
+
+<span class="k">def</span> <span class="nf">weighted_choice</span><span class="p">(</span><span class="n">weights</span><span class="p">):</span>
+    <span class="n">rnd</span> <span class="o">=</span> <span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">weights</span><span class="p">):</span>
+        <span class="n">rnd</span> <span class="o">-=</span> <span class="n">w</span>
+        <span class="k">if</span> <span class="n">rnd</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">i</span>
+</pre></div>
+
+<p>
+Thus, <code>weighted_choice()</code> gives an index to the chosen element of an
+array. With this index I can fill a random shuffle \(r\) with elements of
+\(a\).
+</p>
+
+<p>
+As removing elements from lists is a bit expensive, I chose to set the
+weight \(w_{i}\) of the chosen element to zero. This ensures that the
+element \(i\) cannot be selected the next time.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">weighted_shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">w</span><span class="p">):</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="c1"># make a copy of w</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"weighted_shuffle: Lenghts of lists don't match."</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># contains the random shuffle</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">weighted_choice</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+        <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">w</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">r</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org7a8be5a" class="outline-2">
+<h2 id="org7a8be5a">
+<span class="section-number-2">3.</span> Fast shuffling</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Once I had the above code, I went to Gerlach van der Heide. He managed
+to speed it up by several orders of magnitude.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
+<span class="kn">from</span> <span class="nn">bisect</span> <span class="kn">import</span> <span class="n">bisect_right</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">weighted_shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">w</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">cumWeights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>
+         <span class="n">rnd</span> <span class="o">=</span> <span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="n">cumWeights</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+         <span class="n">j</span> <span class="o">=</span> <span class="n">bisect_right</span><span class="p">(</span><span class="n">cumWeights</span><span class="p">,</span><span class="n">rnd</span><span class="p">)</span>
+         <span class="c1">#j = np.searchsorted(cumWeights, rnd, side='right')</span>
+         <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+         <span class="n">cumWeights</span><span class="p">[</span><span class="n">j</span><span class="p">:]</span> <span class="o">-=</span> <span class="n">w</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">r</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">weighted_shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+
+<p>
+Here is the result
+</p>
+
+<div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+
+<p>
+Some testing shows, for a reason unknown to me, that <code>np.searchsorted</code> is slower than <code>bisect_right</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-orge10b45b" class="outline-2">
+<h2 id="orge10b45b">
+<span class="section-number-2">4.</span> A wrong idea</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+While searching the web I came across the one-liner below. It is
+elegant, but wrong. The weights according to which the elements of \(a\)
+are chosen are not in proportion to \(w\). Some basic probability theory
+shows why this is the case. It comes down to proving that
+\[P\{w_1 U_1 \leq w_2 U_2\} \neq \frac{w_1}{w_1+w_1},\]
+where \(w_i\) are the weights and \(U_i\) uniform random deviates on
+\([0,1]\).
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">wrong</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">w</span><span class="p">):</span>
+    <span class="n">aa</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+    <span class="n">aa</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="n">beta</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">aa</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/memoization/" class="u-url">Memoization with Python</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Nicky van Foreest
+                    </span></p>
+            <p class="dateline">
+            <a href="../posts/memoization/" rel="bookmark">
+            <time class="published dt-published" datetime="2022-03-14T15:55:48+01:00" itemprop="datePublished" title="2022-03-14 15:55">2022-03-14 15:55</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="../posts/memoization/#org232c03d">1. Content of a Discrete Hyper Pyramid</a></li>
+<li><a href="../posts/memoization/#org9f5c1da">2. A probability problem</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org232c03d" class="outline-2">
+<h2 id="org232c03d">
+<span class="section-number-2">1.</span> Content of a Discrete Hyper Pyramid</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+We like to compute the number of possibilities \(\P{n, N}\) for \(x = (x_1, \ldots x_n)\) such that \(x_i \in \{0,1,\ldots, N\}\) and \(\sum_i x_i \leq N\).
+It is easy to see that \(\P{n, N}\) satisfies the recursion:
+\[\P{n, N} = \sum_{i=0}^N \P{n-1, N-i},\]
+with boundary conditions \(\P{1, N} = N+1\) for all \(N\).
+Note that by using the summation above, this condition can be replaced by \(\P{0, N} = 1\) for all \(N\).
+</p>
+
+<p>
+Computing \(\P{n,N}\) is easy when we use  memoization. In fact,  we can code the compuation in nearly one line!
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+
+<span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">P</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+   <span class="k">return</span> <span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">sum</span><span class="p">(</span> <span class="n">P</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="n">n</span><span class="o">=</span><span class="mi">5</span>
+<span class="n">N</span><span class="o">=</span><span class="mi">80</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">P</span><span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">80</span><span class="p">))</span>
+</pre></div>
+
+<pre class="example">
+32801517
+</pre>
+</div>
+</div>
+<div id="outline-container-org9f5c1da" class="outline-2">
+<h2 id="org9f5c1da">
+<span class="section-number-2">2.</span> A probability problem</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+We throw multiple times with a coin that lands heads with probability \(p\).
+What is the probability \(\P{n,k}\) to see at least \(k\) heads in row when you throw a coin \(n\) times?
+</p>
+
+<p>
+A bit of thinking shows  that \(\P{n,k}\) must satisfy the recursion
+\[\P{n,k} = p^k + \sum_{i=1}^k p^{i-1} q\, \P{n-i,k},\]
+because it is possible to throw \(k\) times heads from the first throw, but otherwise you throw \(i\), \(i &lt; k\), times a heads, then a tails, after which you have to start all over again.
+</p>
+
+<p>
+Reasoning similarly, the expected number times \(\E{n,k}\) to see at least \(k\) heads in row when you throw a coin \(n\) times must satisfy the recursion
+\[\E{n,k} = p^k(1+\E{n-k,k}) + \sum_{i=1}^k p^{i-1} q\, \E{n-i,k}.\]
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">q</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">-</span> <span class="n">p</span>
+
+<span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">P</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    probability to see at least k heads in row when a coin is thrown n times</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">P</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">**</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">q</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">p</span><span class="o">**</span><span class="n">k</span>
+
+<span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">E</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    expected number of times to see at least k heads in row when a coin is thrown n times</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tot</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">E</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="o">**</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span><span class="n">q</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">tot</span> <span class="o">+=</span> <span class="n">p</span><span class="o">**</span><span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">E</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">tot</span>
+
+
+
+<span class="n">k</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">P</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">),</span> <span class="n">E</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/links-in-nikola-and-orgmode/" class="u-url">links in nikola and orgmode</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         Nicky van Foreest
@@ -136,19 +1240,19 @@ or
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org4b16d1b">1. The  problem</a></li>
+<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org09ffb98">1. The  problem</a></li>
 <li>
-<a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org794a37f">2. My solution</a>
+<a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#orgba49753">2. My solution</a>
 <ul>
-<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org274a591">2.1. One option.</a></li>
-<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org61b645e">2.2. Another option</a></li>
+<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org9c8b9f5">2.1. One option.</a></li>
+<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org57ca802">2.2. Another option</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org4b16d1b" class="outline-2">
-<h2 id="org4b16d1b">
+<div id="outline-container-org09ffb98" class="outline-2">
+<h2 id="org09ffb98">
 <span class="section-number-2">1.</span> The  problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -165,8 +1269,8 @@ And then there came a day that I did not like this anymore.
 </p>
 </div>
 </div>
-<div id="outline-container-org794a37f" class="outline-2">
-<h2 id="org794a37f">
+<div id="outline-container-orgba49753" class="outline-2">
+<h2 id="orgba49753">
 <span class="section-number-2">2.</span> My solution</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -178,8 +1282,8 @@ After some searching and testing, here is an MWE of how I am doing things now wi
 I use <a href="https://github.com/cereda/arara">arara</a> to compile the LaTeX file, but this just handy, not necessary for the rest to work.
 </p>
 </div>
-<div id="outline-container-org274a591" class="outline-3">
-<h3 id="org274a591">
+<div id="outline-container-org9c8b9f5" class="outline-3">
+<h3 id="org9c8b9f5">
 <span class="section-number-3">2.1.</span> One option.</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
@@ -222,8 +1326,8 @@ Note that this is an MWE; for a good figure you'll need to tune it to your needs
 </p>
 </div>
 </div>
-<div id="outline-container-org61b645e" class="outline-3">
-<h3 id="org61b645e">
+<div id="outline-container-org57ca802" class="outline-3">
+<h3 id="org57ca802">
 <span class="section-number-3">2.2.</span> Another option</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
@@ -311,17 +1415,33 @@ And now all works!
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   TeX: {
+    equationNumbers: { autoNumber: "AMS" },
+    tagSide: "right",
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
     Macros: {
       P: ["\\textrm{P}\\left\\{#1\\right\\}", 1],
       E: ["\\textrm{E}\\left\\{#1\\right\\}", 1],
       F: "\\mathcal{F}",
+      iid: " \\mathrm{iid.}",
+      mineq: "\\mathrel{-}=",
+      pluseq: "\\mathrel{+}=",
+      R: "\\mathbb{R}",
       1: ["\\mathbf{1}\\{#1\\}",1],
       d: ["\\,\\textrm{d}#1", 1],
+      Exp: ["\\mathrm{Exp}(#1)", 1],
+      FS: ["\\mathrm{FS}(#1)", 1],
+      Geo: ["\\mathrm{Geo}(#1)", 1],
       Norm: ["\\mathrm{Norm}(#1)", 1],
+      Pois: ["\\mathrm{Pois}(#1)", 1],
       Unif: ["\\mathrm{Unif}(#1)", 1],
-    }
+    },
   }
 });
+</script><script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
 </script><!--End of body content--><footer id="footer"><div class="text-center">
 <p>
 <span class="fa-stack">
@@ -347,7 +1467,7 @@ MathJax.Hub.Config({
 </span>
 </p>
 <p>
-  Contents © 2023  Nicky van Foreest
+  Contents © 2024  Nicky van Foreest
   —
   
   —

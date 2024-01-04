@@ -109,16 +109,16 @@ Caching, alias memoizati">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7ece1ba">1. Math Related</a></li>
-<li><a href="#org3963c9f">2. Code Related</a></li>
+<li><a href="#org8adc8f4">1. Math Related</a></li>
+<li><a href="#orgdd83c69">2. Code Related</a></li>
 </ul>
 </div>
 </div>
 <p>
 Here is some material I wrote on maths and coding in Python. <a href="/archive.html">Here</a> is the same list, sorted by date.
 </p>
-<div id="outline-container-org7ece1ba" class="outline-2">
-<h2 id="org7ece1ba">
+<div id="outline-container-org8adc8f4" class="outline-2">
+<h2 id="org8adc8f4">
 <span class="section-number-2">1.</span> Math Related</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
@@ -129,20 +129,24 @@ Here is some material I wrote on maths and coding in Python. <a href="/archive.h
 <li>
 <a href="/posts/one-cookie/">Throwing a six-sided die to fairly select a winner in a group.</a> When we have one prize to hand out and want to select one winner out of six persons, we can use a six sided die to select the winner fairly. This is simple enough, but what to do if we have class of \(19\) children and one cookie? Here I develop an algorithm that selects fairly a child in the least number of throws, in expectation, for groups of any size. In passing, I discuss many related ideas of interest.</li>
 <li>
+<a href="/posts/mum-and-mmm/">MMM vs MUM: First Step Analysis.</a> This explains why the attractive algorithm that aimed to select with equal probability one child out of a class fails. In passing we discuss hitting times and other fundamental concepts in probability theory.</li>
+<li>
 <a href="/posts/vickrey-auctions/">Vickrey auctions and complexity theory.</a> The simulation of Vickrey auctions makes an interesting case to study some complexity theory, mainly of recursive algorithms. The interesting idea of this auction is that we need to find the value of the second highest bid instead of the highest bid. Hence, a simple computation of the maximum of a number of bids will not give us the answer we need.</li>
 <li>
 <a href="/posts/complex-graphs/">Complex graphs from simple ideas.</a>  Simple recursions can lead to unexpectedly intricate and nice graphs.</li>
 <li>
 <a href="/posts/snells-envelope-house-selling-and-buying/">Applying Snell's envelope to the secretary problem.</a> For some inventory control problems I use optimal stopping, and to prove that a certain stopping time, i.e., strategy, is optimal, I can use Snell's envelope. To see how this works I apply it to the classical secretary problem. Now I don't particularly like this name, nor its application to hiring people, so I frame the problem in terms of house selling and buying.</li>
-</ul>
-<ul class="org-ul">
+<li>
+<a href="/posts/memoryless/">Memoryless Excursions.</a> Sometimes I come across some quick probabilistic arguments to see that some (in)equality is true. However, mistakes with probability  easily made. Moreover, slick arguments often only work for very particular problems. Therefore, I am not so fond of such approaches. In this post I tackle one such argument, show that it is wrong in general, and then I demonstrate  numerous different methods that all lead to the same (correct) answer.</li>
+<li>
+<a href="/posts/nhpp/">Simulating a non-homogeneous Poisson process.</a> For some project I had to simulate a non-homogeneous Poisson process. A bit of searching on the web lead to a nice paper, but the paper did not contain actual code, and it was also slightly more general than I needed for my project. This post contains math and code to simulate piece-wise constant Poisson proceses.</li>
 <li>
 <a href="/posts/solving-a-number-game-with-a-mip-solver/">Solving a game with a MIP solver.</a> Mixed integer programming problems find many applications in Operations Research. They can also be used to solve games as Sudoku, or the one of this page.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org3963c9f" class="outline-2">
-<h2 id="org3963c9f">
+<div id="outline-container-orgdd83c69" class="outline-2">
+<h2 id="orgdd83c69">
 <span class="section-number-2">2.</span> Code Related</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
@@ -150,6 +154,8 @@ Here is some material I wrote on maths and coding in Python. <a href="/archive.h
 <li><a href="/posts/latex-pythontex-matplotlib-tikzplotlib/">Latex, pythontex and tikzplotlib</a></li>
 <li><a href="/posts/links-in-nikola-and-orgmode/">Links in Nikola to pages and posts</a></li>
 <li><a href="/posts/mathjax/">Mathjax tricks</a></li>
+<li><a href="/posts/python-line-numbers/">Updating lines numbers of a python file in a \(\LaTeX\) or org model documention file</a></li>
+<li><a href="/posts/org-tweaks/">Orgmode Tricks</a></li>
 </ul>
 </div>
 </div>
@@ -159,17 +165,33 @@ Here is some material I wrote on maths and coding in Python. <a href="/archive.h
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   TeX: {
+    equationNumbers: { autoNumber: "AMS" },
+    tagSide: "right",
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
     Macros: {
       P: ["\\textrm{P}\\left\\{#1\\right\\}", 1],
       E: ["\\textrm{E}\\left\\{#1\\right\\}", 1],
       F: "\\mathcal{F}",
+      iid: " \\mathrm{iid.}",
+      mineq: "\\mathrel{-}=",
+      pluseq: "\\mathrel{+}=",
+      R: "\\mathbb{R}",
       1: ["\\mathbf{1}\\{#1\\}",1],
       d: ["\\,\\textrm{d}#1", 1],
+      Exp: ["\\mathrm{Exp}(#1)", 1],
+      FS: ["\\mathrm{FS}(#1)", 1],
+      Geo: ["\\mathrm{Geo}(#1)", 1],
       Norm: ["\\mathrm{Norm}(#1)", 1],
+      Pois: ["\\mathrm{Pois}(#1)", 1],
       Unif: ["\\mathrm{Unif}(#1)", 1],
-    }
+    },
   }
 });
+</script><script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
 </script></article><!--End of body content--><footer id="footer"><div class="text-center">
 <p>
 <span class="fa-stack">
@@ -195,7 +217,7 @@ MathJax.Hub.Config({
 </span>
 </p>
 <p>
-  Contents © 2023  Nicky van Foreest
+  Contents © 2024  Nicky van Foreest
   —
   
   —

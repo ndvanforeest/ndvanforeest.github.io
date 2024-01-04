@@ -3,37 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My first post | Nicky's site</title>
+<title>Tweaks and Tricks for Org mode Files | Nicky's site</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
-<link rel="canonical" href="https://ndvanforeest.github.io/posts/my-first-post/">
+<link rel="canonical" href="https://ndvanforeest.github.io/posts/org-tweaks/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
 <meta name="author" content="Nicky van Foreest">
-<link rel="next" href="../latex-pythontex-matplotlib-tikzplotlib/" title="latex-pythontex-matplotlib-tikzplotlib" type="text/html">
+<link rel="prev" href="../python-line-numbers/" title="Including Python Code by Line Numbers" type="text/html">
+<link rel="next" href="../memoryless/" title="Memoryless Excursions: A confusing problem with memoryless rvs" type="text/html">
 <meta property="og:site_name" content="Nicky's site">
-<meta property="og:title" content="My first post">
-<meta property="og:url" content="https://ndvanforeest.github.io/posts/my-first-post/">
-<meta property="og:description" content="Table of Contents
+<meta property="og:title" content="Tweaks and Tricks for Org mode Files">
+<meta property="og:url" content="https://ndvanforeest.github.io/posts/org-tweaks/">
+<meta property="og:description" content="Including the \(\LaTeX\) Command
 
 
-Here is my first post
-
-
-
-
-
-Here is my first post
-
-
-I want to write posts and a homepage in org mode.
-(I dislike markdown, and I detest typing math in rst.)
-After watching one of th">
+For some reason org mode does not support the \(\LaTeX\) command.
+In standard \(\LaTeX\) files, the command is \LaTeX, without dollar signs.
+Now, when exporting an o">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2020-09-30T21:15:13+02:00">
+<meta property="article:published_time" content="2024-01-02T09:56:00+01:00">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -100,7 +92,7 @@ After watching one of th">
         
         
         
-<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">My first post</a></h1>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Tweaks and Tricks for Org mode Files</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
@@ -108,7 +100,7 @@ After watching one of th">
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
-            <time class="published dt-published" datetime="2020-09-30T21:15:13+02:00" itemprop="datePublished" title="2020-09-30 21:15">2020-09-30 21:15</time></a>
+            <time class="published dt-published" datetime="2024-01-02T09:56:00+01:00" itemprop="datePublished" title="2024-01-02 09:56">2024-01-02 09:56</time></a>
             </p>
             
         <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
@@ -117,43 +109,63 @@ After watching one of th">
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="table-of-contents" role="doc-toc">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents" role="doc-toc">
-<ul>
-<li><a href="#orgeeb130e">Here is my first post</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-orgeeb130e" class="outline-2">
-<h2 id="orgeeb130e">Here is my first post</h2>
-<div class="outline-text-2" id="text-orgeeb130e">
+    <div id="outline-container-org09bb9dc" class="outline-2">
+<h2 id="org09bb9dc">Including the \(\LaTeX\) Command</h2>
+<div class="outline-text-2" id="text-org09bb9dc">
 <p>
-I want to write posts and a homepage in org mode.
-(I dislike <code>markdown</code>, and I detest typing math in <code>rst</code>.)
-After watching one of the blogs on <a href="https://cestlaz.github.io/stories/emacs/">Cest la Z</a>  I considered <code>nikola</code> as a good option to set things up.
-It turned out to be really easy; I just followed the steps as described <a href="https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/">Here</a>. I had to install some python packages, but with <code>pip</code> this was a no brainer.
+For some reason org mode does not support the \(\LaTeX\) command.
+In standard \(\LaTeX\) files, the command is <code>\LaTeX</code>, without dollar signs.
+Now, when exporting an org mode file to html and get the \(\LaTeX\) symbol, I could enclose the \(\LaTeX\) symbol in dollars, because that mathjax seems to understand that I want to get the \(\LaTeX\) symbol. However, putting dollars around \(\LaTeX\) breaks the export of the org mode file to \(\LaTeX\). To solve this, I added this macro to my list of macros and to <code>macros.org</code> in the orgmode plugin for Nikola.
 </p>
 
+<pre class="example" id="orgbf480f8">
+#+MACRO: latex @@latex:\LaTeX{}@@@@html:\(\LaTeX\)@@
+</pre>
 
 <p>
-There was one caveat with including source code blocks in <code>org</code> files.
-After reading the error messages, I noticed that I had to install the emacs <code>htlmize</code> package.
-The <code>init.el</code> and <code>myinit.org</code> files on my <a href="https://github.com/ndvanforeest/emacs">emacs repo</a> show how to set this up.
-</p>
-
-<p>
-And now all works!
+With this macro I can now write <code>{{{latex}}}</code> in my org files to get the correct symbol in tex and orgmode files.
 </p>
 </div>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul class="pager hidden-print">
-<li class="next">
-                <a href="../latex-pythontex-matplotlib-tikzplotlib/" rel="next" title="latex-pythontex-matplotlib-tikzplotlib">Next post</a>
+<li class="previous">
+                <a href="../python-line-numbers/" rel="prev" title="Including Python Code by Line Numbers">Previous post</a>
             </li>
-        </ul></nav></aside></article><!--End of body content--><footer id="footer"><div class="text-center">
+            <li class="next">
+                <a href="../memoryless/" rel="next" title="Memoryless Excursions: A confusing problem with memoryless rvs">Next post</a>
+            </li>
+        </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+    equationNumbers: { autoNumber: "AMS" },
+    tagSide: "right",
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    Macros: {
+      P: ["\\textrm{P}\\left\\{#1\\right\\}", 1],
+      E: ["\\textrm{E}\\left\\{#1\\right\\}", 1],
+      F: "\\mathcal{F}",
+      iid: " \\mathrm{iid.}",
+      mineq: "\\mathrel{-}=",
+      pluseq: "\\mathrel{+}=",
+      R: "\\mathbb{R}",
+      1: ["\\mathbf{1}\\{#1\\}",1],
+      d: ["\\,\\textrm{d}#1", 1],
+      Exp: ["\\mathrm{Exp}(#1)", 1],
+      FS: ["\\mathrm{FS}(#1)", 1],
+      Geo: ["\\mathrm{Geo}(#1)", 1],
+      Norm: ["\\mathrm{Norm}(#1)", 1],
+      Pois: ["\\mathrm{Pois}(#1)", 1],
+      Unif: ["\\mathrm{Unif}(#1)", 1],
+    },
+  }
+});
+</script><script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
+</script></article><!--End of body content--><footer id="footer"><div class="text-center">
 <p>
 <span class="fa-stack">
   <a href="https://github.com/ndvanforeest">

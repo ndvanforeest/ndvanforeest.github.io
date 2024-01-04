@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulating  Arrival Times for a Non-homogeneous Poisson Process | Nicky's site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://ndvanforeest.github.io/posts/nhpp/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+<meta name="author" content="Nicky van Foreest">
+<link rel="prev" href="../mathjax/" title="Mathjax tricks" type="text/html">
+<link rel="next" href="../python-line-numbers/" title="Including Python Code by Line Numbers" type="text/html">
+<meta property="og:site_name" content="Nicky's site">
+<meta property="og:title" content="Simulating  Arrival Times for a Non-homogeneous Poisson Process">
+<meta property="og:url" content="https://ndvanforeest.github.io/posts/nhpp/">
+<meta property="og:description" content="Table of Contents
+
+
+1. Intro
+2. The Maths
+
+2.1. A constant rate throughout
+2.2. Piecewise Constant
+
+
+3. The Algorithm
+4. The Python &lt;Code
+5. The Tests
+
+
+
+
+1. Intro
+
+
+We provide an algorithm to generat">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2024-01-01T12:09:31+01:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="../../">
+
+            <span id="blog-title">Nicky's site</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                    
+            </ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="../../bio/" class="nav-link">Bio</a>
+                </li>
+<li class="nav-item">
+<a href="../../books/" class="nav-link">Books</a>
+                </li>
+<li class="nav-item">
+<a href="../../writings/" class="nav-link">Posts</a>
+                </li>
+<li class="nav-item">
+<a href="../../presentations/" class="nav-link">Presentations</a>
+                </li>
+<li class="nav-item">
+<a href="../../sites/" class="nav-link">Sites</a>
+                </li>
+<li class="nav-item">
+<a href="../../tools/" class="nav-link">Tools</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Simulating  Arrival Times for a Non-homogeneous Poisson Process</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Nicky van Foreest
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2024-01-01T12:09:31+01:00" itemprop="datePublished" title="2024-01-01 12:09">2024-01-01 12:09</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org9d52fab">1. Intro</a></li>
+<li>
+<a href="#orgd314e74">2. The Maths</a>
+<ul>
+<li><a href="#org6d83f8f">2.1. A constant rate throughout</a></li>
+<li><a href="#orgfa45442">2.2. Piecewise Constant</a></li>
+</ul>
+</li>
+<li><a href="#orge47e0ab">3. The Algorithm</a></li>
+<li><a href="#org91f51ef">4. The Python &lt;Code</a></li>
+<li><a href="#org074c652">5. The Tests</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org9d52fab" class="outline-2">
+<h2 id="org9d52fab">
+<span class="section-number-2">1.</span> Intro</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+We provide an algorithm to generate arrival times of a non-homogeneous Poisson process (nhpp) when the rate function \(\lambda(s)\) is piecewise constant.
+Specifically, we assume given two sequences \(\{\lambda_{j}\}_{j=0}^{\infty}\) and \(\{s_{j}\}_{j=0}^{\infty}\), with \(s_{0}=0\),  the \(s_{j}\) strictly increasing, and \(s_{k}\to \infty\) as \(k\to\infty\), and then we take \(\lambda(s) = \lambda_{j}\) for \(s\in [s_{j}, s_{j+1}]\).
+An example would be a daily scheme of arrival rates of patients per hour at a hospital, where \(\lambda_{0} = 1\) from \([0, 8)\), \(\lambda_{1} = 10\) from \([8, 12)\), \(\lambda_{2} = 8\) from \([12, 18)\) and \(\lambda_{4}=3\) from \([18, 24)]\),  update \(\{s_{j}\}\) accordingly).
+</p>
+</div>
+</div>
+<div id="outline-container-orgd314e74" class="outline-2">
+<h2 id="orgd314e74">
+<span class="section-number-2">2.</span> The Maths</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+One way to simulate a non-homogenous Poisson process with piece-wise constant rates is as follows.
+</p>
+<ol class="org-ol">
+<li>For each interval  \([s_j, s_{j+1}]\) compute the duration \(t_j = s_{j+1}-s_j\).</li>
+<li>Generate a random deviate \(R_j \sim \Pois{\lambda_j t_j}\).</li>
+<li>Generate \(R_j\) uniform deviates \(U_i \sim \Unif{[s_j, s_{j+1}]}\).</li>
+<li>The uniform deviates form the arrivals times on \([s_j, s_{j+1}]\).</li>
+</ol>
+<p>
+This procedure is easy, but the computation of a Poisson distributed random deviate is somewhat costly.
+</p>
+
+<p>
+Perhaps the next procedure is more efficient–I have not tested it, so I don't know.
+The paper <a href="https://web.ics.purdue.edu/~pasupath/PAPERS/2011pasB.pdf">Generating Nonhomogeneous Poisson Processes</a> by Raghu Pasupathy explains that we need to find the smallest \(t\) such that \(\Lambda (s, t) = \int_{s}^{t} \lambda(y)\d y =x \), where \(x = -\log u\) and \(u\sim\Unif{[0.1]}\).
+</p>
+</div>
+<div id="outline-container-org6d83f8f" class="outline-3">
+<h3 id="org6d83f8f">
+<span class="section-number-3">2.1.</span> A constant rate throughout</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+If the rate \(\lambda(x) \equiv \lambda\) is contant throughout, finding such \(t\) is simple because \(\Lambda(s, t) = \lambda (t-s)\) so that \(t= s + s/\lambda\).
+This gives the following algorithm:
+</p>
+<ol class="org-ol">
+<li>\(s = 0\).</li>
+<li>\(\mineq \log(u)/\lambda, \quad u \sim \Unif{[0,1]}\).</li>
+<li>Yield \(s\) and return to step 2.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgfa45442" class="outline-3">
+<h3 id="orgfa45442">
+<span class="section-number-3">2.2.</span> Piecewise Constant</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Let us generalize this proceduce so that we can deal with  piecewise constant  \(\lambda(\cdot)\).
+Noting that the sequence \(\{s_{j}\}\) places a grid on \(\R^{+}\), we define
+</p>
+\begin{align*}
+j &amp;= \max\{i: s_{i} \leq s\}, &amp; k &amp;=\min\left\{i : \Lambda(s, s_{i})  &gt;x\right\},
+\end{align*}
+<p>
+i.e., \(s_{j}\) is the point on the grid just below \(s\), and \(s_{k}\) is the smallest point on the grid such that the integral \(\Lambda(s, s_{k})\) exceeds \(x\).
+For the algorithm, if \(s+x/\lambda_{j}&lt; s_{j+1}\), then we can set \(s += x/\lambda_{j}\), and return \(s\) as the next arrival time.
+However, if if \(s+x/\lambda_{j}\geq s_{j+1}\), we use the following idea:
+</p>
+\begin{equation*}
+x = \Lambda(s, t) = \Lambda(s_{j}, s_{k}) - \Lambda(s_{j}, s) - \Lambda(t, s_{k}).
+\end{equation*}
+<p>
+Since \(\lambda(\cdot)\) is \(\lambda_{j}\) on \([s_{j}, s]\) and \(\lambda(\cdot) = \lambda_{k-1}\) on \([t, s_{k})\),
+</p>
+\begin{align*}
+\Lambda(s_{j}, s) &amp;= \lambda_{j}(s-s_{k}),  &amp; \Lambda(t, s_{k}) = \lambda_{k-1} (s_{k}-t).
+\end{align*}
+<p>
+Thus, if we have \(s_{j}\) and \(s_{k}\), the next arrival time \(t\) after \(s\) is easily  solved from the equation
+</p>
+\begin{equation*}
+\lambda_{k-1}(s_{k} -t ) = x +  \Lambda(s_{j}, s) - \Lambda(s_{j}, s_{k}).
+\end{equation*}
+<p>
+That is,
+</p>
+\begin{equation}\label{eq:nh8}
+t = s_{k } -  (\Lambda(s_{j}, s_{k}) - x -  \Lambda(s_{j}, s) )/\lambda_{k-1}.
+\end{equation}
+</div>
+</div>
+</div>
+<div id="outline-container-orge47e0ab" class="outline-2">
+<h2 id="orge47e0ab">
+<span class="section-number-2">3.</span> The Algorithm</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+With this idea, we obtain the following algorithm. Assume that \(\lambda_{0} &gt; 0\) (Otherwise search for the first \(\lambda_{j}&gt;0\), and start from there).
+</p>
+
+<ol class="org-ol">
+<li>\(s=0\), \(j=0\)</li>
+<li>\(s \mineq \log(u)/\lambda_{j}\)</li>
+<li>If \(s &lt; s_{j+1}\), yield \(s\) and return to step 2, else</li>
+<li>\(T = \lambda_{j}(s_{j+1}-s)\).</li>
+<li>While \(T&lt;0\): \(j \pluseq 1\), \(T \pluseq \lambda_{j}(s_{j+1}-s_{j})\).</li>
+<li>\(s = s_{j+1} - T/\lambda_{j}\).</li>
+<li>Yield \(s\) and return to step 2.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org91f51ef" class="outline-2">
+<h2 id="org91f51ef">
+<span class="section-number-2">4.</span> The Python &lt;Code</h2>
+<div class="outline-text-2" id="text-4">
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="k">def</span> <span class="nf">nhpp_range</span><span class="p">(</span>
+    <span class="n">start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">times</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">rates</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">gen</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+    <span class="n">rate</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span>
+    <span class="n">down</span><span class="p">,</span> <span class="n">up</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">times</span><span class="p">),</span> <span class="nb">next</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">rate</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">rate</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span>
+        <span class="n">down</span><span class="p">,</span> <span class="n">up</span> <span class="o">=</span> <span class="n">up</span><span class="p">,</span> <span class="nb">next</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">down</span><span class="p">)</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">now</span> <span class="o">+=</span> <span class="n">gen</span><span class="o">.</span><span class="n">exponential</span><span class="p">()</span> <span class="o">/</span> <span class="n">rate</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">rate</span> <span class="o">*</span> <span class="p">(</span><span class="n">up</span> <span class="o">-</span> <span class="n">now</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">T</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">rate</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span>
+            <span class="n">down</span><span class="p">,</span> <span class="n">up</span> <span class="o">=</span> <span class="n">up</span><span class="p">,</span> <span class="nb">next</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+            <span class="n">T</span> <span class="o">+=</span> <span class="n">rate</span> <span class="o">*</span> <span class="p">(</span><span class="n">up</span> <span class="o">-</span> <span class="n">down</span><span class="p">)</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">up</span> <span class="o">-</span> <span class="n">T</span> <span class="o">/</span> <span class="n">rate</span>
+        <span class="k">if</span> <span class="n">now</span> <span class="o">&gt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">yield</span> <span class="n">now</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org074c652" class="outline-2">
+<h2 id="org074c652">
+<span class="section-number-2">5.</span> The Tests</h2>
+<div class="outline-text-2" id="text-5">
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">cycle</span><span class="p">,</span> <span class="n">accumulate</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">nhpp</span> <span class="kn">import</span> <span class="n">nhpp_range</span>
+
+
+<span class="k">def</span> <span class="nf">test_floats</span><span class="p">():</span>
+    <span class="n">gen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="mi">40</span>
+    <span class="n">periods</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+    <span class="n">times</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+    <span class="n">counter</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="n">nhpp_range</span><span class="p">(</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">accumulate</span><span class="p">(</span><span class="n">cycle</span><span class="p">(</span><span class="n">periods</span><span class="p">),</span> <span class="n">initial</span><span class="o">=</span><span class="n">start</span><span class="p">),</span> <span class="n">cycle</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="n">times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+        <span class="n">counter</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">%</span> <span class="mi">5</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span>
+
+    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">A</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+    <span class="n">theoretical_mean_rate</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">r</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">rates</span><span class="p">,</span> <span class="n">periods</span><span class="p">))</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span>
+        <span class="n">periods</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">theoretical_mean_rate</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">test_datetimes</span><span class="p">():</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">rates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">13</span><span class="p">))</span>
+    <span class="n">periods</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span>
+
+    <span class="n">time</span> <span class="o">=</span> <span class="n">start</span>
+    <span class="k">for</span> <span class="n">delta</span> <span class="ow">in</span> <span class="n">nhpp_range</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mi">3600</span><span class="p">,</span>
+        <span class="n">accumulate</span><span class="p">(</span><span class="n">cycle</span><span class="p">(</span><span class="n">periods</span><span class="p">),</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="n">cycle</span><span class="p">(</span><span class="n">rates</span><span class="p">),</span>
+    <span class="p">):</span>
+        <span class="n">time</span> <span class="o">+=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="n">delta</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">test_floats</span><span class="p">()</span>
+    <span class="n">test_datetimes</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../mathjax/" rel="prev" title="Mathjax tricks">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../python-line-numbers/" rel="next" title="Including Python Code by Line Numbers">Next post</a>
+            </li>
+        </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+    equationNumbers: { autoNumber: "AMS" },
+    tagSide: "right",
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    Macros: {
+      P: ["\\textrm{P}\\left\\{#1\\right\\}", 1],
+      E: ["\\textrm{E}\\left\\{#1\\right\\}", 1],
+      F: "\\mathcal{F}",
+      iid: " \\mathrm{iid.}",
+      mineq: "\\mathrel{-}=",
+      pluseq: "\\mathrel{+}=",
+      R: "\\mathbb{R}",
+      1: ["\\mathbf{1}\\{#1\\}",1],
+      d: ["\\,\\textrm{d}#1", 1],
+      Exp: ["\\mathrm{Exp}(#1)", 1],
+      FS: ["\\mathrm{FS}(#1)", 1],
+      Geo: ["\\mathrm{Geo}(#1)", 1],
+      Norm: ["\\mathrm{Norm}(#1)", 1],
+      Pois: ["\\mathrm{Pois}(#1)", 1],
+      Unif: ["\\mathrm{Unif}(#1)", 1],
+    },
+  }
+});
+</script><script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
+</script></article><!--End of body content--><footer id="footer"><div class="text-center">
+<p>
+<span class="fa-stack">
+  <a href="https://github.com/ndvanforeest">
+    <i class="fa fa-github-square fa-stack-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="http://scholar.google.com/citations?user=IEjX_w4AAAAJ">
+     <i class="ai ai-google-scholar-square ai-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="https://orcid.org/0000-0001-5428-1723">
+     <i class="ai ai-orcid-square ai-2x"></i>
+  </a>
+</span>
+<span class="fa-stack">
+  <a href="mailto:vanforeest@gmail.com">
+    <i class="fa fa-square fa-stack-2x"></i>
+    <i class="fa fa-envelope fa-inverse fa-stack-1x"></i>
+  </a>
+</span>
+</p>
+<p>
+  Contents © 2024  Nicky van Foreest
+  —
+  
+  —
+  Powered by <a href="https://getnikola.com" rel="nofollow">Nikola</a>
+</p>
+</div>
+
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>
