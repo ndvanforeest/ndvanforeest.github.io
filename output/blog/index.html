@@ -79,7 +79,235 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/memoryless/" class="u-url">Memoryless Excursions: A confusing problem with memoryless rvs</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/indicators-and_integraton/" class="u-url">Solving some Integrals using Indicators and Fubini's Theorem</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Nicky van Foreest
+                    </span></p>
+            <p class="dateline">
+            <a href="../posts/indicators-and_integraton/" rel="bookmark">
+            <time class="published dt-published" datetime="2024-01-04T20:20:32+01:00" itemprop="datePublished" title="2024-01-04 20:20">2024-01-04 20:20</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <p>
+My students sometimes (often?) find it hard to see why, for example, for a positive continuous rvs
+</p>
+\begin{align*}
+\E X &amp;= \int_0^{\infty} G(x) \d x, \\
+\E{X^2} &amp;= 2 \int_{0}^\infty x G(x) \d x.
+\end{align*}
+<p>
+Here I show how to do this.
+We start with a discrete positive rv.
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+For a nonnegative discrete random variable \(X\), use an indicator function to prove that
+</p>
+\begin{align*}
+\E X = \sum_{k=0}^\infty G(k),
+\end{align*}
+<p>
+where \(G(k) = \P{X &gt; k}\).
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\sum_{k=0}^\infty G(k)
+&amp;= \sum_{k=0}^\infty \P{X &gt; k}
+= \sum_{k=0}^\infty \sum_{m=k+1}^\infty \P{X=m} \\
+&amp; = \sum_{k=0}^\infty \sum_{m=0}^\infty \1{m &gt; k} \P{X=m}
+= \sum_{m=0}^\infty \sum_{k=0}^\infty \1{m &gt; k} \P{X=m} \\
+&amp;= \sum_{m=0}^\infty m\P{X=m} = \E X.
+\end{align*}
+
+
+</details>
+</div>
+<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+For a nonnegative discrete \(X\), use an indicator function to prove that
+</p>
+\begin{align*}
+\sum_{i=0}^\infty i G(i) = \frac{\E{X^2}}2 - \frac{\E{X}}2.
+\end{align*}
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\sum_{i=0}^\infty i G(i)
+&amp;= \sum_{i=0}^\infty i \sum_{n=i+1}^\infty \P{X=n} = \sum_{n=0}^\infty \P{X=n} \sum_{i=0}^\infty i \1{n\geq i+1} \\
+&amp;= \sum_{n=0}^\infty \P{X=n} \sum_{i=0}^{n-1}i = \sum_{n=0}^\infty \P{X=n} \frac{(n-1)n}{2} \\
+&amp;= \sum_{n=0}^\infty \frac{n^2}{2} \P{X=n} - \frac{\E X}{2}
+= \frac{\E{X^2}}{2} - \frac{\E X}{2}.
+\end{align*}
+
+
+</details>
+</div>
+<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+For general non-negative \(X\), use an indicator function to prove that
+</p>
+\begin{align*}
+\E X = \int_0^\infty x \d F(x) = \int_0^\infty G(y) \d y,
+\end{align*}
+<p>
+where \(G(x) = 1 - F(x)\).
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+ \E{X} &amp;= \int_0^\infty x \d F(x) = \int_0^\infty \int_0^x \d y \d F(x) \\
+ &amp; = \int_0^\infty \int_0^\infty \1{y\leq x} \d y \d F(x) = \int_0^\infty \int_0^\infty \1{y\leq x} \d F(x) \d y\\
+ &amp; = \int_0^\infty \int_y^\infty\d  F(x) \d y = \int_0^\infty G(y) \d y.
+\end{align*}
+
+
+</details>
+</div>
+<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Use an indicator function to prove that for a general non-negative random variable \(X\)
+</p>
+\begin{align*}
+\E{X^2} = 2 \int_0^\infty y G(y) \d y,
+\end{align*}
+<p>
+where \(G(x) = 1 - F(x)\).
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\int_0^\infty y G(y) \d y
+&amp;= \int_0^\infty y \int_y^\infty f(x)\, \d x \d y = \int_0^\infty y \int_0^\infty \1{y\leq x}f(x)\, \d x \d y\\
+&amp;= \int_0^\infty f(x) \int_0^\infty y \1{y \leq x}\, \d y \d x
+= \int_0^\infty f(x) \int_0^x y\, \d y \d x\\
+&amp;= \int_0^\infty f(x) \frac{x^2}2 \d x =\frac{\E{X^2}}2.
+\end{align*}
+
+
+</details>
+</div>
+<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Use integration by parts  to see that \(\E{X^2} = 2 \int_0^\infty y G(y) \d y\).
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary><p>
+In \(\int_0^\infty y G(y) \d y\) integrate first the \(y\) to \(y^2/2\).
+</p>
+
+
+</details><details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{equation*}
+ \int_0^\infty y G(y) \d y
+= \frac{y^2}2 G(y) \bigg|_0^\infty - \int_0^\infty \frac{y^2}2 g(y)\d y = \int_0^\infty \frac{y^2}2 f(y)\d y = \frac{\E{X^2}}2,
+\end{equation*}
+<p>
+since \(g(y) = G'(y) = - F'(y) = - f(y)\). Note that we used \(\frac{y^2}2 G(y) \bigg|_0^\infty = 0 - 0 = 0\), which follows from our assumption that \(\E{X^2}\) exists, implying that \(\lim_{y \to \infty} y^2G(y) = 0\).
+</p>
+
+
+</details>
+</div>
+<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Use substitution to see that \(\E{X^2} = 2\int_0^\infty y G(y) \d y\).
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary><p>
+Substitute \(y = \sqrt x  \implies \d y = \d x/ 2 \sqrt x \implies \d x = 2 y \d y\).
+</p>
+
+
+</details><details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+  \int_{0}^{\infty} y^2 \d F(y)
+  &amp;=\int_{0}^{\infty} \int_{0}^{\infty}\1{x\leq y^2} \d x \d F(y)  = \int_{0}^{\infty} G(\sqrt x) \d x  \\
+  &amp;= 2\int_{0}^{\infty}  y G(y) \d y,
+\end{align*}
+
+
+</details>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/memoryless/" class="u-url">Memoryless Excursions: A confusing problem with memoryless rvs</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         Nicky van Foreest
@@ -94,19 +322,19 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/memoryless/#org5270c75">1. Introduction</a></li>
-<li><a href="../posts/memoryless/#orgaded529">2. Discrete memoryless rvs</a></li>
-<li><a href="../posts/memoryless/#orgbd1059c">3. Continuous memoryless rvs</a></li>
-<li><a href="../posts/memoryless/#org1c66c35">4. The solution</a></li>
+<li><a href="../posts/memoryless/#org750afe1">1. Introduction</a></li>
+<li><a href="../posts/memoryless/#org470ebb3">2. Discrete memoryless rvs</a></li>
+<li><a href="../posts/memoryless/#org6883ffc">3. Continuous memoryless rvs</a></li>
+<li><a href="../posts/memoryless/#orgc859f91">4. The solution</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org5270c75" class="outline-2">
-<h2 id="org5270c75">
+<div id="outline-container-org750afe1" class="outline-2">
+<h2 id="org750afe1">
 <span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-<a id="org76ccae0"></a>
+<a id="org7ea5d4e"></a>
 BH give a quick argument to compute \(\E M\) and \(\E L\) where
 \(M=\max\{X,Y\}\)  and \(L=\min\{X,Y\}\) are the maximum and minimum of two iid exponential rvs \(X\) and \(Y\).
 Since  \(X\) and \(Y\)  have the same distribution,
@@ -118,14 +346,14 @@ Since  \(X\) and \(Y\)  have the same distribution,
 Therefore,
 </p>
 \begin{equation}
-\label{org9fe61a8}
+\label{org9fd64c8}
 \E M = 2\E X - \E L.
 \end{equation}
 <p>
 Next, by the fact that  \(X\) and \(Y\) are memoryless,
 </p>
 \begin{equation}
-\label{orga57e487}
+\label{orgbd66f4e}
 \E M = \E L  + \E X.
 \end{equation}
 <p>
@@ -136,14 +364,14 @@ Then,  <i>due to memorylessness</i>, the service time of the remaining job `rest
 Adding these two equations and noting that \(\E L\) cancels we get \(2\E M = 3 \E X \), hence:
 </p>
 \begin{align}
-\label{orgc0dd15b}
+\label{org9fd0715}
 \E M &amp;= \frac 3 2 \E X, &amp; \E L &amp;= \E M - \E X = \frac 1 2 \E X.
 \end{align}
 
 <p>
-This argument seems general enough, so it must hold for discrete memoryless rvs too, i.e., when \(X, Y \sim \Geo{p}\). But that is not the case: it is only true when \(X, Y \sim \Exp{\lambda}\) and independent. To see what is wrong I tried as many different approaches to this problem I could think of, which  resulted in this text.<sup><a id="fnr.1" class="footref" href="../posts/memoryless/#fn.1" role="doc-backlink">1</a></sup> In <a href="../posts/memoryless/#orgd11ed00">2</a> we'll derive \eqref{org9fe61a8}  for geometric rvs in multiple  different ways.
-Hence, the culprit must be \eqref{orga57e487}. Then, in  <a href="../posts/memoryless/#org4d78cfd">3</a> we'll show that both equations  <i>are true</i> for exponential rvs.
-Finally, in <a href="../posts/memoryless/#orgac7372c">4</a> we find a formula that is similar to \(\E M = \E L + \E X\) but that holds for both types of memoryless rvs, whether they are discrete or continuous.
+This argument seems general enough, so it must hold for discrete memoryless rvs too, i.e., when \(X, Y \sim \Geo{p}\). But that is not the case: it is only true when \(X, Y \sim \Exp{\lambda}\) and independent. To see what is wrong I tried as many different approaches to this problem I could think of, which  resulted in this text.<sup><a id="fnr.1" class="footref" href="../posts/memoryless/#fn.1" role="doc-backlink">1</a></sup> In <a href="../posts/memoryless/#org48a0cdf">2</a> we'll derive \eqref{org9fd64c8}  for geometric rvs in multiple  different ways.
+Hence, the culprit must be \eqref{orgbd66f4e}. Then, in  <a href="../posts/memoryless/#orgd064ceb">3</a> we'll show that both equations  <i>are true</i> for exponential rvs.
+Finally, in <a href="../posts/memoryless/#orga3a2d4c">4</a> we find a formula that is similar to \(\E M = \E L + \E X\) but that holds for both types of memoryless rvs, whether they are discrete or continuous.
 </p>
 
 <p>
@@ -159,12 +387,12 @@ If different methods give the same answer, the chances of having made a mistake 
 </p>
 </div>
 </div>
-<div id="outline-container-orgaded529" class="outline-2">
-<h2 id="orgaded529">
+<div id="outline-container-org470ebb3" class="outline-2">
+<h2 id="org470ebb3">
 <span class="section-number-2">2.</span> Discrete memoryless rvs</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-<a id="orgd11ed00"></a>
+<a id="org48a0cdf"></a>
 </p>
 
 <p>
@@ -264,11 +492,12 @@ p q^{j+1} \frac 1 p = q^{j+1}.
 <p>
 Use indicator variables to show that
 </p>
-\begin{equation*}
+\begin{equation}
+\label{orge86a104}
 \E X
 = \sum_{i=0}^{\infty} i\P{X=i}
 =  \sum_{i=0}^{\infty} \sum_{j=0}^{\infty} \1{j &lt; i} \P{X=i} =p/q.
-\end{equation*}
+\end{equation}
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
@@ -382,9 +611,10 @@ For 2D LOTUS, take \(g(i,j) = \min\{i, j\}\).
 <p>
 Show that
 </p>
-\begin{equation*}
+\begin{equation}
+\label{orgb46992d}
 \E L=q^{2}/(1-q^{2}).
-\end{equation*}
+\end{equation}
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
@@ -411,7 +641,7 @@ Show that
                       </font>
                     </strong>
                   </summary><p>
-Immediate from the hint and <a href="../posts/memoryless/#org49f7de9">1</a>.
+Immediate from the hint and \eqref{orge86a104}.
 </p>
 
 
@@ -422,7 +652,7 @@ Immediate from the hint and <a href="../posts/memoryless/#org49f7de9">1</a>.
 Show that
 </p>
 \begin{equation}
-\label{org5f64aa6}
+\label{orga6f8455}
 \E L + \E X = \frac q{1-q}\frac{1+2q}{1+q}.
 \end{equation}
 <details class="code-details" style="padding: 0.6em;
@@ -469,7 +699,7 @@ Use that \(1-q^2=(1-q)(1+q)\).
 Show that
 </p>
 \begin{equation}
-\label{org5c642f5}
+\label{orgc5bd6c0}
 2\E X  -\E L = \frac q{1-q} \frac{2+q}{1+q}.
 \end{equation}
 <details class="code-details" style="padding: 0.6em;
@@ -495,11 +725,11 @@ Show that
 </details>
 </div>
 <p>
-Clearly, unless \(q=0\), \(\E L + \E X \neq 2\E X - \E L\), hence, \(\E M\) can only be one of the two and  \eqref{org9fe61a8} and \eqref{orga57e487} cannot be both true.
+Clearly, unless \(q=0\), \(\E L + \E X \neq 2\E X - \E L\), hence, \(\E M\) can only be one of the two and  \eqref{org9fd64c8} and \eqref{orgbd66f4e} cannot be both true.
 </p>
 
 <p>
-To convince ourselves that \eqref{org5c642f5}, hence \eqref{org9fe61a8}, is indeed true, we pursue  three ideas.
+To convince ourselves that \eqref{orgc5bd6c0}, hence \eqref{org9fd64c8}, is indeed true, we pursue  three ideas.
 </p>
 
 <p>
@@ -705,7 +935,7 @@ Explain that
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="../posts/memoryless/#orgaf0d9c3">1</a> and marginalization to compute the marginal PMF \(\P{M=k}\).
+Use <a href="../posts/memoryless/#org0977bff">1</a> and marginalization to compute the marginal PMF \(\P{M=k}\).
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -747,7 +977,7 @@ Marginalize out \(L\).
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="../posts/memoryless/#orgaf0d9c3">1</a> to compute \(\P{L=i}\).
+Use <a href="../posts/memoryless/#org0977bff">1</a> to compute \(\P{L=i}\).
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -796,16 +1026,16 @@ Let us now focus on exponential rvs rather than geometric rvs.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbd1059c" class="outline-2">
-<h2 id="orgbd1059c">
+<div id="outline-container-org6883ffc" class="outline-2">
+<h2 id="org6883ffc">
 <span class="section-number-2">3.</span> Continuous memoryless rvs</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-<a id="org4d78cfd"></a>
+<a id="orgd064ceb"></a>
 </p>
 
 <p>
-In this section we analyze the correctness of \eqref{org9fe61a8} and \eqref{orga57e487} for continuous memoryless rvs, i.e., exponentially distributed rvs.
+In this section we analyze the correctness of \eqref{org9fd64c8} and \eqref{orgbd66f4e} for continuous memoryless rvs, i.e., exponentially distributed rvs.
 I decided to analyze this in as much detail as I could think of, hoping that this would provide me with a lead to see how to generalize the equation \(\E M = \E L + \E X\) such that it covers also the case with geometric rvs.
 </p>
 
@@ -940,7 +1170,7 @@ The result follows since  \(F_{L}(x) = 1-G_{L}(x)\).
 </details>
 </div>
 <p>
-Clearly, this implies that  \(L\sim \Exp{2\lambda}\) and \(\E L = 1/(2\lambda) = \E X /2\). Hence, we see that \eqref{orgc0dd15b} holds now.
+Clearly, this implies that  \(L\sim \Exp{2\lambda}\) and \(\E L = 1/(2\lambda) = \E X /2\). Hence, we see that \eqref{org9fd0715} holds now.
 Moreover, with the same trick we see  that the distribution function \(F_{M}\) for the maximum \(M\) is given by
 </p>
 \begin{equation*}
@@ -1044,7 +1274,7 @@ where the last equality follows from the previous exercises.
 </details>
 </div>
 <p>
-Recalling that we already obtained  \(\E L = \E X/ 2\),  we see that \(\E M = 2 \E X - \E L = 3\E X/2\), which settles the truth of  \eqref{orgc0dd15b}.
+Recalling that we already obtained  \(\E L = \E X/ 2\),  we see that \(\E M = 2 \E X - \E L = 3\E X/2\), which settles the truth of  \eqref{org9fd0715}.
 </p>
 
 
@@ -1117,7 +1347,7 @@ f_{L,M}(u,v)
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-In <a href="../posts/memoryless/#org0a1b481">1</a> marginalize out \(L\) to find \(f_M\), and marginalize out \(M\) to find \(f_L\).
+In <a href="../posts/memoryless/#org275f03a">1</a> marginalize out \(L\) to find \(f_M\), and marginalize out \(M\) to find \(f_L\).
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -1160,7 +1390,7 @@ Let  \(X\sim \Geo{\lambda/n}\) for some \(\lambda &gt; 0\) and \(n\gg 0\). Then 
 Show that
 </p>
 \begin{equation}
-\label{org8e7aa6a}
+\label{orgd531226}
 \P{X/n \approx x} \approx \frac{\lambda} n \left(1-\frac \lambda n\right)^{x n}.
 \end{equation}
 <details class="code-details" style="padding: 0.6em;
@@ -1188,7 +1418,7 @@ since \(p=\lambda/n\), \(q=1-p=1-\lambda/n\), and \(i=nx\).
 </details>
 </div>
 <p>
-Next,  introduce the highly intuitive notation<sup><a id="fnr.4" class="footref" href="../posts/memoryless/#fn.4" role="doc-backlink">4</a></sup>  \(\d x = \lim_{n\to \infty} 1/n\), and use the standard limit<sup><a id="fnr.5" class="footref" href="../posts/memoryless/#fn.5" role="doc-backlink">5</a></sup>  \((1-\lambda/n)^n\to e^{-\lambda}\) as \(n\to\infty\) to see that \eqref{org8e7aa6a} converges to
+Next,  introduce the highly intuitive notation<sup><a id="fnr.4" class="footref" href="../posts/memoryless/#fn.4" role="doc-backlink">4</a></sup>  \(\d x = \lim_{n\to \infty} 1/n\), and use the standard limit<sup><a id="fnr.5" class="footref" href="../posts/memoryless/#fn.5" role="doc-backlink">5</a></sup>  \((1-\lambda/n)^n\to e^{-\lambda}\) as \(n\to\infty\) to see that \eqref{orgd531226} converges to
 </p>
 \begin{equation*}
 \P{X/n \approx x} \to \lambda e^{-\lambda x} \d x = f_{X}(x) \d x,\quad\text{ as } n \to \infty.
@@ -1269,7 +1499,7 @@ Suppose that \(X, Y\sim \Geo{\lambda/n}\), then check that \(\lim_{n\to\infty}\E
                       </font>
                     </strong>
                   </summary><p>
-Use <a href="../posts/memoryless/#org1adf3fa">1</a>.
+Use \eqref{orgb46992d}.
 </p>
 
 
@@ -1304,7 +1534,7 @@ Here is yet another check on the correctness of \(f_M(x)\).
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Show that  the PMF \(\P{M=k}\) for the discrete \(M\) in <a href="../posts/memoryless/#org4c836e4">1</a> converges to \(f_M(x)\) of <a href="../posts/memoryless/#orgae9ff3e">1</a> when \(n\to \infty\). Take \(k\) suitable.
+Show that  the PMF \(\P{M=k}\) for the discrete \(M\) in <a href="../posts/memoryless/#org61a68a4">1</a> converges to \(f_M(x)\) of <a href="../posts/memoryless/#orga2a4aae">1</a> when \(n\to \infty\). Take \(k\) suitable.
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -1333,7 +1563,7 @@ Now observe that the second term, proportional to \(\d x^{2}\) can be neglected.
 </details>
 </div>
 <p>
-<strong style="font-variant: all-small-caps">Finally</strong>  a third  way to check the above results, namely by verifying  \eqref{orga57e487}, i.e.  \(\E{M-L} = \E X\).
+<strong style="font-variant: all-small-caps">Finally</strong>  a third  way to check the above results, namely by verifying  \eqref{orgbd66f4e}, i.e.  \(\E{M-L} = \E X\).
 For this, we  compute the joint CDF \(f_{L, M-L}(x, y)\). With this,  you'll  see directly how to compute \(\E{M-L}\).
 </p>
 
@@ -1432,12 +1662,12 @@ By the  above exercise, we find that \(\E{M-L} = \E Y = \E X\), as \(X\) and \(Y
 Hence, we should check that for  <i>all</i> \(i, j\)
 </p>
 \begin{equation}
-\label{org054d249}
+\label{org155b0d0}
 \P{L=i, M-L=j} = \P{L=i} \P{M-L=j}.
 \end{equation}
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="../posts/memoryless/#orgaf0d9c3">1</a> to see that
+Use <a href="../posts/memoryless/#org0977bff">1</a> to see that
 </p>
 \begin{equation*}
 \P{L=i, M-L=j} = 2p^2q^{2i+j} \1{j\geq 1} + p^2q^{2i}\1{j=0}.
@@ -1453,7 +1683,7 @@ Use <a href="../posts/memoryless/#orgaf0d9c3">1</a> to see that
                       </font>
                     </strong>
                   </summary><p>
-Realize that \(\P{L=i, M-L=j}=  \P{L=i, M=i+j}\). Now fill in the formula of <a href="../posts/memoryless/#orgaf0d9c3">1</a>.
+Realize that \(\P{L=i, M-L=j}=  \P{L=i, M=i+j}\). Now fill in the formula of <a href="../posts/memoryless/#org0977bff">1</a>.
 </p>
 
 
@@ -1494,39 +1724,39 @@ Suppose \(j &gt; 0\) (for \(j=0\) the maths is the same). Then,
 </details>
 </div>
 <p>
-Recalling that \(\P{L=i} = (1-q^2)q^{2i}\), it follows right away from \eqref{org054d249} that \(L\)  and \(M-L\) are independent.
-Interestingly, from <a href="../posts/memoryless/#org27ab828">1</a> we see \(M-L\sim Y\) for the continuous case. However, here, for the geometric case, \(\P{M-L=j} \neq pq^{j} = \P{Y=j}\).  This explains why \(\E M \neq \E L + \E X\) for geometric rvs: we should be more careful in how to split \(M\) in terms of \(L\) and \(X\).
+Recalling that \(\P{L=i} = (1-q^2)q^{2i}\), it follows right away from \eqref{org155b0d0} that \(L\)  and \(M-L\) are independent.
+Interestingly, from <a href="../posts/memoryless/#org552609f">1</a> we see \(M-L\sim Y\) for the continuous case. However, here, for the geometric case, \(\P{M-L=j} \neq pq^{j} = \P{Y=j}\).  This explains why \(\E M \neq \E L + \E X\) for geometric rvs: we should be more careful in how to split \(M\) in terms of \(L\) and \(X\).
 </p>
 
 
 
 <p>
 <strong style="font-variant: all-small-caps">All in all</strong>, we have checked and double checked all our expressions and limits for the geometric and exponential distribution.
-We had success too: the solution of the last exercise provides the key to understand why \eqref{org9fe61a8} and \eqref{orga57e487} are true for exponentially distributed rvs, but not for geometric random variables.
+We had success too: the solution of the last exercise provides the key to understand why \eqref{org9fd64c8} and \eqref{orgbd66f4e} are true for exponentially distributed rvs, but not for geometric random variables.
 In fact, in the solutions we can see the term corresponding to \(X=Y=i\) for \(X,Y\sim \Geo{p}\) becomes negligibly small when \(n\to 0\).
 In other words, \(\P{X=Y}&gt;0\)  when \(X\) and \(Y\) are discrete, but \(\P{X=Y}=0\) when  \(X\) and \(Y\) are continuous.
-Moreover, by <a href="../posts/memoryless/#org27ab828">1</a>, \(\E M = \E{L + M-L} = \E L + \E{M-L}\), but \(\E{M-L} \neq \E X\). So, to resolve our leading problem we should reconsider \(\E{M-L}\).
+Moreover, by <a href="../posts/memoryless/#org552609f">1</a>, \(\E M = \E{L + M-L} = \E L + \E{M-L}\), but \(\E{M-L} \neq \E X\). So, to resolve our leading problem we should reconsider \(\E{M-L}\).
 </p>
 </div>
 </div>
-<div id="outline-container-org1c66c35" class="outline-2">
-<h2 id="org1c66c35">
+<div id="outline-container-orgc859f91" class="outline-2">
+<h2 id="orgc859f91">
 <span class="section-number-2">4.</span> The solution</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-<a id="orgac7372c"></a>
+<a id="orga3a2d4c"></a>
 </p>
 
 
 <p>
-Let us now try to repair \eqref{orga57e487}, i.e., \(\E M = \E L + \E X\),  for the case \(X,Y\sim\Geo{p}\). We should be careful about the non-negligible case that \(M=L\), so we move, carefully, step by step.
+Let us now try to repair \eqref{orgbd66f4e}, i.e., \(\E M = \E L + \E X\),  for the case \(X,Y\sim\Geo{p}\). We should be careful about the non-negligible case that \(M=L\), so we move, carefully, step by step.
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
 Why is the following true:
 </p>
 \begin{align}
-\label{orgcb786b9}
+\label{orgaecacf7}
 \E M &amp;= \E L + \E{(M-L) \1{M &gt; L}}  = \E L + 2\E{(Y-X) \1{Y &gt; X}}.
 \end{align}
 <details class="code-details" style="padding: 0.6em;
@@ -1551,7 +1781,7 @@ Because either \(M=L\) or \(M &gt; L\). Recall from earlier work that the factor
 Show that
 </p>
 \begin{equation}
-\label{org6fdb2f8}
+\label{org473f80b}
 2\E{(Y-X) \1{Y &gt; X}} = \frac{2q} {1-q^{2}}.
 \end{equation}
 <details class="code-details" style="padding: 0.6em;
@@ -1596,7 +1826,7 @@ Reread BH.7.2.2. to realize that \(\E{M-L} = \E{|X-Y|}\). Relate the latter expe
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Combine the above with the expression for \(\E L\) of <a href="../posts/memoryless/#org1adf3fa">1</a> to obtain  \eqref{org5c642f5} for \(\E M = 2\E X - \E L\), thereby verifying the correctness of \eqref{orgcb786b9}.
+Combine the above with the expression for \(\E L\) of \eqref{orgb46992d} to obtain  \eqref{orgc5bd6c0} for \(\E M = 2\E X - \E L\), thereby verifying the correctness of \eqref{orgaecacf7}.
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -1620,7 +1850,7 @@ where I use that \(1-q^{2}=(1-q)(1+q)\).
 </details>
 </div>
 <p>
-While \eqref{orgcb786b9} is correct, I am still not happy with the second part of \eqref{orgcb786b9} as I find it hard/unintuitive to interpret.
+While \eqref{orgaecacf7} is correct, I am still not happy with the second part of \eqref{orgaecacf7} as I find it hard/unintuitive to interpret.
 Restarting again from scratch, here is another attempt to rewrite \(\E M\) by using \(Z\sim \FS{p}\), i.e., \(Z\) has the first success distribution with parameter \(p\), in other words, \(Z \sim X+1\) with \(X\sim\Geo{p}\).
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
@@ -1628,7 +1858,7 @@ Restarting again from scratch, here is another attempt to rewrite \(\E M\) by us
 Explain that
 </p>
 \begin{equation}
-\label{org2c82359}
+\label{orgbac4530}
 \E M = \E L + \E{ Z \1{M &gt; L}},
 \end{equation}
 <details class="code-details" style="padding: 0.6em;
@@ -1662,7 +1892,7 @@ Show that
 \E{Z\1{M &gt; L}} = \frac{2q} {1-q^{2}},
 \end{equation*}
 <p>
-i.e., the same as \eqref{org6fdb2f8}, hence \eqref{org2c82359} is correct.
+i.e., the same as \eqref{org473f80b}, hence \eqref{orgbac4530} is correct.
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -1708,7 +1938,7 @@ We know that \(\E Z = 1 + \E X = 1 + q/p = 1/p\), while
 </details>
 </div>
 <p>
-<strong style="font-variant: all-small-caps">I am nearly</strong> happy, but I want to see that \eqref{org2c82359}, which is correct for discrete rvs, has also the correct limiting behavior.
+<strong style="font-variant: all-small-caps">I am nearly</strong> happy, but I want to see that \eqref{orgbac4530}, which is correct for discrete rvs, has also the correct limiting behavior.
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
@@ -1753,7 +1983,7 @@ and
 Finally I understand why \(\E M = \E L + \E X\) for \(X,Y\sim \Exp{\lambda}\) and why this is not true for discrete \(X, Y\).
 For discrete rvs, \(L\) and \(M\) can be equal, while for continuous rvs, this is impossible<sup><a id="fnr.6" class="footref" href="../posts/memoryless/#fn.6" role="doc-backlink">6</a></sup>
 It took a long time, and a lot of work, to understand how to resolve the confusing problem, but I learned a lot.
-In particular, I find \eqref{org2c82359} a nice and revealing equation.
+In particular, I find \eqref{orgbac4530} a nice and revealing equation.
 </p>
 
 <p>
@@ -4960,625 +5190,6 @@ Let's test this on this file. As this file sits in the <code>posts</code> we nee
 </p>
 <div class="highlight"><pre><span></span>/usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "making-an-exercise-environment.org" "../output/output.html")'
 </pre></div>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/snells-envelope-house-selling-and-buying/" class="u-url">Snell's Envelope, House Selling and Buying</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        Nicky van Foreest
-                    </span></p>
-            <p class="dateline">
-            <a href="../posts/snells-envelope-house-selling-and-buying/" rel="bookmark">
-            <time class="published dt-published" datetime="2023-12-26T19:07:41+01:00" itemprop="datePublished" title="2023-12-26 19:07">2023-12-26 19:07</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="table-of-contents" role="doc-toc">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents" role="doc-toc">
-<ul>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org526e099">1. Problem Setting</a></li>
-<li>
-<a href="../posts/snells-envelope-house-selling-and-buying/#org561cc60">2. Selling a House</a>
-<ul>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org609681d">2.1. Best Price Under a Fixed Threshold Policy</a></li>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org58e817b">2.2. Best Price Under a Dynamic  Threshold Policy</a></li>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#orgce54d8c">2.3. Snell's Envelope</a></li>
-</ul>
-</li>
-<li>
-<a href="../posts/snells-envelope-house-selling-and-buying/#orgdcf000e">3. Buying a House</a>
-<ul>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org90f9650">3.1. A heuristic procedure</a></li>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org955c501">3.2. The formal procedure</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org526e099" class="outline-2">
-<h2 id="org526e099">
-<span class="section-number-2">1.</span> Problem Setting</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-I have a house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
-Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept an offer on the spot or reject it.
-If rejected, the offer is retracted, hence I cannot accept it at a later date.
-Under these rules, what is the best price I can expect?
-</p>
-
-<p>
-Once my house is sold, I want to buy a new house.
-As this is a multi-objective optimization problem, I don't want to use just the price of the house to decide to buy it or not.
-In this case I just assume I can rank the houses from best to worse.  Thus, I cannot use the same policy as when selling a house, but need some other policy to decide.
-</p>
-
-<p>
-Both these problems can be solved as an optimal stopping problem.
-So, let's see how to do this, partly with Snell's envelope.
-I include some python code to get numerical output.
-</p>
-</div>
-</div>
-<div id="outline-container-org561cc60" class="outline-2">
-<h2 id="org561cc60">
-<span class="section-number-2">2.</span> Selling a House</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-When selling a house, at most \(n\) buyers will present their offers \(\{X_i\}_{i=1}^n\) , iid and uniform on \([0,1]\), one after the other.
-Rejected offers are lost.
-What is the best price?
-I used <a href="https://arminstraub.com/math/hiringsecretary">this site</a>, where the same problem is discussed in terms of the <a href="https://en.wikipedia.org/wiki/Secretary_problem">Secretary Problem</a>.
-</p>
-</div>
-<div id="outline-container-org609681d" class="outline-3">
-<h3 id="org609681d">
-<span class="section-number-3">2.1.</span> Best Price Under a Fixed Threshold Policy</h3>
-<div class="outline-text-3" id="text-2-1">
-<p>
-Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\) that remains fixed for the entire sales period.
-This threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i &lt; q\).
-The expected sales price becomes
-<a id="orgec97849"></a>
-</p>
-\begin{equation}\label{snell-eq1}
-\E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}},
-\end{equation}
-<p>
-because the event \(\{\tau = i \}\) implies that the offer \(X_i\) of buyer \(i\) exceeds \(q\), and when \(\tau=\infty\) the threshold \(q\) was too high so that I have to accept the offer \(X_n\) of the last buyer.
-</p>
-
-<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
-<p>
-Why is \(\E{X_i \1{\tau=i}} = q^{i-1} \frac{1-q^{2}}{2}\) for \(i &lt; n\)?
-</p>
-<details class="code-details" style="padding: 0.6em;
-                          background-color: #e5f5e5;
-                          border-radius: 15px;
-                          color: hsl(157 75%);
-                          font-size: 1em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
-                      <font face="Courier" size="3" color="red">
-                         Solution
-                      </font>
-                    </strong>
-                  </summary><p>
-By independence, for \(i\leq n-1\),
-</p>
-\begin{align*}
-\E{X_i \1{\tau=i}} &amp;= \E{X_i \1{X_i \geq q} \prod_{k=1}^{i-1} \1{X_k &lt; q}}  = q^{i-1} \E{X_i \1{X_i \geq q}} \\
-&amp;= q^{i-1} \int_q^1 x \d x = q^{i-1} \frac{1-q^{2}}{2},
-\end{align*}
-
-
-</details>
-</div>
-<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
-<p>
-Why is  \(\E{X_n \1{\tau=\infty}}= \frac{q^{n+1}}2\) for \(n\)?
-</p>
-<details class="code-details" style="padding: 0.6em;
-                          background-color: #e5f5e5;
-                          border-radius: 15px;
-                          color: hsl(157 75%);
-                          font-size: 1em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
-                      <font face="Courier" size="3" color="red">
-                         Solution
-                      </font>
-                    </strong>
-                  </summary>
-\begin{align*}
-\E{X_n \1{\tau=\infty}} &amp;= \E{X_n \1{X_i &lt; q} \prod_{k=1}^{n-1} \1{X_k &lt; q}}  = q^{n-1} \int_0^q x \d x = \frac{q^{n+1}}2.
-\end{align*}
-
-
-</details>
-</div>
-<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
-<p>
-Conclude  from <a href="../posts/snells-envelope-house-selling-and-buying/#orgec97849">2.1</a> that:
-</p>
-\begin{align*}
-v_{n}(q) := \E{X_{\tau}} &amp;= \frac{1}{2}(1-q^{n} + q).
-\end{align*}
-<details class="code-details" style="padding: 0.6em;
-                          background-color: #e5f5e5;
-                          border-radius: 15px;
-                          color: hsl(157 75%);
-                          font-size: 1em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
-                      <font face="Courier" size="3" color="red">
-                         Solution
-                      </font>
-                    </strong>
-                  </summary>
-\begin{align*}
-\E{X_{\tau}} &amp;= \frac{1-q^{2}}{2} \sum_{i=0}^{n-1} q^{i}  + \frac{q^{n+1}}2 = \frac{1+q}{2} (1-q^{n}) +  \frac{q^{n+1}}2 \\
-&amp;= \frac{1}{2}(1-q^{n} + q) =: v_n(q).
-\end{align*}
-
-
-</details>
-</div>
-<br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
-<p>
-Show that for given \(n\) the optimal \(q\) is equal to:
-</p>
-\begin{align*}
-q = \left({\frac{1}{n}}\right)^{\frac{1}{n-1}}.
-\end{align*}
-<details class="code-details" style="padding: 0.6em;
-                          background-color: #e5f5e5;
-                          border-radius: 15px;
-                          color: hsl(157 75%);
-                          font-size: 1em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
-                      <font face="Courier" size="3" color="red">
-                         Solution
-                      </font>
-                    </strong>
-                  </summary><p>
-Solve for \(q\) in \(\d v_n(q)/ \d q = -n q^{n-1} + 1 = 0\).
-</p>
-
-
-</details>
-</div>
-<p>
-Here is an example in code to see how to implement all this.
-</p>
-
-
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">best_q</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-
-
-<span class="k">def</span> <span class="nf">v</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">q</span><span class="o">**</span><span class="n">n</span> <span class="o">+</span> <span class="n">q</span>
-    <span class="k">return</span> <span class="n">res</span> <span class="o">/</span> <span class="mi">2</span>
-
-
-<span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">q</span> <span class="o">=</span> <span class="n">best_q</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-<span class="n">value</span> <span class="o">=</span> <span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">q</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">)</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-
-<pre class="example">
-q=0.7742636826811271
-v(n, q)=0.8484186572065071
-</pre>
-
-
-<p>
-For the future I might consider some additional questions.
-</p>
-
-<ol class="org-ol">
-<li>What is the probability that I will obtain the best price?</li>
-<li>What is the marginal value of increasing the number of house viewings by one?</li>
-<li>Suppose each viewing costs \(c\in [0, 1]\), what is the optimal number of house viewings?</li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org58e817b" class="outline-3">
-<h3 id="org58e817b">
-<span class="section-number-3">2.2.</span> Best Price Under a Dynamic  Threshold Policy</h3>
-<div class="outline-text-3" id="text-2-2">
-<p>
-A fixed threshold policy cannot be optimal, because the less visits we have left, the lower the acceptance threshold should be.
-We next find the optimal levels when we have \(1 \leq k \leq  n\) visits to go.
-</p>
-
-<p>
-Suppose we have rejected the first \(n-1\) offers, so that we have only \(k=1\) visits to go.
-Then our expected price is \(v_1 = \E{X_n} = 1/2\).
-In general we accept offer \(X_{i}\) of buyer \(i\) when this exceeds the expected price \(v_{k}\) of the remaining \(k=n-i\) visits. Otherwise, we reject this offer. In other words, the expected price for \(k\) periods to go satisfies the recursion
-</p>
-\begin{align*}
-v_k &amp;:= \E{\max{X_{n-k}, v_{k-1}}}  = \int_{v_{k-1}}^1 x \d x + \int_0^{v_{k-1}} v_{k-1} \d x = \frac{1}{2}(1-v_{k-1}^2) + v_{k-1}^2 \\
-&amp;= \frac{1}{2}(1 + v_{k-1}^2).
-\end{align*}
-<p>
-Note that  \(v_{k} &gt; v_{k-1}\) when \(v_{k-1}\neq 1\) because \(1 + v_{k-1}^2 &gt; 2 v_{k-1} \iff v_{k-1} \neq 1\). Thus, a policy with a fixed threshold is not optimal.
-</p>
-
-
-<p>
-With caching/memoization the code is very simple.
-</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cache</span>
-
-
-<span class="nd">@cache</span>
-<span class="k">def</span> <span class="nf">v</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span>
-    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">v</span><span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-
-<pre class="example">
-v(10)=0.861098212205712
-</pre>
-</div>
-</div>
-<div id="outline-container-orgce54d8c" class="outline-3">
-<h3 id="orgce54d8c">
-<span class="section-number-3">2.3.</span> Snell's Envelope</h3>
-<div class="outline-text-3" id="text-2-3">
-<p>
-The optimal policy can be found by using a more general, but more abstract, framework, namely by means of <i>Snell's envelope</i>.
-Perhaps the easiest way to see how this works is to start with a theorem, stripped from some of its technical clutter.
-I  copied it from `Promenade alétoire' by M. Benaïm and N. El Karoui.
-</p>
-
-<p>
-<a id="orgfe1a2cc"></a>
-</p>
-<div text="Snell" class="theorem" id="orgd2f5ce3">
-<p>
-Consider a sequence of rvs \(\{X_i\}_{i=1}^n\) adapted to a filtration \(\{\F_{i}\}_{i=1}^{n}\).
-Introduce the sequence of rvs \(\{Y_i\}\) by backward recurrence as
-</p>
-\begin{align*}
-Y_i &amp;= \sup\{\E{Y_{i+1}|\F_{i}}, X_{i}\}, \quad i &lt; n,  &amp; Y_n &amp;= X_{n},
-\end{align*}
-<p>
-and the stopping time \(\tau^*= \inf\{ i\leq n: Y_i = X_i\}\). Then,
-</p>
-<ol class="org-ol">
-<li>the sequence \(\{Y_i\}\) is a super martingale, i.e., \(Y_i \geq \E{Y_{i+1} | \F_{i}}\) a.s.;</li>
-<li>\(\E{Y_1} = \E{Y_{\tau^*}} = \E{X_{\tau^*}} = \sup_{\tau\in T} \E{Y_\tau}\),
-where \(T\) is the set of stopping times smaller or equal to \(n\);</li>
-<li>the stopping time \(\tau^{*}\) is optimal.</li>
-</ol>
-<p>
-The rv \(Y_i\) is the <i>Snell envelope</i> of \(X_i\), which is defined as the smallest super martingale  \(\geq X_i\).
-</p>
-
-</div>
-
-
-<p>
-Let's apply this theorem to the house selling problem. Take \(\F_{i} = \sigma\{X_k : k \leq i\}\). Starting the recursion from right to left,
-</p>
-\begin{align*}
-\E{Y_{n}} &amp;= \E{X_{n}} = v_{1},
-\end{align*}
-<p>
-since just before period \(n\), we have \(k=1\) buyers to go. From this,  using independence,
-</p>
-\begin{align*}
-\E{Y_{n} |\F_{n-1}} &amp;= \E{X_{n}|\F_{n-1}} = \E{X_{n}} = v_{1}, \\
-Y_{n-1} &amp;= \max{\E{Y_{n} |\F_{n-1}}, X_{n-1}} = \max{v_1, X_{n-1}}, \\
-\E{Y_{n-1}|\F_{n-2}} &amp;= \E{\max{v_1, X_{n-1}}} = v_{2},
-\end{align*}
-<p>
-as just before buyer \(n-1\) makes an offer, we have \(2\) offers to go.
-Continuing like this we retrieve our earlier values \(v_k\).
-Morever, when \(Y_i = X_i\) for the first time \(i\), then \(X_i \leq v_{n-i}\), that is, \(X_i\) is the first offer that exceeds the expected price when continuing.
-But this is precisely the policy we found above.
-By the theorem the stopping time \(\tau^*\) is optimal among all sellers (policies) that are willing to have \(n\) house visits.
-</p>
-</div>
-</div>
-</div>
-<div id="outline-container-orgdcf000e" class="outline-2">
-<h2 id="orgdcf000e">
-<span class="section-number-2">3.</span> Buying a House</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-Contrary to when selling a house, when buying a house I don't have an absolute benchmark.
-In the house selling case, all offers are capped by \(1\), and when the very first bid is already very close to \(1\), I know that that the probability of getting a better offer at a later date will be small.
-However, when buying a house, I assume I can just rank the houses, but I don't have benchmark.
-Therefore I will use the first \(r\) say visits out of maximally \(n\) to sample the quality of the houses.
-</p>
-
-<p>
-To understand how to apply Snell's envelope to the house selection problem, I used these two  resources besides `Promenade aléatoire' by M. Benaïm and N. El Karoui.
-</p>
-<ul class="org-ul">
-<li><a href="https://www.ihes.fr/~bodineau/docs/MAP432.pdf">Bodineau, Modélisation de phénomènes aléatoires</a></li>
-<li>
-<a href="https://www.math.ucla.edu/~tom/Stopping/sr2.pdf">Ferguson lecture notes</a>. These notes provide a formal statement of the house selection problem and some interesting discussions on further work.</li>
-</ul>
-<p>
-These accounts are clear, but leave quite a bit of work to the reader. The idea here is to also do this work.
-</p>
-
-<p>
-We assume that \(n &gt; 2\), because when \(n=1,2\) the problem is not interesting.
-</p>
-</div>
-<div id="outline-container-org90f9650" class="outline-3">
-<h3 id="org90f9650">
-<span class="section-number-3">3.1.</span> A heuristic procedure</h3>
-<div class="outline-text-3" id="text-3-1">
-<p>
-A simple policy to select a house is like this: choose a level \(r&gt;1\), reject the first \(r-1\) houses visited, then continue sampling and choose house \(k \geq r\) when house \(k\) is the best so far.
-Thus, the first \(r-1\) visits form a sampling set and the threshold is the best of the houses in this sampling set.
-The problem is to find the threshold \(r\) that maximizes the probability of selecting the best house of all \(n\) houses.
-As it turns out, this is the also the best policy overall.
-Before developing notation and using Snell's envelope to prove the optimality, we discuss this policy in heuristic terms.
-</p>
-
-<p>
-We approach the problem in steps. Suppose we would choose house \(k\) no matter what. Then, clearly, for any \(k\),
-</p>
-\begin{align*}
-\P{\text{House $k$ is best}} = \frac{1}{n}.
-\end{align*}
-<p>
-So, let us follow the policy to reject the first \(r-1\) houses. Then,
-</p>
-\begin{align*}
-\P{\text{Select house $k$, given that house $k$ is best}} = \frac{r-1}{k-1}.
-\end{align*}
-
-<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
-<p>
-Explain this result.
-</p>
-<details class="code-details" style="padding: 0.6em;
-                          background-color: #e5f5e5;
-                          border-radius: 15px;
-                          color: hsl(157 75%);
-                          font-size: 1em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
-                      <font face="Courier" size="3" color="red">
-                         Solution
-                      </font>
-                    </strong>
-                  </summary><p>
-Under our simple policy, to select house \(k\) it is necessary that house \(k\) is better than all earlier houses, and that all houses \(r, r+1, \ldots, k-1\) are worse than the best house in \(1, 2, \ldots r-1\).
-Since all sequences of houses are equaly likely, the probability that this second best house occurs in the first \(r-1\) visits of the \(k-1\) visits before house \(k\), is \((r-1)/(k-1)\).
-</p>
-
-
-</details>
-</div>
-<p>
-The best house can be visited at any visit from \(r, r+1, \ldots, n\). Thus, using the above,
-</p>
-\begin{align*}
-P(r)&amp;:=\P{\text{Select the best house}} \\
-&amp;= \sum_{k=r}^{n} \P{\text{Select the best house, house $k$ is best}} \\
-&amp;= \sum_{k=r}^{n} \P{\text{Select the best house, given house $k$ is best}} \P{\text{House $k$ is best}} \\
-&amp;= \frac{r-1}{n}\sum_{k=r}^{n} \frac{1}{k-1}.
-\end{align*}
-
-<p>
-The best sampling level \(r\) maximizes \(P(r)\).
-Now, heuristically, \(P(r)\) must first increase as a function of \(r\), and then decrease.
-When \(r\) is small, the threshold to accept a house is too low because we did not sample enough houses, while if \(r\) is large, it is likely that the best house will rejected because it will lie in the sampling set.
-So, we have to look for the \(r\) after which \(P(r)\) starts to decrease.
-</p>
-
-<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
-<p>
-Show that \(P(r) \geq P(r+1) \iff 1 \geq \sum_{k=r}^n \frac{1}{k-1}\).
-</p>
-<details class="code-details" style="padding: 0.6em;
-                          background-color: #e5f5e5;
-                          border-radius: 15px;
-                          color: hsl(157 75%);
-                          font-size: 1em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
-                      <font face="Courier" size="3" color="red">
-                         Solution
-                      </font>
-                    </strong>
-                  </summary>
-\begin{align*}
-P(r) \geq P(r+1)
-&amp;\iff \frac{r-1}{n} \sum_{k=r}^n \frac{1}{k-1} \geq \frac{r}{n} \sum_{k=r+1}^n \frac{1}{k-1} \\
-&amp;\iff r\left( \sum_{k=r}^n \frac{1}{k-1} - \sum_{k=r+1}^n \frac{1}{k-1} \right)  \geq  \sum_{k=r}^n \frac{1}{k-1} \\
-&amp;\iff \frac{r}{r-1} \geq  \frac{1}{r-1} + \sum_{k=r+1}^n \frac{1}{k-1}\\
-&amp;\iff 1 \geq  \sum_{k=r+1}^n \frac{1}{k-1}.
-\end{align*}
-
-
-</details>
-</div>
-<p>
-Consequently, the best \(r\) is given by
-</p>
-\begin{equation}
-\label{org37f41d9}
-r^{*} = \min{r &gt; 1: P(r) &gt; P(r+1) } = \min {r&gt;1 :  \sum_{k=r}^n \frac{1}{k-1} \geq 1}.
-\end{equation}
-<p>
-Note that for \(n &gt; 2\), the policy with \(r=1\) can be ruled out right away as not optimal.
-</p>
-</div>
-</div>
-<div id="outline-container-org955c501" class="outline-3">
-<h3 id="org955c501">
-<span class="section-number-3">3.2.</span> The formal procedure</h3>
-<div class="outline-text-3" id="text-3-2">
-<p>
-We formalize the problem specification so that we can apply Snell's envelope to prove that the sampling policy with threshold \eqref{org37f41d9}just developed is optimal.
-</p>
-
-<p>
-If we have seen all houses, we can rank them so that \(R_i\) is the rank of the \(i\)th house visited.
-We say that house \(i\) is better than house \(j\) when \(R_i &lt; R_j\); the best house overall has rank \(1\).
-The problem, once again, is to maximize the probability to find the best house.
-</p>
-
-<p>
-Write \(\xi_i = 1\) if house \(i\) is the highest ranked so far and \(\xi_i=0\) otherwise, that is,
-</p>
-\begin{align*}
-\xi_i := \1{R_i &lt; \min{R_{1}, \ldots, R_{i-1}}}.
-\end{align*}
-<p>
-All permutation of the rankings are equally likely, implying that,
-</p>
-<ol class="org-ol">
-<li>\(\P{\xi_i = 1} = 1/i\) for \(i=1, \ldots n\),</li>
-<li>The rvs \(\{\xi_i\}\) are independent.</li>
-</ol>
-<p>
-Let \(\F_{i}\) be  \(\sigma\{\xi_1, \ldots, \xi_i\}\), and \(\{\F_{i}\}_{i=0}^{n}\) the associated filtration.
-</p>
-
-<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
-<p>
-Prove properties 1 and 2.
-</p>
-<details class="code-details" style="padding: 0.6em;
-                          background-color: #e5f5e5;
-                          border-radius: 15px;
-                          color: hsl(157 75%);
-                          font-size: 1em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
-                      <font face="Courier" size="3" color="red">
-                         Solution
-                      </font>
-                    </strong>
-                  </summary><p>
-For 1, observe that \(\{\xi_i=1\}\) imposes the condition that of all permutations only the ones are allowed such  that the best ranking of the first \(i\) visits appears at visit \(i\). By symmetry, the probability that visit \(i\) is the best of all \(i\) visits is equal to \(1/i\).
-</p>
-
-<p>
-For 2, suppose that \(j&gt;i\).
-By 1, the probability that \(\xi_j = 1\) is \(1/j\).
-Next, consider the subset of permutations such that \(\xi_j=1\).
-All of these permutations have the same probability.
-Thus, the probability that one of these permutations is such that \(\xi_i=1\) is \(1/i\).
-Therefore \(\P{\xi_i=\xi_j=1} = \frac{1}{ij}\).
-By recursion, this argument applies to any number of \(\xi_k\).
-</p>
-
-
-</details>
-</div>
-<p>
-Suppose we would stop according to stopping rule \(\tau\), the probability we have the best house is given by
-</p>
-\begin{align*}
-\E{\1{R_{\tau}=1}} = \P{R_{\tau} = 1} = \P{\xi_{\tau} = 1, \xi_{\tau+1} = \cdots = \xi_n = 0}.
-\end{align*}
-<p>
-There is a fundamental problem with the event \(\{\xi_{i} = 1, \xi_{i+1} = \cdots = \xi_n = 0\}\) because this is not an element of \(\F_{i}\) since \(\xi_{j} \not \in \F_{i}\) for \(j&gt; i\). Let us therefore look instead at the rvs that are adapted to \(\{F_i\}\),
-</p>
-\begin{align*}
-X_i &amp;= \E{\1{R_i=1}|\F_{i}} \\
-&amp;= \P{\xi_{i} = 1, \xi_{i+1} = \cdots = \xi_n = 0|\F_i} \\
-&amp;=\xi_{i} \P{\xi_{i+1} = \cdots = \xi_n = 0|\F_i}, \\
-&amp;=\xi_{i} \frac{i}{i+1} \times \cdots \times \frac{n-1}{n} = \xi_i \frac{i}{n}.
-\end{align*}
-
-<p>
-With regard to the Snell envelope of \(X_n\), and using independence,
-</p>
-\begin{align*}
-Y_n &amp;=  X_n = \xi_n \frac{n}{n}, &amp; \E{Y_n | \F_{n-1}} &amp;= \E{X_{n}} = \E{\xi_{n}} = \frac{1}{n}.
-\end{align*}
-<p>
-To see whether we can spot a pattern, consider next \(X_{n-1}\). By independence and the above,
-</p>
-\begin{align*}
-Y_{n-1} &amp;= \max{X_{n-1}, \E{Y_{n}|\F_{n-1}}} \\
-&amp;= \max{\xi_{n-1}\frac{n-1}{n}, \frac{1}{n}} = \frac{1}{n} + \frac{n-2}{n} \xi_{n-1},
-\end{align*}
-<p>
-since \(n-1 &gt; 1\) (recall \(n\geq 2\) by assumption).
-Therefore,
-</p>
-\begin{align*}
-\E{Y_{n-1}|\F_{n-2}} &amp;= \E{Y_{n-1}} = \frac{1}{n} + \frac{n-2}{n}\E{\xi_{n-1}} \\
-&amp;=\frac{n-2}{n}\frac{1}{n-2} + \frac{n-2}{n} \frac{1}{n-1} \\
-&amp;= \frac{n-2}{n} \sum_{k=n-1}^n \frac{1}{k-1}.
-\end{align*}
-<p>
-Based on this, let's guess that for \(i\) sufficiently large,
-</p>
-\begin{align*}
-\E{Y_{i+1}|\F_{i}} = \E{Y_{i+1}}
-= \frac{i}{n} \sum_{k=i+1}^n \frac{1}{k-1}.
-\end{align*}
-<p>
-Then
-</p>
-\begin{align*}
-Y_{i}
-&amp;= \max{X_{i}, \E{Y_{i+1}|\F_{i}}}
-= \max{\xi_i \frac{i}{n}, \E{Y_{i+1}|\F_{i}}} \\
-&amp;= \frac{i}{n}\max{\xi_i , \sum_{k=i+1}^n \frac{1}{k-1}}.
-\end{align*}
-<p>
-If \(i\) is in fact so large that \(1 \geq \sum_{k=i+1}^{n} \frac{1}{k-1}\),
-</p>
-\begin{align*}
-\E{Y_{i}|F_{i-1}} &amp;=  \E{Y_{i}}
-= \frac{i}{n}\left(\frac{1}{i} 1   +  \frac{i-1}{i}\sum_{k=i+1}^n \frac{1}{k-1}\right)
-= \frac{i-1}{n} \sum_{k=i}^n \frac{1}{k-1}.
-\end{align*}
-<p>
-This validates, by induction, our earlier guess. However, if \(1 &lt; \sum_{k=i+1}^{n} \frac{1}{k-1}\),
-</p>
-\begin{align*}
-Y_{i} &amp;= \frac{i}{n}\max{\xi_i , \sum_{k=i+1}^n \frac{1}{k-1}} = \frac{i}{n}\sum_{k=i+1}^n \frac{1}{k-1}.
-\end{align*}
-
-
-<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
-<p>
-Use <a href="../posts/snells-envelope-house-selling-and-buying/#orgfe1a2cc">Snell's theorem</a> to explain that the stopping time \eqref{org37f41d9} is optimal.
-</p>
-<details class="code-details" style="padding: 0.6em;
-                          background-color: #e5f5e5;
-                          border-radius: 15px;
-                          color: hsl(157 75%);
-                          font-size: 1em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
-                      <font face="Courier" size="3" color="red">
-                         Solution
-                      </font>
-                    </strong>
-                  </summary><p>
-Compute Snell's envelope with the formulas above.
-It is evident for all \(i\) that \(\xi_i = 0 \implies 0 = X_{i} &lt; Y_i\).
-Next, starting from $i=1s, as long as \(i\) is such that \(1 &lt; \sum_{k=i+1}^{n} \frac{1}{k-1}\), \(X_{i} &lt; Y_i\) even when \(\xi_i = 1\).
-The earliest visit such that \(X_i = Y_i\) becomes possible is when \(\xi_i=1 &gt; \sum_{k=i+1}^{n} \frac{1}{k-1}\). But this \(i\) is precisely the threshold given by
-\eqref{org37f41d9}.
-</p>
-
-
-</details>
-</div>
-<p>
-In conclusion, it is optimal to select house \(i\) when \(i\geq r^{*}\) and when \(\xi_{i} = 1\), i.e., when house \(i\) is the best house seen among the first \(i\) visits.
-</p>
-</div>
 </div>
 </div>
                 </div>
