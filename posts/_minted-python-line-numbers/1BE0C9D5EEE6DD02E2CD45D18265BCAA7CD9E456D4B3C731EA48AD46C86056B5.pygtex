@@ -1,0 +1,32 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{find\PYGZus{}block\PYGZus{}lines}\PYG{p}{(}\PYG{n}{python\PYGZus{}lines}\PYG{p}{,} \PYG{n}{marker}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Return the linenumbers of blocks of python code morked like this:}
+
+\PYG{l+s+sd}{    \PYGZsh{} block marker}
+\PYG{l+s+sd}{    import numpy as np}
+
+\PYG{l+s+sd}{    \PYGZsh{} block marker}
+
+\PYG{l+s+sd}{    Strip the lines that end with \PYGZsh{} block marker.}
+\PYG{l+s+sd}{    Mind that inputminted starts counting at 1 while python starts at 0.}
+\PYG{l+s+sd}{    Therefore we need to add +1 when returning the line numbers.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{indices} \PYG{o}{=} \PYG{p}{[}
+        \PYG{n}{idx}
+        \PYG{k}{for} \PYG{n}{idx}\PYG{p}{,} \PYG{n}{line} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{python\PYGZus{}lines}\PYG{p}{)}
+        \PYG{k}{if} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{} block }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{marker}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{line}
+    \PYG{p}{]}
+    \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{indices}\PYG{p}{)} \PYG{o}{!=} \PYG{l+m+mi}{2}\PYG{p}{:}
+        \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}
+
+    \PYG{c+c1}{\PYGZsh{} remove the lines with  \PYGZsh{} block marker string}
+    \PYG{n}{start\PYGZus{}idx} \PYG{o}{=} \PYG{n}{indices}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}
+    \PYG{n}{end\PYGZus{}idx} \PYG{o}{=} \PYG{n}{indices}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}
+
+    \PYG{c+c1}{\PYGZsh{} remove trailing empty lines}
+    \PYG{k}{while} \PYG{n}{end\PYGZus{}idx} \PYG{o}{\PYGZgt{}} \PYG{n}{indices}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o+ow}{and} \PYG{n}{python\PYGZus{}lines}\PYG{p}{[}\PYG{n}{end\PYGZus{}idx}\PYG{p}{]}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{:}
+        \PYG{n}{end\PYGZus{}idx} \PYG{o}{\PYGZhy{}=} \PYG{l+m+mi}{1}
+
+    \PYG{c+c1}{\PYGZsh{} Add one to convert python index to inputminted index}
+    \PYG{k}{return} \PYG{n}{start\PYGZus{}idx} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{end\PYGZus{}idx} \PYG{o}{+} \PYG{l+m+mi}{1}
+\end{Verbatim}

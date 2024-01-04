@@ -1,0 +1,100 @@
+#+BEGIN_COMMENT
+.. title: Including Python Code by Line Numbers
+.. slug: python-line-numbers
+.. date: 2024-01-01 13:36:18 UTC+01:00
+.. tags:
+.. category:
+.. link:
+.. description:
+.. type: text
+.. has_math: true
+
+#+END_COMMENT
+
+
+#+title:  Including Python Code by Line Numbers
+#+author: Nicky
+#+setupfile: ../preamble.org
+
+#+PROPERTY: header-args:python :session :eval no-export :exports both
+#+STARTUP: indent
+#+STARTUP: showall
+
+* COMMENT Test the page
+
+#+begin_src shell
+/usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "python-line-numbers.org" "../output/output.html")'
+#+end_src
+
+#+RESULTS:
+
+
+* Intro
+
+For quite some problems I have a separate python program, which I want to keep separate, and a {{{latex}}} or org mode file that explains or contains part of the python file. It is easy to include part of the code by using line numbers, like so
+#+BEGIN_EXAMPLE
+\inputminted[firstline=12, lastline=23]{python}{python_file.py}
+#+END_EXAMPLE
+However, if I add code above line 12 or add some code between lines 12 and 23, or move the block of code altogether, I have to update the line numbers.
+As I don't like this type of work,  I decided to write some code to solve  this problem, for {{{latex}}} and orgmode files.
+
+
+* Plan given to ChatGPT
+
+As a first step, I drafted a list of requirement that my python program had to satisfy.
+Then I gave this list to ChatGPT, and got a program that did not work completely, but 80% or so was ok.
+I was amazed!
+Here are my initial requirements.
+
+1. In a {{{latex}}} file look up lines with strings that contain ~inputminted~.
+2. Look up a tag that appears in such lines as a  comment at the end of a line. For instance, ~tictoc~ is the comment at the end of this line ~\inputminted[firstline=30, lastline=35]{python}{python_file.py} % tictoc~.
+3. Also look up the name of the python file after the ~\inputminted~ command, here ~python_file.py~.
+4. Open the python file, and look up the line numbers of the code between lines tag with the comments ~# block tictoc~.
+5. Update the ~firstline=~ and the ~lastline=~ in the {{{latex}}} file accordingly.
+
+BTW,  as it's easy to copy and move complete lines, I use the same string to demarkate the starting and termining lines; in other words, I don't use comments as ~# begin tictoc~ and ~# end tictoc~.
+
+
+It took a few of additional roundes with ChatGPT, and some additional work on my own, but the final result works nicely for my goals.
+Once the version worked for {{{latex}}}, I updated it so that it can work with org mode files.
+
+So, for a {{{latex}}} file, tag like this:
+#+BEGIN_EXAMPLE
+\inputminted[firstline=12+, lastline=23]{python}{python_file.py} % tictoc
+#+END_EXAMPLE
+and for an orgmode file,  like this:
+#+BEGIN_EXAMPLE
+#+INCLUDE: "python_file.py" src python:lines "84-110" ## tictoc
+#+END_EXAMPLE
+Note the intentional *double* ~##~ to comment the tag.
+
+
+
+* The Code
+
+** The modules
+#+INCLUDE: "/home/nicky/bin/update_inputminted.py" src python:lines "4-7" ## modules
+
+** Finding the tagged line numbers in the python file
+This function looks up the line numbers. It strips trailing white space between the python code and the terminating  comment tag.
+#+INCLUDE: "../../python/misc/update_inputminted.py" src python:lines "12-42" ## line-numbers
+
+** Updating a {{{latex}}} file
+This function looks up the tags mentioned in the {{{latex}}} file.
+In the for loop, it looks up the line numbers of the tagged code in the python file, then updates the {{{latex}}} file.
+#+INCLUDE: "../../python/misc/update_inputminted.py" src python:lines "48-78" ## latex
+
+** Updating an orgmode file
+
+Updating the org file works similarly. However, in the org mode I write the tag after two hashes, like ~## tag~. I noticed that org mode changes the % in the code for the {{{latex}}} files above.
+#+INCLUDE: "../../python/misc/update_inputminted.py" src python:lines "84-110" ## orgmode
+
+
+** Last steps
+
+I want to be able to call the function on multiple files at ones.
+#+INCLUDE: "../../python/misc/update_inputminted.py" src python:lines "116-124" ## handlefiles
+
+
+The ~main~ reads the filenames as arguments and has the files updated.
+#+INCLUDE: "../../python/misc/update_inputminted.py" src python:lines "129-141" ## main

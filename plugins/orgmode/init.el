@@ -28,6 +28,7 @@
      "The places where I keep my ‘#+documentation’"))
 
 
+
 (require 'org)
 (require 'ox-html)
 (require 'org-special-block-extras)
@@ -114,7 +115,7 @@
 
 (org-defblock exercise (title nil)
   (org-thread-blockcall raw-contents
-    (box )))
+    (box title)))
 
 (org-defblock solution (title "Solution")
   (org-thread-blockcall raw-contents

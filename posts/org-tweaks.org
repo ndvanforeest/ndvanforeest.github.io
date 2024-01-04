@@ -1,0 +1,24 @@
+#+BEGIN_COMMENT
+.. title: Tweaks and Tricks for Org mode Files
+.. slug: org-tweaks
+.. date: 2024-01-02 09:56:00 UTC+01:00
+.. tags:
+.. category:
+.. link:
+.. description:
+.. type: text
+.. has_math: true
+
+#+END_COMMENT
+
+* Including the {{{latex}}} Command
+
+For some reason org mode does not support the {{{latex}}} command.
+In standard {{{latex}}} files, the command is ~\LaTeX~, without dollar signs.
+Now, when exporting an org mode file to html and get the {{{latex}}} symbol, I could enclose the {{{latex}}} symbol in dollars, because that mathjax seems to understand that I want to get the {{{latex}}} symbol. However, putting dollars around {{{latex}}} breaks the export of the org mode file to {{{latex}}}. To solve this, I added this macro to my list of macros and to ~macros.org~ in the orgmode plugin for Nikola.
+
+#+begin_example
+#+MACRO: latex @@latex:\LaTeX{}@@@@html:\(\LaTeX\)@@
+#+end_example
+
+With this macro I can now write ~{{{latex}}}~ in my org files to get the correct symbol in tex and orgmode files.

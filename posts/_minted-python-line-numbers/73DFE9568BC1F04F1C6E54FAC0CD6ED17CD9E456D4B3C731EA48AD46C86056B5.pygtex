@@ -1,0 +1,28 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{update\PYGZus{}org\PYGZus{}file}\PYG{p}{(}\PYG{n}{org\PYGZus{}filename}\PYG{p}{):}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{org\PYGZus{}filename}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}r\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{fp}\PYG{p}{:}
+        \PYG{n}{org\PYGZus{}content} \PYG{o}{=} \PYG{n}{fp}\PYG{o}{.}\PYG{n}{read}\PYG{p}{()}
+
+        \PYG{n}{matches} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{findall}\PYG{p}{(}
+            \PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}\PYGZbs{}+INCLUDE: \PYGZbs{}\PYGZdq{}(.*?)\PYGZbs{}\PYGZdq{} src python:lines \PYGZbs{}\PYGZdq{}\PYGZbs{}d+\PYGZhy{}\PYGZbs{}d+\PYGZbs{}\PYGZdq{} \PYGZsh{}\PYGZsh{} ([\PYGZbs{}w]+)\PYGZsq{}}\PYG{p}{,}
+            \PYG{n}{org\PYGZus{}content}\PYG{p}{,}
+        \PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{python\PYGZus{}file\PYGZus{}name}\PYG{p}{,} \PYG{n}{marker} \PYG{o+ow}{in} \PYG{n}{matches}\PYG{p}{:}
+            \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{python\PYGZus{}file\PYGZus{}name}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}r\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{py\PYGZus{}file}\PYG{p}{:}
+                \PYG{n}{python\PYGZus{}lines} \PYG{o}{=} \PYG{n}{py\PYGZus{}file}\PYG{o}{.}\PYG{n}{readlines}\PYG{p}{()}
+                \PYG{n}{begin\PYGZus{}index}\PYG{p}{,} \PYG{n}{end\PYGZus{}index} \PYG{o}{=} \PYG{n}{find\PYGZus{}block\PYGZus{}lines}\PYG{p}{(}\PYG{n}{python\PYGZus{}lines}\PYG{p}{,} \PYG{n}{marker}\PYG{p}{)}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{begin\PYGZus{}index}\PYG{p}{,} \PYG{n}{end\PYGZus{}index}\PYG{p}{)}
+                \PYG{k}{if} \PYG{n}{begin\PYGZus{}index} \PYG{o}{!=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1} \PYG{o+ow}{and} \PYG{n}{end\PYGZus{}index} \PYG{o}{!=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{:}
+                    \PYG{n}{pattern} \PYG{o}{=} \PYG{p}{(}
+                        \PYG{l+s+sa}{fr}\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}\PYGZbs{}+INCLUDE: \PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{python\PYGZus{}file\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZdq{} src \PYGZsq{}}
+                        \PYG{l+s+sa}{fr}\PYG{l+s+s1}{\PYGZsq{}python:lines \PYGZdq{}\PYGZbs{}d+\PYGZhy{}\PYGZbs{}d+\PYGZdq{} \PYGZsh{}\PYGZsh{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{marker}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}
+                    \PYG{p}{)}
+                    \PYG{n}{replacement} \PYG{o}{=} \PYG{p}{(}
+                        \PYG{l+s+sa}{fr}\PYG{l+s+s1}{\PYGZsq{}\PYGZsh{}+INCLUDE: \PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{python\PYGZus{}file\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZdq{} src \PYGZsq{}}
+                        \PYG{l+s+sa}{fr}\PYG{l+s+s1}{\PYGZsq{}python:lines \PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{begin\PYGZus{}index}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{end\PYGZus{}index}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZdq{} \PYGZsh{}\PYGZsh{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{marker}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}
+                    \PYG{p}{)}
+                    \PYG{n}{org\PYGZus{}content} \PYG{o}{=} \PYG{n}{re}\PYG{o}{.}\PYG{n}{sub}\PYG{p}{(}\PYG{n}{pattern}\PYG{p}{,} \PYG{n}{replacement}\PYG{p}{,} \PYG{n}{org\PYGZus{}content}\PYG{p}{)}
+
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{org\PYGZus{}filename}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}w\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{fp}\PYG{p}{:}
+        \PYG{n}{fp}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{org\PYGZus{}content}\PYG{p}{)}
+\end{Verbatim}

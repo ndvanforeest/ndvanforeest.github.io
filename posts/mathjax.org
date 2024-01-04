@@ -14,6 +14,49 @@
 #+setupfile: ../preamble.org
 #+PROPERTY: header-args:python :session :eval no-export :exports both :results output
 
+* Mathjax in Nikola
+
+It took a bit of time to set up Mathjax for Nikola. This is what I had to add.
+
+
+The ~equationNumbers~ part adds equation numbers. The ~Macros~ part contain the equivalent of the {{{latex}}} ~newcommand~s.
+I'll add more commands over time, but the list below shows how to do that. Mind that ~\\\\~ is necessary to escape a single backslash.
+
+#+begin_src python
+MATHJAX_CONFIG = """
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+    equationNumbers: { autoNumber: "AMS" },
+    tagSide: "right",
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\\(","\\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\\[","\\\]"] ],
+        processEscapes: true
+    },
+    Macros: {
+      P: ["\\\\textrm{P}\\\\left\\\\{#1\\\\right\\\\}", 1],
+      E: ["\\\\textrm{E}\\\\left\\\\{#1\\\\right\\\\}", 1],
+      F: "\\\\mathcal{F}",
+      mineq: "\\\\mathrel{-}=",
+      pluseq: "\\\\mathrel{+}=",
+      R: "\\\\mathbb{R}",
+      1: ["\\\\mathbf{1}\\\\{#1\\\\}",1],
+      d: ["\\\\,\\\\textrm{d}#1", 1],
+      Norm: ["\\\\mathrm{Norm}(#1)", 1],
+      Unif: ["\\\\mathrm{Unif}(#1)", 1],
+    },
+  }
+});
+</script>
+<script type="text/javascript" charset="utf-8"
+  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
+</script>
+"""
+#+end_src
+
+
+* Single Shot Remarks
 
 Sometimes I want to use  mathjax macros in just file. Put these lines on top of the file so that the macros apply just this document.
 

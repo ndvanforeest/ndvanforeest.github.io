@@ -1118,19 +1118,38 @@ MATHJAX_CONFIG = """
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   TeX: {
+    equationNumbers: { autoNumber: "AMS" },
+    tagSide: "right",
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\\(","\\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\\[","\\\]"] ],
+        processEscapes: true
+    },
     Macros: {
       P: ["\\\\textrm{P}\\\\left\\\\{#1\\\\right\\\\}", 1],
       E: ["\\\\textrm{E}\\\\left\\\\{#1\\\\right\\\\}", 1],
       F: "\\\\mathcal{F}",
+      iid: " \\\\mathrm{iid.}",
+      mineq: "\\\\mathrel{-}=",
+      pluseq: "\\\\mathrel{+}=",
+      R: "\\\\mathbb{R}",
       1: ["\\\\mathbf{1}\\\\{#1\\\\}",1],
       d: ["\\\\,\\\\textrm{d}#1", 1],
+      Exp: ["\\\\mathrm{Exp}(#1)", 1],
+      FS: ["\\\\mathrm{FS}(#1)", 1],
+      Geo: ["\\\\mathrm{Geo}(#1)", 1],
       Norm: ["\\\\mathrm{Norm}(#1)", 1],
+      Pois: ["\\\\mathrm{Pois}(#1)", 1],
       Unif: ["\\\\mathrm{Unif}(#1)", 1],
-    }
+    },
   }
 });
 </script>
+<script type="text/javascript" charset="utf-8"
+  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML">
+</script>
 """
+
 
 # If you want support for the $.$ syntax (which may conflict with running
 # text!), just use this config:

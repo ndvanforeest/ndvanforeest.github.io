@@ -19,7 +19,7 @@
 * The Problem
 
 In a number of my org mode files I include exercise with hints and solutions.
-In the pdf files, which I make via $\LaTeX$, I use the ~answers~ package print the exercises in the main text and the hints and solutions at the end of the file.
+In the pdf files, which I make via {{{latex}}}, I use the ~answers~ package print the exercises in the main text and the hints and solutions at the end of the file.
 However, when exporting the file to ~html~ via my website I would like to see the exercises, hints and solutions printed like so:
 
 #+begin_exercise
@@ -214,7 +214,7 @@ I copied the above on top of the ~init.el~ file, and kept the rest.
 
 Let's test this on this file. As this file sits in the ~posts~ we need to include the path to  ~init.el~.
 #+begin_src shell
-/usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "making-an-exercise-environment.org" "~/tmp/output.html")'
+/usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "making-an-exercise-environment.org" "../output/output.html")'
 #+end_src
 
 #+RESULTS:

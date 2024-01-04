@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{process\PYGZus{}files}\PYG{p}{(}\PYG{n}{pattern}\PYG{p}{):}
+    \PYG{k}{for} \PYG{n}{file\PYGZus{}path} \PYG{o+ow}{in} \PYG{n}{glob}\PYG{o}{.}\PYG{n}{glob}\PYG{p}{(}\PYG{n}{pattern}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n}{file\PYGZus{}path}\PYG{o}{.}\PYG{n}{endswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.org\PYGZsq{}}\PYG{p}{):}
+            \PYG{n}{update\PYGZus{}org\PYGZus{}file}\PYG{p}{(}\PYG{n}{file\PYGZus{}path}\PYG{p}{)}
+        \PYG{k}{elif} \PYG{n}{file\PYGZus{}path}\PYG{o}{.}\PYG{n}{endswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}.tex\PYGZsq{}}\PYG{p}{):}
+            \PYG{n}{update\PYGZus{}latex\PYGZus{}file}\PYG{p}{(}\PYG{n}{file\PYGZus{}path}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Le fichier }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{file\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ n\PYGZsq{}est ni un .org ni un .tex\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}
