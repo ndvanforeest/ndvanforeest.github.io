@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
 <meta name="author" content="Nicky van Foreest">
 <link rel="prev" href="../org-tweaks/" title="Tweaks and Tricks for Org mode Files" type="text/html">
+<link rel="next" href="../indicators-and_integraton/" title="Solving some Integrals using Indicators and Fubini's Theorem" type="text/html">
 <meta property="og:site_name" content="Nicky's site">
 <meta property="og:title" content="Memoryless Excursions: A confusing problem with memoryless rvs">
 <meta property="og:url" content="https://ndvanforeest.github.io/posts/memoryless/">
@@ -123,19 +124,19 @@ BH give a quick argument to compute \(\E M\) and \(\E L\) where
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org5270c75">1. Introduction</a></li>
-<li><a href="#orgaded529">2. Discrete memoryless rvs</a></li>
-<li><a href="#orgbd1059c">3. Continuous memoryless rvs</a></li>
-<li><a href="#org1c66c35">4. The solution</a></li>
+<li><a href="#org750afe1">1. Introduction</a></li>
+<li><a href="#org470ebb3">2. Discrete memoryless rvs</a></li>
+<li><a href="#org6883ffc">3. Continuous memoryless rvs</a></li>
+<li><a href="#orgc859f91">4. The solution</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org5270c75" class="outline-2">
-<h2 id="org5270c75">
+<div id="outline-container-org750afe1" class="outline-2">
+<h2 id="org750afe1">
 <span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-<a id="org76ccae0"></a>
+<a id="org7ea5d4e"></a>
 BH give a quick argument to compute \(\E M\) and \(\E L\) where
 \(M=\max\{X,Y\}\)  and \(L=\min\{X,Y\}\) are the maximum and minimum of two iid exponential rvs \(X\) and \(Y\).
 Since  \(X\) and \(Y\)  have the same distribution,
@@ -147,14 +148,14 @@ Since  \(X\) and \(Y\)  have the same distribution,
 Therefore,
 </p>
 \begin{equation}
-\label{org9fe61a8}
+\label{org9fd64c8}
 \E M = 2\E X - \E L.
 \end{equation}
 <p>
 Next, by the fact that  \(X\) and \(Y\) are memoryless,
 </p>
 \begin{equation}
-\label{orga57e487}
+\label{orgbd66f4e}
 \E M = \E L  + \E X.
 \end{equation}
 <p>
@@ -165,14 +166,14 @@ Then,  <i>due to memorylessness</i>, the service time of the remaining job `rest
 Adding these two equations and noting that \(\E L\) cancels we get \(2\E M = 3 \E X \), hence:
 </p>
 \begin{align}
-\label{orgc0dd15b}
+\label{org9fd0715}
 \E M &amp;= \frac 3 2 \E X, &amp; \E L &amp;= \E M - \E X = \frac 1 2 \E X.
 \end{align}
 
 <p>
-This argument seems general enough, so it must hold for discrete memoryless rvs too, i.e., when \(X, Y \sim \Geo{p}\). But that is not the case: it is only true when \(X, Y \sim \Exp{\lambda}\) and independent. To see what is wrong I tried as many different approaches to this problem I could think of, which  resulted in this text.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> In <a href="#orgd11ed00">2</a> we'll derive \eqref{org9fe61a8}  for geometric rvs in multiple  different ways.
-Hence, the culprit must be \eqref{orga57e487}. Then, in  <a href="#org4d78cfd">3</a> we'll show that both equations  <i>are true</i> for exponential rvs.
-Finally, in <a href="#orgac7372c">4</a> we find a formula that is similar to \(\E M = \E L + \E X\) but that holds for both types of memoryless rvs, whether they are discrete or continuous.
+This argument seems general enough, so it must hold for discrete memoryless rvs too, i.e., when \(X, Y \sim \Geo{p}\). But that is not the case: it is only true when \(X, Y \sim \Exp{\lambda}\) and independent. To see what is wrong I tried as many different approaches to this problem I could think of, which  resulted in this text.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> In <a href="#org48a0cdf">2</a> we'll derive \eqref{org9fd64c8}  for geometric rvs in multiple  different ways.
+Hence, the culprit must be \eqref{orgbd66f4e}. Then, in  <a href="#orgd064ceb">3</a> we'll show that both equations  <i>are true</i> for exponential rvs.
+Finally, in <a href="#orga3a2d4c">4</a> we find a formula that is similar to \(\E M = \E L + \E X\) but that holds for both types of memoryless rvs, whether they are discrete or continuous.
 </p>
 
 <p>
@@ -188,12 +189,12 @@ If different methods give the same answer, the chances of having made a mistake 
 </p>
 </div>
 </div>
-<div id="outline-container-orgaded529" class="outline-2">
-<h2 id="orgaded529">
+<div id="outline-container-org470ebb3" class="outline-2">
+<h2 id="org470ebb3">
 <span class="section-number-2">2.</span> Discrete memoryless rvs</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-<a id="orgd11ed00"></a>
+<a id="org48a0cdf"></a>
 </p>
 
 <p>
@@ -293,11 +294,12 @@ p q^{j+1} \frac 1 p = q^{j+1}.
 <p>
 Use indicator variables to show that
 </p>
-\begin{equation*}
+\begin{equation}
+\label{orge86a104}
 \E X
 = \sum_{i=0}^{\infty} i\P{X=i}
 =  \sum_{i=0}^{\infty} \sum_{j=0}^{\infty} \1{j &lt; i} \P{X=i} =p/q.
-\end{equation*}
+\end{equation}
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
@@ -411,9 +413,10 @@ For 2D LOTUS, take \(g(i,j) = \min\{i, j\}\).
 <p>
 Show that
 </p>
-\begin{equation*}
+\begin{equation}
+\label{orgb46992d}
 \E L=q^{2}/(1-q^{2}).
-\end{equation*}
+\end{equation}
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
@@ -440,7 +443,7 @@ Show that
                       </font>
                     </strong>
                   </summary><p>
-Immediate from the hint and <a href="#org49f7de9">1</a>.
+Immediate from the hint and \eqref{orge86a104}.
 </p>
 
 
@@ -451,7 +454,7 @@ Immediate from the hint and <a href="#org49f7de9">1</a>.
 Show that
 </p>
 \begin{equation}
-\label{org5f64aa6}
+\label{orga6f8455}
 \E L + \E X = \frac q{1-q}\frac{1+2q}{1+q}.
 \end{equation}
 <details class="code-details" style="padding: 0.6em;
@@ -498,7 +501,7 @@ Use that \(1-q^2=(1-q)(1+q)\).
 Show that
 </p>
 \begin{equation}
-\label{org5c642f5}
+\label{orgc5bd6c0}
 2\E X  -\E L = \frac q{1-q} \frac{2+q}{1+q}.
 \end{equation}
 <details class="code-details" style="padding: 0.6em;
@@ -524,11 +527,11 @@ Show that
 </details>
 </div>
 <p>
-Clearly, unless \(q=0\), \(\E L + \E X \neq 2\E X - \E L\), hence, \(\E M\) can only be one of the two and  \eqref{org9fe61a8} and \eqref{orga57e487} cannot be both true.
+Clearly, unless \(q=0\), \(\E L + \E X \neq 2\E X - \E L\), hence, \(\E M\) can only be one of the two and  \eqref{org9fd64c8} and \eqref{orgbd66f4e} cannot be both true.
 </p>
 
 <p>
-To convince ourselves that \eqref{org5c642f5}, hence \eqref{org9fe61a8}, is indeed true, we pursue  three ideas.
+To convince ourselves that \eqref{orgc5bd6c0}, hence \eqref{org9fd64c8}, is indeed true, we pursue  three ideas.
 </p>
 
 <p>
@@ -734,7 +737,7 @@ Explain that
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="#orgaf0d9c3">1</a> and marginalization to compute the marginal PMF \(\P{M=k}\).
+Use <a href="#org0977bff">1</a> and marginalization to compute the marginal PMF \(\P{M=k}\).
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -776,7 +779,7 @@ Marginalize out \(L\).
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="#orgaf0d9c3">1</a> to compute \(\P{L=i}\).
+Use <a href="#org0977bff">1</a> to compute \(\P{L=i}\).
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -825,16 +828,16 @@ Let us now focus on exponential rvs rather than geometric rvs.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbd1059c" class="outline-2">
-<h2 id="orgbd1059c">
+<div id="outline-container-org6883ffc" class="outline-2">
+<h2 id="org6883ffc">
 <span class="section-number-2">3.</span> Continuous memoryless rvs</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-<a id="org4d78cfd"></a>
+<a id="orgd064ceb"></a>
 </p>
 
 <p>
-In this section we analyze the correctness of \eqref{org9fe61a8} and \eqref{orga57e487} for continuous memoryless rvs, i.e., exponentially distributed rvs.
+In this section we analyze the correctness of \eqref{org9fd64c8} and \eqref{orgbd66f4e} for continuous memoryless rvs, i.e., exponentially distributed rvs.
 I decided to analyze this in as much detail as I could think of, hoping that this would provide me with a lead to see how to generalize the equation \(\E M = \E L + \E X\) such that it covers also the case with geometric rvs.
 </p>
 
@@ -969,7 +972,7 @@ The result follows since  \(F_{L}(x) = 1-G_{L}(x)\).
 </details>
 </div>
 <p>
-Clearly, this implies that  \(L\sim \Exp{2\lambda}\) and \(\E L = 1/(2\lambda) = \E X /2\). Hence, we see that \eqref{orgc0dd15b} holds now.
+Clearly, this implies that  \(L\sim \Exp{2\lambda}\) and \(\E L = 1/(2\lambda) = \E X /2\). Hence, we see that \eqref{org9fd0715} holds now.
 Moreover, with the same trick we see  that the distribution function \(F_{M}\) for the maximum \(M\) is given by
 </p>
 \begin{equation*}
@@ -1073,7 +1076,7 @@ where the last equality follows from the previous exercises.
 </details>
 </div>
 <p>
-Recalling that we already obtained  \(\E L = \E X/ 2\),  we see that \(\E M = 2 \E X - \E L = 3\E X/2\), which settles the truth of  \eqref{orgc0dd15b}.
+Recalling that we already obtained  \(\E L = \E X/ 2\),  we see that \(\E M = 2 \E X - \E L = 3\E X/2\), which settles the truth of  \eqref{org9fd0715}.
 </p>
 
 
@@ -1146,7 +1149,7 @@ f_{L,M}(u,v)
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-In <a href="#org0a1b481">1</a> marginalize out \(L\) to find \(f_M\), and marginalize out \(M\) to find \(f_L\).
+In <a href="#org275f03a">1</a> marginalize out \(L\) to find \(f_M\), and marginalize out \(M\) to find \(f_L\).
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -1189,7 +1192,7 @@ Let  \(X\sim \Geo{\lambda/n}\) for some \(\lambda &gt; 0\) and \(n\gg 0\). Then 
 Show that
 </p>
 \begin{equation}
-\label{org8e7aa6a}
+\label{orgd531226}
 \P{X/n \approx x} \approx \frac{\lambda} n \left(1-\frac \lambda n\right)^{x n}.
 \end{equation}
 <details class="code-details" style="padding: 0.6em;
@@ -1217,7 +1220,7 @@ since \(p=\lambda/n\), \(q=1-p=1-\lambda/n\), and \(i=nx\).
 </details>
 </div>
 <p>
-Next,  introduce the highly intuitive notation<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>  \(\d x = \lim_{n\to \infty} 1/n\), and use the standard limit<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>  \((1-\lambda/n)^n\to e^{-\lambda}\) as \(n\to\infty\) to see that \eqref{org8e7aa6a} converges to
+Next,  introduce the highly intuitive notation<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>  \(\d x = \lim_{n\to \infty} 1/n\), and use the standard limit<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>  \((1-\lambda/n)^n\to e^{-\lambda}\) as \(n\to\infty\) to see that \eqref{orgd531226} converges to
 </p>
 \begin{equation*}
 \P{X/n \approx x} \to \lambda e^{-\lambda x} \d x = f_{X}(x) \d x,\quad\text{ as } n \to \infty.
@@ -1298,7 +1301,7 @@ Suppose that \(X, Y\sim \Geo{\lambda/n}\), then check that \(\lim_{n\to\infty}\E
                       </font>
                     </strong>
                   </summary><p>
-Use <a href="#org1adf3fa">1</a>.
+Use \eqref{orgb46992d}.
 </p>
 
 
@@ -1333,7 +1336,7 @@ Here is yet another check on the correctness of \(f_M(x)\).
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Show that  the PMF \(\P{M=k}\) for the discrete \(M\) in <a href="#org4c836e4">1</a> converges to \(f_M(x)\) of <a href="#orgae9ff3e">1</a> when \(n\to \infty\). Take \(k\) suitable.
+Show that  the PMF \(\P{M=k}\) for the discrete \(M\) in <a href="#org61a68a4">1</a> converges to \(f_M(x)\) of <a href="#orga2a4aae">1</a> when \(n\to \infty\). Take \(k\) suitable.
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -1362,7 +1365,7 @@ Now observe that the second term, proportional to \(\d x^{2}\) can be neglected.
 </details>
 </div>
 <p>
-<strong style="font-variant: all-small-caps">Finally</strong>  a third  way to check the above results, namely by verifying  \eqref{orga57e487}, i.e.  \(\E{M-L} = \E X\).
+<strong style="font-variant: all-small-caps">Finally</strong>  a third  way to check the above results, namely by verifying  \eqref{orgbd66f4e}, i.e.  \(\E{M-L} = \E X\).
 For this, we  compute the joint CDF \(f_{L, M-L}(x, y)\). With this,  you'll  see directly how to compute \(\E{M-L}\).
 </p>
 
@@ -1461,12 +1464,12 @@ By the  above exercise, we find that \(\E{M-L} = \E Y = \E X\), as \(X\) and \(Y
 Hence, we should check that for  <i>all</i> \(i, j\)
 </p>
 \begin{equation}
-\label{org054d249}
+\label{org155b0d0}
 \P{L=i, M-L=j} = \P{L=i} \P{M-L=j}.
 \end{equation}
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="#orgaf0d9c3">1</a> to see that
+Use <a href="#org0977bff">1</a> to see that
 </p>
 \begin{equation*}
 \P{L=i, M-L=j} = 2p^2q^{2i+j} \1{j\geq 1} + p^2q^{2i}\1{j=0}.
@@ -1482,7 +1485,7 @@ Use <a href="#orgaf0d9c3">1</a> to see that
                       </font>
                     </strong>
                   </summary><p>
-Realize that \(\P{L=i, M-L=j}=  \P{L=i, M=i+j}\). Now fill in the formula of <a href="#orgaf0d9c3">1</a>.
+Realize that \(\P{L=i, M-L=j}=  \P{L=i, M=i+j}\). Now fill in the formula of <a href="#org0977bff">1</a>.
 </p>
 
 
@@ -1523,39 +1526,39 @@ Suppose \(j &gt; 0\) (for \(j=0\) the maths is the same). Then,
 </details>
 </div>
 <p>
-Recalling that \(\P{L=i} = (1-q^2)q^{2i}\), it follows right away from \eqref{org054d249} that \(L\)  and \(M-L\) are independent.
-Interestingly, from <a href="#org27ab828">1</a> we see \(M-L\sim Y\) for the continuous case. However, here, for the geometric case, \(\P{M-L=j} \neq pq^{j} = \P{Y=j}\).  This explains why \(\E M \neq \E L + \E X\) for geometric rvs: we should be more careful in how to split \(M\) in terms of \(L\) and \(X\).
+Recalling that \(\P{L=i} = (1-q^2)q^{2i}\), it follows right away from \eqref{org155b0d0} that \(L\)  and \(M-L\) are independent.
+Interestingly, from <a href="#org552609f">1</a> we see \(M-L\sim Y\) for the continuous case. However, here, for the geometric case, \(\P{M-L=j} \neq pq^{j} = \P{Y=j}\).  This explains why \(\E M \neq \E L + \E X\) for geometric rvs: we should be more careful in how to split \(M\) in terms of \(L\) and \(X\).
 </p>
 
 
 
 <p>
 <strong style="font-variant: all-small-caps">All in all</strong>, we have checked and double checked all our expressions and limits for the geometric and exponential distribution.
-We had success too: the solution of the last exercise provides the key to understand why \eqref{org9fe61a8} and \eqref{orga57e487} are true for exponentially distributed rvs, but not for geometric random variables.
+We had success too: the solution of the last exercise provides the key to understand why \eqref{org9fd64c8} and \eqref{orgbd66f4e} are true for exponentially distributed rvs, but not for geometric random variables.
 In fact, in the solutions we can see the term corresponding to \(X=Y=i\) for \(X,Y\sim \Geo{p}\) becomes negligibly small when \(n\to 0\).
 In other words, \(\P{X=Y}&gt;0\)  when \(X\) and \(Y\) are discrete, but \(\P{X=Y}=0\) when  \(X\) and \(Y\) are continuous.
-Moreover, by <a href="#org27ab828">1</a>, \(\E M = \E{L + M-L} = \E L + \E{M-L}\), but \(\E{M-L} \neq \E X\). So, to resolve our leading problem we should reconsider \(\E{M-L}\).
+Moreover, by <a href="#org552609f">1</a>, \(\E M = \E{L + M-L} = \E L + \E{M-L}\), but \(\E{M-L} \neq \E X\). So, to resolve our leading problem we should reconsider \(\E{M-L}\).
 </p>
 </div>
 </div>
-<div id="outline-container-org1c66c35" class="outline-2">
-<h2 id="org1c66c35">
+<div id="outline-container-orgc859f91" class="outline-2">
+<h2 id="orgc859f91">
 <span class="section-number-2">4.</span> The solution</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-<a id="orgac7372c"></a>
+<a id="orga3a2d4c"></a>
 </p>
 
 
 <p>
-Let us now try to repair \eqref{orga57e487}, i.e., \(\E M = \E L + \E X\),  for the case \(X,Y\sim\Geo{p}\). We should be careful about the non-negligible case that \(M=L\), so we move, carefully, step by step.
+Let us now try to repair \eqref{orgbd66f4e}, i.e., \(\E M = \E L + \E X\),  for the case \(X,Y\sim\Geo{p}\). We should be careful about the non-negligible case that \(M=L\), so we move, carefully, step by step.
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
 Why is the following true:
 </p>
 \begin{align}
-\label{orgcb786b9}
+\label{orgaecacf7}
 \E M &amp;= \E L + \E{(M-L) \1{M &gt; L}}  = \E L + 2\E{(Y-X) \1{Y &gt; X}}.
 \end{align}
 <details class="code-details" style="padding: 0.6em;
@@ -1580,7 +1583,7 @@ Because either \(M=L\) or \(M &gt; L\). Recall from earlier work that the factor
 Show that
 </p>
 \begin{equation}
-\label{org6fdb2f8}
+\label{org473f80b}
 2\E{(Y-X) \1{Y &gt; X}} = \frac{2q} {1-q^{2}}.
 \end{equation}
 <details class="code-details" style="padding: 0.6em;
@@ -1625,7 +1628,7 @@ Reread BH.7.2.2. to realize that \(\E{M-L} = \E{|X-Y|}\). Relate the latter expe
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Combine the above with the expression for \(\E L\) of <a href="#org1adf3fa">1</a> to obtain  \eqref{org5c642f5} for \(\E M = 2\E X - \E L\), thereby verifying the correctness of \eqref{orgcb786b9}.
+Combine the above with the expression for \(\E L\) of \eqref{orgb46992d} to obtain  \eqref{orgc5bd6c0} for \(\E M = 2\E X - \E L\), thereby verifying the correctness of \eqref{orgaecacf7}.
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -1649,7 +1652,7 @@ where I use that \(1-q^{2}=(1-q)(1+q)\).
 </details>
 </div>
 <p>
-While \eqref{orgcb786b9} is correct, I am still not happy with the second part of \eqref{orgcb786b9} as I find it hard/unintuitive to interpret.
+While \eqref{orgaecacf7} is correct, I am still not happy with the second part of \eqref{orgaecacf7} as I find it hard/unintuitive to interpret.
 Restarting again from scratch, here is another attempt to rewrite \(\E M\) by using \(Z\sim \FS{p}\), i.e., \(Z\) has the first success distribution with parameter \(p\), in other words, \(Z \sim X+1\) with \(X\sim\Geo{p}\).
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
@@ -1657,7 +1660,7 @@ Restarting again from scratch, here is another attempt to rewrite \(\E M\) by us
 Explain that
 </p>
 \begin{equation}
-\label{org2c82359}
+\label{orgbac4530}
 \E M = \E L + \E{ Z \1{M &gt; L}},
 \end{equation}
 <details class="code-details" style="padding: 0.6em;
@@ -1691,7 +1694,7 @@ Show that
 \E{Z\1{M &gt; L}} = \frac{2q} {1-q^{2}},
 \end{equation*}
 <p>
-i.e., the same as \eqref{org6fdb2f8}, hence \eqref{org2c82359} is correct.
+i.e., the same as \eqref{org473f80b}, hence \eqref{orgbac4530} is correct.
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -1737,7 +1740,7 @@ We know that \(\E Z = 1 + \E X = 1 + q/p = 1/p\), while
 </details>
 </div>
 <p>
-<strong style="font-variant: all-small-caps">I am nearly</strong> happy, but I want to see that \eqref{org2c82359}, which is correct for discrete rvs, has also the correct limiting behavior.
+<strong style="font-variant: all-small-caps">I am nearly</strong> happy, but I want to see that \eqref{orgbac4530}, which is correct for discrete rvs, has also the correct limiting behavior.
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
@@ -1782,7 +1785,7 @@ and
 Finally I understand why \(\E M = \E L + \E X\) for \(X,Y\sim \Exp{\lambda}\) and why this is not true for discrete \(X, Y\).
 For discrete rvs, \(L\) and \(M\) can be equal, while for continuous rvs, this is impossible<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>
 It took a long time, and a lot of work, to understand how to resolve the confusing problem, but I learned a lot.
-In particular, I find \eqref{org2c82359} a nice and revealing equation.
+In particular, I find \eqref{orgbac4530} a nice and revealing equation.
 </p>
 
 <p>
@@ -1825,6 +1828,9 @@ Finally, if you like to train with the  tools you learned,  you can try your han
     <aside class="postpromonav"><nav><ul class="pager hidden-print">
 <li class="previous">
                 <a href="../org-tweaks/" rel="prev" title="Tweaks and Tricks for Org mode Files">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../indicators-and_integraton/" rel="next" title="Solving some Integrals using Indicators and Fubini's Theorem">Next post</a>
             </li>
         </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
 MathJax.Hub.Config({
