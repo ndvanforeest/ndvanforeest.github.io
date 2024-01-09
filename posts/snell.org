@@ -17,22 +17,47 @@
 
 
 
+
 * COMMENT Test the page
 
 #+begin_src shell
-/usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "Snell.org" "../output/posts/snells-envelope-house-selling-and-buying/index.html")'
+/usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "snell.org" "~/tmp/index.html")'
 #+end_src
 
 #+RESULTS:
+
+#+begin_src shell
+emacs --batch -l /home/nicky/Dropbox/homepage/plugins/orgmode/init.el --eval '(nikola-html-export "/home/nicky/Dropbox/homepage/posts/solving-a-number-game-with-a-mip-solver.org" "/home/nicky/Dropbox/homepage/cache/posts/solving-a-number-game-with-a-mip-solver.html")'
+#+end_src
 
 
 
 * Problem Setting
 
+
+
+
+#+begin_figure
+[[https://edwardtufte.github.io/tufte-css/img/rhino.png]]
+#+end_figure
+
+
+# #+begin_export html
+# <label for="mn-demo" class="margin-toggle">&#8853;</label>
+# <input type="checkbox" id="mn-demo" class="margin-toggle"/>
+# <span class="marginnote">
+#   This is a margin note. Notice there isn’t a number preceding the note.
+#  <img src="https://edwardtufte.github.io/tufte-css/img/rhino.png">
+# </span>
+# #+end_export
+
+
 I have a house for sale and I am prepared to organize at most $n\geq 1$ house viewings.
-Assume that offers are idd rvs $\sim \Unif{[0,1]}$, and that I have to accept an offer on the spot or reject it.
-If rejected, the offer is retracted, hence I cannot accept it at a later date.
+Assume that offers are idd rvs $\sim \Unif{[0,1]}$, and that I have to accept an offer on the spot or reject it.{{{marginnote(Hoi <img src="https://edwardtufte.github.io/tufte-css/img/rhino.png">)}}}
+If rejected, the offer is retracted, hence I cannot accept it at a later date.{{{sidenote(Dit is no 2.)}}}
 Under these rules, what is the best price I can expect?
+
+ Reject it.{{{marginnote(Hoi <img src="../../images/Penguin-interviews.jpg">)}}}
 
 Once my house is sold, I want to buy a new house.
 As this is a multi-objective optimization problem, I don't want to use just the price of the house to decide to buy it or not.
@@ -56,7 +81,10 @@ I used [[https://arminstraub.com/math/hiringsecretary][this site]], where the sa
 Let's start with a simple policy: I accept the first offer that exceeds some threshold $q$ that remains fixed for the entire sales period.
 This threshold policy can be formulated in terms of the stopping time $\tau = \inf\{i : X_i \geq q\}$, where $\inf \varnothing = \infty$ so that $\tau=\infty$ when all $X_i < q$.
 The expected sales price becomes
+
+
 <<snell-eq1>>
+#+ATTR_HTML:  :width 200%
 \begin{equation}\label{snell-eq1}
 \E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}},
 \end{equation}

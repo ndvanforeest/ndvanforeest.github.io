@@ -62,50 +62,6 @@ Add =my-macros.org= to ~plugins/orgmode/macros.org~:
 pygmentize -S default -a .highlight -f html >> files/assets/css/custom.css
 #+end_src
 
-** Getting the images to work
-<2023-12-30 Sat> I added this a long time ago. I don't know whether this is still necessary.
-
-Add this to =plugins/orgmode/init.el= to enable links to internal pages
-
-#+begin_src emacs-lisp
-(org-link-set-parameters
- "link"
- :export (lambda (path desc backend)
-           (cond
-            ((eq 'html backend)
-             (format "<a href=\"link:%s\">%s</a>"
-                     path (or desc path)))))
-)
-#+end_src
-
-
-There was a problem with linking to the images. For this I had to change the following in the  =init.el= file.
-
-#+begin_src emacs-lisp :tangle yes
-;; Export images with built-in file scheme
-(defun org-file-link-img-url-export (path desc format)
-  (cond
-   ((eq format 'html)
-    (format "<img src=\"%s\" alt=\"%s\"/>" path desc)))) ;; This line
-(org-add-link-type "file" nil 'org-file-link-img-url-export)
-#+end_src
-
-The main problem was in the line marked as  "This line". The line was like this:
-#+begin_src emacs-lisp :tangle yes
-(format "<img src=\"/%s\" alt=\"%s\"/>" path desc)))) ;; This line
-#+end_src
-Specically note the "/" in front of the first "/%s". This slash should  be removed.
-
-Kijk naar deze code in the =homepage/plugins/orgmode/init.el=
-#+begin_src emacs-lisp :tangle yes
-;; Export images with custom link type
-(defun org-custom-link-img-url-export (path desc format)
-  (cond
-   ((eq format 'html)
-    (format "<img src=\"%s\" alt=\"%s\"/>" path desc))))
-(org-add-link-type "img-url" nil 'org-custom-link-img-url-export)
-#+end_src
-Als je nu in een org file naar een figure/image verwijst met =img-url:/images/number_game.png=, dus met =img-url:= ervoor, dan werkt het wel. In de code hierboven kan je de =file:= gebruiken voor een figuur, maar met die =/= voor die =/%s= bevat de code een bug.
 
 
 * compiling
