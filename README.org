@@ -27,16 +27,40 @@ Then install the org mode plugin
 nikola plugin -i orgmode
 #+end_src
 
+
+* Set up org mode plugin
+
+
+
+** code styling
+
+#+begin_src shell
+pygmentize -S default -a .highlight -f html >> files/assets/css/custom.css
+#+end_src
+
+
+
+
 ** Update  init.el
-Check the file making-an-exercise-and-solution-environment.org in ~posts/~ to see how to update ~init.el~
+
+Check the file =making-an-exercise-and-solution-environment.org= in ~posts/~ to see how to update ~init.el~
 
 ** Update the macros
 
-Add this to ~macros.el~ for the newthought command.
+Add =my-macros.org= to ~plugins/orgmode/macros.org~:
+
+
+#+BEGIN_QUOTE
+#+include: my-macros.org
+#+END_QUOTE
 
 ~#+MACRO: newthought @@latex:\newthought{$1}@@@@html:<strong style="font-variant: all-small-caps">$1</strong>@@~
 
+** Code styling
 
+#+begin_src shell
+pygmentize -S default -a .highlight -f html >> files/assets/css/custom.css
+#+end_src
 
 ** Getting the images to work
 <2023-12-30 Sat> I added this a long time ago. I don't know whether this is still necessary.
@@ -111,7 +135,6 @@ rm -rf my_site/
 
 git add README.org
 #+end_src
-
 
 
 * Making new posts
