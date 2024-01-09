@@ -94,20 +94,20 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#orgc329e10">1. Problem Setting</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#org64a70c5">1. Problem Setting</a></li>
 <li>
-<a href="../posts/snells-envelope-house-selling-and-buying/#orgf2a734e">2. Selling a House</a>
+<a href="../posts/snells-envelope-house-selling-and-buying/#orgf3e8542">2. Selling a House</a>
 <ul>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org415cadc">2.1. Best Price Under a Fixed Threshold Policy</a></li>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org63111ba">2.2. Best Price Under a Dynamic  Threshold Policy</a></li>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org0952ec3">2.3. Snell's Envelope</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#orgb5b711e">2.1. Best Price Under a Fixed Threshold Policy</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#org66fd7db">2.2. Best Price Under a Dynamic  Threshold Policy</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#orge0ae460">2.3. Snell's Envelope</a></li>
 </ul>
 </li>
 <li>
-<a href="../posts/snells-envelope-house-selling-and-buying/#orgf3ab3f5">3. Buying a House</a>
+<a href="../posts/snells-envelope-house-selling-and-buying/#org624bc84">3. Buying a House</a>
 <ul>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#orgfb5adf5">3.1. A heuristic procedure</a></li>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org68e3d96">3.2. The formal procedure</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#org9ba473e">3.1. A heuristic procedure</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#org1bd62e0">3.2. The formal procedure</a></li>
 </ul>
 </li>
 </ul>
@@ -116,15 +116,29 @@
 
 
 
-<div id="outline-container-orgc329e10" class="outline-2">
-<h2 id="orgc329e10">
+
+<div id="outline-container-org64a70c5" class="outline-2">
+<h2 id="org64a70c5">
 <span class="section-number-2">1.</span> Problem Setting</h2>
 <div class="outline-text-2" id="text-1">
+<div class="figure" id="org8ff4e2c">
+
+<div id="org336825f" class="figure">
+<p><img src="https://edwardtufte.github.io/tufte-css/img/rhino.png" alt="rhino.png"></p>
+</div>
+
+</div>
+
+
 <p>
 I have a house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
-Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept an offer on the spot or reject it.
-If rejected, the offer is retracted, hence I cannot accept it at a later date.
+Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept an offer on the spot or reject it.<label for="mn-demo" class="margin-toggle">⊕</label><input type="checkbox" id="mn-demo" class="margin-toggle"><span class="marginnote">Hoi <img src="https://edwardtufte.github.io/tufte-css/img/rhino.png"></span>
+If rejected, the offer is retracted, hence I cannot accept it at a later date.<label for="sn" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn" class="margin-toggle"><span class="sidenote">Dit is no 2.</span>
 Under these rules, what is the best price I can expect?
+</p>
+
+<p>
+Reject it.<label for="mn-demo" class="margin-toggle">⊕</label><input type="checkbox" id="mn-demo" class="margin-toggle"><span class="marginnote">Hoi <img src="../images/Penguin-interviews.jpg"></span>
 </p>
 
 <p>
@@ -142,8 +156,8 @@ I include some python code to get numerical output.
 </div>
 
 
-<div id="outline-container-orgf2a734e" class="outline-2">
-<h2 id="orgf2a734e">
+<div id="outline-container-orgf3e8542" class="outline-2">
+<h2 id="orgf3e8542">
 <span class="section-number-2">2.</span> Selling a House</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -155,15 +169,19 @@ I used <a href="https://arminstraub.com/math/hiringsecretary">this site</a>, whe
 </div>
 
 
-<div id="outline-container-org415cadc" class="outline-3">
-<h3 id="org415cadc">
+<div id="outline-container-orgb5b711e" class="outline-3">
+<h3 id="orgb5b711e">
 <span class="section-number-3">2.1.</span> Best Price Under a Fixed Threshold Policy</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\) that remains fixed for the entire sales period.
 This threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i &lt; q\).
 The expected sales price becomes
-<a id="org1c0ee45"></a>
+</p>
+
+
+<p>
+<a id="org9c5e3c9"></a>
 </p>
 \begin{equation}\label{snell-eq1}
 \E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}},
@@ -221,7 +239,7 @@ Why is  \(\E{X_n \1{\tau=\infty}}= \frac{q^{n+1}}2\) for \(n\)?
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Conclude  from <a href="../posts/snells-envelope-house-selling-and-buying/#org1c0ee45">2.1</a> that:
+Conclude  from <a href="../posts/snells-envelope-house-selling-and-buying/#org9c5e3c9">2.1</a> that:
 </p>
 \begin{align*}
 v_{n}(q) := \E{X_{\tau}} &amp;= \frac{1}{2}(1-q^{n} + q).
@@ -309,8 +327,8 @@ For the future I might consider some additional questions.
 </div>
 
 
-<div id="outline-container-org63111ba" class="outline-3">
-<h3 id="org63111ba">
+<div id="outline-container-org66fd7db" class="outline-3">
+<h3 id="org66fd7db">
 <span class="section-number-3">2.2.</span> Best Price Under a Dynamic  Threshold Policy</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
@@ -355,8 +373,8 @@ v(10)=0.861098212205712
 </div>
 
 
-<div id="outline-container-org0952ec3" class="outline-3">
-<h3 id="org0952ec3">
+<div id="outline-container-orge0ae460" class="outline-3">
+<h3 id="orge0ae460">
 <span class="section-number-3">2.3.</span> Snell's Envelope</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
@@ -366,9 +384,9 @@ I  copied it from `Promenade alétoire' by M. Benaïm and N. El Karoui.
 </p>
 
 <p>
-<a id="orgd493977"></a>
+<a id="org64bc8e0"></a>
 </p>
-<div text="Snell" class="theorem" id="org204509f">
+<div text="Snell" class="theorem" id="org4d70ad5">
 <p>
 Consider a sequence of rvs \(\{X_i\}_{i=1}^n\) adapted to a filtration \(\{\F_{i}\}_{i=1}^{n}\).
 Introduce the sequence of rvs \(\{Y_i\}\) by backward recurrence as
@@ -417,8 +435,8 @@ By the theorem the stopping time \(\tau^*\) is optimal among all sellers (polici
 </div>
 </div>
 
-<div id="outline-container-orgf3ab3f5" class="outline-2">
-<h2 id="orgf3ab3f5">
+<div id="outline-container-org624bc84" class="outline-2">
+<h2 id="org624bc84">
 <span class="section-number-2">3.</span> Buying a House</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -446,8 +464,8 @@ We assume that \(n &gt; 2\), because when \(n=1,2\) the problem is not interesti
 </div>
 
 
-<div id="outline-container-orgfb5adf5" class="outline-3">
-<h3 id="orgfb5adf5">
+<div id="outline-container-org9ba473e" class="outline-3">
+<h3 id="org9ba473e">
 <span class="section-number-3">3.1.</span> A heuristic procedure</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
@@ -540,7 +558,7 @@ P(r) \geq P(r+1)
 Consequently, the best \(r\) is given by
 </p>
 \begin{equation}
-\label{org687136f}
+\label{org62231aa}
 r^{*} = \min{r &gt; 1: P(r) &gt; P(r+1) } = \min {r&gt;1 :  \sum_{k=r}^n \frac{1}{k-1} \geq 1}.
 \end{equation}
 <p>
@@ -549,12 +567,12 @@ Note that for \(n &gt; 2\), the policy with \(r=1\) can be ruled out right away 
 </div>
 </div>
 
-<div id="outline-container-org68e3d96" class="outline-3">
-<h3 id="org68e3d96">
+<div id="outline-container-org1bd62e0" class="outline-3">
+<h3 id="org1bd62e0">
 <span class="section-number-3">3.2.</span> The formal procedure</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
-We formalize the problem specification so that we can apply Snell's envelope to prove that the sampling policy with threshold \eqref{org687136f}just developed is optimal.
+We formalize the problem specification so that we can apply Snell's envelope to prove that the sampling policy with threshold \eqref{org62231aa}just developed is optimal.
 </p>
 
 <p>
@@ -706,7 +724,7 @@ Y_{i} &amp;= \frac{i}{n}\max{\xi_i , \sum_{k=i+1}^n \frac{1}{k-1}} = \frac{i}{n}
 
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="../posts/snells-envelope-house-selling-and-buying/#orgd493977">Snell's theorem</a> to explain that the stopping time \eqref{org687136f} is optimal.
+Use <a href="../posts/snells-envelope-house-selling-and-buying/#org64bc8e0">Snell's theorem</a> to explain that the stopping time \eqref{org62231aa} is optimal.
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -723,7 +741,7 @@ Compute Snell's envelope with the formulas above.
 It is evident for all \(i\) that \(\xi_i = 0 \implies 0 = X_{i} &lt; Y_i\).
 Next, starting from $i=1s, as long as \(i\) is such that \(1 &lt; \sum_{k=i+1}^{n} \frac{1}{k-1}\), \(X_{i} &lt; Y_i\) even when \(\xi_i = 1\).
 The earliest visit such that \(X_i = Y_i\) becomes possible is when \(\xi_i=1 &gt; \sum_{k=i+1}^{n} \frac{1}{k-1}\). But this \(i\) is precisely the threshold given by
-\eqref{org687136f}.
+\eqref{org62231aa}.
 </p>
 
 
@@ -1349,22 +1367,22 @@ For further background, check Wikipedia.</p></div>
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgfc85364">1. The problem</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org4d66afe">2. Finding a Solution</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org4fc309e">3. The decision variables</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org62c977a">4. Constraints with starting values</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgc9c0a3c">5. Equality Constraints</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org0c77673">6. Inequality Constraints</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgb45cc35">7. Objective</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org6c4b74d">8. Solving the problem</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgc272ec0">9. The solution</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org5f005b2">1. The problem</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgd7b62ea">2. Finding a Solution</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgfc26e9e">3. The decision variables</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org44ac960">4. Constraints with starting values</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org8acc4f4">5. Equality Constraints</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orga6d3c6c">6. Inequality Constraints</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org9b65a89">7. Objective</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org0442506">8. Solving the problem</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org22c454e">9. The solution</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-orgfc85364" class="outline-2">
-<h2 id="orgfc85364">
+<div id="outline-container-org5f005b2" class="outline-2">
+<h2 id="org5f005b2">
 <span class="section-number-2">1.</span> The problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -1373,15 +1391,15 @@ The numbers in the fields should respect any inequality between two fields. We n
 </p>
 
 
-<div id="org65e3409" class="figure">
+<div id="org4a22fd7" class="figure">
 <p><img src="../images/number_game.png" alt="nil"></p>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org4d66afe" class="outline-2">
-<h2 id="org4d66afe">
+<div id="outline-container-orgd7b62ea" class="outline-2">
+<h2 id="orgd7b62ea">
 <span class="section-number-2">2.</span> Finding a Solution</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -1397,8 +1415,8 @@ We will use  <a href="https://pythonhosted.org/PuLP/">pulp</a> to solve this puz
 </div>
 
 
-<div id="outline-container-org4fc309e" class="outline-2">
-<h2 id="org4fc309e">
+<div id="outline-container-orgfc26e9e" class="outline-2">
+<h2 id="orgfc26e9e">
 <span class="section-number-2">3.</span> The decision variables</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -1413,8 +1431,8 @@ The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
 </div>
 
 
-<div id="outline-container-org62c977a" class="outline-2">
-<h2 id="org62c977a">
+<div id="outline-container-org44ac960" class="outline-2">
+<h2 id="org44ac960">
 <span class="section-number-2">4.</span> Constraints with starting values</h2>
 <div class="outline-text-2" id="text-4">
 <p>
@@ -1427,8 +1445,8 @@ The simplest constraints deal with the numbers that are given in the diagram.
 </div>
 </div>
 
-<div id="outline-container-orgc9c0a3c" class="outline-2">
-<h2 id="orgc9c0a3c">
+<div id="outline-container-org8acc4f4" class="outline-2">
+<h2 id="org8acc4f4">
 <span class="section-number-2">5.</span> Equality Constraints</h2>
 <div class="outline-text-2" id="text-5">
 <p>
@@ -1457,8 +1475,8 @@ And also only one value per column.
 </div>
 </div>
 
-<div id="outline-container-org0c77673" class="outline-2">
-<h2 id="org0c77673">
+<div id="outline-container-orga6d3c6c" class="outline-2">
+<h2 id="orga6d3c6c">
 <span class="section-number-2">6.</span> Inequality Constraints</h2>
 <div class="outline-text-2" id="text-6">
 <p>
@@ -1534,8 +1552,8 @@ Note that since all cells must have different values, all strict inequalities in
 </div>
 </div>
 
-<div id="outline-container-orgb45cc35" class="outline-2">
-<h2 id="orgb45cc35">
+<div id="outline-container-org9b65a89" class="outline-2">
+<h2 id="org9b65a89">
 <span class="section-number-2">7.</span> Objective</h2>
 <div class="outline-text-2" id="text-7">
 <p>
@@ -1547,8 +1565,8 @@ We only use pulp to find a feasible solution.
 </div>
 </div>
 
-<div id="outline-container-org6c4b74d" class="outline-2">
-<h2 id="org6c4b74d">
+<div id="outline-container-org0442506" class="outline-2">
+<h2 id="org0442506">
 <span class="section-number-2">8.</span> Solving the problem</h2>
 <div class="outline-text-2" id="text-8">
 <p>
@@ -1559,8 +1577,8 @@ Solving the problem comes down to calling the <code>solve()</code> method of <co
 </div>
 </div>
 
-<div id="outline-container-orgc272ec0" class="outline-2">
-<h2 id="orgc272ec0">
+<div id="outline-container-org22c454e" class="outline-2">
+<h2 id="org22c454e">
 <span class="section-number-2">9.</span> The solution</h2>
 <div class="outline-text-2" id="text-9">
 <p>
