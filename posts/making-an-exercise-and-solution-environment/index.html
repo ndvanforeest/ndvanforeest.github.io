@@ -117,22 +117,24 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgbc3d40a">1. The Problem</a></li>
-<li><a href="#org6536032">2. My Environment</a></li>
+<li><a href="#org747ca6c">1. The Problem</a></li>
+<li><a href="#orga95c6c9">2. My Environment</a></li>
 <li>
-<a href="#org3708639">3. The adapted <code>init.el</code></a>
+<a href="#org8bcd865">3. The adapted <code>init.el</code></a>
 <ul>
-<li><a href="#org88ba241">3.1. Loading the relevant packages</a></li>
-<li><a href="#orga050905">3.2. Updating the code for <code>box</code> and <code>details</code> blocks</a></li>
-<li><a href="#org47b0ae5">3.3. Making the exercise, hint and solution blocks</a></li>
+<li><a href="#orgac5b313">3.1. Loading the relevant packages</a></li>
+<li><a href="#org2520824">3.2. Updating the code for <code>box</code> and <code>details</code> blocks</a></li>
+<li><a href="#org01b30b6">3.3. Making the exercise, hint and solution blocks</a></li>
 </ul>
 </li>
-<li><a href="#org046c5c4">4. Testing</a></li>
+<li><a href="#org7955784">4. Testing</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbc3d40a" class="outline-2">
-<h2 id="orgbc3d40a">
+
+
+<div id="outline-container-org747ca6c" class="outline-2">
+<h2 id="org747ca6c">
 <span class="section-number-2">1.</span> The Problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -145,11 +147,11 @@ However, when exporting the file to <code>html</code> via my website I would lik
 <p>
 How to make an excercise environment like this?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -160,11 +162,11 @@ And a hint like this?
 </p>
 
 
-</details><details class="code-details" style="padding: 0.6em;
+</details><details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -179,8 +181,9 @@ To see how to do this, read on.
 </div>
 </div>
 </div>
-<div id="outline-container-org6536032" class="outline-2">
-<h2 id="org6536032">
+
+<div id="outline-container-orga95c6c9" class="outline-2">
+<h2 id="orga95c6c9">
 <span class="section-number-2">2.</span> My Environment</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -203,11 +206,11 @@ The org mode plugin also provides an <code>init.el</code> file that I used as a 
 <p>
 The <code>init.el</code> file contains the line <code>(setq package-load-list '((htmlize t)))</code>. This should be removed. Why?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -218,11 +221,11 @@ What does <code>package-load-list</code> do?
 </p>
 
 
-</details><details class="code-details" style="padding: 0.6em;
+</details><details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -237,8 +240,10 @@ I need to install <code>org-special-block-extras</code>, and this command preven
 </div>
 </div>
 </div>
-<div id="outline-container-org3708639" class="outline-2">
-<h2 id="org3708639">
+
+
+<div id="outline-container-org8bcd865" class="outline-2">
+<h2 id="org8bcd865">
 <span class="section-number-2">3.</span> The adapted <code>init.el</code>
 </h2>
 <div class="outline-text-2" id="text-3">
@@ -246,8 +251,9 @@ I need to install <code>org-special-block-extras</code>, and this command preven
 Since I need functionality from <code>org-special-block-extras</code>, I have to update the <code>init.el</code> anyway, so here it is.
 </p>
 </div>
-<div id="outline-container-org88ba241" class="outline-3">
-<h3 id="org88ba241">
+
+<div id="outline-container-orgac5b313" class="outline-3">
+<h3 id="orgac5b313">
 <span class="section-number-3">3.1.</span> Loading the relevant packages</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
@@ -296,8 +302,9 @@ Next I load two packages. The hook on <code>org-mode</code> is necessary.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orga050905" class="outline-3">
-<h3 id="orga050905">
+
+<div id="outline-container-org2520824" class="outline-3">
+<h3 id="org2520824">
 <span class="section-number-3">3.2.</span> Updating the code for <code>box</code> and <code>details</code> blocks</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
@@ -384,8 +391,9 @@ And also for the  <code>box</code> block.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org47b0ae5" class="outline-3">
-<h3 id="org47b0ae5">
+
+<div id="outline-container-org01b30b6" class="outline-3">
+<h3 id="org01b30b6">
 <span class="section-number-3">3.3.</span> Making the exercise, hint and solution blocks</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
@@ -411,8 +419,9 @@ I copied the above on top of the <code>init.el</code> file, and kept the rest.
 </div>
 </div>
 </div>
-<div id="outline-container-org046c5c4" class="outline-2">
-<h2 id="org046c5c4">
+
+<div id="outline-container-org7955784" class="outline-2">
+<h2 id="org7955784">
 <span class="section-number-2">4.</span> Testing</h2>
 <div class="outline-text-2" id="text-4">
 <p>

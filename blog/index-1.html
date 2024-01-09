@@ -94,27 +94,30 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org526e099">1. Problem Setting</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#orgc329e10">1. Problem Setting</a></li>
 <li>
-<a href="../posts/snells-envelope-house-selling-and-buying/#org561cc60">2. Selling a House</a>
+<a href="../posts/snells-envelope-house-selling-and-buying/#orgf2a734e">2. Selling a House</a>
 <ul>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org609681d">2.1. Best Price Under a Fixed Threshold Policy</a></li>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org58e817b">2.2. Best Price Under a Dynamic  Threshold Policy</a></li>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#orgce54d8c">2.3. Snell's Envelope</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#org415cadc">2.1. Best Price Under a Fixed Threshold Policy</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#org63111ba">2.2. Best Price Under a Dynamic  Threshold Policy</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#org0952ec3">2.3. Snell's Envelope</a></li>
 </ul>
 </li>
 <li>
-<a href="../posts/snells-envelope-house-selling-and-buying/#orgdcf000e">3. Buying a House</a>
+<a href="../posts/snells-envelope-house-selling-and-buying/#orgf3ab3f5">3. Buying a House</a>
 <ul>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org90f9650">3.1. A heuristic procedure</a></li>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org955c501">3.2. The formal procedure</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#orgfb5adf5">3.1. A heuristic procedure</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#org68e3d96">3.2. The formal procedure</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org526e099" class="outline-2">
-<h2 id="org526e099">
+
+
+
+<div id="outline-container-orgc329e10" class="outline-2">
+<h2 id="orgc329e10">
 <span class="section-number-2">1.</span> Problem Setting</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -137,8 +140,10 @@ I include some python code to get numerical output.
 </p>
 </div>
 </div>
-<div id="outline-container-org561cc60" class="outline-2">
-<h2 id="org561cc60">
+
+
+<div id="outline-container-orgf2a734e" class="outline-2">
+<h2 id="orgf2a734e">
 <span class="section-number-2">2.</span> Selling a House</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -148,15 +153,17 @@ What is the best price?
 I used <a href="https://arminstraub.com/math/hiringsecretary">this site</a>, where the same problem is discussed in terms of the <a href="https://en.wikipedia.org/wiki/Secretary_problem">Secretary Problem</a>.
 </p>
 </div>
-<div id="outline-container-org609681d" class="outline-3">
-<h3 id="org609681d">
+
+
+<div id="outline-container-org415cadc" class="outline-3">
+<h3 id="org415cadc">
 <span class="section-number-3">2.1.</span> Best Price Under a Fixed Threshold Policy</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\) that remains fixed for the entire sales period.
 This threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i &lt; q\).
 The expected sales price becomes
-<a id="orgec97849"></a>
+<a id="org1c0ee45"></a>
 </p>
 \begin{equation}\label{snell-eq1}
 \E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}},
@@ -214,7 +221,7 @@ Why is  \(\E{X_n \1{\tau=\infty}}= \frac{q^{n+1}}2\) for \(n\)?
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Conclude  from <a href="../posts/snells-envelope-house-selling-and-buying/#orgec97849">2.1</a> that:
+Conclude  from <a href="../posts/snells-envelope-house-selling-and-buying/#org1c0ee45">2.1</a> that:
 </p>
 \begin{align*}
 v_{n}(q) := \E{X_{\tau}} &amp;= \frac{1}{2}(1-q^{n} + q).
@@ -300,8 +307,10 @@ For the future I might consider some additional questions.
 </ol>
 </div>
 </div>
-<div id="outline-container-org58e817b" class="outline-3">
-<h3 id="org58e817b">
+
+
+<div id="outline-container-org63111ba" class="outline-3">
+<h3 id="org63111ba">
 <span class="section-number-3">2.2.</span> Best Price Under a Dynamic  Threshold Policy</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
@@ -344,8 +353,10 @@ v(10)=0.861098212205712
 </pre>
 </div>
 </div>
-<div id="outline-container-orgce54d8c" class="outline-3">
-<h3 id="orgce54d8c">
+
+
+<div id="outline-container-org0952ec3" class="outline-3">
+<h3 id="org0952ec3">
 <span class="section-number-3">2.3.</span> Snell's Envelope</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
@@ -355,9 +366,9 @@ I  copied it from `Promenade alétoire' by M. Benaïm and N. El Karoui.
 </p>
 
 <p>
-<a id="orgfe1a2cc"></a>
+<a id="orgd493977"></a>
 </p>
-<div text="Snell" class="theorem" id="orgd2f5ce3">
+<div text="Snell" class="theorem" id="org204509f">
 <p>
 Consider a sequence of rvs \(\{X_i\}_{i=1}^n\) adapted to a filtration \(\{\F_{i}\}_{i=1}^{n}\).
 Introduce the sequence of rvs \(\{Y_i\}\) by backward recurrence as
@@ -405,8 +416,9 @@ By the theorem the stopping time \(\tau^*\) is optimal among all sellers (polici
 </div>
 </div>
 </div>
-<div id="outline-container-orgdcf000e" class="outline-2">
-<h2 id="orgdcf000e">
+
+<div id="outline-container-orgf3ab3f5" class="outline-2">
+<h2 id="orgf3ab3f5">
 <span class="section-number-2">3.</span> Buying a House</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -432,8 +444,10 @@ These accounts are clear, but leave quite a bit of work to the reader. The idea 
 We assume that \(n &gt; 2\), because when \(n=1,2\) the problem is not interesting.
 </p>
 </div>
-<div id="outline-container-org90f9650" class="outline-3">
-<h3 id="org90f9650">
+
+
+<div id="outline-container-orgfb5adf5" class="outline-3">
+<h3 id="orgfb5adf5">
 <span class="section-number-3">3.1.</span> A heuristic procedure</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
@@ -526,7 +540,7 @@ P(r) \geq P(r+1)
 Consequently, the best \(r\) is given by
 </p>
 \begin{equation}
-\label{org37f41d9}
+\label{org687136f}
 r^{*} = \min{r &gt; 1: P(r) &gt; P(r+1) } = \min {r&gt;1 :  \sum_{k=r}^n \frac{1}{k-1} \geq 1}.
 \end{equation}
 <p>
@@ -534,12 +548,13 @@ Note that for \(n &gt; 2\), the policy with \(r=1\) can be ruled out right away 
 </p>
 </div>
 </div>
-<div id="outline-container-org955c501" class="outline-3">
-<h3 id="org955c501">
+
+<div id="outline-container-org68e3d96" class="outline-3">
+<h3 id="org68e3d96">
 <span class="section-number-3">3.2.</span> The formal procedure</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
-We formalize the problem specification so that we can apply Snell's envelope to prove that the sampling policy with threshold \eqref{org37f41d9}just developed is optimal.
+We formalize the problem specification so that we can apply Snell's envelope to prove that the sampling policy with threshold \eqref{org687136f}just developed is optimal.
 </p>
 
 <p>
@@ -580,7 +595,7 @@ Prove properties 1 and 2.
                       </font>
                     </strong>
                   </summary><p>
-For 1, observe that \(\{\xi_i=1\}\) imposes the condition that of all permutations only the ones are allowed such  that the best ranking of the first \(i\) visits appears at visit \(i\). By symmetry, the probability that visit \(i\) is the best of all \(i\) visits is equal to \(1/i\).
+For 1, observe that \(\{\xi_i=1\}\) imposes the condition that of all permutations only the ones are allowed such  that the best ranking of the first \(i\) visits appears at visit \(i\). By symmetry, the probability that visit \(i\) is the best of all \(i\) visits is equal to \(1/i\). After proving 2, we provide another proof.
 </p>
 
 <p>
@@ -592,6 +607,29 @@ Thus, the probability that one of these permutations is such that \(\xi_i=1\) is
 Therefore \(\P{\xi_i=\xi_j=1} = \frac{1}{ij}\).
 By recursion, this argument applies to any number of \(\xi_k\).
 </p>
+
+<p>
+Here is a second proof for property 1, by means of an example.
+Suppose we do \(26\) visits, and rank the quality from \(a\) (lowest) to \(z\) (highest).
+The number of permutations of the 26 letters of the alphabet such that the letter \(e\) appears at the fourth position and is the best so far is \(4\cdot 3\cdot 2 \cdot (26-4)!\), because for the first position we can choose one letter from the set \(\{a, b, c, d\}\), for the second position we have 3 letters left of this set, for the third position just 2 letters, and after the fourth position (occupied by the \(e\)) any permutation of the remaining \(26-4\) is allowed.
+More generally, the number of permutations such that best of four appears at the fourth place is
+</p>
+\begin{align*}
+(n-4)! \sum_{i=4}^n (i-1)(i-2)(i-3),
+\end{align*}
+<p>
+with \(n=26\). The probability of the event \(\{\xi_4=1\}\) is therefore
+</p>
+\begin{align*}
+\P{\xi_4=1} \
+&amp;= \frac{(n-4)!}{n!} \sum_{i=4}^n (i-1)(i-2)(i-3) \\
+&amp;= \frac{3!(n-4)!}{n!}\, \sum_{i=3}^{n-1} \frac{i(i-1)(i-2)}{3!} \\
+&amp;= \frac{1}{4} \frac{1}{{n \choose 4}} \sum_{i=3}^{n-1} {i \choose 3}.
+\end{align*}
+<p>
+With induction it is simple to prove that \(\sum_{i=3}^{n-1} {i \choose 3} = {n \choose 4}\). It is also evident that the number \(4\) places no special role, so property 1 follows.
+</p>
+
 
 
 </details>
@@ -668,7 +706,7 @@ Y_{i} &amp;= \frac{i}{n}\max{\xi_i , \sum_{k=i+1}^n \frac{1}{k-1}} = \frac{i}{n}
 
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="../posts/snells-envelope-house-selling-and-buying/#orgfe1a2cc">Snell's theorem</a> to explain that the stopping time \eqref{org37f41d9} is optimal.
+Use <a href="../posts/snells-envelope-house-selling-and-buying/#orgd493977">Snell's theorem</a> to explain that the stopping time \eqref{org687136f} is optimal.
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -685,7 +723,7 @@ Compute Snell's envelope with the formulas above.
 It is evident for all \(i\) that \(\xi_i = 0 \implies 0 = X_{i} &lt; Y_i\).
 Next, starting from $i=1s, as long as \(i\) is such that \(1 &lt; \sum_{k=i+1}^{n} \frac{1}{k-1}\), \(X_{i} &lt; Y_i\) even when \(\xi_i = 1\).
 The earliest visit such that \(X_i = Y_i\) becomes possible is when \(\xi_i=1 &gt; \sum_{k=i+1}^{n} \frac{1}{k-1}\). But this \(i\) is precisely the threshold given by
-\eqref{org37f41d9}.
+\eqref{org687136f}.
 </p>
 
 
@@ -713,20 +751,22 @@ In conclusion, it is optimal to select house \(i\) when \(i\geq r^{*}\) and when
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/vickrey-auctions/#org2a12755">1. Introduction</a></li>
+<li><a href="../posts/vickrey-auctions/#org4b511b3">1. Introduction</a></li>
 <li>
-<a href="../posts/vickrey-auctions/#org8f1fe54">2. Some complexity theory</a>
+<a href="../posts/vickrey-auctions/#orgc0de1c6">2. Some complexity theory</a>
 <ul>
-<li><a href="../posts/vickrey-auctions/#orgafc5589">2.1. Sorting</a></li>
+<li><a href="../posts/vickrey-auctions/#orgcd336f9">2.1. Sorting</a></li>
 </ul>
 </li>
-<li><a href="../posts/vickrey-auctions/#orgad2669c">3. The Vickrey auction</a></li>
-<li><a href="../posts/vickrey-auctions/#org312f998">4. Summary</a></li>
+<li><a href="../posts/vickrey-auctions/#orgd9e3ce5">3. The Vickrey auction</a></li>
+<li><a href="../posts/vickrey-auctions/#org8f168cd">4. Summary</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org2a12755" class="outline-2">
-<h2 id="org2a12755">
+
+
+<div id="outline-container-org4b511b3" class="outline-2">
+<h2 id="org4b511b3">
 <span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -761,8 +801,9 @@ In the last section we use this algorithm to find the second highest bid in a Vi
 </p>
 </div>
 </div>
-<div id="outline-container-org8f1fe54" class="outline-2">
-<h2 id="org8f1fe54">
+
+<div id="outline-container-orgc0de1c6" class="outline-2">
+<h2 id="orgc0de1c6">
 <span class="section-number-2">2.</span> Some complexity theory</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -792,11 +833,11 @@ To practice a bit more with the \(O\) symbol, given a list of \(n\) elements,  t
 <p>
 Explain that this algorithm requires \(O(n)\) comparisons.
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -854,11 +895,11 @@ By the way, it might seem pointless to overload integers to <code>city_id</code>
 <p>
 Why is the minimal lenght equal to \(8\)?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -884,11 +925,11 @@ As an aside, the above code can be written as one list comprehension, like so:
 <p>
 Explain that the number of possible routes scales as \(O(n!)\). As a consequence, solving the TSP for any reasonable number of cities is totally infeasible.
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -919,8 +960,10 @@ Much more can be said about it, but for our purposes this suffices.
 We now have the means to compare the efficiency of algorithms.
 </p>
 </div>
-<div id="outline-container-orgafc5589" class="outline-3">
-<h3 id="orgafc5589">
+
+
+<div id="outline-container-orgcd336f9" class="outline-3">
+<h3 id="orgcd336f9">
 <span class="section-number-3">2.1.</span> Sorting</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
@@ -953,11 +996,11 @@ Compare the first element to the second element, and swap if the first is larger
 <p>
 Explain that bubblesort requires \(O(n^2)\) comparisons to sort a list of \(n\) elements.
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1006,11 +1049,11 @@ Thus, any element will do, so we pick <code>pivot = A[0]</code>.
 This is a recursive algorithm so we need a stopping condition.
 One: Which line implements this condition? Two: Why do we use arrays and not sets?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1049,11 +1092,11 @@ In particular, for the Vickrey auction we need \(k=n-1\).
 <p>
 What type of \(k\)-median is the normal median of a set of \(n\) elements?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1102,8 +1145,10 @@ What is the complexity of this \(k\)-median algorithm?
 </div>
 </div>
 </div>
-<div id="outline-container-orgad2669c" class="outline-2">
-<h2 id="orgad2669c">
+
+
+<div id="outline-container-orgd9e3ce5" class="outline-2">
+<h2 id="orgd9e3ce5">
 <span class="section-number-2">3.</span> The Vickrey auction</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -1121,11 +1166,11 @@ Then explain that the probability that \(Y_{2}\in [x, x+\d x]\) is given by
 \begin{equation*}
 f_{2}(x) \d x = \P{Y_{2}\in [x, x+\d x]} = \frac{10!}{8!} (F(x))^{8} G(x) f(x) \d x.
 \end{equation*}
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1166,11 +1211,11 @@ The parameters are like this. The <code>grid</code> is used for plotting.
 <p>
 Explain that to get the second highest bid, we have to set <code>k = bidders -2</code> rather than <code>k = bidders-1</code>.
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1211,14 +1256,14 @@ It remains to make plots.
 </pre></div>
 
 <p>
-We run virtually the same code for \(X_i\sim \Norm{1/2, 1/\sqrt{12}}\), and plot in Fig. <a href="../posts/vickrey-auctions/#org8c82a86">1</a> the density \(f_2\) and the histogram obtained by  simulation.
+We run virtually the same code for \(X_i\sim \Norm{1/2, 1/\sqrt{12}}\), and plot in Fig. <a href="../posts/vickrey-auctions/#org6cbe7b0">1</a> the density \(f_2\) and the histogram obtained by  simulation.
 The right  panel of the figure shows the histogram for a simulation with \(X_i\sim\Norm{\mu=0.5, \sigma=1/\sqrt{12}}\).
 Clearly, the model of the bid sizes has a major effect on the price we can get for our expensive car.
 </p>
 
 
 
-<div id="org8c82a86" class="figure">
+<div id="org6cbe7b0" class="figure">
 <p><img src="../images/vickrey_graph.png" alt="nil"></p>
 <p><span class="figure-number">Figure 1: </span>The density \(f_2\) of the second highest bid \(Y_{2}\). In the left panel \(X_i\sim\Unif{[0,1]}\), in the right \(X_i\sim\Norm{\mu=0.5, \sigma=1/\sqrt{12}}\).</p>
 </div>
@@ -1229,11 +1274,11 @@ Clearly, the model of the bid sizes has a major effect on the price we can get f
 <p>
 The estimated mean and std of \(Y\) for the left hand panel is \(0.81\).  Can you come up with a simple explanation for the mean?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1248,8 +1293,10 @@ When we have 10 bidders, we have to place 10 uniform rvs on the interval \([0,1]
 </div>
 </div>
 </div>
-<div id="outline-container-org312f998" class="outline-2">
-<h2 id="org312f998">
+
+
+<div id="outline-container-org8f168cd" class="outline-2">
+<h2 id="org8f168cd">
 <span class="section-number-2">4.</span> Summary</h2>
 <div class="outline-text-2" id="text-4">
 <p>
@@ -1261,7 +1308,7 @@ Finally, we realized that the second bid is actually the second value of the ord
 </p>
 
 <p>
-Actually, I did not expect that the density would have such a big tail to the left, as is shown in Fig. <a href="../posts/vickrey-auctions/#org8c82a86">1</a>.
+Actually, I did not expect that the density would have such a big tail to the left, as is shown in Fig. <a href="../posts/vickrey-auctions/#org6cbe7b0">1</a>.
 Perhaps this explains why, instead of Vickrey auctions, sellers might prefer Dutch auctions in which the selling price starts very high and decreases until the first person accepts the price.
 However, let's not draw simplistic conclusions; we should turn to a serious book on auction theory instead.
 In our work we are occupied with showing the many uses of recursion, some maths, and coding.
@@ -1302,20 +1349,22 @@ For further background, check Wikipedia.</p></div>
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orge284bbe">1. The problem</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orge2f0420">2. Finding a Solution</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgff9bd42">3. The decision variables</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgd2d9ff0">4. Constraints with starting values</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org46f1728">5. Equality Constraints</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orga836952">6. Inequality Constraints</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org9f8491b">7. Objective</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org4149f44">8. Solving the problem</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org82651b7">9. The solution</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgfc85364">1. The problem</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org4d66afe">2. Finding a Solution</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org4fc309e">3. The decision variables</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org62c977a">4. Constraints with starting values</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgc9c0a3c">5. Equality Constraints</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org0c77673">6. Inequality Constraints</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgb45cc35">7. Objective</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org6c4b74d">8. Solving the problem</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgc272ec0">9. The solution</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orge284bbe" class="outline-2">
-<h2 id="orge284bbe">
+
+
+<div id="outline-container-orgfc85364" class="outline-2">
+<h2 id="orgfc85364">
 <span class="section-number-2">1.</span> The problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -1324,13 +1373,15 @@ The numbers in the fields should respect any inequality between two fields. We n
 </p>
 
 
-<div id="orgd83b286" class="figure">
+<div id="org65e3409" class="figure">
 <p><img src="../images/number_game.png" alt="nil"></p>
 </div>
 </div>
 </div>
-<div id="outline-container-orge2f0420" class="outline-2">
-<h2 id="orge2f0420">
+
+
+<div id="outline-container-org4d66afe" class="outline-2">
+<h2 id="org4d66afe">
 <span class="section-number-2">2.</span> Finding a Solution</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -1344,8 +1395,10 @@ We will use  <a href="https://pythonhosted.org/PuLP/">pulp</a> to solve this puz
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgff9bd42" class="outline-2">
-<h2 id="orgff9bd42">
+
+
+<div id="outline-container-org4fc309e" class="outline-2">
+<h2 id="org4fc309e">
 <span class="section-number-2">3.</span> The decision variables</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -1358,8 +1411,10 @@ The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgd2d9ff0" class="outline-2">
-<h2 id="orgd2d9ff0">
+
+
+<div id="outline-container-org62c977a" class="outline-2">
+<h2 id="org62c977a">
 <span class="section-number-2">4.</span> Constraints with starting values</h2>
 <div class="outline-text-2" id="text-4">
 <p>
@@ -1371,8 +1426,9 @@ The simplest constraints deal with the numbers that are given in the diagram.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org46f1728" class="outline-2">
-<h2 id="org46f1728">
+
+<div id="outline-container-orgc9c0a3c" class="outline-2">
+<h2 id="orgc9c0a3c">
 <span class="section-number-2">5.</span> Equality Constraints</h2>
 <div class="outline-text-2" id="text-5">
 <p>
@@ -1400,8 +1456,9 @@ And also only one value per column.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orga836952" class="outline-2">
-<h2 id="orga836952">
+
+<div id="outline-container-org0c77673" class="outline-2">
+<h2 id="org0c77673">
 <span class="section-number-2">6.</span> Inequality Constraints</h2>
 <div class="outline-text-2" id="text-6">
 <p>
@@ -1476,8 +1533,9 @@ Note that since all cells must have different values, all strict inequalities in
 </p>
 </div>
 </div>
-<div id="outline-container-org9f8491b" class="outline-2">
-<h2 id="org9f8491b">
+
+<div id="outline-container-orgb45cc35" class="outline-2">
+<h2 id="orgb45cc35">
 <span class="section-number-2">7.</span> Objective</h2>
 <div class="outline-text-2" id="text-7">
 <p>
@@ -1488,8 +1546,9 @@ We only use pulp to find a feasible solution.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org4149f44" class="outline-2">
-<h2 id="org4149f44">
+
+<div id="outline-container-org6c4b74d" class="outline-2">
+<h2 id="org6c4b74d">
 <span class="section-number-2">8.</span> Solving the problem</h2>
 <div class="outline-text-2" id="text-8">
 <p>
@@ -1499,8 +1558,9 @@ Solving the problem comes down to calling the <code>solve()</code> method of <co
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org82651b7" class="outline-2">
-<h2 id="org82651b7">
+
+<div id="outline-container-orgc272ec0" class="outline-2">
+<h2 id="orgc272ec0">
 <span class="section-number-2">9.</span> The solution</h2>
 <div class="outline-text-2" id="text-9">
 <p>
@@ -1552,15 +1612,17 @@ Yes! Let's print it.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/weighted-random-shuffling/#org98cf960">1. Weighted random shuffling</a></li>
-<li><a href="../posts/weighted-random-shuffling/#orgb1a7fc6">2. Weighted shuffling in pure python</a></li>
-<li><a href="../posts/weighted-random-shuffling/#org7a8be5a">3. Fast shuffling</a></li>
-<li><a href="../posts/weighted-random-shuffling/#orge10b45b">4. A wrong idea</a></li>
+<li><a href="../posts/weighted-random-shuffling/#orgd693844">1. Weighted random shuffling</a></li>
+<li><a href="../posts/weighted-random-shuffling/#org5c79fe3">2. Weighted shuffling in pure python</a></li>
+<li><a href="../posts/weighted-random-shuffling/#org297d7b0">3. Fast shuffling</a></li>
+<li><a href="../posts/weighted-random-shuffling/#org923647f">4. A wrong idea</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org98cf960" class="outline-2">
-<h2 id="org98cf960">
+
+
+<div id="outline-container-orgd693844" class="outline-2">
+<h2 id="orgd693844">
 <span class="section-number-2">1.</span> Weighted random shuffling</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -1575,8 +1637,9 @@ this code.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb1a7fc6" class="outline-2">
-<h2 id="orgb1a7fc6">
+
+<div id="outline-container-org5c79fe3" class="outline-2">
+<h2 id="org5c79fe3">
 <span class="section-number-2">2.</span> Weighted shuffling in pure python</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -1631,8 +1694,9 @@ element \(i\) cannot be selected the next time.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org7a8be5a" class="outline-2">
-<h2 id="org7a8be5a">
+
+<div id="outline-container-org297d7b0" class="outline-2">
+<h2 id="org297d7b0">
 <span class="section-number-2">3.</span> Fast shuffling</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -1672,8 +1736,9 @@ Some testing shows, for a reason unknown to me, that <code>np.searchsorted</code
 </p>
 </div>
 </div>
-<div id="outline-container-orge10b45b" class="outline-2">
-<h2 id="orge10b45b">
+
+<div id="outline-container-org923647f" class="outline-2">
+<h2 id="org923647f">
 <span class="section-number-2">4.</span> A wrong idea</h2>
 <div class="outline-text-2" id="text-4">
 <p>
@@ -1709,13 +1774,17 @@ where \(w_i\) are the weights and \(U_i\) uniform random deviates on
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/memoization/#org232c03d">1. Content of a Discrete Hyper Pyramid</a></li>
-<li><a href="../posts/memoization/#org9f5c1da">2. A probability problem</a></li>
+<li><a href="../posts/memoization/#org72f2ff0">1. Content of a Discrete Hyper Pyramid</a></li>
+<li><a href="../posts/memoization/#org50fc530">2. A probability problem</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org232c03d" class="outline-2">
-<h2 id="org232c03d">
+
+
+
+
+<div id="outline-container-org72f2ff0" class="outline-2">
+<h2 id="org72f2ff0">
 <span class="section-number-2">1.</span> Content of a Discrete Hyper Pyramid</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -1746,8 +1815,9 @@ Computing \(\P{n,N}\) is easy when we use  memoization. In fact,  we can code th
 </pre>
 </div>
 </div>
-<div id="outline-container-org9f5c1da" class="outline-2">
-<h2 id="org9f5c1da">
+
+<div id="outline-container-org50fc530" class="outline-2">
+<h2 id="org50fc530">
 <span class="section-number-2">2.</span> A probability problem</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -1834,13 +1904,13 @@ If things are not yet solved in the nikola plugin for orgmode, put this as the e
 <p>
 And now you can refer to any page like so
 </p>
-<pre class="example" id="org9e395e2">
+<pre class="example" id="org3e72e3f">
 link:/bio
 </pre>
 <p>
 or
 </p>
-<pre class="example" id="org0ee1bba">
+<pre class="example" id="orgf988571">
 [[link:/bio][My bio page]]
 </pre>
                 </div>
@@ -1859,19 +1929,21 @@ or
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org09ffb98">1. The  problem</a></li>
+<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org380ee47">1. The  problem</a></li>
 <li>
-<a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#orgba49753">2. My solution</a>
+<a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#orgcc61281">2. My solution</a>
 <ul>
-<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org9c8b9f5">2.1. One option.</a></li>
-<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org57ca802">2.2. Another option</a></li>
+<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org1edcc73">2.1. One option.</a></li>
+<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org86eff46">2.2. Another option</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org09ffb98" class="outline-2">
-<h2 id="org09ffb98">
+
+
+<div id="outline-container-org380ee47" class="outline-2">
+<h2 id="org380ee47">
 <span class="section-number-2">1.</span> The  problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -1888,8 +1960,9 @@ And then there came a day that I did not like this anymore.
 </p>
 </div>
 </div>
-<div id="outline-container-orgba49753" class="outline-2">
-<h2 id="orgba49753">
+
+<div id="outline-container-orgcc61281" class="outline-2">
+<h2 id="orgcc61281">
 <span class="section-number-2">2.</span> My solution</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -1901,8 +1974,9 @@ After some searching and testing, here is an MWE of how I am doing things now wi
 I use <a href="https://github.com/cereda/arara">arara</a> to compile the LaTeX file, but this just handy, not necessary for the rest to work.
 </p>
 </div>
-<div id="outline-container-org9c8b9f5" class="outline-3">
-<h3 id="org9c8b9f5">
+
+<div id="outline-container-org1edcc73" class="outline-3">
+<h3 id="org1edcc73">
 <span class="section-number-3">2.1.</span> One option.</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
@@ -1945,8 +2019,9 @@ Note that this is an MWE; for a good figure you'll need to tune it to your needs
 </p>
 </div>
 </div>
-<div id="outline-container-org57ca802" class="outline-3">
-<h3 id="org57ca802">
+
+<div id="outline-container-org86eff46" class="outline-3">
+<h3 id="org86eff46">
 <span class="section-number-3">2.2.</span> Another option</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
@@ -1997,19 +2072,19 @@ print(tikzplotlib.get<span class="nb">_</span>tikz<span class="nb">_</span>code(
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/my-first-post/#orgeeb130e">Here is my first post</a></li>
+<li><a href="../posts/my-first-post/#orgb9698e5">Here is my first post</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgeeb130e" class="outline-2">
-<h2 id="orgeeb130e">Here is my first post</h2>
-<div class="outline-text-2" id="text-orgeeb130e">
+<div id="outline-container-orgb9698e5" class="outline-2">
+<h2 id="orgb9698e5">Here is my first post</h2>
+<div class="outline-text-2" id="text-orgb9698e5">
 <p>
 I want to write posts and a homepage in org mode.
 (I dislike <code>markdown</code>, and I detest typing math in <code>rst</code>.)
 After watching one of the blogs on <a href="https://cestlaz.github.io/stories/emacs/">Cest la Z</a>  I considered <code>nikola</code> as a good option to set things up.
-It turned out to be really easy; I just followed the steps as described <a href="https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/">Here</a>. I had to install some python packages, but with <code>pip</code> this was a no brainer.
+It turned out to be really easy; I just followed the steps as described <a href="https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/">here</a>. I had to install some python packages, but with <code>pip</code> this was a no brainer.
 </p>
 
 

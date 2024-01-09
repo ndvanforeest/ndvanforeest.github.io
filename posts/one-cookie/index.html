@@ -30,10 +30,12 @@
 
 
 
+
+
 1. Introduction
 
 
-We have a class with \(N=19\) children and one bi">
+We have a class with \(N=19\) children and one ">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2023-12-30T11:14:57+01:00">
 </head>
@@ -123,16 +125,18 @@ We have a class with \(N=19\) children and one bi">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org220f988">1. Introduction</a></li>
-<li><a href="#org52ba263">2. A general approach</a></li>
-<li><a href="#orgc4c9998">3. An appealing, but wrong, strategy</a></li>
-<li><a href="#orgdf5c72f">4. An optimal strategy</a></li>
-<li><a href="#org55e2b8b">5. Summary</a></li>
+<li><a href="#orgecbe787">1. Introduction</a></li>
+<li><a href="#orgad94f31">2. A general approach</a></li>
+<li><a href="#orgbea954f">3. An appealing, but wrong, strategy</a></li>
+<li><a href="#orgc5e3bfb">4. An optimal strategy</a></li>
+<li><a href="#orgdf5a143">5. Summary</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org220f988" class="outline-2">
-<h2 id="org220f988">
+
+
+<div id="outline-container-orgecbe787" class="outline-2">
+<h2 id="orgecbe787">
 <span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -161,12 +165,13 @@ There is no better way to understand a problem than to think about it; we includ
 </p>
 </div>
 </div>
-<div id="outline-container-org52ba263" class="outline-2">
-<h2 id="org52ba263">
+
+<div id="outline-container-orgad94f31" class="outline-2">
+<h2 id="orgad94f31">
 <span class="section-number-2">2.</span> A general approach</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-<a id="orgd172cab"></a>
+<a id="org8994ca2"></a>
 </p>
 
 <p>
@@ -183,11 +188,11 @@ Obviously, when there is \(N=1\) child, there is no need to choose. The next sim
 <p>
 What strategy  would  you use for \(N=2\) children?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -204,11 +209,11 @@ Throw the die. If the outcome is in \(\{1, 2, 3\}\) give the biscuit to the firs
 <p>
 What strategy  would  you use for \(N=3\)?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -236,11 +241,11 @@ We'd better search for more efficient policies.
 <p>
 For \(N=4\), find a policy  that uses precisely two throws of the die to  select a child.
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -265,11 +270,11 @@ Clearly, the <i>pattern</i> of recursion is to try to express the solution in te
 <p>
 For \(N=4\) we can also keep on throwing until a child is selected. How would such a strategy work?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -296,11 +301,11 @@ The probability to hit this set is \(p=2/3\), while the probability to hit \(\{5
 <p>
 If \(\E Y\) is the expected number of throws until we are successful, explain that it must satisfy the relation \(\E Y = 1 + q \E Y\).
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -338,11 +343,11 @@ When time constraints are relevant, it's good to have a deterministic algorithm,
 <p>
 What is the performance of the  acceptance-rejection strategy for \(N=5\)?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -359,11 +364,11 @@ The success probability \(p=5/6\), hence \(\E Y = 6/5\).
 <p>
 For \(N=7\), design an acceptance-rejection algorithm that uses rounds, each consisting of two throws.
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -387,11 +392,11 @@ Observe that these events don't overlap. Finally, if the outcome is \((6,6)\), r
 <p>
 For \(N=7\), what is the expected number of throws for this acceptance-rejection policy?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -409,13 +414,13 @@ Since each round contains two throws,  the number of throws is \(\E Y = 2/p = 72
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-For \(N=19\),  what is the expected number of throws under an acceptance-rejection policy similar to the one of <a href="#orgbef80cc">1</a>?
+For \(N=19\),  what is the expected number of throws under an acceptance-rejection policy similar to the one of <a href="#org2ac5c24">1</a>?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -433,11 +438,11 @@ Throw twice. Assign student one to \((1,1)\), student two to \((1,2)\), \ldots, 
 <p>
 Why is this form of acceptance-rejection much more efficient for classes of size  \(N=7\) than when \(N=19\)?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -455,11 +460,11 @@ However, for \(N=19\), the cover of the state space with 36 outcomes is maximall
 <p>
 Use the idea of the previous exercise to design a policy that needs slightly over 3 throws on average to select a winner for \(N=19\).
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -480,18 +485,19 @@ The rejection set, i.e., the number of states not assigned to any child, is \(21
 </details>
 </div>
 <p>
-Observe that with the strategy discussed in <a href="#org053505a">1</a> for \(N=19\), we always have to throw at least three times.
-However, the strategy of <a href="#org06f4c1b">1</a> sometimes  completes in just two throws.
+Observe that with the strategy discussed in <a href="#orga34f794">1</a> for \(N=19\), we always have to throw at least three times.
+However, the strategy of <a href="#orga8de49e">1</a> sometimes  completes in just two throws.
 Might there be a optimal policy that needs somewhere between \(2\) and \(3\) throws on average?
 </p>
 </div>
 </div>
-<div id="outline-container-orgc4c9998" class="outline-2">
-<h2 id="orgc4c9998">
+
+<div id="outline-container-orgbea954f" class="outline-2">
+<h2 id="orgbea954f">
 <span class="section-number-2">3.</span> An appealing, but wrong, strategy</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-<a id="orgd628c32"></a>
+<a id="orge33a10f"></a>
 </p>
 
 
@@ -499,7 +505,7 @@ Might there be a optimal policy that needs somewhere between \(2\) and \(3\) thr
 One promising idea to improve on the strategy of using complete <i>rounds</i> of two throws for \(N=19\) is as follows.
 If there is no winner after the first and second throw, just throw the die a third time.
 Now check whether the result of the second and third throw is in the list of winning outcomes.
-To illustrate, if \((X_1, X_2) = (4, 3)\), then, by <a href="#org06f4c1b">1</a>, the outcome \((4,3)\) is not a winning sequence, so that we have to continue with a third throw.
+To illustrate, if \((X_1, X_2) = (4, 3)\), then, by <a href="#orga8de49e">1</a>, the outcome \((4,3)\) is not a winning sequence, so that we have to continue with a third throw.
 After seeing \(X_3=4\), there is winning sequence, since \((X_2, X_3) = (3,4)\), which corresponds to child \((3-1)\cdot 6 + 4 = 16\).
 If, however, \((X_1, X_2, X_3) = (4, 5, 1)\) there is not yet a winner, because neither \((4,5)\) nor \((5,1)\) correspond to a child.
 Supposing that \(X_{4}=3\), the result of the last two throws is \((X_3, X_4) = (1, 3)\) so child \(3\) wins.
@@ -583,7 +589,7 @@ We can do further statistical tests, but for the moment I simply conclude that, 
 
 
 <p>
-<strong style="font-variant: all-small-caps">Still I find</strong> it interesting to analyze how many throws this monkey strategy needs on average tof inish, in particular how it compares to the acceptance-rejection policy designed in <a href="#org053505a">1</a>.
+<strong style="font-variant: all-small-caps">Still I find</strong> it interesting to analyze how many throws this monkey strategy needs on average tof inish, in particular how it compares to the acceptance-rejection policy designed in <a href="#orga34f794">1</a>.
 If it slower, then the policy to use (multiple) rounds of three throws times is better in all respects, but if the monkey policy is faster, we might make a trade off between fairness and speed.
 Note that this is a common theme in optimization: nearly always there are multiple objectives that we like to minimize or maximize, but we cannot perform optimally on all dimenstions at the same time.
 If so, we need to make a choice which objective we prefer over another.<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup></p>
@@ -614,11 +620,11 @@ T/N=2.94335
 <p>
 Explain why <code>T</code> counts the total number of throws for <code>N</code> simulations.
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -638,17 +644,18 @@ In summary, although unfair, the monkey policy needs less throws on average than
 </p>
 </div>
 </div>
-<div id="outline-container-orgdf5c72f" class="outline-2">
-<h2 id="orgdf5c72f">
+
+<div id="outline-container-orgc5e3bfb" class="outline-2">
+<h2 id="orgc5e3bfb">
 <span class="section-number-2">4.</span> An optimal strategy</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-<a id="org2cc7261"></a>
+<a id="org28d5800"></a>
 </p>
 
 <p>
 In the above we learned that when the class contains \(N=19\) children, the monkey strategy, which prescribes to continue throwing the die until a winning pattern emerges, does not give a fair outcome.
-Hence, for the moment, by <a href="#org053505a">1</a> the best fair algorithm for \(N=19\) seems to throw three times: if that gives a winner, stop; otherwise throw three times again, and continue with rounds until there is a winner.
+Hence, for the moment, by <a href="#orga34f794">1</a> the best fair algorithm for \(N=19\) seems to throw three times: if that gives a winner, stop; otherwise throw three times again, and continue with rounds until there is a winner.
 </p>
 
 <p>
@@ -684,11 +691,11 @@ The line <code>t % 20</code> computes the remainder of <code>t</code> after divi
 Explain that \(t_{1}\sim \Unif{\{0, \ldots, 5\}}\), \(t_{2}\sim \Unif{\{0, \ldots, 35\}}\), and \(t_{i}\sim \Unif{\{16,\ldots 95\}}\) for any throw \(i\geq 3\).
 Then explain why \(t\sim \Unif{\{0, 1, \ldots, 19\}}\) when the algorithm terminates.
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -720,11 +727,11 @@ And, when \(t_{3}\leq 15\), throw again, and so on.
 <p>
 Why does this algorithm minimize the expected number of throws to obtain a rv uniform on \(\{0, 1, \ldots, 19\}\)?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -755,11 +762,11 @@ In view of the above, what subset of \(\{0, 1, \ldots, 35\}\) can we use as an a
 What should be the rejection set for \(t_{2}\)?
 Finally, why should we replace the threshold \(16\) for the case \(N=20\) by \(17\) for \(N=19\)?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -778,11 +785,11 @@ Thus, the threshold for \(t_{2}\) should be \(17\) rather than \(16\).
 <p>
 For \(N=19\), we should change the acceptance threshold to 7 after the third throw. Why?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -805,11 +812,11 @@ Notice that for \(N=19\) the threshold is not the same for each throw, i.e., 17 
 <p>
 Explain again why for \(N=20\) the threshold remains \(15\).
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -844,11 +851,11 @@ Here is a generalized version.<sup><a id="fnr.6" class="footref" href="#fn.6" ro
 What sequence of <code>(n,r)</code> does <code>select_uniformly_with_a_die</code> produce for the cases \(N=2\), \(N=3\), and \(N=6^{3}=216\) (or any other power of 6)?
 When does it terminate?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -869,11 +876,11 @@ Since now \(r=0\), the algorithm necessarily terminates after three steps.
 <p>
 The same questions, but now for \(N=4\). With this, show that \(\E Y = 4/3\).
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -892,13 +899,13 @@ Hence, the expected number of throws is \(E Y =\frac{4}{6} + 2\cdot \frac{2}{6} 
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
 Explain that  \(\E Y = 72/35\) for \(N=7\).
-Compare with <a href="#orgfd726c0">1</a>.
+Compare with <a href="#orgbb1fc8a">1</a>.
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -924,11 +931,11 @@ In other words,
 <p>
 Why does this algorithm work for general \(N\)?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -971,11 +978,11 @@ least=5144, mean=5263, most=5434
 <p>
 Think about the simplest possible test of the correctness of this algorithm. Does the output satisfy this test?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1007,11 +1014,11 @@ For \(N=20\) explain that
 <p>
 Hence \(\E Z = 6/5\) and \(\E Y = 2.5333\).
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1034,11 +1041,11 @@ To compute \(\E Y\) for general \(N\) we can slightly  modify the above algorith
 <p>
 Explain the  algorithm below.
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1083,7 +1090,7 @@ n= 96, r= 16, r/n=0.1667, alpha=0.0003, EY=2.5329
 <p>
 This seems to converges to \(2.533\). The last task is to run the code for \(N=19\).
 This gives \(\E Y=2.509\).
-Comparing this to the monkey strategy of <a href="#orgf09d9d6">1</a> we see that this algorithm  does better on all respects: it is fair <i>and</i> requires less throws on average.
+Comparing this to the monkey strategy of <a href="#orgace6981">1</a> we see that this algorithm  does better on all respects: it is fair <i>and</i> requires less throws on average.
 </p>
 
 <p>
@@ -1093,11 +1100,11 @@ And now two final questions.
 <p>
 What is the relation between this good algorithm and the monkey-typing strategy, and what is the major difference?
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1114,11 +1121,11 @@ Both policies start with throwing twice, and then continue with single throws to
 <p>
 Can it ever happen for \(N=19\) and a \(6\) sided die that the rejection set becomes empty? Recall, when \(N=4\), the rejection set is empty after two steps, since \(r_2=0\).
 </p>
-<details class="code-details" style="padding: 0.6em;
+<details class="code-details" style="padding: 1em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 1em;
+                          font-size: 0.9em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1137,8 +1144,12 @@ This implies that \(r = n \pmod 19 \in \{0, 1,\ldots, 17\}\).
 </div>
 </div>
 </div>
-<div id="outline-container-org55e2b8b" class="outline-2">
-<h2 id="org55e2b8b">
+
+
+
+
+<div id="outline-container-orgdf5a143" class="outline-2">
+<h2 id="orgdf5a143">
 <span class="section-number-2">5.</span> Summary</h2>
 <div class="outline-text-2" id="text-5">
 <p>

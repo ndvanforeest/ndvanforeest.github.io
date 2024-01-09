@@ -118,20 +118,22 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orge284bbe">1. The problem</a></li>
-<li><a href="#orge2f0420">2. Finding a Solution</a></li>
-<li><a href="#orgff9bd42">3. The decision variables</a></li>
-<li><a href="#orgd2d9ff0">4. Constraints with starting values</a></li>
-<li><a href="#org46f1728">5. Equality Constraints</a></li>
-<li><a href="#orga836952">6. Inequality Constraints</a></li>
-<li><a href="#org9f8491b">7. Objective</a></li>
-<li><a href="#org4149f44">8. Solving the problem</a></li>
-<li><a href="#org82651b7">9. The solution</a></li>
+<li><a href="#orgfc85364">1. The problem</a></li>
+<li><a href="#org4d66afe">2. Finding a Solution</a></li>
+<li><a href="#org4fc309e">3. The decision variables</a></li>
+<li><a href="#org62c977a">4. Constraints with starting values</a></li>
+<li><a href="#orgc9c0a3c">5. Equality Constraints</a></li>
+<li><a href="#org0c77673">6. Inequality Constraints</a></li>
+<li><a href="#orgb45cc35">7. Objective</a></li>
+<li><a href="#org6c4b74d">8. Solving the problem</a></li>
+<li><a href="#orgc272ec0">9. The solution</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orge284bbe" class="outline-2">
-<h2 id="orge284bbe">
+
+
+<div id="outline-container-orgfc85364" class="outline-2">
+<h2 id="orgfc85364">
 <span class="section-number-2">1.</span> The problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -140,13 +142,15 @@ The numbers in the fields should respect any inequality between two fields. We n
 </p>
 
 
-<div id="orgd83b286" class="figure">
+<div id="org65e3409" class="figure">
 <p><img src="../../images/number_game.png" alt="nil"></p>
 </div>
 </div>
 </div>
-<div id="outline-container-orge2f0420" class="outline-2">
-<h2 id="orge2f0420">
+
+
+<div id="outline-container-org4d66afe" class="outline-2">
+<h2 id="org4d66afe">
 <span class="section-number-2">2.</span> Finding a Solution</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -160,8 +164,10 @@ We will use  <a href="https://pythonhosted.org/PuLP/">pulp</a> to solve this puz
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgff9bd42" class="outline-2">
-<h2 id="orgff9bd42">
+
+
+<div id="outline-container-org4fc309e" class="outline-2">
+<h2 id="org4fc309e">
 <span class="section-number-2">3.</span> The decision variables</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -174,8 +180,10 @@ The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgd2d9ff0" class="outline-2">
-<h2 id="orgd2d9ff0">
+
+
+<div id="outline-container-org62c977a" class="outline-2">
+<h2 id="org62c977a">
 <span class="section-number-2">4.</span> Constraints with starting values</h2>
 <div class="outline-text-2" id="text-4">
 <p>
@@ -187,8 +195,9 @@ The simplest constraints deal with the numbers that are given in the diagram.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org46f1728" class="outline-2">
-<h2 id="org46f1728">
+
+<div id="outline-container-orgc9c0a3c" class="outline-2">
+<h2 id="orgc9c0a3c">
 <span class="section-number-2">5.</span> Equality Constraints</h2>
 <div class="outline-text-2" id="text-5">
 <p>
@@ -216,8 +225,9 @@ And also only one value per column.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orga836952" class="outline-2">
-<h2 id="orga836952">
+
+<div id="outline-container-org0c77673" class="outline-2">
+<h2 id="org0c77673">
 <span class="section-number-2">6.</span> Inequality Constraints</h2>
 <div class="outline-text-2" id="text-6">
 <p>
@@ -292,8 +302,9 @@ Note that since all cells must have different values, all strict inequalities in
 </p>
 </div>
 </div>
-<div id="outline-container-org9f8491b" class="outline-2">
-<h2 id="org9f8491b">
+
+<div id="outline-container-orgb45cc35" class="outline-2">
+<h2 id="orgb45cc35">
 <span class="section-number-2">7.</span> Objective</h2>
 <div class="outline-text-2" id="text-7">
 <p>
@@ -304,8 +315,9 @@ We only use pulp to find a feasible solution.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org4149f44" class="outline-2">
-<h2 id="org4149f44">
+
+<div id="outline-container-org6c4b74d" class="outline-2">
+<h2 id="org6c4b74d">
 <span class="section-number-2">8.</span> Solving the problem</h2>
 <div class="outline-text-2" id="text-8">
 <p>
@@ -315,8 +327,9 @@ Solving the problem comes down to calling the <code>solve()</code> method of <co
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org82651b7" class="outline-2">
-<h2 id="org82651b7">
+
+<div id="outline-container-orgc272ec0" class="outline-2">
+<h2 id="orgc272ec0">
 <span class="section-number-2">9.</span> The solution</h2>
 <div class="outline-text-2" id="text-9">
 <p>

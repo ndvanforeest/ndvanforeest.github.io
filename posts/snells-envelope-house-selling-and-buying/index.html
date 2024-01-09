@@ -121,27 +121,30 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org526e099">1. Problem Setting</a></li>
+<li><a href="#orgc329e10">1. Problem Setting</a></li>
 <li>
-<a href="#org561cc60">2. Selling a House</a>
+<a href="#orgf2a734e">2. Selling a House</a>
 <ul>
-<li><a href="#org609681d">2.1. Best Price Under a Fixed Threshold Policy</a></li>
-<li><a href="#org58e817b">2.2. Best Price Under a Dynamic  Threshold Policy</a></li>
-<li><a href="#orgce54d8c">2.3. Snell's Envelope</a></li>
+<li><a href="#org415cadc">2.1. Best Price Under a Fixed Threshold Policy</a></li>
+<li><a href="#org63111ba">2.2. Best Price Under a Dynamic  Threshold Policy</a></li>
+<li><a href="#org0952ec3">2.3. Snell's Envelope</a></li>
 </ul>
 </li>
 <li>
-<a href="#orgdcf000e">3. Buying a House</a>
+<a href="#orgf3ab3f5">3. Buying a House</a>
 <ul>
-<li><a href="#org90f9650">3.1. A heuristic procedure</a></li>
-<li><a href="#org955c501">3.2. The formal procedure</a></li>
+<li><a href="#orgfb5adf5">3.1. A heuristic procedure</a></li>
+<li><a href="#org68e3d96">3.2. The formal procedure</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org526e099" class="outline-2">
-<h2 id="org526e099">
+
+
+
+<div id="outline-container-orgc329e10" class="outline-2">
+<h2 id="orgc329e10">
 <span class="section-number-2">1.</span> Problem Setting</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -164,8 +167,10 @@ I include some python code to get numerical output.
 </p>
 </div>
 </div>
-<div id="outline-container-org561cc60" class="outline-2">
-<h2 id="org561cc60">
+
+
+<div id="outline-container-orgf2a734e" class="outline-2">
+<h2 id="orgf2a734e">
 <span class="section-number-2">2.</span> Selling a House</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -175,15 +180,17 @@ What is the best price?
 I used <a href="https://arminstraub.com/math/hiringsecretary">this site</a>, where the same problem is discussed in terms of the <a href="https://en.wikipedia.org/wiki/Secretary_problem">Secretary Problem</a>.
 </p>
 </div>
-<div id="outline-container-org609681d" class="outline-3">
-<h3 id="org609681d">
+
+
+<div id="outline-container-org415cadc" class="outline-3">
+<h3 id="org415cadc">
 <span class="section-number-3">2.1.</span> Best Price Under a Fixed Threshold Policy</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Let's start with a simple policy: I accept the first offer that exceeds some threshold \(q\) that remains fixed for the entire sales period.
 This threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i &lt; q\).
 The expected sales price becomes
-<a id="orgec97849"></a>
+<a id="org1c0ee45"></a>
 </p>
 \begin{equation}\label{snell-eq1}
 \E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}},
@@ -241,7 +248,7 @@ Why is  \(\E{X_n \1{\tau=\infty}}= \frac{q^{n+1}}2\) for \(n\)?
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Conclude  from <a href="#orgec97849">2.1</a> that:
+Conclude  from <a href="#org1c0ee45">2.1</a> that:
 </p>
 \begin{align*}
 v_{n}(q) := \E{X_{\tau}} &amp;= \frac{1}{2}(1-q^{n} + q).
@@ -327,8 +334,10 @@ For the future I might consider some additional questions.
 </ol>
 </div>
 </div>
-<div id="outline-container-org58e817b" class="outline-3">
-<h3 id="org58e817b">
+
+
+<div id="outline-container-org63111ba" class="outline-3">
+<h3 id="org63111ba">
 <span class="section-number-3">2.2.</span> Best Price Under a Dynamic  Threshold Policy</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
@@ -371,8 +380,10 @@ v(10)=0.861098212205712
 </pre>
 </div>
 </div>
-<div id="outline-container-orgce54d8c" class="outline-3">
-<h3 id="orgce54d8c">
+
+
+<div id="outline-container-org0952ec3" class="outline-3">
+<h3 id="org0952ec3">
 <span class="section-number-3">2.3.</span> Snell's Envelope</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
@@ -382,9 +393,9 @@ I  copied it from `Promenade alétoire' by M. Benaïm and N. El Karoui.
 </p>
 
 <p>
-<a id="orgfe1a2cc"></a>
+<a id="orgd493977"></a>
 </p>
-<div text="Snell" class="theorem" id="orgd2f5ce3">
+<div text="Snell" class="theorem" id="org204509f">
 <p>
 Consider a sequence of rvs \(\{X_i\}_{i=1}^n\) adapted to a filtration \(\{\F_{i}\}_{i=1}^{n}\).
 Introduce the sequence of rvs \(\{Y_i\}\) by backward recurrence as
@@ -432,8 +443,9 @@ By the theorem the stopping time \(\tau^*\) is optimal among all sellers (polici
 </div>
 </div>
 </div>
-<div id="outline-container-orgdcf000e" class="outline-2">
-<h2 id="orgdcf000e">
+
+<div id="outline-container-orgf3ab3f5" class="outline-2">
+<h2 id="orgf3ab3f5">
 <span class="section-number-2">3.</span> Buying a House</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -459,8 +471,10 @@ These accounts are clear, but leave quite a bit of work to the reader. The idea 
 We assume that \(n &gt; 2\), because when \(n=1,2\) the problem is not interesting.
 </p>
 </div>
-<div id="outline-container-org90f9650" class="outline-3">
-<h3 id="org90f9650">
+
+
+<div id="outline-container-orgfb5adf5" class="outline-3">
+<h3 id="orgfb5adf5">
 <span class="section-number-3">3.1.</span> A heuristic procedure</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
@@ -553,7 +567,7 @@ P(r) \geq P(r+1)
 Consequently, the best \(r\) is given by
 </p>
 \begin{equation}
-\label{org37f41d9}
+\label{org687136f}
 r^{*} = \min{r &gt; 1: P(r) &gt; P(r+1) } = \min {r&gt;1 :  \sum_{k=r}^n \frac{1}{k-1} \geq 1}.
 \end{equation}
 <p>
@@ -561,12 +575,13 @@ Note that for \(n &gt; 2\), the policy with \(r=1\) can be ruled out right away 
 </p>
 </div>
 </div>
-<div id="outline-container-org955c501" class="outline-3">
-<h3 id="org955c501">
+
+<div id="outline-container-org68e3d96" class="outline-3">
+<h3 id="org68e3d96">
 <span class="section-number-3">3.2.</span> The formal procedure</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
-We formalize the problem specification so that we can apply Snell's envelope to prove that the sampling policy with threshold \eqref{org37f41d9}just developed is optimal.
+We formalize the problem specification so that we can apply Snell's envelope to prove that the sampling policy with threshold \eqref{org687136f}just developed is optimal.
 </p>
 
 <p>
@@ -607,7 +622,7 @@ Prove properties 1 and 2.
                       </font>
                     </strong>
                   </summary><p>
-For 1, observe that \(\{\xi_i=1\}\) imposes the condition that of all permutations only the ones are allowed such  that the best ranking of the first \(i\) visits appears at visit \(i\). By symmetry, the probability that visit \(i\) is the best of all \(i\) visits is equal to \(1/i\).
+For 1, observe that \(\{\xi_i=1\}\) imposes the condition that of all permutations only the ones are allowed such  that the best ranking of the first \(i\) visits appears at visit \(i\). By symmetry, the probability that visit \(i\) is the best of all \(i\) visits is equal to \(1/i\). After proving 2, we provide another proof.
 </p>
 
 <p>
@@ -619,6 +634,29 @@ Thus, the probability that one of these permutations is such that \(\xi_i=1\) is
 Therefore \(\P{\xi_i=\xi_j=1} = \frac{1}{ij}\).
 By recursion, this argument applies to any number of \(\xi_k\).
 </p>
+
+<p>
+Here is a second proof for property 1, by means of an example.
+Suppose we do \(26\) visits, and rank the quality from \(a\) (lowest) to \(z\) (highest).
+The number of permutations of the 26 letters of the alphabet such that the letter \(e\) appears at the fourth position and is the best so far is \(4\cdot 3\cdot 2 \cdot (26-4)!\), because for the first position we can choose one letter from the set \(\{a, b, c, d\}\), for the second position we have 3 letters left of this set, for the third position just 2 letters, and after the fourth position (occupied by the \(e\)) any permutation of the remaining \(26-4\) is allowed.
+More generally, the number of permutations such that best of four appears at the fourth place is
+</p>
+\begin{align*}
+(n-4)! \sum_{i=4}^n (i-1)(i-2)(i-3),
+\end{align*}
+<p>
+with \(n=26\). The probability of the event \(\{\xi_4=1\}\) is therefore
+</p>
+\begin{align*}
+\P{\xi_4=1} \
+&amp;= \frac{(n-4)!}{n!} \sum_{i=4}^n (i-1)(i-2)(i-3) \\
+&amp;= \frac{3!(n-4)!}{n!}\, \sum_{i=3}^{n-1} \frac{i(i-1)(i-2)}{3!} \\
+&amp;= \frac{1}{4} \frac{1}{{n \choose 4}} \sum_{i=3}^{n-1} {i \choose 3}.
+\end{align*}
+<p>
+With induction it is simple to prove that \(\sum_{i=3}^{n-1} {i \choose 3} = {n \choose 4}\). It is also evident that the number \(4\) places no special role, so property 1 follows.
+</p>
+
 
 
 </details>
@@ -695,7 +733,7 @@ Y_{i} &amp;= \frac{i}{n}\max{\xi_i , \sum_{k=i+1}^n \frac{1}{k-1}} = \frac{i}{n}
 
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="#orgfe1a2cc">Snell's theorem</a> to explain that the stopping time \eqref{org37f41d9} is optimal.
+Use <a href="#orgd493977">Snell's theorem</a> to explain that the stopping time \eqref{org687136f} is optimal.
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -712,7 +750,7 @@ Compute Snell's envelope with the formulas above.
 It is evident for all \(i\) that \(\xi_i = 0 \implies 0 = X_{i} &lt; Y_i\).
 Next, starting from $i=1s, as long as \(i\) is such that \(1 &lt; \sum_{k=i+1}^{n} \frac{1}{k-1}\), \(X_{i} &lt; Y_i\) even when \(\xi_i = 1\).
 The earliest visit such that \(X_i = Y_i\) becomes possible is when \(\xi_i=1 &gt; \sum_{k=i+1}^{n} \frac{1}{k-1}\). But this \(i\) is precisely the threshold given by
-\eqref{org37f41d9}.
+\eqref{org687136f}.
 </p>
 
 

@@ -15,6 +15,8 @@
 #+author: Nicky
 #+setupfile: ../preamble.org
 
+
+
 * COMMENT Test the page
 
 #+begin_src shell
@@ -303,7 +305,7 @@ Let $\F_{i}$ be  $\sigma\{\xi_1, \ldots, \xi_i\}$, and $\{\F_{i}\}_{i=0}^{n}$ th
 #+begin_exercise
 Prove properties 1 and 2.
 #+begin_solution
-For 1, observe that $\{\xi_i=1\}$ imposes the condition that of all permutations only the ones are allowed such  that the best ranking of the first $i$ visits appears at visit $i$. By symmetry, the probability that visit $i$ is the best of all $i$ visits is equal to $1/i$.
+For 1, observe that $\{\xi_i=1\}$ imposes the condition that of all permutations only the ones are allowed such  that the best ranking of the first $i$ visits appears at visit $i$. By symmetry, the probability that visit $i$ is the best of all $i$ visits is equal to $1/i$. After proving 2, we provide another proof.
 
 For 2, suppose that $j>i$.
 By 1, the probability that $\xi_j = 1$ is $1/j$.
@@ -312,6 +314,23 @@ All of these permutations have the same probability.
 Thus, the probability that one of these permutations is such that $\xi_i=1$ is $1/i$.
 Therefore $\P{\xi_i=\xi_j=1} = \frac{1}{ij}$.
 By recursion, this argument applies to any number of $\xi_k$.
+
+Here is a second proof for property 1, by means of an example.
+Suppose we do $26$ visits, and rank the quality from \(a\) (lowest) to $z$ (highest).
+The number of permutations of the 26 letters of the alphabet such that the letter $e$ appears at the fourth position and is the best so far is $4\cdot 3\cdot 2 \cdot (26-4)!$, because for the first position we can choose one letter from the set $\{a, b, c, d\}$, for the second position we have 3 letters left of this set, for the third position just 2 letters, and after the fourth position (occupied by the $e$) any permutation of the remaining $26-4$ is allowed.
+More generally, the number of permutations such that best of four appears at the fourth place is
+\begin{align*}
+(n-4)! \sum_{i=4}^n (i-1)(i-2)(i-3),
+\end{align*}
+with $n=26$. The probability of the event $\{\xi_4=1\}$ is therefore
+\begin{align*}
+\P{\xi_4=1} \
+&= \frac{(n-4)!}{n!} \sum_{i=4}^n (i-1)(i-2)(i-3) \\
+&= \frac{3!(n-4)!}{n!}\, \sum_{i=3}^{n-1} \frac{i(i-1)(i-2)}{3!} \\
+&= \frac{1}{4} \frac{1}{{n \choose 4}} \sum_{i=3}^{n-1} {i \choose 3}.
+\end{align*}
+With induction it is simple to prove that \(\sum_{i=3}^{n-1} {i \choose 3} = {n \choose 4}\). It is also evident that the number $4$ places no special role, so property 1 follows.
+
 #+end_solution
 #+end_exercise
 

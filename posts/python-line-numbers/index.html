@@ -118,29 +118,30 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0f60e0f">1. Intro</a></li>
-<li><a href="#orgd958d0f">2. Plan given to ChatGPT</a></li>
+<li><a href="#org77afad9">1. Intro</a></li>
+<li><a href="#org386654b">2. Plan given to ChatGPT</a></li>
 <li>
-<a href="#org475a10d">3. The Code</a>
+<a href="#org22cc900">3. The Code</a>
 <ul>
-<li><a href="#orge005324">3.1. The modules</a></li>
-<li><a href="#orgd710b72">3.2. Finding the tagged line numbers in the python file</a></li>
-<li><a href="#org4708ea5">3.3. Updating a \(\LaTeX\) file</a></li>
-<li><a href="#org760457d">3.4. Updating an orgmode file</a></li>
-<li><a href="#org01f94f0">3.5. Last steps</a></li>
+<li><a href="#orge6a8b28">3.1. The modules</a></li>
+<li><a href="#org57bfae2">3.2. Finding the tagged line numbers in the python file</a></li>
+<li><a href="#orgf0fdfbd">3.3. Updating a \(\LaTeX\) file</a></li>
+<li><a href="#org236746f">3.4. Updating an orgmode file</a></li>
+<li><a href="#orgd00a29c">3.5. Last steps</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org0f60e0f" class="outline-2">
-<h2 id="org0f60e0f">
+
+<div id="outline-container-org77afad9" class="outline-2">
+<h2 id="org77afad9">
 <span class="section-number-2">1.</span> Intro</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 For quite some problems I have a separate python program, which I want to keep separate, and a \(\LaTeX\) or org mode file that explains or contains part of the python file. It is easy to include part of the code by using line numbers, like so
 </p>
-<pre class="example" id="orgfdac465">
+<pre class="example" id="org7fc427d">
 \inputminted[firstline=12, lastline=23]{python}{python_file.py}
 </pre>
 <p>
@@ -149,8 +150,10 @@ As I don't like this type of work,  I decided to write some code to solve  this 
 </p>
 </div>
 </div>
-<div id="outline-container-orgd958d0f" class="outline-2">
-<h2 id="orgd958d0f">
+
+
+<div id="outline-container-org386654b" class="outline-2">
+<h2 id="org386654b">
 <span class="section-number-2">2.</span> Plan given to ChatGPT</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -180,13 +183,13 @@ Once the version worked for \(\LaTeX\), I updated it so that it can work with or
 <p>
 So, for a \(\LaTeX\) file, tag like this:
 </p>
-<pre class="example" id="org3821fbd">
+<pre class="example" id="org2d6e73c">
 \inputminted[firstline=12+, lastline=23]{python}{python_file.py} % tictoc
 </pre>
 <p>
 and for an orgmode file,  like this:
 </p>
-<pre class="example" id="orgeaecbcd">
+<pre class="example" id="orge9ad4c6">
 #+INCLUDE: "python_file.py" src python:lines "84-110" ## tictoc
 </pre>
 <p>
@@ -194,13 +197,16 @@ Note the intentional <b>double</b> <code>##</code> to comment the tag.
 </p>
 </div>
 </div>
-<div id="outline-container-org475a10d" class="outline-2">
-<h2 id="org475a10d">
+
+
+
+<div id="outline-container-org22cc900" class="outline-2">
+<h2 id="org22cc900">
 <span class="section-number-2">3.</span> The Code</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orge005324" class="outline-3">
-<h3 id="orge005324">
+<div id="outline-container-orge6a8b28" class="outline-3">
+<h3 id="orge6a8b28">
 <span class="section-number-3">3.1.</span> The modules</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
@@ -209,8 +215,9 @@ Note the intentional <b>double</b> <code>##</code> to comment the tag.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgd710b72" class="outline-3">
-<h3 id="orgd710b72">
+
+<div id="outline-container-org57bfae2" class="outline-3">
+<h3 id="org57bfae2">
 <span class="section-number-3">3.2.</span> Finding the tagged line numbers in the python file</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
@@ -249,8 +256,9 @@ This function looks up the line numbers. It strips trailing white space between 
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org4708ea5" class="outline-3">
-<h3 id="org4708ea5">
+
+<div id="outline-container-orgf0fdfbd" class="outline-3">
+<h3 id="orgf0fdfbd">
 <span class="section-number-3">3.3.</span> Updating a \(\LaTeX\) file</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
@@ -290,8 +298,9 @@ In the for loop, it looks up the line numbers of the tagged code in the python f
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org760457d" class="outline-3">
-<h3 id="org760457d">
+
+<div id="outline-container-org236746f" class="outline-3">
+<h3 id="org236746f">
 <span class="section-number-3">3.4.</span> Updating an orgmode file</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
@@ -326,8 +335,10 @@ Updating the org file works similarly. However, in the org mode I write the tag 
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org01f94f0" class="outline-3">
-<h3 id="org01f94f0">
+
+
+<div id="outline-container-orgd00a29c" class="outline-3">
+<h3 id="orgd00a29c">
 <span class="section-number-3">3.5.</span> Last steps</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
