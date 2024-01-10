@@ -50,20 +50,18 @@
 
 We have a class with \(N=19\) children and one biscuit.
 We would like to select one child to give the biscuit, but fate should decide which child.
-If we have a six-sided die, can we use this to select a winner, perhaps with multiple throws, such that each child has the same probability of winning?
+Can we use a fair six-sided die to select a winner, with multiple throws, such that all children have an equal probability of winning?
 And if so, what strategy would be best, in the sense that it minimizes the expected number of throws?
 
-To answer these questions, we first consider some obvious throwing strategies to select a child, uniformly on $\{1, \ldots, 19\}$.
-As a second step, we suggest a simple strategy that needs less throws on average.
-This policy is somehwat hard to analyze mathematically, so we'll use simulation to assess its quality.
+To answer these questions, we start with the analysis of simple cases to learn, hopefully, how to handle the case with $19$ children.
+In this process we design a simple and intuitive strategy.
+As this policy is somehwat hard to analyze mathematically, we'll use simulation to assess its quality.
 It turns out that this policy is unfair: some children will have a larger probability of winning than others.
-Interestinly, while this policy is not suitable for our goal, it leads us to a much better algorithm, which /is/ fair /and/ optimal in the sense that is requires the least number of throws on average to select the winner.
-I discussed this problem with Henk Tijms and he pointed out an answer on [[https://www.quora.com/How-do-I-use-a-fair-6-sided-die-to-generate-a-random-number-from-1-to-20-with-each-outcome-occurring-with-the-same-probability][Quora]] on how to handle a class with 20 pupils.
-Bases on this, I generalized this answer to an algorithm that can deal with an arbitrary number of children.
+Then we retract a bit and provide a better algorithm, which /is/ fair /and/ optimal in the sense that is requires the least number of throws on average to select the winner.
+{{{sidenote{(I discussed this problem with Henk Tijms and he pointed out an answer on [[https://www.quora.com/How-do-I-use-a-fair-6-sided-die-to-generate-a-random-number-from-1-to-20-with-each-outcome-occurring-with-the-same-probability][Quora]] on how to handle a class with 20 pupils.
+Bases on this, I generalized this answer to an algorithm that can deal with an arbitrary number of children.)}}}
 
 In this section we introduce some general concepts that are generally useful. The first is /recursion/, the second is to use /acceptance-rejection/ policies to decide whether a game should continue or stop.
-
-There is no better way to understand a problem than to think about it; we include many exercises to help you with this.
 
 * A general approach
 <<sec:general-approach>>
@@ -91,13 +89,13 @@ If the outcome is in $\{1, 2\}$, give the biscuit to the first child; if in $\{3
 #+end_solution
 #+end_exercise
 
-When \(N=4\), we can use an inefficient, policy.
+When \(N=4\), we can use the following policy.
 Throw the die for each child.
 Each child whose outcome is below \(5\) `survives' to the next round.
 When there are no survivors after the first round (all threw \(5\) or \(6\) ) let them all throw once again.
 When there are \(1\), \(2\), or \(3\) survivors, use the suitable strategy we developed above.
-Thus, the idea of this algorithm is like this: use the die to reduce the group such that a size remains for which we already have a policy.
-However, while this is a fool-proof strategy, it requires at least \(5\) throws.
+Thus, the idea of this algorithm is like this: use the die to reduce the group such that a set of children remains for which we already have a policy.
+However, while this is a fool-proof strategy, it requires at least \(4\) throws.
 We'd better search for more efficient policies.
 
 #+name: oneex:1
