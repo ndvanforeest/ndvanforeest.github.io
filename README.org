@@ -32,14 +32,6 @@ nikola plugin -i orgmode
 
 
 
-** code styling
-
-#+begin_src shell
-pygmentize -S default -a .highlight -f html >> files/assets/css/custom.css
-#+end_src
-
-
-
 
 ** Update  init.el
 
@@ -56,6 +48,26 @@ Add the macros in =preamble.org= to ~plugins/orgmode/macros.org~. I need the mac
 pygmentize -S default -a .highlight -f html >> files/assets/css/custom.css
 #+end_src
 
+
+
+** Tufte style
+
+Download =tufte.css=.
+
+Pas aan in =tufte.css= zodat je minder marge links krijgt, en meer ruimte rechts ivm 60% ipv 87.5%. En het font wordt =sans= wat ik veel beter te lezen vind dat de et-books oid die er standaard in staan.
+#+begin_quote
+body {
+    width: 60%;
+    margin-left: 1em;
+    margin-right: 1em;
+    padding-left: 1.5%;
+    font-family: sans;
+    background-color: #fffff8;
+    color: #111;
+    max-width: 1400px;
+    counter-reset: sidenote-counter;
+}
+#+end_quote
 
 
 * compiling

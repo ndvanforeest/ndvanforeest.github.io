@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{centers} \PYG{o}{=} \PYG{n}{x}\PYG{p}{[::}\PYG{l+m+mi}{10}\PYG{p}{]}
+\PYG{n}{G} \PYG{o}{=} \PYG{n}{rho}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[:,} \PYG{k+kc}{None}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{centers}\PYG{p}{[}\PYG{k+kc}{None}\PYG{p}{,} \PYG{p}{:]))}
+\PYG{n}{a} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{lstsq}\PYG{p}{(}\PYG{n}{G}\PYG{p}{,} \PYG{n}{F}\PYG{p}{,} \PYG{n}{rcond}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{)[}\PYG{l+m+mi}{0}\PYG{p}{]}  \PYG{c+c1}{\PYGZsh{} rcond silences a warning}
+
+\PYG{n}{xi} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{n}{x}\PYG{o}{.}\PYG{n}{min}\PYG{p}{(),} \PYG{n}{x}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(),} \PYG{l+m+mi}{30}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} points to test the approximation}
+\PYG{n}{phi} \PYG{o}{=} \PYG{n}{rho}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{xi}\PYG{p}{[:,} \PYG{k+kc}{None}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{centers}\PYG{p}{[}\PYG{k+kc}{None}\PYG{p}{,} \PYG{p}{:]))} \PYG{o}{@} \PYG{n}{a}
+\PYG{n}{phi\PYGZus{}p} \PYG{o}{=} \PYG{n}{rho\PYGZus{}p}\PYG{p}{(}\PYG{n}{xi}\PYG{p}{[:,} \PYG{k+kc}{None}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{centers}\PYG{p}{[}\PYG{k+kc}{None}\PYG{p}{,} \PYG{p}{:])} \PYG{o}{@} \PYG{n}{a}
+\end{Verbatim}

@@ -1,3 +1,4 @@
+; Load my file straight.el to save the packages in ~/unsaved
 (let ((straight (expand-file-name "straight.el" (file-name-directory load-file-name))))
   (if (file-exists-p straight)
       (load-file straight)))
