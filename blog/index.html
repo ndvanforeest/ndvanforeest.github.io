@@ -79,7 +79,451 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/indicators-and_integraton/" class="u-url">Solving some Integrals using Indicators and Fubini's Theorem</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/ecdf-and-kernels/" class="u-url">ECDF and Kernels</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Nicky van Foreest
+                    </span></p>
+            <p class="dateline">
+            <a href="../posts/ecdf-and-kernels/" rel="bookmark">
+            <time class="published dt-published" datetime="2024-01-15T21:42:42+01:00" itemprop="datePublished" title="2024-01-15 21:42">2024-01-15 21:42</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <p>
+When analysing data obtained from simulation or measurements we often want to make a histogram of the data.
+In more general terms, we want to plot an (estimate of) the probability mass function (pmf).
+With numerical tools this is always a bit awkward because we have to specify, for instance, the number of equal-width bins in which to `throw the data', or, if we don't want equal-width bins, we need to provide the edges of the bins.
+In other words, we have to choose one or more <i>hyper parameters</i> before we can plot the pmf.
+</p>
+
+<p>
+The reason that I find this akwward is because before knowing anything about the data,  I have to make a sensible choice for the hyper parameters.
+Morever, this situation appears somewhat strange to me in view of the fact that making the <i>empirical distribution function (ecdf)</i> from the data does not require any intervention on my part.
+Can't I then just use the ecdf to make a <i>empirical proability mass function (epmf)</i>?
+</p>
+
+<p>
+Here we study two methods to make a epmf from the ecdf.
+The first is simple, and is based on some interesting ideas of (Lebesgue's) integration theory.
+The other uses function fitting and is based on machine learning and neural networks.
+We will test the accuracy of each graphically.
+</p>
+
+
+
+
+<div id="outline-container-orga3772ec" class="outline-2">
+<h2 id="orga3772ec">
+<span class="section-number-2">1.</span> ECDF and EPMF</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The <i>emperical cumulative distribution function (ecdf)</i> is defined for a given set of real-valued measurements \(x_{1}, \ldots, x_N\) as
+</p>
+\begin{align*}
+F(x) = \frac{\#\{i : x_{i} \leq x\}}{N} = \frac{1}{N}\sum_{i=1}^N \1{x_i \leq x},
+\end{align*}
+<p>
+that is, for each \(x\) we count the number of observations that lie in the set \((-\infty, x]\).
+Despite the mathematical elegance of this definition, we should stay clear from using this to <i>compute</i> the ecdf;  the numerical performance is bad.
+A much better approach is this:
+</p>
+<ol class="org-ol">
+<li>Sort the measurements \(\{x_i\}\).</li>
+<li>Count how often each value occurs.</li>
+<li>Then take the cumulative sum.</li>
+<li>Normalize, so as to get a real cdf, i.e., a non-decreasing function with \(\lim_{x\to -\infty} F(x) = 0\), and \(\lim_{x\to\infty} F(x) = 1\).</li>
+</ol>
+<p>
+In one function it looks like this.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ecdf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">support</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">support</span><span class="p">,</span> <span class="n">X</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Read the numpy documentation on <code>np.unique</code> to understand what this function does.
+Why don't we have to sort <code>X</code> before calling <code>np.unique</code>?
+</p>
+
+<p>
+We could also divide by <code>F[-1]</code> instead of <code>len(X)</code>; why is that?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+Reading the documentation is homework.
+As for \(F[-1]\), recall that the cumsum adds up to all counted values.
+So, \(F[-1]\) contains the number of observations, which is equal to <code>len(X)</code>.
+</p>
+
+
+</details>
+</div>
+<p>
+We can make a nice plot of the ecdf with a bit of work. <a href="../posts/ecdf-and-kernels/#orgab06f79">1</a> shows the result of the code we discuss next.
+We start with the modules.
+</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+</pre></div>
+
+<p>
+For the plot we add filled and open dots to make explicit that the ecdf is a right-continuous function.
+</p>
+<div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="n">ecdf</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xmin</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xmax</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s1">'o'</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># closed circles</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s1">'o'</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="s1">'white'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># open circles</span>
+
+<span class="c1"># left boundary</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="s1">'white'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1"># right boundary</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">xmax</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'$x$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'$F$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'ecdf'</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"../images/ecdf.png"</span><span class="p">)</span>
+</pre></div>
+
+
+<div id="orgab06f79" class="figure">
+<p><img src="../images/ecdf.png" alt="nil"></p>
+<p><span class="figure-number">Figure 1: </span>The ecdf of <code>X = np.array([2, 5, 2, 1, 9, 5, 5, 5])</code>.</p>
+</div>
+
+<p>
+<strong style="font-variant: all-small-caps">With the ecdf</strong> we can make an <i>empirical probability mass function (epmf)</i> of the measurements \(x_1, \ldots, x_{N}\) in various ways.
+For instance, we can specify a \emph{bandwidth} \(h&gt;0\) and then set
+</p>
+\begin{align*}
+f(x) = \frac1{Nh} \sum_{j=1}^N \1{x-\frac{h}{2} &lt; x_j \leq x+ \frac{h}{2}} = \frac{F(x+h/2) - F(x-h/2)}h,
+\end{align*}
+<p>
+where \(F\) is the ecdf.
+</p>
+
+<p>
+We can refine this idea by saying that points nearby \(u_{i}\) should contribute a bit more than points far away.
+To achieve this, use a weight function \(w(\cdot)\geq 0\), and set
+</p>
+\begin{equation}
+\label{org1837fbe}
+f(x) = \frac1{Nh} \sum_{j=1}^N w(x-x_{j}) \1{x-\frac{h}{2} &lt; x_j \leq x+ \frac{h}{2}}.
+\end{equation}
+<p>
+A yet more general form is to replace the summands by a \emph{kernel} function \(K(\cdot)\) and take
+</p>
+\begin{equation*}
+\label{org622db21}
+f(x) = \frac{1}{N}\sum_{j=1}^N K_{h}(x-x_j),
+\end{equation*}
+<p>
+where \(K_h(x) := K(x/h)/h\). Such a function is called a Kernel Density Estimate (KDE).
+(Often \(K\) is symmetric, i.e., \(K(-x) = K(x)\), however this is not necessary.)
+</p>
+
+<p>
+There are a number of different suitable functions for the kernel \(K\).
+Below we will use the choice \(\rho(x) = 1/(1+(x/\sigma)^{2})\).
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Why is \(K(x) = \1{-0.5 &lt; x &lt; 0.5}\) in \eqref{org1837fbe}?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\frac{1}{h}\1{x-\frac{h}{2} &lt; x_j \leq x + \frac{h}{2}} = \frac{1}{h}\1{-\frac{1}{2} &lt; \frac{x_j-x}{h} \leq  \frac{1}{2}}.
+\end{align*}
+
+
+
+</details>
+</div>
+<p>
+<strong style="font-variant: all-small-caps">However, rather than</strong> setting the <i>width</i> for all bins equal to \(h\), we can instead find bin edges such that each bin has the same number of observations.
+So, supposing we want to have \(n\) bins, then we should take as bin edges for \(i=0, \ldots, n\),
+</p>
+\begin{align}
+v_i &amp;= \min\{x_j : F(x_j) \geq i/n\}, &amp; u_{i} &amp;= (v_{i+1} + v_{i})/2,
+\end{align}
+<p>
+where \(x_{1}\leq x_{2}\leq \cdots \leq x_{n}\) are  the sorted values of \(\{x_{i}\}\), and  \(u_i\) are the midpoints of the bins.
+</p>
+
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Why should the height \(h\) of a bin with width  \(\Delta\) be taken  as \(h = (n \Delta)^{-1}\)?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><p>
+We want  each of the \(n\) boxes with height \(h\) and width \(\Delta\) to have the same probability to be hit.
+That is, we want that \(h \Delta = 1/n\) for all bins \(i=1, 2, \ldots, n\).
+</p>
+
+
+</details>
+</div>
+<p>
+This is one way to compute the bin edges and heights.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_sorted_asc</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">arr</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+
+<span class="k">def</span> <span class="nf">epmf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_sorted_asc</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)]</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">v</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">v</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">u</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">num</span> <span class="o">/</span> <span class="n">delta</span>
+</pre></div>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
+<p>
+Why do we add \(1\) to the number of bins <code>n</code>? Why does <code>linspace</code> run up to <code>len(x) - 1</code> instead of <code>len(x)</code>?
+</p>
+<details class="code-details" style="padding: 0.6em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 1em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary><ol class="org-ol">
+<li>To make <code>n</code> bins, we need <code>n+1</code> bin edges. 2. <code>linspace</code> includes the boundaries, so up to and including \(100\) if <code>x</code> contains 100 elements. However, the last element of <code>x</code> has index \(99\).</li>
+</ol></details>
+</div>
+<p>
+To see whether this works well, we do one experiment with \(\Exp{\lambda}\) and a second experiment with \(\Unif{[0,1]}\).
+The results are in Fig.<a href="../posts/ecdf-and-kernels/#org3bd98a2">2</a>.
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="n">gen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="n">labda</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="n">ecdf</span><span class="p">(</span><span class="n">gen</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">labda</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">))</span>
+<span class="n">u</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="n">epmf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">u</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">f</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="s1">'ko'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">labda</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">labda</span> <span class="o">*</span> <span class="n">x</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'x'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'epmf'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'epmf exponential'</span><span class="p">)</span>
+
+<span class="n">x</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="n">ecdf</span><span class="p">(</span><span class="n">gen</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">))</span>
+<span class="n">u</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="n">epmf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">u</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">f</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="s1">'ko'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'x'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'epmf uniform'</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"../images/epmf.png"</span><span class="p">)</span>
+</pre></div>
+
+
+<div id="org3bd98a2" class="figure">
+<p><img src="../images/epmf.png" alt="nil"></p>
+<p><span class="figure-number">Figure 2: </span>The epmf for samples from \(\Exp{\lambda}\) and from \(\Unif{[0,1]}\).</p>
+</div>
+
+
+<p>
+In view of how little work it is to code the ecdf and epmf, and how simple these methods are to understand, I find the results surprisingly good.
+However, there is a drawback of this procedure to estimate the pdf: the epmf contracts the probablity masses onto single points.
+What if we would like a smooth density function instead of a probability mass function?
+For that we need to interpolate between the observations; this will be the topic of the rest of this chapter.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orge90f621" class="outline-2">
+<h2 id="orge90f621">
+<span class="section-number-2">2.</span> Interpolation with Function Approximations</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+An attractive method to compute the epmf is to approximate the ecdf \(F\) by some smooth function \(x\to\phi(x)\).
+The specification as a function provides an estimate for the cdf in between observations, and the smoothness allows to use the derivative \(\phi'\) as a (hopefully) good approximation for the epmf.
+Here we'll implement this and see how it works.
+We note in passing that this idea is of general interest; in machine learning, the technique is known as using <i>radial basis functions</i>, c.f., <a href="https://en.wikipedia.org/wiki/Radial_basis_function_network">wikipedia</a>.
+</p>
+
+<p>
+We start with a <i>basis</i> function ρ that has a peak at \(x=0\) and then tapers off to the left and right.
+The pmf of the normal distribution satisfies these constraints, but here we take
+</p>
+\begin{alignat}{2}
+\rho(x) = \frac{1}{1+(x/\sigma)^{2}} &amp;\implies &amp; \rho'(x) = -\frac{2 x/\sigma^2}{(\sigma^2+x^2)^{2}}.
+\end{alignat}
+<p>
+The number σ is a <i>smoothing</i> factor: the larger, the flatter ρ.
+Note that this is a hyper parameter that needs to be tuned to the data. (In all honesty, I find searching for hyper parameters very boring.
+There must be some theory on how to obtain reasonable values for σ, but I have not investigated this.)
+</p>
+
+<p>
+With as centers the (sorted) support \(\bar x = \{x_i\}\) of the ecdf \(F\),  we take as approximation for the ecdf
+</p>
+\begin{equation}
+\phi(x | a, \bar x) = \sum_{i=0}^{N} a_i \rho(|x-x_i|),
+\end{equation}
+<p>
+where the coefficients \(a = \{a_i\}\) are to determined such that \(\phi\) lies close to \(F\) in some sense.
+Note that we write \(\phi(x | a, x_{i})\) to make explicit that \(\phi\) depends on the parameter vector \(a\) and the observations \(\bar x\).
+</p>
+
+<p>
+One way to find \(a\) is by means of a minimization problem.
+Writing  \(y_i=F(x_i)\) for the values of the ecdf at the point \(x_{i}\), we can find \(a\) by solving the problem
+</p>
+\begin{align}
+\text{min}_{a} \sum_{j=1}^N (\phi(x_j|a, \bar x) - y_j)^{2}.
+\end{align}
+<p>
+By substituting the definition of ρ and introducting the (symmetric) matrix \(G\) with elements \(G_{ij} = \rho(|x_i-x_j|)\), we have that
+</p>
+\begin{align}
+\sum_{j=1}^N (\phi(x_j| a, \bar x) - y_j)^{2} = \sum_{j=1}^N \sum_{i=1}^{N} (a_{i}\rho(|x_j-x_i|) - y_j)^{2} = (a' G' - y')(G a - y).
+\end{align}
+<p>
+where \(a'\) means the transpose of \(a\).
+With this notation, it is clear that the best \(a\) must be the least squares minimizer of \(G a - y\).
+</p>
+
+
+<p>
+This is the code for ρ and its derivative which we call <code>rho_p</code> because <code>p</code> stands for `prime'.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">rho</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">rho_p</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># derivative of rho</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+</pre></div>
+
+
+<p>
+Here is the code to solve the above problem.
+We start with drawing some random numbers.
+(Note that our code depends on all the regular python imports.)
+For no particular reason I take σ to be equal to 20 times the largest bin size in the support of the ecdf; it seems to work reasonable.
+</p>
+<div class="highlight"><pre><span></span><span class="n">rv</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">expon</span><span class="p">()</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="n">ecdf</span><span class="p">(</span><span class="n">rv</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">gen</span><span class="p">))</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+</pre></div>
+
+<p>
+To save some numerical work, we don't take the full support  \(\{x_i\}\) of \(F\)  for the centers for \(\rho\), but just a subset. Second, observe that \(G\) is a matrix. To get the data \(x\) and the centers in the right dimensions, we have to augment these arrays with <code>None</code> at the right places.
+</p>
+<div class="highlight"><pre><span></span><span class="n">centers</span> <span class="o">=</span> <span class="n">x</span><span class="p">[::</span><span class="mi">10</span><span class="p">]</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">rho</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">centers</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]))</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># rcond silences a warning</span>
+
+<span class="n">xi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">30</span><span class="p">)</span>  <span class="c1"># points to test the approximation</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="n">rho</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">xi</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">centers</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]))</span> <span class="o">@</span> <span class="n">a</span>
+<span class="n">phi_p</span> <span class="o">=</span> <span class="n">rho_p</span><span class="p">(</span><span class="n">xi</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">centers</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span> <span class="o">@</span> <span class="n">a</span>
+</pre></div>
+
+<p>
+It remains to make a plot to see how things look.
+</p>
+<div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="s1">'k-'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"ecdf"</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="s1">'ko'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"fit"</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">rv</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xi</span><span class="p">),</span> <span class="s1">'k-'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"pdf"</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">phi_p</span><span class="p">,</span> <span class="s1">'k.'</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"fit"</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">phi_p</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'../images/radial_epmf_expon.png'</span><span class="p">)</span>
+</pre></div>
+
+<p>
+In Fig.<a href="../posts/ecdf-and-kernels/#org3e95652">3</a> we see that φ lies  closely to the ecdf \(F\) in the left part of the graph, but the \(\phi'\) becomes <i>negative</i> around 6.
+</p>
+
+
+<div id="org3e95652" class="figure">
+<p><img src="../images/radial_epmf_expon.png" alt="nil"></p>
+<p><span class="figure-number">Figure 3: </span>The epmf for an \(\Exp{\lambda}\) rv.</p>
+</div>
+
+<p>
+All in all, for my simple goals I am not happy with this method.
+First, it is difficult to understand, at least quite a bit more than the previous method.
+Second, I need to choose and/or tune hyper parameter.
+This is something I don't like because I don't know how to do it, and if I choose not to know the theory, I have to search empiricallyfor good values, and that I find painfully boring.
+Third, numerically it is much more demanding than my earlier method to compute the epmf.
+Fourth, and finally, the observation that \(\phi'\) can become negative is a killer for me.
+</p>
+
+
+<p>
+Perhaps it's possible to repair all this, by playing with \(\sigma\), using more points as centers, and finally, including checks that \(\phi'\) cannot become negative.
+However, I prefer the simpler method.
+</p>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/indicators-and_integraton/" class="u-url">Solving some Integrals using Indicators and Fubini's Theorem</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         Nicky van Foreest
@@ -4928,336 +5372,6 @@ We will ignore such mathematical points in the sequel.</p></div>
 </div>
 
 
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/making-an-exercise-and-solution-environment/" class="u-url">Making an Exercise and Solution Environment</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        Nicky van Foreest
-                    </span></p>
-            <p class="dateline">
-            <a href="../posts/making-an-exercise-and-solution-environment/" rel="bookmark">
-            <time class="published dt-published" datetime="2023-12-29T20:30:01+01:00" itemprop="datePublished" title="2023-12-29 20:30">2023-12-29 20:30</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="table-of-contents" role="doc-toc">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents" role="doc-toc">
-<ul>
-<li><a href="../posts/making-an-exercise-and-solution-environment/#org747ca6c">1. The Problem</a></li>
-<li><a href="../posts/making-an-exercise-and-solution-environment/#orga95c6c9">2. My Environment</a></li>
-<li>
-<a href="../posts/making-an-exercise-and-solution-environment/#org8bcd865">3. The adapted <code>init.el</code></a>
-<ul>
-<li><a href="../posts/making-an-exercise-and-solution-environment/#orgac5b313">3.1. Loading the relevant packages</a></li>
-<li><a href="../posts/making-an-exercise-and-solution-environment/#org2520824">3.2. Updating the code for <code>box</code> and <code>details</code> blocks</a></li>
-<li><a href="../posts/making-an-exercise-and-solution-environment/#org01b30b6">3.3. Making the exercise, hint and solution blocks</a></li>
-</ul>
-</li>
-<li><a href="../posts/making-an-exercise-and-solution-environment/#org7955784">4. Testing</a></li>
-</ul>
-</div>
-</div>
-
-
-<div id="outline-container-org747ca6c" class="outline-2">
-<h2 id="org747ca6c">
-<span class="section-number-2">1.</span> The Problem</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-In a number of my org mode files I include exercise with hints and solutions.
-In the pdf files, which I make via \(\LaTeX\), I use the <code>answers</code> package print the exercises in the main text and the hints and solutions at the end of the file.
-However, when exporting the file to <code>html</code> via my website I would like to see the exercises, hints and solutions printed like so:
-</p>
-
-<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
-<p>
-How to make an excercise environment like this?
-</p>
-<details class="code-details" style="padding: 1em;
-                          background-color: #e5f5e5;
-                          border-radius: 15px;
-                          color: hsl(157 75%);
-                          font-size: 0.9em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
-                      <font face="Courier" size="3" color="green">
-                         Hint
-                      </font>
-                    </strong>
-                  </summary><p>
-And a hint like this?
-</p>
-
-
-</details><details class="code-details" style="padding: 1em;
-                          background-color: #e5f5e5;
-                          border-radius: 15px;
-                          color: hsl(157 75%);
-                          font-size: 0.9em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
-                      <font face="Courier" size="3" color="red">
-                         Solution
-                      </font>
-                    </strong>
-                  </summary><p>
-To see how to do this, read on.
-</p>
-
-
-</details>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orga95c6c9" class="outline-2">
-<h2 id="orga95c6c9">
-<span class="section-number-2">2.</span> My Environment</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-I use <code>emacs</code> and <code>org mode</code> to write files, and <code>nikola</code> to make my homepage.
-After some searching on the web, I found the <a href="http://alhassy.com/org-special-block-extras/"><code>org-special-block-extras</code></a> package which proved promissing for my goal.
-The related <a href="https://github.com/alhassy/org-special-block-extras">github</a> page shows how to install it.
-Here are the steps I followed.
-</p>
-
-<p>
-First I installed the <code>org mode</code> plugin for <code>nikola</code>. The <code>orgmode.py</code> file shows that the next command can used to convert an <code>org</code> to an <code>html</code> file that <code>nikola</code> can read.
-</p>
-<div class="highlight"><pre><span></span>/usr/bin/emacs --batch -l init.el --eval '(nikola-html-export "input.org" "output.html")'
-</pre></div>
-<p>
-The org mode plugin also provides an <code>init.el</code> file that I used as a starting point.
-</p>
-
-<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
-<p>
-The <code>init.el</code> file contains the line <code>(setq package-load-list '((htmlize t)))</code>. This should be removed. Why?
-</p>
-<details class="code-details" style="padding: 1em;
-                          background-color: #e5f5e5;
-                          border-radius: 15px;
-                          color: hsl(157 75%);
-                          font-size: 0.9em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
-                      <font face="Courier" size="3" color="green">
-                         Hint
-                      </font>
-                    </strong>
-                  </summary><p>
-What does <code>package-load-list</code> do?
-</p>
-
-
-</details><details class="code-details" style="padding: 1em;
-                          background-color: #e5f5e5;
-                          border-radius: 15px;
-                          color: hsl(157 75%);
-                          font-size: 0.9em;
-                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
-                      <font face="Courier" size="3" color="red">
-                         Solution
-                      </font>
-                    </strong>
-                  </summary><p>
-I need to install <code>org-special-block-extras</code>, and this command prevents that.
-</p>
-
-
-</details>
-</div>
-</div>
-</div>
-
-
-<div id="outline-container-org8bcd865" class="outline-2">
-<h2 id="org8bcd865">
-<span class="section-number-2">3.</span> The adapted <code>init.el</code>
-</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-Since I need functionality from <code>org-special-block-extras</code>, I have to update the <code>init.el</code> anyway, so here it is.
-</p>
-</div>
-
-<div id="outline-container-orgac5b313" class="outline-3">
-<h3 id="orgac5b313">
-<span class="section-number-3">3.1.</span> Loading the relevant packages</h3>
-<div class="outline-text-3" id="text-3-1">
-<p>
-Since I use  <code>straight</code> and <code>use-package</code>, I need to put this on the top of the <code>init.el</code> file. I copied this straight from my regular <code>init.el</code>
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">defvar</span><span class="w"> </span><span class="nv">bootstrap-version</span><span class="p">)</span>
-<span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">((</span><span class="nf">bootstrap-file</span>
-<span class="w">       </span><span class="p">(</span><span class="nf">expand-file-name</span><span class="w"> </span><span class="s">"straight/repos/straight.el/bootstrap.el"</span><span class="w"> </span><span class="nv">user-emacs-directory</span><span class="p">))</span>
-<span class="w">      </span><span class="p">(</span><span class="nf">bootstrap-version</span><span class="w"> </span><span class="mi">5</span><span class="p">))</span>
-<span class="w">  </span><span class="p">(</span><span class="k">unless</span><span class="w"> </span><span class="p">(</span><span class="nf">file-exists-p</span><span class="w"> </span><span class="nv">bootstrap-file</span><span class="p">)</span>
-<span class="w">    </span><span class="p">(</span><span class="nf">with-current-buffer</span>
-<span class="w">        </span><span class="p">(</span><span class="nf">url-retrieve-synchronously</span>
-<span class="w">         </span><span class="s">"https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"</span>
-<span class="w">         </span><span class="ss">'silent</span><span class="w"> </span><span class="ss">'inhibit-cookies</span><span class="p">)</span>
-<span class="w">      </span><span class="p">(</span><span class="nf">goto-char</span><span class="w"> </span><span class="p">(</span><span class="nf">point-max</span><span class="p">))</span>
-<span class="w">      </span><span class="p">(</span><span class="nf">eval-print-last-sexp</span><span class="p">)))</span>
-<span class="w">  </span><span class="p">(</span><span class="k">load</span><span class="w"> </span><span class="nv">bootstrap-file</span><span class="w"> </span><span class="nv">nil</span><span class="w"> </span><span class="ss">'nomessage</span><span class="p">))</span>
-<span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">package-enable-at-startup</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
-
-<span class="p">(</span><span class="nf">straight-use-package</span><span class="w"> </span><span class="ss">'use-package</span><span class="p">)</span>
-<span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">straight-use-package-by-default</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
-</pre></div>
-
-<p>
-Next I load two packages. The hook on <code>org-mode</code> is necessary.
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">use-package</span><span class="w"> </span><span class="nv">htmlize</span>
-<span class="w">  </span><span class="nv">:ensure</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
-
-<span class="p">(</span><span class="nf">use-package</span><span class="w"> </span><span class="nv">org-special-block-extras</span>
-<span class="w">  </span><span class="nv">:ensure</span><span class="w"> </span><span class="nv">t</span>
-<span class="w">  </span><span class="c1">;; All relevant Lisp functions are prefixed ‘o-’; e.g., `o-docs-insert'.</span>
-<span class="w">  </span><span class="nv">:hook</span><span class="w"> </span><span class="p">(</span><span class="nf">org-mode</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">org-special-block-extras-mode</span><span class="p">)</span>
-<span class="w">  </span><span class="nv">:custom</span>
-<span class="w">    </span><span class="p">(</span><span class="nf">o-docs-libraries</span>
-<span class="w">     </span><span class="o">'</span><span class="p">(</span><span class="s">"~/org-special-block-extras/documentation.org"</span><span class="p">)</span>
-<span class="w">     </span><span class="s">"The places where I keep my ‘#+documentation’"</span><span class="p">))</span>
-
-
-
-<span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'org</span><span class="p">)</span>
-<span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'ox-html</span><span class="p">)</span>
-<span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'org-special-block-extras</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org2520824" class="outline-3">
-<h3 id="org2520824">
-<span class="section-number-3">3.2.</span> Updating the code for <code>box</code> and <code>details</code> blocks</h3>
-<div class="outline-text-3" id="text-3-2">
-<p>
-I adapted the fontsizes and the padding of the <code>details</code> block of <code>org-special-block-extras</code>.
-I just copied the relevant part of  <code>org-special-block-extras.el</code>, removed the documentation string to keep this file small, and changed the padding and font size.
-</p>
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">org-defblock</span><span class="w"> </span><span class="nv">details</span><span class="w"> </span><span class="p">(</span><span class="nf">title</span><span class="w"> </span><span class="s">"Details"</span>
-<span class="w">              </span><span class="nv">background-color</span><span class="w"> </span><span class="s">"#e5f5e5"</span><span class="w"> </span><span class="nv">title-color</span><span class="w"> </span><span class="s">"green"</span><span class="p">)</span>
-<span class="w">   </span><span class="p">(</span><span class="nf">pcase</span><span class="w"> </span><span class="nv">backend</span>
-<span class="w">     </span><span class="p">(</span><span class="o">`</span><span class="nv">latex</span><span class="w"> </span><span class="p">(</span><span class="nf">concat</span><span class="w"> </span><span class="p">(</span><span class="nf">pcase</span><span class="w"> </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">background-color</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
-<span class="w">                       </span><span class="p">(</span><span class="s">"#"</span><span class="w"> </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"</span><span class="se">\\</span><span class="s">definecolor{osbe-bg}{HTML}{%s}"</span><span class="w"> </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">background-color</span><span class="w"> </span><span class="mi">1</span><span class="p">)))</span>
-<span class="w">                       </span><span class="p">(</span><span class="k">_</span><span class="w"> </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"</span><span class="se">\\</span><span class="s">colorlet{osbe-bg}{%s}"</span><span class="w"> </span><span class="nv">background-color</span><span class="p">)))</span>
-<span class="w">                     </span><span class="p">(</span><span class="nf">pcase</span><span class="w"> </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">title-color</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
-<span class="w">                       </span><span class="p">(</span><span class="s">"#"</span><span class="w"> </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"</span><span class="se">\\</span><span class="s">definecolor{osbe-fg}{HTML}{%s}"</span><span class="w"> </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">title-color</span><span class="w"> </span><span class="mi">1</span><span class="p">)))</span>
-<span class="w">                       </span><span class="p">(</span><span class="k">_</span><span class="w"> </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"</span><span class="se">\\</span><span class="s">colorlet{osbe-fg}{%s}"</span><span class="w"> </span><span class="nv">title-color</span><span class="p">)))</span>
-<span class="w">                     </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"</span><span class="se">\\</span><span class="s">begin{quote}</span>
-<span class="s">                              </span><span class="se">\\</span><span class="s">begin{tcolorbox}[colback=osbe-bg,colframe=osbe-fg,title={%s},sharp corners,boxrule=0.4pt]</span>
-<span class="s">                                   %s</span>
-<span class="s">                               </span><span class="se">\\</span><span class="s">end{tcolorbox}</span>
-<span class="s">                </span><span class="se">\\</span><span class="s">end{quote}"</span><span class="w"> </span><span class="nv">title</span><span class="w"> </span><span class="nv">contents</span><span class="p">)))</span>
-<span class="w">     </span><span class="p">(</span><span class="k">_</span><span class="w"> </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"&lt;details class=</span><span class="se">\"</span><span class="s">code-details</span><span class="se">\"</span>
-<span class="s">                 style =</span><span class="se">\"</span><span class="s">padding: 0.6em;</span>
-<span class="s">                          background-color: %s;</span>
-<span class="s">                          border-radius: 15px;</span>
-<span class="s">                          color: hsl(157 75% 20%);</span>
-<span class="s">                          font-size: 1em;</span>
-<span class="s">                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;</span><span class="se">\"</span><span class="s">&gt;</span>
-<span class="s">                  &lt;summary&gt;</span>
-<span class="s">                    &lt;strong&gt;</span>
-<span class="s">                      &lt;font face=</span><span class="se">\"</span><span class="s">Courier</span><span class="se">\"</span><span class="s"> size=</span><span class="se">\"</span><span class="s">3</span><span class="se">\"</span><span class="s"> color=</span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">&gt;</span>
-<span class="s">                         %s</span>
-<span class="s">                      &lt;/font&gt;</span>
-<span class="s">                    &lt;/strong&gt;</span>
-<span class="s">                  &lt;/summary&gt;</span>
-<span class="s">                  %s</span>
-<span class="s">               &lt;/details&gt;"</span><span class="w"> </span><span class="nv">background-color</span><span class="w"> </span><span class="nv">title-color</span><span class="w"> </span><span class="nv">title</span><span class="w"> </span><span class="nv">contents</span><span class="p">))))</span>
-</pre></div>
-
-<p>
-And also for the  <code>box</code> block.
-</p>
-
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">org-defblock</span><span class="w"> </span><span class="nv">box</span><span class="w"> </span><span class="p">(</span><span class="nf">title</span><span class="w"> </span><span class="s">""</span><span class="w"> </span><span class="nv">background-color</span><span class="w"> </span><span class="nv">nil</span><span class="w"> </span><span class="nv">shadow</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
-<span class="w">  </span><span class="p">(</span><span class="nf">pcase</span><span class="w"> </span><span class="nv">backend</span>
-<span class="w">    </span><span class="p">(</span><span class="o">`</span><span class="nv">latex</span>
-<span class="w">     </span><span class="p">(</span><span class="nb">apply</span><span class="w"> </span><span class="o">#</span><span class="ss">'concat</span>
-<span class="w">            </span><span class="o">`</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">begin{tcolorbox}[title={"</span><span class="w"> </span><span class="o">,</span><span class="nv">title</span><span class="w"> </span><span class="s">"}"</span>
-<span class="w">              </span><span class="s">",colback="</span><span class="w"> </span><span class="o">,</span><span class="p">(</span><span class="nf">pp-to-string</span><span class="w"> </span><span class="p">(</span><span class="k">or</span><span class="w"> </span><span class="nv">background-color</span><span class="w"> </span><span class="ss">'red!5!white</span><span class="p">))</span>
-<span class="w">              </span><span class="s">",colframe=red!75!black, colbacktitle=yellow!50!red"</span>
-<span class="w">              </span><span class="s">",coltitle=red!25!black, fonttitle=</span><span class="se">\\</span><span class="s">bfseries,"</span>
-<span class="w">              </span><span class="s">"subtitle style={boxrule=0.4pt, colback=yellow!50!red!25!white}]"</span>
-<span class="w">              </span><span class="o">,</span><span class="nv">contents</span>
-<span class="w">              </span><span class="s">"</span><span class="se">\\</span><span class="s">end{tcolorbox}"</span><span class="p">)))</span>
-<span class="w">    </span><span class="c1">;; CSS syntax: “box-shadow: specification, specification, ...”</span>
-<span class="w">    </span><span class="c1">;; where a specification is of the shape “[inset] x_offset y_offset [blur [spread]] color”.</span>
-<span class="w">    </span><span class="p">(</span><span class="k">_</span><span class="w"> </span><span class="p">(</span><span class="nf">-let</span><span class="w"> </span><span class="p">[</span><span class="nv">haze</span><span class="w"> </span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="p">(</span><span class="nf">left</span><span class="w"> </span><span class="nv">right</span><span class="w"> </span><span class="nv">deep-right</span><span class="w"> </span><span class="nv">deep-left</span><span class="p">)</span>
-<span class="w">                     </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"width: 50%%; margin: auto; box-shadow: %s"</span>
-<span class="w">                             </span><span class="p">(</span><span class="nf">thread-last</span><span class="w"> </span><span class="p">(</span><span class="nb">list</span><span class="w"> </span><span class="p">(</span><span class="nb">cons</span><span class="w"> </span><span class="nv">right</span><span class="w">      </span><span class="s">"8px 6px 13px 8px %s"</span><span class="p">)</span>
-<span class="w">                                                </span><span class="p">(</span><span class="nb">cons</span><span class="w"> </span><span class="nv">left</span><span class="w">       </span><span class="s">"-16px 12px 20px 16px %s"</span><span class="p">)</span>
-<span class="w">                                                </span><span class="p">(</span><span class="nb">cons</span><span class="w"> </span><span class="nv">deep-right</span><span class="w"> </span><span class="s">"48px 36px 71px 28px %s"</span><span class="p">)</span>
-<span class="w">                                                </span><span class="p">(</span><span class="nb">cons</span><span class="w"> </span><span class="nv">deep-left</span><span class="w">  </span><span class="s">"-48px -20px 71px 28px %s"</span><span class="p">))</span>
-<span class="w">                               </span><span class="p">(</span><span class="nf">--filter</span><span class="w"> </span><span class="p">(</span><span class="nb">car</span><span class="w"> </span><span class="nv">it</span><span class="p">))</span>
-<span class="w">                               </span><span class="p">(</span><span class="nf">--map</span><span class="w"> </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="p">(</span><span class="nb">cdr</span><span class="w"> </span><span class="nv">it</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nb">car</span><span class="w"> </span><span class="nv">it</span><span class="p">)))</span>
-<span class="w">                               </span><span class="p">(</span><span class="nf">s-join</span><span class="w"> </span><span class="s">","</span><span class="p">))))]</span>
-<span class="w">         </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"&lt;div style=</span><span class="se">\"</span><span class="s">%s</span><span class="se">\"</span><span class="s">&gt; &lt;h3&gt;%s&lt;/h3&gt; %s &lt;/div&gt;"</span>
-<span class="w">                 </span><span class="p">(</span><span class="nf">s-join</span><span class="w"> </span><span class="s">";"</span><span class="w"> </span><span class="o">`</span><span class="p">(</span><span class="w"> </span><span class="s">"padding: 0.5em;"</span>
-<span class="w">                               </span><span class="o">,</span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"background-color: %s"</span><span class="w"> </span><span class="p">(</span><span class="nf">org-subtle-colors</span><span class="w"> </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"%s"</span><span class="w"> </span><span class="p">(</span><span class="k">or</span><span class="w"> </span><span class="nv">background-color</span><span class="w"> </span><span class="s">"green"</span><span class="p">))))</span>
-<span class="w">                               </span><span class="s">"border-radius: 15px"</span>
-<span class="w">                               </span><span class="s">"font-size: 1em"</span>
-<span class="w">                               </span><span class="o">,</span><span class="p">(</span><span class="k">when</span><span class="w"> </span><span class="nv">shadow</span>
-<span class="w">                                  </span><span class="p">(</span><span class="k">cond</span>
-<span class="w">                                   </span><span class="p">((</span><span class="nf">equal</span><span class="w"> </span><span class="nv">shadow</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
-<span class="w">                                    </span><span class="p">(</span><span class="nf">funcall</span><span class="w"> </span><span class="nv">haze</span><span class="w"> </span><span class="s">"hsl(60, 100%, 50%)"</span><span class="w"> </span><span class="s">"hsl(1, 100%, 50%)"</span><span class="w"> </span><span class="s">"hsl(180, 100%, 50%)"</span><span class="w"> </span><span class="nv">nil</span><span class="p">))</span>
-<span class="w">                                   </span><span class="p">((</span><span class="nf">equal</span><span class="w"> </span><span class="nv">shadow</span><span class="w"> </span><span class="ss">'inset</span><span class="p">)</span>
-<span class="w">                                    </span><span class="p">(</span><span class="nf">funcall</span><span class="w"> </span><span class="nv">haze</span><span class="w"> </span><span class="s">"inset hsl(60, 100%, 50%)"</span><span class="w"> </span><span class="s">"inset hsl(1, 100%, 50%)"</span><span class="w"> </span><span class="s">"inset hsl(180, 100%, 50%)"</span><span class="w"> </span><span class="nv">nil</span><span class="p">))</span>
-<span class="w">                                   </span><span class="p">((</span><span class="k">or</span><span class="w"> </span><span class="p">(</span><span class="nf">stringp</span><span class="w"> </span><span class="nv">shadow</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nf">symbolp</span><span class="w"> </span><span class="nv">shadow</span><span class="p">))</span>
-<span class="w">                                    </span><span class="p">(</span><span class="nb">format</span><span class="w"> </span><span class="s">"box-shadow: 10px 10px 20px 0px %s; width: 50%%; margin: auto"</span><span class="w"> </span><span class="p">(</span><span class="nf">pp-to-string</span><span class="w"> </span><span class="nv">shadow</span><span class="p">)))</span>
-<span class="w">                                   </span><span class="p">((</span><span class="nf">json-plist-p</span><span class="w"> </span><span class="nv">shadow</span><span class="p">)</span>
-<span class="w">                                    </span><span class="p">(</span><span class="nf">-let</span><span class="w"> </span><span class="p">[(</span><span class="nf">&amp;plist</span><span class="w"> </span><span class="nv">:left</span><span class="w"> </span><span class="nv">X</span><span class="w"> </span><span class="nv">:right</span><span class="w"> </span><span class="nv">Y</span><span class="w"> </span><span class="nv">:deep-right</span><span class="w"> </span><span class="nv">Z</span><span class="w"> </span><span class="nv">:deep-left</span><span class="w"> </span><span class="nv">W</span><span class="p">)</span><span class="w"> </span><span class="nv">shadow</span><span class="p">]</span>
-<span class="w">                                      </span><span class="p">(</span><span class="nf">funcall</span><span class="w"> </span><span class="nv">haze</span><span class="w"> </span><span class="nv">X</span><span class="w"> </span><span class="nv">Y</span><span class="w"> </span><span class="nv">Z</span><span class="w"> </span><span class="nv">W</span><span class="p">)))</span>
-<span class="w">                                   </span><span class="p">(</span><span class="nf">:otherwise</span><span class="w"> </span><span class="p">(</span><span class="nf">-let</span><span class="w"> </span><span class="p">[(</span><span class="nf">X</span><span class="w"> </span><span class="nv">Y</span><span class="w"> </span><span class="nv">Z</span><span class="w"> </span><span class="nv">W</span><span class="p">)</span><span class="w"> </span><span class="nv">shadow</span><span class="p">]</span>
-<span class="w">                                        </span><span class="p">(</span><span class="nf">funcall</span><span class="w"> </span><span class="nv">haze</span><span class="w"> </span><span class="nv">X</span><span class="w"> </span><span class="nv">Y</span><span class="w"> </span><span class="nv">Z</span><span class="w"> </span><span class="nv">W</span><span class="p">)))))))</span>
-<span class="w">                 </span><span class="nv">title</span><span class="w"> </span><span class="nv">contents</span><span class="p">)))))</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org01b30b6" class="outline-3">
-<h3 id="org01b30b6">
-<span class="section-number-3">3.3.</span> Making the exercise, hint and solution blocks</h3>
-<div class="outline-text-3" id="text-3-3">
-<p>
-The exercise, hint and solution blocks are now simple to implement (after I read the examples on <a href="http://alhassy.com/org-special-block-extras/"><code>org-special-blocks-extra</code></a>).
-</p>
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">org-defblock</span><span class="w"> </span><span class="nv">exercise</span><span class="w"> </span><span class="p">(</span><span class="nf">title</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
-<span class="w">  </span><span class="p">(</span><span class="nf">org-thread-blockcall</span><span class="w"> </span><span class="nv">raw-contents</span>
-<span class="w">    </span><span class="p">(</span><span class="nf">box</span><span class="w"> </span><span class="p">)))</span>
-
-<span class="p">(</span><span class="nf">org-defblock</span><span class="w"> </span><span class="nv">solution</span><span class="w"> </span><span class="p">(</span><span class="nf">title</span><span class="w"> </span><span class="s">"Solution"</span><span class="p">)</span>
-<span class="w">  </span><span class="p">(</span><span class="nf">org-thread-blockcall</span><span class="w"> </span><span class="nv">raw-contents</span>
-<span class="w">    </span><span class="p">(</span><span class="nf">details</span><span class="w"> </span><span class="nv">title</span><span class="w"> </span><span class="nv">:title-color</span><span class="w"> </span><span class="s">"red"</span><span class="p">)))</span>
-
-
-<span class="p">(</span><span class="nf">org-defblock</span><span class="w"> </span><span class="nv">hint</span><span class="w"> </span><span class="p">(</span><span class="nf">title</span><span class="w"> </span><span class="s">"Hint"</span><span class="p">)</span>
-<span class="w">  </span><span class="p">(</span><span class="nf">org-thread-blockcall</span><span class="w"> </span><span class="nv">raw-contents</span>
-<span class="w">    </span><span class="p">(</span><span class="nf">details</span><span class="w"> </span><span class="nv">title</span><span class="p">)))</span><span class="w"> </span><span class="c1">; :title-color "red")))</span>
-</pre></div>
-
-<p>
-I copied the above on top of the <code>init.el</code> file, and kept the rest.
-</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org7955784" class="outline-2">
-<h2 id="org7955784">
-<span class="section-number-2">4.</span> Testing</h2>
-<div class="outline-text-2" id="text-4">
-<p>
-Let's test this on this file. As this file sits in the <code>posts</code> we need to include the path to  <code>init.el</code>.
-</p>
-<div class="highlight"><pre><span></span>/usr/bin/emacs --batch -l ../plugins/orgmode/init.el --eval '(nikola-html-export "making-an-exercise-environment.org" "../output/output.html")'
-</pre></div>
 </div>
 </div>
                 </div>
