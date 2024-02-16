@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2024 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Fri, 16 Feb 2024 21:03:07 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Metropolis-Hastings Algorithm</title><link>https://ndvanforeest.github.io/posts/metropolis-hastings-algorithm/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nicky's site</title><link>https://ndvanforeest.github.io/</link><description>This is my site</description><atom:link href="https://ndvanforeest.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2024 &lt;a href="mailto:vanforeest@gmail.com"&gt;Nicky van Foreest&lt;/a&gt; </copyright><lastBuildDate>Fri, 16 Feb 2024 21:12:06 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Metropolis-Hastings Algorithm</title><link>https://ndvanforeest.github.io/posts/metropolis-hastings-algorithm/</link><dc:creator>Nicky van Foreest</dc:creator><description>&lt;p&gt;
 The first time I read about the Metropolis-Hastings (MH) algorithm I found it all very confusing.
 The reason is that I was (am?)
 used to think in terms of Markov chains and transition matrices, and then the goal is to find the stationary distribution \(\pi\).
@@ -88,10 +88,10 @@ c(A) = \sum_{i=1}^{N} \1{X_{i}\in A\}
 If the length of \(A\) is small, then, taking \(c(A) \approx p(x) |A| N\) where \(p(x)\) is the density \(p\) computed as the midpoint \(x\) of \(A\). Thus, if we want to estimate \(p(x)\) based on the histogram, then
 &lt;/p&gt;
 \begin{equation*}
-p(x) \approx \frac{c(A)}{N}  \frac{1}{|A|} = \frac{c(A)}{N} \frac{2}{n},
+p(x) \approx \frac{c(A)}{N}  \frac{1}{|A|} = \frac{c(A)}{N} \frac{n}{2},
 \end{equation*}
 &lt;p&gt;
-where \(n\) is the number of bins; the factor comes from the fact that the interval \([-1,1]\) is chopped up into \(n\) interval.
+where \(n\) is the number of bins so that \(|A| = 2/n\) because the interval \([-1,1]\) is chopped up into \(n\) bins.
 &lt;/p&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;n_bins&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt;
@@ -116,7 +116,7 @@ Let's compare our estimates to the theoretical values. Here we use \(Z\) to scal
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div id="orgbe76674" class="figure"&gt;
+&lt;div id="orgd91b8d0" class="figure"&gt;
 &lt;p&gt;&lt;img src="https://ndvanforeest.github.io/images/MH-half-circle.png" alt="nil"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
