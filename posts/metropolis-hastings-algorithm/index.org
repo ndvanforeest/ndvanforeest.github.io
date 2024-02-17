@@ -88,15 +88,16 @@ samples = samples[burn_in:]
 
 So, now we have a set of samples that we can use for estimation purposes.
 Let us first compare the probabilities we obtained with the theoretical values by making a histogram.
-The conversion of a bin heights in a histogram to estimates of the pmf is a bit tricky; at least, I did not directly see how to do it, so here is the reasoning in full. Suppose we have samples $\{X_{i}\}_{i=1}^{N}$, then the height of a bin with as support the interval $A$ is just the number of samples that hit $A$, i.e.,
+The conversion of a bin heights in a histogram to estimates of the pmf is a bit tricky; at least, I did not directly see how to do it, so here is the reasoning in full.
+Suppose we have samples $\{X_{i}\}_{i=1}^{N}$, then the height of a bin, with the interval $A$  as support, is just the number of samples that hit $A$, i.e.,
 \begin{equation*}
-c(A) = \sum_{i=1}^{N} \1{X_{i}\in A\}
+c(A) = \sum_{i=1}^{N} \1{X_{i}\in A}.
 \end{equation*}
-If the length of $A$ is small, then, taking $c(A) \approx p(x) |A| N$ where $p(x)$ is the density $p$ computed as the midpoint $x$ of $A$. Thus, if we want to estimate $p(x)$ based on the histogram, then
+If the length of $A$ is small, then, $c(A) \approx N p(x) |A|$ where $p(x)$ is the density $p$ computed at the midpoint $x$ of $A$. Thus, if we want to estimate $p(x)$ based on the histogram, then
 \begin{equation*}
 p(x) \approx \frac{c(A)}{N}  \frac{1}{|A|} = \frac{c(A)}{N} \frac{n}{2},
 \end{equation*}
-where $n$ is the number of bins so that $|A| = 2/n$ because the interval $[-1,1]$ is chopped up into $n$ bins.
+where  $|A| = 2/n$ when the interval $[-1,1]$ is chopped up into $n$ bins.
 
 #+begin_src python :results none
 n_bins = 30
@@ -120,7 +121,7 @@ plt.savefig("../images/MH-half-circle.png", dpi=300)
 #+end_src
 
 #+attr_html: :width 100px :height 100px
-file:images/MH-half-circle.png
+file:../images/MH-half-circle.png
 
 
 
