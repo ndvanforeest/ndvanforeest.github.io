@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{N} \PYG{o}{=} \PYG{l+m+mi}{10000}
+\PYG{n}{samples} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{n}{N}\PYG{p}{)}
+\PYG{n}{xt} \PYG{o}{=} \PYG{l+m+mf}{0.0}
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{samples}\PYG{p}{)):}
+    \PYG{n}{xt\PYGZus{}candidate} \PYG{o}{=} \PYG{n}{gen}\PYG{o}{.}\PYG{n}{uniform}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{k}{if} \PYG{n}{gen}\PYG{o}{.}\PYG{n}{uniform}\PYG{p}{()} \PYG{o}{\PYGZlt{}} \PYG{n}{p}\PYG{p}{(}\PYG{n}{xt\PYGZus{}candidate}\PYG{p}{)} \PYG{o}{/} \PYG{n}{p}\PYG{p}{(}\PYG{n}{xt}\PYG{p}{):}
+        \PYG{n}{xt} \PYG{o}{=} \PYG{n}{xt\PYGZus{}candidate}
+    \PYG{n}{samples}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{xt}
+\PYG{n}{burn\PYGZus{}in} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{samples}\PYG{p}{)} \PYG{o}{//} \PYG{l+m+mi}{10}
+\PYG{n}{samples} \PYG{o}{=} \PYG{n}{samples}\PYG{p}{[}\PYG{n}{burn\PYGZus{}in}\PYG{p}{:]}
+\end{Verbatim}

@@ -170,19 +170,20 @@ When the system is in state \(x\), the acceptance probability becomes  \(p(x')/p
 <p>
 So, now we have a set of samples that we can use for estimation purposes.
 Let us first compare the probabilities we obtained with the theoretical values by making a histogram.
-The conversion of a bin heights in a histogram to estimates of the pmf is a bit tricky; at least, I did not directly see how to do it, so here is the reasoning in full. Suppose we have samples \(\{X_{i}\}_{i=1}^{N}\), then the height of a bin with as support the interval \(A\) is just the number of samples that hit \(A\), i.e.,
+The conversion of a bin heights in a histogram to estimates of the pmf is a bit tricky; at least, I did not directly see how to do it, so here is the reasoning in full.
+Suppose we have samples \(\{X_{i}\}_{i=1}^{N}\), then the height of a bin, with the interval \(A\)  as support, is just the number of samples that hit \(A\), i.e.,
 </p>
 \begin{equation*}
-c(A) = \sum_{i=1}^{N} \1{X_{i}\in A\}
+c(A) = \sum_{i=1}^{N} \1{X_{i}\in A}.
 \end{equation*}
 <p>
-If the length of \(A\) is small, then, taking \(c(A) \approx p(x) |A| N\) where \(p(x)\) is the density \(p\) computed as the midpoint \(x\) of \(A\). Thus, if we want to estimate \(p(x)\) based on the histogram, then
+If the length of \(A\) is small, then, \(c(A) \approx N p(x) |A|\) where \(p(x)\) is the density \(p\) computed at the midpoint \(x\) of \(A\). Thus, if we want to estimate \(p(x)\) based on the histogram, then
 </p>
 \begin{equation*}
 p(x) \approx \frac{c(A)}{N}  \frac{1}{|A|} = \frac{c(A)}{N} \frac{n}{2},
 \end{equation*}
 <p>
-where \(n\) is the number of bins so that \(|A| = 2/n\) because the interval \([-1,1]\) is chopped up into \(n\) bins.
+where  \(|A| = 2/n\) when the interval \([-1,1]\) is chopped up into \(n\) bins.
 </p>
 
 <div class="highlight"><pre><span></span><span class="n">n_bins</span> <span class="o">=</span> <span class="mi">30</span>
@@ -207,8 +208,8 @@ Let's compare our estimates to the theoretical values. Here we use \(Z\) to scal
 </pre></div>
 
 
-<div id="orgd91b8d0" class="figure">
-<p><img src="../images/MH-half-circle.png" alt="nil"></p>
+<div id="org41196e9" class="figure">
+<p><img src="images/MH-half-circle.png" alt="nil"></p>
 </div>
 
 
