@@ -128,8 +128,8 @@ We will test the accuracy of each graphically.
 
 
 
-<div id="outline-container-orga3772ec" class="outline-2">
-<h2 id="orga3772ec">
+<div id="outline-container-orge03add1" class="outline-2">
+<h2 id="orge03add1">
 <span class="section-number-2">1.</span> ECDF and EPMF</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -187,7 +187,7 @@ So, \(F[-1]\) contains the number of observations, which is equal to <code>len(X
 </details>
 </div>
 <p>
-We can make a nice plot of the ecdf with a bit of work. <a href="#orgab06f79">1</a> shows the result of the code we discuss next.
+We can make a nice plot of the ecdf with a bit of work. <a href="#orgaecdecf">1</a> shows the result of the code we discuss next.
 We start with the modules.
 </p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -224,7 +224,7 @@ For the plot we add filled and open dots to make explicit that the ecdf is a rig
 </pre></div>
 
 
-<div id="orgab06f79" class="figure">
+<div id="orgaecdecf" class="figure">
 <p><img src="../../images/ecdf.png" alt="nil"></p>
 <p><span class="figure-number">Figure 1: </span>The ecdf of <code>X = np.array([2, 5, 2, 1, 9, 5, 5, 5])</code>.</p>
 </div>
@@ -245,14 +245,14 @@ We can refine this idea by saying that points nearby \(u_{i}\) should contribute
 To achieve this, use a weight function \(w(\cdot)\geq 0\), and set
 </p>
 \begin{equation}
-\label{org1837fbe}
+\label{org8ca9cba}
 f(x) = \frac1{Nh} \sum_{j=1}^N w(x-x_{j}) \1{x-\frac{h}{2} &lt; x_j \leq x+ \frac{h}{2}}.
 \end{equation}
 <p>
 A yet more general form is to replace the summands by a \emph{kernel} function \(K(\cdot)\) and take
 </p>
 \begin{equation*}
-\label{org622db21}
+\label{orgf61eced}
 f(x) = \frac{1}{N}\sum_{j=1}^N K_{h}(x-x_j),
 \end{equation*}
 <p>
@@ -267,7 +267,7 @@ Below we will use the choice \(\rho(x) = 1/(1+(x/\sigma)^{2})\).
 
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Why is \(K(x) = \1{-0.5 &lt; x &lt; 0.5}\) in \eqref{org1837fbe}?
+Why is \(K(x) = \1{-0.5 &lt; x &lt; 0.5}\) in \eqref{org8ca9cba}?
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -359,7 +359,7 @@ Why do we add \(1\) to the number of bins <code>n</code>? Why does <code>linspac
 </div>
 <p>
 To see whether this works well, we do one experiment with \(\Exp{\lambda}\) and a second experiment with \(\Unif{[0,1]}\).
-The results are in Fig.<a href="#org3bd98a2">2</a>.
+The results are in Fig.<a href="#org641b568">2</a>.
 </p>
 
 
@@ -390,7 +390,7 @@ The results are in Fig.<a href="#org3bd98a2">2</a>.
 </pre></div>
 
 
-<div id="org3bd98a2" class="figure">
+<div id="org641b568" class="figure">
 <p><img src="../../images/epmf.png" alt="nil"></p>
 <p><span class="figure-number">Figure 2: </span>The epmf for samples from \(\Exp{\lambda}\) and from \(\Unif{[0,1]}\).</p>
 </div>
@@ -406,8 +406,8 @@ For that we need to interpolate between the observations; this will be the topic
 </div>
 
 
-<div id="outline-container-orge90f621" class="outline-2">
-<h2 id="orge90f621">
+<div id="outline-container-orgeefafab" class="outline-2">
+<h2 id="orgeefafab">
 <span class="section-number-2">2.</span> Interpolation with Function Approximations</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -512,11 +512,11 @@ It remains to make a plot to see how things look.
 </pre></div>
 
 <p>
-In Fig.<a href="#org3e95652">3</a> we see that φ lies  closely to the ecdf \(F\) in the left part of the graph, but the \(\phi'\) becomes <i>negative</i> around 6.
+In Fig.<a href="#orgec6a882">3</a> we see that φ lies  closely to the ecdf \(F\) in the left part of the graph, but the \(\phi'\) becomes <i>negative</i> around 6.
 </p>
 
 
-<div id="org3e95652" class="figure">
+<div id="orgec6a882" class="figure">
 <p><img src="../../images/radial_epmf_expon.png" alt="nil"></p>
 <p><span class="figure-number">Figure 3: </span>The epmf for an \(\Exp{\lambda}\) rv.</p>
 </div>

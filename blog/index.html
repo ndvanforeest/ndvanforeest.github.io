@@ -208,7 +208,7 @@ Let's compare our estimates to the theoretical values. Here we use \(Z\) to scal
 </pre></div>
 
 
-<div id="org7a248ba" class="figure">
+<div id="org60c5c0e" class="figure">
 <p><img src="../images/MH-half-circle.png" alt="nil"></p>
 </div>
 
@@ -289,8 +289,8 @@ We will test the accuracy of each graphically.
 
 
 
-<div id="outline-container-orga3772ec" class="outline-2">
-<h2 id="orga3772ec">
+<div id="outline-container-orge03add1" class="outline-2">
+<h2 id="orge03add1">
 <span class="section-number-2">1.</span> ECDF and EPMF</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -348,7 +348,7 @@ So, \(F[-1]\) contains the number of observations, which is equal to <code>len(X
 </details>
 </div>
 <p>
-We can make a nice plot of the ecdf with a bit of work. <a href="../posts/ecdf-and-kernels/#orgab06f79">1</a> shows the result of the code we discuss next.
+We can make a nice plot of the ecdf with a bit of work. <a href="../posts/ecdf-and-kernels/#orgaecdecf">1</a> shows the result of the code we discuss next.
 We start with the modules.
 </p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -385,7 +385,7 @@ For the plot we add filled and open dots to make explicit that the ecdf is a rig
 </pre></div>
 
 
-<div id="orgab06f79" class="figure">
+<div id="orgaecdecf" class="figure">
 <p><img src="../images/ecdf.png" alt="nil"></p>
 <p><span class="figure-number">Figure 1: </span>The ecdf of <code>X = np.array([2, 5, 2, 1, 9, 5, 5, 5])</code>.</p>
 </div>
@@ -406,14 +406,14 @@ We can refine this idea by saying that points nearby \(u_{i}\) should contribute
 To achieve this, use a weight function \(w(\cdot)\geq 0\), and set
 </p>
 \begin{equation}
-\label{org1837fbe}
+\label{org8ca9cba}
 f(x) = \frac1{Nh} \sum_{j=1}^N w(x-x_{j}) \1{x-\frac{h}{2} &lt; x_j \leq x+ \frac{h}{2}}.
 \end{equation}
 <p>
 A yet more general form is to replace the summands by a \emph{kernel} function \(K(\cdot)\) and take
 </p>
 \begin{equation*}
-\label{org622db21}
+\label{orgf61eced}
 f(x) = \frac{1}{N}\sum_{j=1}^N K_{h}(x-x_j),
 \end{equation*}
 <p>
@@ -428,7 +428,7 @@ Below we will use the choice \(\rho(x) = 1/(1+(x/\sigma)^{2})\).
 
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Why is \(K(x) = \1{-0.5 &lt; x &lt; 0.5}\) in \eqref{org1837fbe}?
+Why is \(K(x) = \1{-0.5 &lt; x &lt; 0.5}\) in \eqref{org8ca9cba}?
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -520,7 +520,7 @@ Why do we add \(1\) to the number of bins <code>n</code>? Why does <code>linspac
 </div>
 <p>
 To see whether this works well, we do one experiment with \(\Exp{\lambda}\) and a second experiment with \(\Unif{[0,1]}\).
-The results are in Fig.<a href="../posts/ecdf-and-kernels/#org3bd98a2">2</a>.
+The results are in Fig.<a href="../posts/ecdf-and-kernels/#org641b568">2</a>.
 </p>
 
 
@@ -551,7 +551,7 @@ The results are in Fig.<a href="../posts/ecdf-and-kernels/#org3bd98a2">2</a>.
 </pre></div>
 
 
-<div id="org3bd98a2" class="figure">
+<div id="org641b568" class="figure">
 <p><img src="../images/epmf.png" alt="nil"></p>
 <p><span class="figure-number">Figure 2: </span>The epmf for samples from \(\Exp{\lambda}\) and from \(\Unif{[0,1]}\).</p>
 </div>
@@ -567,8 +567,8 @@ For that we need to interpolate between the observations; this will be the topic
 </div>
 
 
-<div id="outline-container-orge90f621" class="outline-2">
-<h2 id="orge90f621">
+<div id="outline-container-orgeefafab" class="outline-2">
+<h2 id="orgeefafab">
 <span class="section-number-2">2.</span> Interpolation with Function Approximations</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -673,11 +673,11 @@ It remains to make a plot to see how things look.
 </pre></div>
 
 <p>
-In Fig.<a href="../posts/ecdf-and-kernels/#org3e95652">3</a> we see that φ lies  closely to the ecdf \(F\) in the left part of the graph, but the \(\phi'\) becomes <i>negative</i> around 6.
+In Fig.<a href="../posts/ecdf-and-kernels/#orgec6a882">3</a> we see that φ lies  closely to the ecdf \(F\) in the left part of the graph, but the \(\phi'\) becomes <i>negative</i> around 6.
 </p>
 
 
-<div id="org3e95652" class="figure">
+<div id="orgec6a882" class="figure">
 <p><img src="../images/radial_epmf_expon.png" alt="nil"></p>
 <p><span class="figure-number">Figure 3: </span>The epmf for an \(\Exp{\lambda}\) rv.</p>
 </div>
@@ -942,19 +942,19 @@ Substitute \(y = \sqrt x  \implies \d y = \d x/ 2 \sqrt x \implies \d x = 2 y \d
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/memoryless/#org011ed4c">1. Introduction</a></li>
-<li><a href="../posts/memoryless/#org3a49fd9">2. Discrete memoryless rvs</a></li>
-<li><a href="../posts/memoryless/#org3efcf47">3. Continuous memoryless rvs</a></li>
-<li><a href="../posts/memoryless/#org5ec628c">4. The solution</a></li>
+<li><a href="../posts/memoryless/#org34af071">1. Introduction</a></li>
+<li><a href="../posts/memoryless/#orgfe38e52">2. Discrete memoryless rvs</a></li>
+<li><a href="../posts/memoryless/#org5ed8cd9">3. Continuous memoryless rvs</a></li>
+<li><a href="../posts/memoryless/#orge75e008">4. The solution</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org011ed4c" class="outline-2">
-<h2 id="org011ed4c">
+<div id="outline-container-org34af071" class="outline-2">
+<h2 id="org34af071">
 <span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-<a id="org9bd0d23"></a>
+<a id="org7910882"></a>
 BH give a quick argument to compute \(\E M\) and \(\E L\) where
 \(M=\max\{X,Y\}\)  and \(L=\min\{X,Y\}\) are the maximum and minimum of two iid exponential rvs \(X\) and \(Y\).
 Since  \(X\) and \(Y\)  have the same distribution,
@@ -966,14 +966,14 @@ Since  \(X\) and \(Y\)  have the same distribution,
 Therefore,
 </p>
 \begin{equation}
-\label{org8619836}
+\label{org54f2cb1}
 \E M = 2\E X - \E L.
 \end{equation}
 <p>
 Next, by the fact that  \(X\) and \(Y\) are memoryless,
 </p>
 \begin{equation}
-\label{orgf33074a}
+\label{org2523272}
 \E M = \E L  + \E X.
 \end{equation}
 <p>
@@ -984,14 +984,14 @@ Then,  <i>due to memorylessness</i>, the service time of the remaining job `rest
 Adding these two equations and noting that \(\E L\) cancels we get \(2\E M = 3 \E X \), hence:
 </p>
 \begin{align}
-\label{org17bdd80}
+\label{orgccd69c3}
 \E M &amp;= \frac 3 2 \E X, &amp; \E L &amp;= \E M - \E X = \frac 1 2 \E X.
 \end{align}
 
 <p>
-This argument seems general enough, so it must hold for discrete memoryless rvs too, i.e., when \(X, Y \sim \Geo{p}\). But that is not the case: it is only true when \(X, Y \sim \Exp{\lambda}\) and independent. To see what is wrong I tried as many different approaches to this problem I could think of, which  resulted in this text.<sup><a id="fnr.1" class="footref" href="../posts/memoryless/#fn.1" role="doc-backlink">1</a></sup> In <a href="../posts/memoryless/#orgf6f80aa">2</a> we'll derive \eqref{org8619836}  for geometric rvs in multiple  different ways.
-Hence, the culprit must be \eqref{orgf33074a}. Then, in  <a href="../posts/memoryless/#org6c6ea6b">3</a> we'll show that both equations  <i>are true</i> for exponential rvs.
-Finally, in <a href="../posts/memoryless/#org9f46b88">4</a> we find a formula that is similar to \(\E M = \E L + \E X\) but that holds for both types of memoryless rvs, whether they are discrete or continuous.
+This argument seems general enough, so it must hold for discrete memoryless rvs too, i.e., when \(X, Y \sim \Geo{p}\). But that is not the case: it is only true when \(X, Y \sim \Exp{\lambda}\) and independent. To see what is wrong I tried as many different approaches to this problem I could think of, which  resulted in this text.<sup><a id="fnr.1" class="footref" href="../posts/memoryless/#fn.1" role="doc-backlink">1</a></sup> In <a href="../posts/memoryless/#orgfb4d7ed">2</a> we'll derive \eqref{org54f2cb1}  for geometric rvs in multiple  different ways.
+Hence, the culprit must be \eqref{org2523272}. Then, in  <a href="../posts/memoryless/#org2fac379">3</a> we'll show that both equations  <i>are true</i> for exponential rvs.
+Finally, in <a href="../posts/memoryless/#orgca90d69">4</a> we find a formula that is similar to \(\E M = \E L + \E X\) but that holds for both types of memoryless rvs, whether they are discrete or continuous.
 </p>
 
 <p>
@@ -1008,12 +1008,12 @@ If different methods give the same answer, the chances of having made a mistake 
 </div>
 </div>
 
-<div id="outline-container-org3a49fd9" class="outline-2">
-<h2 id="org3a49fd9">
+<div id="outline-container-orgfe38e52" class="outline-2">
+<h2 id="orgfe38e52">
 <span class="section-number-2">2.</span> Discrete memoryless rvs</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-<a id="orgf6f80aa"></a>
+<a id="orgfb4d7ed"></a>
 </p>
 
 <p>
@@ -1024,11 +1024,11 @@ Let \(X\) be \(\sim \Geo{p}\) and write \(q = 1-p\).
 <p>
 What is the domain of \(X\)?
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1058,11 +1058,11 @@ Mind that, even though this is neat, it only work for geometric rvs.
 <p>
 Explain the above.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1083,11 +1083,11 @@ Clearly, such tricks are nice and quick, but they are not general. We should als
 Simplify \(\P{X &gt; j}= \sum_{i=j+1}^{\infty} \P{X=i}\) to see that this is equal to \(q^{j+1}\).
 Realize that from this, \(\P{X\geq j}  = \P{X &gt; j-1} = q^{j}\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1114,16 +1114,16 @@ p q^{j+1} \frac 1 p = q^{j+1}.
 Use indicator variables to show that
 </p>
 \begin{equation}
-\label{orgb0ec031}
+\label{orgaa792d9}
 \E X
 = \sum_{i=0}^{\infty} i\P{X=i}
 =  \sum_{i=0}^{\infty} \sum_{j=0}^{\infty} \1{j &lt; i} \P{X=i} =p/q.
 \end{equation}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1149,11 +1149,11 @@ Use indicator variables to show that
 <p>
 Look up the definition of a memoryless rv, and check that \(X\) is memoryless.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1189,11 +1189,11 @@ What is the domain of \(L\)? Then, show that
 \begin{equation*}
 \P{L\geq i}=q^{2i} \implies L\sim\Geo{1-q^{2}}.
 \end{equation*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -1204,11 +1204,11 @@ For 2D LOTUS, take \(g(i,j) = \min\{i, j\}\).
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1233,14 +1233,14 @@ For 2D LOTUS, take \(g(i,j) = \min\{i, j\}\).
 Show that
 </p>
 \begin{equation}
-\label{org347686d}
+\label{orgbb73f4d}
 \E L=q^{2}/(1-q^{2}).
 \end{equation}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -1251,18 +1251,18 @@ Show that
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
                       </font>
                     </strong>
                   </summary><p>
-Immediate from the hint and \eqref{orgb0ec031}.
+Immediate from the hint and \eqref{orgaa792d9}.
 </p>
 
 
@@ -1273,14 +1273,14 @@ Immediate from the hint and \eqref{orgb0ec031}.
 Show that
 </p>
 \begin{equation}
-\label{org526c9dd}
+\label{orgd950d39}
 \E L + \E X = \frac q{1-q}\frac{1+2q}{1+q}.
 \end{equation}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -1291,11 +1291,11 @@ Use that \(1-q^2=(1-q)(1+q)\).
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1320,14 +1320,14 @@ Use that \(1-q^2=(1-q)(1+q)\).
 Show that
 </p>
 \begin{equation}
-\label{orgb930347}
+\label{orgd41e121}
 2\E X  -\E L = \frac q{1-q} \frac{2+q}{1+q}.
 \end{equation}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1346,11 +1346,11 @@ Show that
 </details>
 </div>
 <p>
-Clearly, unless \(q=0\), \(\E L + \E X \neq 2\E X - \E L\), hence, \(\E M\) can only be one of the two and  \eqref{org8619836} and \eqref{orgf33074a} cannot be both true.
+Clearly, unless \(q=0\), \(\E L + \E X \neq 2\E X - \E L\), hence, \(\E M\) can only be one of the two and  \eqref{org54f2cb1} and \eqref{org2523272} cannot be both true.
 </p>
 
 <p>
-To convince ourselves that \eqref{orgb930347}, hence \eqref{org8619836}, is indeed true, we pursue  three ideas.
+To convince ourselves that \eqref{orgd41e121}, hence \eqref{org54f2cb1}, is indeed true, we pursue  three ideas.
 </p>
 
 <p>
@@ -1364,11 +1364,11 @@ Show for the PMF of \(M\) that
 \begin{align*}
 p_M(k) &amp;= \P{M=k} = 2 pq^{k}(1-q^{k}) + p^2q^{2k}.
 \end{align*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -1379,11 +1379,11 @@ Use 2D LOTUS on \(g(x,y) = \1{\max\{x, y\} = k}\).
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1406,11 +1406,11 @@ Use 2D LOTUS on \(g(x,y) = \1{\max\{x, y\} = k}\).
 <p>
 With the previous exercise, show now that \(p_M(k) =2 \P{X=k} - \P{L=k}\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1437,21 +1437,21 @@ where I use that \(p^{2}-2p = p(p-2) = (1-q)(1-q-2)=-(1-q)(1+q)=-(1-q^{2})\).
 <p>
 Finally, show that \(\E M = 2 \E X  - \E L\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
                       </font>
                     </strong>
-                  </summary></details><details class="code-details" style="padding: 1em;
+                  </summary></details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1475,11 +1475,11 @@ Finally, show that \(\E M = 2 \E X  - \E L\).
 <p>
 First show that  \(\P{M \leq k} = (1-q^{k+1})^{2}.\)
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1501,11 +1501,11 @@ First show that  \(\P{M \leq k} = (1-q^{k+1})^{2}.\)
 <p>
 Simplify \(\P{M=k} = \P{M\leq k} - \P{M\leq k-1}\) to see that \(p_M(k) = 2\P{X=k} - \P{L=k}\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1534,11 +1534,11 @@ Explain that
 \begin{equation*}
 \P{L=i, M=k} = 2p^{2}q^{i+k}\1{k &gt; i}+ p^{2}q^{2i}\1{i=k}).
 \end{equation*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1556,13 +1556,13 @@ Explain that
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="../posts/memoryless/#org1e7a39c">1</a> and marginalization to compute the marginal PMF \(\P{M=k}\).
+Use <a href="../posts/memoryless/#org0e4a05b">1</a> and marginalization to compute the marginal PMF \(\P{M=k}\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -1573,11 +1573,11 @@ Marginalize out \(L\).
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1598,13 +1598,13 @@ Marginalize out \(L\).
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="../posts/memoryless/#org1e7a39c">1</a> to compute \(\P{L=i}\).
+Use <a href="../posts/memoryless/#org0e4a05b">1</a> to compute \(\P{L=i}\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -1615,11 +1615,11 @@ Marginalize out \(M\).
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1648,16 +1648,16 @@ Let us now focus on exponential rvs rather than geometric rvs.
 </div>
 </div>
 
-<div id="outline-container-org3efcf47" class="outline-2">
-<h2 id="org3efcf47">
+<div id="outline-container-org5ed8cd9" class="outline-2">
+<h2 id="org5ed8cd9">
 <span class="section-number-2">3.</span> Continuous memoryless rvs</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-<a id="org6c6ea6b"></a>
+<a id="org2fac379"></a>
 </p>
 
 <p>
-In this section we analyze the correctness of \eqref{org8619836} and \eqref{orgf33074a} for continuous memoryless rvs, i.e., exponentially distributed rvs.
+In this section we analyze the correctness of \eqref{org54f2cb1} and \eqref{org2523272} for continuous memoryless rvs, i.e., exponentially distributed rvs.
 I decided to analyze this in as much detail as I could think of, hoping that this would provide me with a lead to see how to generalize the equation \(\E M = \E L + \E X\) such that it covers also the case with geometric rvs.
 </p>
 
@@ -1670,11 +1670,11 @@ I decided to analyze this in as much detail as I could think of, hoping that thi
 <p>
 Show that \(X\) is memoryless.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1694,11 +1694,11 @@ With \(t \geq s\),
 <p>
 Show that \(\E X = 1/\lambda\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -1709,11 +1709,11 @@ Use partial integration.
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1753,11 +1753,11 @@ With partial integration (do it!), the integral evaluates to \(1\).
 <p>
 Show that \(F_L(x) = 1-e^{-2\lambda x}\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -1768,11 +1768,11 @@ Using independence and the specific property of the r.v. \(L\) that \(\{L &gt; x
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1792,7 +1792,7 @@ The result follows since  \(F_{L}(x) = 1-G_{L}(x)\).
 </details>
 </div>
 <p>
-Clearly, this implies that  \(L\sim \Exp{2\lambda}\) and \(\E L = 1/(2\lambda) = \E X /2\). Hence, we see that \eqref{org17bdd80} holds now.
+Clearly, this implies that  \(L\sim \Exp{2\lambda}\) and \(\E L = 1/(2\lambda) = \E X /2\). Hence, we see that \eqref{orgccd69c3} holds now.
 Moreover, with the same trick we see  that the distribution function \(F_{M}\) for the maximum \(M\) is given by
 </p>
 \begin{equation*}
@@ -1822,11 +1822,11 @@ A warning is in place: conceptually this approach is easy, but doing  the integr
 <p>
 Use the fundamental bridge to re-derive the above expression for \(F_M(v)\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1848,11 +1848,11 @@ Use the fundamental bridge to re-derive the above expression for \(F_M(v)\).
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
 Show that the density of \(M\) has the form \(f_{M}(v)=\partial_{v} F_M(v) = 2(1-e^{-\lambda v}) \lambda e^{-\lambda v}\).<sup><a id="fnr.3" class="footref" href="../posts/memoryless/#fn.3" role="doc-backlink">3</a></sup></p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1870,11 +1870,11 @@ Show that the density of \(M\) has the form \(f_{M}(v)=\partial_{v} F_M(v) = 2(1
 <p>
 Use  the density \(f_{M}\) to show  that \(\E M = 2\E X - \E L\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1896,7 +1896,7 @@ where the last equality follows from the previous exercises.
 </details>
 </div>
 <p>
-Recalling that we already obtained  \(\E L = \E X/ 2\),  we see that \(\E M = 2 \E X - \E L = 3\E X/2\), which settles the truth of  \eqref{org17bdd80}.
+Recalling that we already obtained  \(\E L = \E X/ 2\),  we see that \(\E M = 2 \E X - \E L = 3\E X/2\), which settles the truth of  \eqref{orgccd69c3}.
 </p>
 
 
@@ -1912,11 +1912,11 @@ Use the fundamental bridge to show that for \(u\leq v\),
 \begin{equation*}
   F_{L,M}(u,v) = \P{L\leq u, M\leq v} = 2\int_0^u (F_Y(v)- F_Y(x)) f_X(x) \d x.
 \end{equation*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1942,11 +1942,11 @@ Take partial derivatives to show that
 \begin{equation*}
 f_{L,M}(u,v) = 2f_X(u) f_Y(v)\1{u\leq v}.
 \end{equation*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1969,13 +1969,13 @@ f_{L,M}(u,v)
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-In <a href="../posts/memoryless/#org4c6c057">1</a> marginalize out \(L\) to find \(f_M\), and marginalize out \(M\) to find \(f_L\).
+In <a href="../posts/memoryless/#org5294248">1</a> marginalize out \(L\) to find \(f_M\), and marginalize out \(M\) to find \(f_L\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -2012,14 +2012,14 @@ Let  \(X\sim \Geo{\lambda/n}\) for some \(\lambda &gt; 0\) and \(n\gg 0\). Then 
 Show that
 </p>
 \begin{equation}
-\label{org01835a1}
+\label{org7c08d10}
 \P{X/n \approx x} \approx \frac{\lambda} n \left(1-\frac \lambda n\right)^{x n}.
 \end{equation}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -2040,7 +2040,7 @@ since \(p=\lambda/n\), \(q=1-p=1-\lambda/n\), and \(i=nx\).
 </details>
 </div>
 <p>
-Next,  introduce the highly intuitive notation<sup><a id="fnr.4" class="footref" href="../posts/memoryless/#fn.4" role="doc-backlink">4</a></sup>  \(\d x = \lim_{n\to \infty} 1/n\), and use the standard limit<sup><a id="fnr.5" class="footref" href="../posts/memoryless/#fn.5" role="doc-backlink">5</a></sup>  \((1-\lambda/n)^n\to e^{-\lambda}\) as \(n\to\infty\) to see that \eqref{org01835a1} converges to
+Next,  introduce the highly intuitive notation<sup><a id="fnr.4" class="footref" href="../posts/memoryless/#fn.4" role="doc-backlink">4</a></sup>  \(\d x = \lim_{n\to \infty} 1/n\), and use the standard limit<sup><a id="fnr.5" class="footref" href="../posts/memoryless/#fn.5" role="doc-backlink">5</a></sup>  \((1-\lambda/n)^n\to e^{-\lambda}\) as \(n\to\infty\) to see that \eqref{org7c08d10} converges to
 </p>
 \begin{equation*}
 \P{X/n \approx x} \to \lambda e^{-\lambda x} \d x = f_{X}(x) \d x,\quad\text{ as } n \to \infty.
@@ -2054,11 +2054,11 @@ If you don't like this trick with \(\d x\), here is another method, based on mom
 Derive the moment-generating function \(M_{X/n}(s)\) of \(X/n\) when \(X\sim \Geo{p}\).
 Then, let \(p = \lambda/n\), and show that \(\lim_{n\to\infty}M_{X/n}(s) = M_{Y}(s)\), where \(Y \sim \Exp{\lambda}\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -2070,11 +2070,11 @@ In fact, this is precisely Taylor's expansion of \(e^{\lambda}\).
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -2110,26 +2110,26 @@ With these limits in place, we can relate the minimum \(L=\min\{X, Y\}\) for the
 <p>
 Suppose that \(X, Y\sim \Geo{\lambda/n}\), then check that \(\lim_{n\to\infty}\E{L/n} = 1/2\lambda\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
                       </font>
                     </strong>
                   </summary><p>
-Use \eqref{org347686d}.
+Use \eqref{orgbb73f4d}.
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -2156,13 +2156,13 @@ Here is yet another check on the correctness of \(f_M(x)\).
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Show that  the PMF \(\P{M=k}\) for the discrete \(M\) in <a href="../posts/memoryless/#orgc423ec0">1</a> converges to \(f_M(x)\) of <a href="../posts/memoryless/#org5c9b127">1</a> when \(n\to \infty\). Take \(k\) suitable.
+Show that  the PMF \(\P{M=k}\) for the discrete \(M\) in <a href="../posts/memoryless/#orgf8075ee">1</a> converges to \(f_M(x)\) of <a href="../posts/memoryless/#org901a78e">1</a> when \(n\to \infty\). Take \(k\) suitable.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -2185,7 +2185,7 @@ Now observe that the second term, proportional to \(\d x^{2}\) can be neglected.
 </details>
 </div>
 <p>
-<strong style="font-variant: all-small-caps">Finally</strong>  a third  way to check the above results, namely by verifying  \eqref{orgf33074a}, i.e.  \(\E{M-L} = \E X\).
+<strong style="font-variant: all-small-caps">Finally</strong>  a third  way to check the above results, namely by verifying  \eqref{org2523272}, i.e.  \(\E{M-L} = \E X\).
 For this, we  compute the joint CDF \(f_{L, M-L}(x, y)\). With this,  you'll  see directly how to compute \(\E{M-L}\).
 </p>
 
@@ -2196,11 +2196,11 @@ Use the fundamental bridge to obtain
 \begin{equation*}
 F_{L,M-L}(x,y) = (1- e^{-2\lambda x}) (1-e^{-\lambda y}) =  F_L(x) F_Y(y).
 \end{equation*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -2211,11 +2211,11 @@ The idea is not difficult, but the technical details require attention, in parti
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -2246,11 +2246,11 @@ F_{L, M-L}(x, y)
 <p>
 Conclude that \(M-L\) and \(L\) are independent, and \(M-L\sim Y\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -2284,28 +2284,28 @@ By the  above exercise, we find that \(\E{M-L} = \E Y = \E X\), as \(X\) and \(Y
 Hence, we should check that for  <i>all</i> \(i, j\)
 </p>
 \begin{equation}
-\label{org0679a78}
+\label{orgb88a0f5}
 \P{L=i, M-L=j} = \P{L=i} \P{M-L=j}.
 \end{equation}
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="../posts/memoryless/#org1e7a39c">1</a> to see that
+Use <a href="../posts/memoryless/#org0e4a05b">1</a> to see that
 </p>
 \begin{equation*}
 \P{L=i, M-L=j} = 2p^2q^{2i+j} \1{j\geq 1} + p^2q^{2i}\1{j=0}.
 \end{equation*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
                       </font>
                     </strong>
                   </summary><p>
-Realize that \(\P{L=i, M-L=j}=  \P{L=i, M=i+j}\). Now fill in the formula of <a href="../posts/memoryless/#org1e7a39c">1</a>.
+Realize that \(\P{L=i, M-L=j}=  \P{L=i, M=i+j}\). Now fill in the formula of <a href="../posts/memoryless/#org0e4a05b">1</a>.
 </p>
 
 
@@ -2321,11 +2321,11 @@ Derive that
 \begin{equation*}
 \P{M-L=j} = \frac{2p^2q^{j}}{1-q^2}\1{j\geq 1} + \frac{p^2q^{j}}{1-q^2}\1{j=0}.
 \end{equation*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -2346,48 +2346,48 @@ Suppose \(j &gt; 0\) (for \(j=0\) the maths is the same). Then,
 </details>
 </div>
 <p>
-Recalling that \(\P{L=i} = (1-q^2)q^{2i}\), it follows right away from \eqref{org0679a78} that \(L\)  and \(M-L\) are independent.
-Interestingly, from <a href="../posts/memoryless/#org8bd1867">1</a> we see \(M-L\sim Y\) for the continuous case. However, here, for the geometric case, \(\P{M-L=j} \neq pq^{j} = \P{Y=j}\).  This explains why \(\E M \neq \E L + \E X\) for geometric rvs: we should be more careful in how to split \(M\) in terms of \(L\) and \(X\).
+Recalling that \(\P{L=i} = (1-q^2)q^{2i}\), it follows right away from \eqref{orgb88a0f5} that \(L\)  and \(M-L\) are independent.
+Interestingly, from <a href="../posts/memoryless/#orgb692f13">1</a> we see \(M-L\sim Y\) for the continuous case. However, here, for the geometric case, \(\P{M-L=j} \neq pq^{j} = \P{Y=j}\).  This explains why \(\E M \neq \E L + \E X\) for geometric rvs: we should be more careful in how to split \(M\) in terms of \(L\) and \(X\).
 </p>
 
 
 
 <p>
 <strong style="font-variant: all-small-caps">All in all</strong>, we have checked and double checked all our expressions and limits for the geometric and exponential distribution.
-We had success too: the solution of the last exercise provides the key to understand why \eqref{org8619836} and \eqref{orgf33074a} are true for exponentially distributed rvs, but not for geometric random variables.
+We had success too: the solution of the last exercise provides the key to understand why \eqref{org54f2cb1} and \eqref{org2523272} are true for exponentially distributed rvs, but not for geometric random variables.
 In fact, in the solutions we can see the term corresponding to \(X=Y=i\) for \(X,Y\sim \Geo{p}\) becomes negligibly small when \(n\to 0\).
 In other words, \(\P{X=Y}&gt;0\)  when \(X\) and \(Y\) are discrete, but \(\P{X=Y}=0\) when  \(X\) and \(Y\) are continuous.
-Moreover, by <a href="../posts/memoryless/#org8bd1867">1</a>, \(\E M = \E{L + M-L} = \E L + \E{M-L}\), but \(\E{M-L} \neq \E X\). So, to resolve our leading problem we should reconsider \(\E{M-L}\).
+Moreover, by <a href="../posts/memoryless/#orgb692f13">1</a>, \(\E M = \E{L + M-L} = \E L + \E{M-L}\), but \(\E{M-L} \neq \E X\). So, to resolve our leading problem we should reconsider \(\E{M-L}\).
 </p>
 </div>
 </div>
 
 
-<div id="outline-container-org5ec628c" class="outline-2">
-<h2 id="org5ec628c">
+<div id="outline-container-orge75e008" class="outline-2">
+<h2 id="orge75e008">
 <span class="section-number-2">4.</span> The solution</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-<a id="org9f46b88"></a>
+<a id="orgca90d69"></a>
 </p>
 
 
 <p>
-Let us now try to repair \eqref{orgf33074a}, i.e., \(\E M = \E L + \E X\),  for the case \(X,Y\sim\Geo{p}\). We should be careful about the non-negligible case that \(M=L\), so we move, carefully, step by step.
+Let us now try to repair \eqref{org2523272}, i.e., \(\E M = \E L + \E X\),  for the case \(X,Y\sim\Geo{p}\). We should be careful about the non-negligible case that \(M=L\), so we move, carefully, step by step.
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
 Why is the following true:
 </p>
 \begin{align}
-\label{org31970a6}
+\label{orgd799764}
 \E M &amp;= \E L + \E{(M-L) \1{M &gt; L}}  = \E L + 2\E{(Y-X) \1{Y &gt; X}}.
 \end{align}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -2405,14 +2405,14 @@ Because either \(M=L\) or \(M &gt; L\). Recall from earlier work that the factor
 Show that
 </p>
 \begin{equation}
-\label{orgc328e15}
+\label{orgddea8af}
 2\E{(Y-X) \1{Y &gt; X}} = \frac{2q} {1-q^{2}}.
 \end{equation}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -2423,11 +2423,11 @@ Reread BH.7.2.2. to realize that \(\E{M-L} = \E{|X-Y|}\). Relate the latter expe
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -2450,13 +2450,13 @@ Reread BH.7.2.2. to realize that \(\E{M-L} = \E{|X-Y|}\). Relate the latter expe
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Combine the above with the expression for \(\E L\) of \eqref{org347686d} to obtain  \eqref{orgb930347} for \(\E M = 2\E X - \E L\), thereby verifying the correctness of \eqref{org31970a6}.
+Combine the above with the expression for \(\E L\) of \eqref{orgbb73f4d} to obtain  \eqref{orgd41e121} for \(\E M = 2\E X - \E L\), thereby verifying the correctness of \eqref{orgd799764}.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -2474,7 +2474,7 @@ where I use that \(1-q^{2}=(1-q)(1+q)\).
 </details>
 </div>
 <p>
-While \eqref{org31970a6} is correct, I am still not happy with the second part of \eqref{org31970a6} as I find it hard/unintuitive to interpret.
+While \eqref{orgd799764} is correct, I am still not happy with the second part of \eqref{orgd799764} as I find it hard/unintuitive to interpret.
 Restarting again from scratch, here is another attempt to rewrite \(\E M\) by using \(Z\sim \FS{p}\), i.e., \(Z\) has the first success distribution with parameter \(p\), in other words, \(Z \sim X+1\) with \(X\sim\Geo{p}\).
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
@@ -2482,14 +2482,14 @@ Restarting again from scratch, here is another attempt to rewrite \(\E M\) by us
 Explain that
 </p>
 \begin{equation}
-\label{org459bf1d}
+\label{orgcfea3f4}
 \E M = \E L + \E{ Z \1{M &gt; L}},
 \end{equation}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -2516,13 +2516,13 @@ Show that
 \E{Z\1{M &gt; L}} = \frac{2q} {1-q^{2}},
 \end{equation*}
 <p>
-i.e., the same as \eqref{orgc328e15}, hence \eqref{org459bf1d} is correct.
+i.e., the same as \eqref{orgddea8af}, hence \eqref{orgcfea3f4} is correct.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -2533,11 +2533,11 @@ Observe that \(Z\)   is independent from \(X\) and \(Y\), hence from \(M\) and \
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -2562,17 +2562,17 @@ We know that \(\E Z = 1 + \E X = 1 + q/p = 1/p\), while
 </details>
 </div>
 <p>
-<strong style="font-variant: all-small-caps">I am nearly</strong> happy, but I want to see that \eqref{org459bf1d}, which is correct for discrete rvs, has also the correct limiting behavior.
+<strong style="font-variant: all-small-caps">I am nearly</strong> happy, but I want to see that \eqref{orgcfea3f4}, which is correct for discrete rvs, has also the correct limiting behavior.
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
 Show that \(\E{Z/n\1{M &gt; L}} \to 1/\lambda\), which is the expectation of an \(\Exp{\lambda}\) rv!
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -2607,7 +2607,7 @@ and
 Finally I understand why \(\E M = \E L + \E X\) for \(X,Y\sim \Exp{\lambda}\) and why this is not true for discrete \(X, Y\).
 For discrete rvs, \(L\) and \(M\) can be equal, while for continuous rvs, this is impossible<sup><a id="fnr.6" class="footref" href="../posts/memoryless/#fn.6" role="doc-backlink">6</a></sup>
 It took a long time, and a lot of work, to understand how to resolve the confusing problem, but I learned a lot.
-In particular, I find \eqref{org459bf1d} a nice and revealing equation.
+In particular, I find \eqref{orgcfea3f4} a nice and revealing equation.
 </p>
 
 <p>
@@ -2658,16 +2658,16 @@ Finally, if you like to train with the  tools you learned,  you can try your han
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org9e31200" class="outline-2">
-<h2 id="org9e31200">Including the \(\LaTeX\) Command</h2>
-<div class="outline-text-2" id="text-org9e31200">
+                    <div id="outline-container-org9da4c97" class="outline-2">
+<h2 id="org9da4c97">Including the \(\LaTeX\) Command</h2>
+<div class="outline-text-2" id="text-org9da4c97">
 <p>
 For some reason org mode does not support the \(\LaTeX\) command.
 In standard \(\LaTeX\) files, the command is <code>\LaTeX</code>, without dollar signs.
 Now, when exporting an org mode file to html and get the \(\LaTeX\) symbol, I could enclose the \(\LaTeX\) symbol in dollars, because that mathjax seems to understand that I want to get the \(\LaTeX\) symbol. However, putting dollars around \(\LaTeX\) breaks the export of the org mode file to \(\LaTeX\). To solve this, I added this macro to my list of macros and to <code>macros.org</code> in the orgmode plugin for Nikola.
 </p>
 
-<pre class="example" id="orgaba9ac8">
+<pre class="example" id="org9a83811">
 #+MACRO: latex @@latex:\LaTeX{}@@@@html:\(\LaTeX\)@@
 </pre>
 
@@ -2692,30 +2692,30 @@ With this macro I can now write <code>{{{latex}}}</code> in my org files to get 
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/python-line-numbers/#org77afad9">1. Intro</a></li>
-<li><a href="../posts/python-line-numbers/#org386654b">2. Plan given to ChatGPT</a></li>
+<li><a href="../posts/python-line-numbers/#orgfb0bdc5">1. Intro</a></li>
+<li><a href="../posts/python-line-numbers/#orged700f7">2. Plan given to ChatGPT</a></li>
 <li>
-<a href="../posts/python-line-numbers/#org22cc900">3. The Code</a>
+<a href="../posts/python-line-numbers/#org4bb7530">3. The Code</a>
 <ul>
-<li><a href="../posts/python-line-numbers/#orge6a8b28">3.1. The modules</a></li>
-<li><a href="../posts/python-line-numbers/#org57bfae2">3.2. Finding the tagged line numbers in the python file</a></li>
-<li><a href="../posts/python-line-numbers/#orgf0fdfbd">3.3. Updating a \(\LaTeX\) file</a></li>
-<li><a href="../posts/python-line-numbers/#org236746f">3.4. Updating an orgmode file</a></li>
-<li><a href="../posts/python-line-numbers/#orgd00a29c">3.5. Last steps</a></li>
+<li><a href="../posts/python-line-numbers/#orga43ca2d">3.1. The modules</a></li>
+<li><a href="../posts/python-line-numbers/#orgf0c7292">3.2. Finding the tagged line numbers in the python file</a></li>
+<li><a href="../posts/python-line-numbers/#org2d03018">3.3. Updating a \(\LaTeX\) file</a></li>
+<li><a href="../posts/python-line-numbers/#orge635c80">3.4. Updating an orgmode file</a></li>
+<li><a href="../posts/python-line-numbers/#org2c99afb">3.5. Last steps</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org77afad9" class="outline-2">
-<h2 id="org77afad9">
+<div id="outline-container-orgfb0bdc5" class="outline-2">
+<h2 id="orgfb0bdc5">
 <span class="section-number-2">1.</span> Intro</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 For quite some problems I have a separate python program, which I want to keep separate, and a \(\LaTeX\) or org mode file that explains or contains part of the python file. It is easy to include part of the code by using line numbers, like so
 </p>
-<pre class="example" id="org7fc427d">
+<pre class="example" id="orge3ee87f">
 \inputminted[firstline=12, lastline=23]{python}{python_file.py}
 </pre>
 <p>
@@ -2726,8 +2726,8 @@ As I don't like this type of work,  I decided to write some code to solve  this 
 </div>
 
 
-<div id="outline-container-org386654b" class="outline-2">
-<h2 id="org386654b">
+<div id="outline-container-orged700f7" class="outline-2">
+<h2 id="orged700f7">
 <span class="section-number-2">2.</span> Plan given to ChatGPT</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -2757,13 +2757,13 @@ Once the version worked for \(\LaTeX\), I updated it so that it can work with or
 <p>
 So, for a \(\LaTeX\) file, tag like this:
 </p>
-<pre class="example" id="org2d6e73c">
+<pre class="example" id="orgeb37571">
 \inputminted[firstline=12+, lastline=23]{python}{python_file.py} % tictoc
 </pre>
 <p>
 and for an orgmode file,  like this:
 </p>
-<pre class="example" id="orge9ad4c6">
+<pre class="example" id="orgaad0dc6">
 #+INCLUDE: "python_file.py" src python:lines "84-110" ## tictoc
 </pre>
 <p>
@@ -2774,13 +2774,13 @@ Note the intentional <b>double</b> <code>##</code> to comment the tag.
 
 
 
-<div id="outline-container-org22cc900" class="outline-2">
-<h2 id="org22cc900">
+<div id="outline-container-org4bb7530" class="outline-2">
+<h2 id="org4bb7530">
 <span class="section-number-2">3.</span> The Code</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orge6a8b28" class="outline-3">
-<h3 id="orge6a8b28">
+<div id="outline-container-orga43ca2d" class="outline-3">
+<h3 id="orga43ca2d">
 <span class="section-number-3">3.1.</span> The modules</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
@@ -2790,8 +2790,8 @@ Note the intentional <b>double</b> <code>##</code> to comment the tag.
 </div>
 </div>
 
-<div id="outline-container-org57bfae2" class="outline-3">
-<h3 id="org57bfae2">
+<div id="outline-container-orgf0c7292" class="outline-3">
+<h3 id="orgf0c7292">
 <span class="section-number-3">3.2.</span> Finding the tagged line numbers in the python file</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
@@ -2831,8 +2831,8 @@ This function looks up the line numbers. It strips trailing white space between 
 </div>
 </div>
 
-<div id="outline-container-orgf0fdfbd" class="outline-3">
-<h3 id="orgf0fdfbd">
+<div id="outline-container-org2d03018" class="outline-3">
+<h3 id="org2d03018">
 <span class="section-number-3">3.3.</span> Updating a \(\LaTeX\) file</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
@@ -2855,7 +2855,7 @@ In the for loop, it looks up the line numbers of the tagged code in the python f
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">python_file</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">py_file</span><span class="p">:</span>
                 <span class="n">lines</span> <span class="o">=</span> <span class="n">py_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
                 <span class="n">begin_index</span><span class="p">,</span> <span class="n">end_index</span> <span class="o">=</span> <span class="n">find_block_lines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">marker</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">begin_index</span><span class="p">,</span> <span class="n">end_index</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">begin_index</span><span class="p">,</span> <span class="n">end_index</span><span class="p">,</span> <span class="n">marker</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">begin_index</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">end_index</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                     <span class="n">pattern</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="sa">fr</span><span class="s1">'</span><span class="se">\\</span><span class="s1">inputminted\[firstline=\d+, lastline=\d+\]</span><span class="se">{{</span><span class="s1">python</span><span class="se">}}</span><span class="s1">'</span>
@@ -2863,7 +2863,7 @@ In the for loop, it looks up the line numbers of the tagged code in the python f
                     <span class="p">)</span>
                     <span class="n">replacement</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="sa">fr</span><span class="s1">'</span><span class="se">\\</span><span class="s1">inputminted[firstline=</span><span class="si">{</span><span class="n">begin_index</span><span class="si">}</span><span class="s1">, '</span>
-                        <span class="sa">fr</span><span class="s1">'lastline=</span><span class="si">{</span><span class="n">end_index</span><span class="si">}</span><span class="s1">]</span><span class="se">{{</span><span class="s1">python</span><span class="se">}}{{</span><span class="si">{</span><span class="n">python_file</span><span class="si">}</span><span class="se">}}</span><span class="s1"> \% </span><span class="si">{</span><span class="n">marker</span><span class="si">}</span><span class="s1">'</span>
+                        <span class="sa">fr</span><span class="s1">'lastline=</span><span class="si">{</span><span class="n">end_index</span><span class="si">}</span><span class="s1">]</span><span class="se">{{</span><span class="s1">python</span><span class="se">}}{{</span><span class="si">{</span><span class="n">python_file</span><span class="si">}</span><span class="se">}}</span><span class="s1"> % </span><span class="si">{</span><span class="n">marker</span><span class="si">}</span><span class="s1">'</span>
                     <span class="p">)</span>
                     <span class="n">latex_content</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">replacement</span><span class="p">,</span> <span class="n">latex_content</span><span class="p">)</span>
 
@@ -2873,8 +2873,8 @@ In the for loop, it looks up the line numbers of the tagged code in the python f
 </div>
 </div>
 
-<div id="outline-container-org236746f" class="outline-3">
-<h3 id="org236746f">
+<div id="outline-container-orge635c80" class="outline-3">
+<h3 id="orge635c80">
 <span class="section-number-3">3.4.</span> Updating an orgmode file</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
@@ -2884,23 +2884,23 @@ Updating the org file works similarly. However, in the org mode I write the tag 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">org_filename</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
         <span class="n">org_content</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-        <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span>
-            <span class="sa">r</span><span class="s1">'#\+INCLUDE: \"(.*?)\" src python:lines \"\d+-\d+\" ## ([\w]+)'</span><span class="p">,</span>
-            <span class="n">org_content</span><span class="p">,</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">r</span><span class="s1">'#\+INCLUDE: \"(.*?)\" src python :lines \"\d+-\d+\" ## ([\w]+)'</span>
         <span class="p">)</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">org_content</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">python_file_name</span><span class="p">,</span> <span class="n">marker</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">python_file_name</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">py_file</span><span class="p">:</span>
                 <span class="n">python_lines</span> <span class="o">=</span> <span class="n">py_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
                 <span class="n">begin_index</span><span class="p">,</span> <span class="n">end_index</span> <span class="o">=</span> <span class="n">find_block_lines</span><span class="p">(</span><span class="n">python_lines</span><span class="p">,</span> <span class="n">marker</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">begin_index</span><span class="p">,</span> <span class="n">end_index</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">begin_index</span><span class="p">,</span> <span class="n">end_index</span><span class="p">,</span> <span class="n">marker</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">begin_index</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">end_index</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                     <span class="n">pattern</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="sa">fr</span><span class="s1">'#\+INCLUDE: "</span><span class="si">{</span><span class="n">python_file_name</span><span class="si">}</span><span class="s1">" src '</span>
-                        <span class="sa">fr</span><span class="s1">'python:lines "\d+-\d+" ## </span><span class="si">{</span><span class="n">marker</span><span class="si">}</span><span class="s1">'</span>
+                        <span class="sa">fr</span><span class="s1">'python :lines "\d+-\d+" ## </span><span class="si">{</span><span class="n">marker</span><span class="si">}</span><span class="s1">'</span>
                     <span class="p">)</span>
                     <span class="n">replacement</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="sa">fr</span><span class="s1">'#+INCLUDE: "</span><span class="si">{</span><span class="n">python_file_name</span><span class="si">}</span><span class="s1">" src '</span>
-                        <span class="sa">fr</span><span class="s1">'python:lines "</span><span class="si">{</span><span class="n">begin_index</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">end_index</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">" ## </span><span class="si">{</span><span class="n">marker</span><span class="si">}</span><span class="s1">'</span>
+                        <span class="sa">fr</span><span class="s1">'python :lines "</span><span class="si">{</span><span class="n">begin_index</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">end_index</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">" ## </span><span class="si">{</span><span class="n">marker</span><span class="si">}</span><span class="s1">'</span>
                     <span class="p">)</span>
                     <span class="n">org_content</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">replacement</span><span class="p">,</span> <span class="n">org_content</span><span class="p">)</span>
 
@@ -2911,8 +2911,8 @@ Updating the org file works similarly. However, in the org mode I write the tag 
 </div>
 
 
-<div id="outline-container-orgd00a29c" class="outline-3">
-<h3 id="orgd00a29c">
+<div id="outline-container-org2c99afb" class="outline-3">
+<h3 id="org2c99afb">
 <span class="section-number-3">3.5.</span> Last steps</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
@@ -2964,25 +2964,25 @@ The <code>main</code> reads the filenames as arguments and has the files updated
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/nhpp/#org497907a">1. Intro</a></li>
+<li><a href="../posts/nhpp/#orgb4f924c">1. Intro</a></li>
 <li>
-<a href="../posts/nhpp/#orgcee0fbf">2. The Maths</a>
+<a href="../posts/nhpp/#orga63892d">2. The Maths</a>
 <ul>
-<li><a href="../posts/nhpp/#org190d3af">2.1. A constant rate throughout</a></li>
-<li><a href="../posts/nhpp/#org8010281">2.2. Piecewise Constant</a></li>
+<li><a href="../posts/nhpp/#org38359b6">2.1. A constant rate throughout</a></li>
+<li><a href="../posts/nhpp/#org0b32f66">2.2. Piecewise Constant</a></li>
 </ul>
 </li>
-<li><a href="../posts/nhpp/#org88bbcd8">3. The Algorithm</a></li>
-<li><a href="../posts/nhpp/#orgaeb293a">4. The Python &lt;Code</a></li>
-<li><a href="../posts/nhpp/#org09cd449">5. The Tests</a></li>
+<li><a href="../posts/nhpp/#orgc25247c">3. The Algorithm</a></li>
+<li><a href="../posts/nhpp/#orgada74a6">4. The Python &lt;Code</a></li>
+<li><a href="../posts/nhpp/#orgebdebe3">5. The Tests</a></li>
 </ul>
 </div>
 </div>
 
 
 
-<div id="outline-container-org497907a" class="outline-2">
-<h2 id="org497907a">
+<div id="outline-container-orgb4f924c" class="outline-2">
+<h2 id="orgb4f924c">
 <span class="section-number-2">1.</span> Intro</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -2993,8 +2993,8 @@ An example would be a daily scheme of arrival rates of patients per hour at a ho
 </div>
 </div>
 
-<div id="outline-container-orgcee0fbf" class="outline-2">
-<h2 id="orgcee0fbf">
+<div id="outline-container-orga63892d" class="outline-2">
+<h2 id="orga63892d">
 <span class="section-number-2">2.</span> The Maths</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -3016,8 +3016,8 @@ The paper <a href="https://web.ics.purdue.edu/~pasupath/PAPERS/2011pasB.pdf">Gen
 </p>
 </div>
 
-<div id="outline-container-org190d3af" class="outline-3">
-<h3 id="org190d3af">
+<div id="outline-container-org38359b6" class="outline-3">
+<h3 id="org38359b6">
 <span class="section-number-3">2.1.</span> A constant rate throughout</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
@@ -3032,8 +3032,8 @@ This gives the following algorithm:
 </div>
 </div>
 
-<div id="outline-container-org8010281" class="outline-3">
-<h3 id="org8010281">
+<div id="outline-container-org0b32f66" class="outline-3">
+<h3 id="org0b32f66">
 <span class="section-number-3">2.2.</span> Piecewise Constant</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
@@ -3075,8 +3075,8 @@ t = s_{k } -  (\Lambda(s_{j}, s_{k}) - x -  \Lambda(s_{j}, s) )/\lambda_{k-1}.
 
 
 
-<div id="outline-container-org88bbcd8" class="outline-2">
-<h2 id="org88bbcd8">
+<div id="outline-container-orgc25247c" class="outline-2">
+<h2 id="orgc25247c">
 <span class="section-number-2">3.</span> The Algorithm</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -3095,8 +3095,8 @@ With this idea, we obtain the following algorithm. Assume that \(\lambda_{0} &gt
 </div>
 </div>
 
-<div id="outline-container-orgaeb293a" class="outline-2">
-<h2 id="orgaeb293a">
+<div id="outline-container-orgada74a6" class="outline-2">
+<h2 id="orgada74a6">
 <span class="section-number-2">4.</span> The Python &lt;Code</h2>
 <div class="outline-text-2" id="text-4">
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span>
@@ -3133,8 +3133,8 @@ With this idea, we obtain the following algorithm. Assume that \(\lambda_{0} &gt
 </div>
 
 
-<div id="outline-container-org09cd449" class="outline-2">
-<h2 id="org09cd449">
+<div id="outline-container-orgebdebe3" class="outline-2">
+<h2 id="orgebdebe3">
 <span class="section-number-2">5.</span> The Tests</h2>
 <div class="outline-text-2" id="text-5">
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
@@ -3211,14 +3211,14 @@ With this idea, we obtain the following algorithm. Assume that \(\lambda_{0} &gt
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/mathjax/#org111ae59">1. Mathjax in Nikola</a></li>
-<li><a href="../posts/mathjax/#org65996dd">2. Single Shot Remarks</a></li>
+<li><a href="../posts/mathjax/#org79d2369">1. Mathjax in Nikola</a></li>
+<li><a href="../posts/mathjax/#orga5e1ca0">2. Single Shot Remarks</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org111ae59" class="outline-2">
-<h2 id="org111ae59">
+<div id="outline-container-org79d2369" class="outline-2">
+<h2 id="org79d2369">
 <span class="section-number-2">1.</span> Mathjax in Nikola</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -3266,8 +3266,8 @@ I'll add more commands over time, but the list below shows how to do that. Mind 
 </div>
 
 
-<div id="outline-container-org65996dd" class="outline-2">
-<h2 id="org65996dd">
+<div id="outline-container-orga5e1ca0" class="outline-2">
+<h2 id="orga5e1ca0">
 <span class="section-number-2">2.</span> Single Shot Remarks</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -3297,17 +3297,17 @@ Sometimes I want to use  mathjax macros in just file. Put these lines on top of 
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/complex-graphs/#org9ba6b98">1. Introduction</a></li>
-<li><a href="../posts/complex-graphs/#orgb9c17ab">2. You always thought you understood multiplication</a></li>
-<li><a href="../posts/complex-graphs/#org57a2ef2">3. You always thought you understood division</a></li>
-<li><a href="../posts/complex-graphs/#org5789742">4. You always thought you understood stability in 1D</a></li>
-<li><a href="../posts/complex-graphs/#org181aa52">5. You always thought you understood stability in 2D</a></li>
+<li><a href="../posts/complex-graphs/#org0a0c86c">1. Introduction</a></li>
+<li><a href="../posts/complex-graphs/#org6d94005">2. You always thought you understood multiplication</a></li>
+<li><a href="../posts/complex-graphs/#org4f0f621">3. You always thought you understood division</a></li>
+<li><a href="../posts/complex-graphs/#orga705edd">4. You always thought you understood stability in 1D</a></li>
+<li><a href="../posts/complex-graphs/#org83eba7d">5. You always thought you understood stability in 2D</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org9ba6b98" class="outline-2">
-<h2 id="org9ba6b98">
+<div id="outline-container-org0a0c86c" class="outline-2">
+<h2 id="org0a0c86c">
 <span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -3320,8 +3320,8 @@ Except for the first example we will use recursion again, but this time to make 
 
 
 
-<div id="outline-container-orgb9c17ab" class="outline-2">
-<h2 id="orgb9c17ab">
+<div id="outline-container-org6d94005" class="outline-2">
+<h2 id="org6d94005">
 <span class="section-number-2">2.</span> You always thought you understood multiplication</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -3379,17 +3379,17 @@ Here is the code to make the  figure below. (If you want to code along, load the
 <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"../images/circle-multiply.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Figure for above code.
                       </font>
                     </strong>
-                  </summary><div id="org2dac8ed" class="figure">
+                  </summary><div id="orgb240366" class="figure">
 <p><img src="../images/circle-multiply.png" alt="nil"></p>
 </div>
 
@@ -3429,17 +3429,17 @@ The next set of figures contains the result; I admit that I was astonished by th
 <span class="c1"># fig.savefig(f"../figures/circle-tables.pdf")</span>
 </pre></div>
 
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Figure for the code above.
                       </font>
                     </strong>
-                  </summary><div id="org03bae4f" class="figure">
+                  </summary><div id="orgdfcc15c" class="figure">
 <p><img src="../images/circle-tables.png" alt="nil"></p>
 </div>
 
@@ -3475,62 +3475,62 @@ The graphs are wonderfully complex: reading from left to right, we can see that 
 <span class="n">vary_multiplier</span><span class="p">(</span><span class="mi">380</span><span class="p">,</span> <span class="mf">381.5</span><span class="p">,</span> <span class="mi">855</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">":"</span><span class="p">)</span>
 </pre></div>
 
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Figure for case 2, 7, 200
                       </font>
                     </strong>
-                  </summary><div id="org8a3a89c" class="figure">
+                  </summary><div id="orgdbaa95f" class="figure">
 <p><img src="../images/circle-modulo-200-2-7.png" alt="nil"></p>
 </div>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Figure for case 22, 23, 200
                       </font>
                     </strong>
-                  </summary><div id="org6a84160" class="figure">
+                  </summary><div id="org8180862" class="figure">
 <p><img src="../images/circle-modulo-200-22-23.png" alt="nil"></p>
 </div>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Figure for case 50, 52, 200
                       </font>
                     </strong>
-                  </summary><div id="orgb9ced6a" class="figure">
+                  </summary><div id="orgf88cf52" class="figure">
 <p><img src="../images/circle-modulo-200-50-52.png" alt="nil"></p>
 </div>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Figure for case 380, 381.5, 800
                       </font>
                     </strong>
-                  </summary><div id="org44f5b81" class="figure">
+                  </summary><div id="org12fed27" class="figure">
 <p><img src="../images/circle-modulo-855-380-381.5.png" alt="nil"></p>
 </div>
 
@@ -3573,8 +3573,8 @@ The figures can be turned into a movie  with the next code.
 
 
 
-<div id="outline-container-org57a2ef2" class="outline-2">
-<h2 id="org57a2ef2">
+<div id="outline-container-org4f0f621" class="outline-2">
+<h2 id="org4f0f621">
 <span class="section-number-2">3.</span> You always thought you understood division</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -3633,17 +3633,17 @@ The pointsize can be tuned with <code>ps 0.1</code>, and the point type by <code
 <span class="p">)</span>
 </pre></div>
 
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Figure of the Sierpinksy triangle.
                       </font>
                     </strong>
-                  </summary><div id="org9a29f75" class="figure">
+                  </summary><div id="orgcebf470" class="figure">
 <p><img src="../images/sierpinsky.png" alt="nil"></p>
 </div>
 
@@ -3655,17 +3655,17 @@ A bit of experimentation shows that the update rule \((x_k + z_{i})/3\), i.e., d
 For the rest, the code is the same as above.
 </p>
 
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Figure of the hexagonal triangle.
                       </font>
                     </strong>
-                  </summary><div id="org4440706" class="figure">
+                  </summary><div id="orgbedc86c" class="figure">
 <p><img src="../images/hexagonal.png" alt="nil"></p>
 </div>
 
@@ -3679,8 +3679,8 @@ For further background and explanations, you should consult the book `Chaos and 
 </div>
 
 
-<div id="outline-container-org5789742" class="outline-2">
-<h2 id="org5789742">
+<div id="outline-container-orga705edd" class="outline-2">
+<h2 id="orga705edd">
 <span class="section-number-2">4.</span> You always thought you understood stability in 1D</h2>
 <div class="outline-text-2" id="text-4">
 <p>
@@ -3734,17 +3734,17 @@ Perhaps a bit unexpected, but the densities turn out to be very complicated obje
 If you're interested in a more profound mathematical analysis, consult Promenade Aleatoire by M.Benaim and N.El Karoui.
 </p>
 
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Figure of the density for time series.
                       </font>
                     </strong>
-                  </summary><div id="org850ee67" class="figure">
+                  </summary><div id="org7954267" class="figure">
 <p><img src="../images/time_series.png" alt="nil"></p>
 </div>
 
@@ -3754,8 +3754,8 @@ If you're interested in a more profound mathematical analysis, consult Promenade
 </div>
 
 
-<div id="outline-container-org181aa52" class="outline-2">
-<h2 id="org181aa52">
+<div id="outline-container-org83eba7d" class="outline-2">
+<h2 id="org83eba7d">
 <span class="section-number-2">5.</span> You always thought you understood stability in 2D</h2>
 <div class="outline-text-2" id="text-5">
 <p>
@@ -3819,17 +3819,17 @@ This is the spectacular result.
 By the way, you might try to make the same result with matplotlib, but I am underwhelmed about its performance on making such plots.
 </p>
 
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Figure of the spiral.
                       </font>
                     </strong>
-                  </summary><div id="org80b7f93" class="figure">
+                  </summary><div id="orgce05ec7" class="figure">
 <p><img src="../images/spiral.png" alt="nil"></p>
 </div>
 
@@ -3865,21 +3865,21 @@ It loads super fast and deals easily with a million points.</p></div>
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/mum-and-mmm/#orgc63266c">1. Introduction</a></li>
-<li><a href="../posts/mum-and-mmm/#org95608f5">2. First-step analysis</a></li>
-<li><a href="../posts/mum-and-mmm/#org7417ab4">3. Estimating hitting times with simulation</a></li>
-<li><a href="../posts/mum-and-mmm/#org4bdb5bb">4. Summary</a></li>
+<li><a href="../posts/mum-and-mmm/#org904acc0">1. Introduction</a></li>
+<li><a href="../posts/mum-and-mmm/#org6795940">2. First-step analysis</a></li>
+<li><a href="../posts/mum-and-mmm/#org16f05c5">3. Estimating hitting times with simulation</a></li>
+<li><a href="../posts/mum-and-mmm/#orgf9f2183">4. Summary</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-orgc63266c" class="outline-2">
-<h2 id="orgc63266c">
+<div id="outline-container-org904acc0" class="outline-2">
+<h2 id="org904acc0">
 <span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-<a id="orgb47368d"></a>
+<a id="orgfc045fb"></a>
 </p>
 
 <p>
@@ -3913,12 +3913,12 @@ Consequently, the success probability becomes \(p=1/3\), and \(q=2/3\).
 </div>
 
 
-<div id="outline-container-org95608f5" class="outline-2">
-<h2 id="org95608f5">
+<div id="outline-container-org6795940" class="outline-2">
+<h2 id="org6795940">
 <span class="section-number-2">2.</span> First-step analysis</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-<a id="orgdce8d90"></a>
+<a id="org8c04d7b"></a>
 </p>
 
 <p>
@@ -3953,11 +3953,11 @@ Explain that the expected times have to satisfy the system of equations:
  T(1) &amp;= 1 + q T(0) + p T(2),\\
   T(2) &amp;= 1 + q T(0) + p T(3).
 \end{align*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -4003,11 +4003,11 @@ Explain that the above system can be written in matrix form as \(x = b + P x\), 
 <p>
 The matrix \(P\) is known as the <i>transition matrix</i>.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -4056,11 +4056,11 @@ We conclude that it takes \(T(0)=39\) keys for the monkey to arrive at \(mmm\) w
 <p>
 Now  the states  are \(\{0, m, mu, mum\}\). Why?
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -4085,11 +4085,11 @@ Explain that for the \(mum\) sequence the expected times have to satisfy:
   T(1) &amp;= 1 + (1-2p)T(0) + p T(1) + p T(2),\\
   T(2) &amp;= 1 + q T(0).
 \end{align*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -4137,11 +4137,11 @@ Apparently the number of keys is \(T(0)=30\) to get to  \(mum\). This is quite a
 <p>
 Compare the two matrices \(P\) between the two cases to provide an intuitive explanation for this difference, i.e., \(30\) versus \(39\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -4159,11 +4159,11 @@ For the \(mum\) case, when in state \(m\) we can move on to \(mu\), but also mov
 In the numerical example, our monkey had just three keys to hit.
 Adapt the code to show that \(T(0)=17602\) when the monkey has the original keyboard with 26 keys at its disposal.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -4187,11 +4187,11 @@ When traversing an edge takes one minute, what is the expected time for the mous
 <p>
 Show that the expected time is \(10\)  minutes.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -4222,12 +4222,12 @@ Solving gives \(T(1)= 7, T(2)=9, T(3) = 10\).
 
 
 
-<div id="outline-container-org7417ab4" class="outline-2">
-<h2 id="org7417ab4">
+<div id="outline-container-org16f05c5" class="outline-2">
+<h2 id="org16f05c5">
 <span class="section-number-2">3.</span> Estimating hitting times with simulation</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-<a id="org28a1d40"></a>
+<a id="orgae47fd2"></a>
 </p>
 
 <p>
@@ -4281,11 +4281,11 @@ Why are both results nearly equal to 27, while from the above we know that \(T(0
 <p>
 Why is doesn't  the above counting algorithm  provide an estimator for \(T(0)\) for the \(mmm\) case?
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -4317,18 +4317,18 @@ Hence, when \(X_{i+1}=m\) we immediately have another occurrence of the pattern 
 Write \(T\) for the expected time between two occurrences of the pattern \(mmm\). Why does\(T\)  satisfy the relation
 </p>
 \begin{equation}
-\label{org31730ec}
+\label{org0b5ceff}
 T = 1 + q T(0),
 \end{equation}
 <p>
 where \(T(0)\) is the expected time to hit \(mmm\)?
 </p>
 
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -4348,13 +4348,13 @@ Combining this with the law of total expectation, \(T = p\E{T|X=m} + q \E{T|X\ne
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Check the numerical results we obtained above to see that \eqref{org31730ec} indeed is satisfied for \(mmm\).
+Check the numerical results we obtained above to see that \eqref{org0b5ceff} indeed is satisfied for \(mmm\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -4375,11 +4375,11 @@ We next consider the \(mum\)  case.
 <p>
 For the \(mum\) sequence, explain that \(T = 1+(1-2p) T(0) + p T(1) + p T(2)\), and check the numbers for the example.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -4408,11 +4408,11 @@ And now it is time to reconcile all the above.
 <p>
 Explain why stopping to throw a die as soon as a winning pattern emerges does not necessarily lead to equal winning chances?
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -4437,8 +4437,8 @@ Now we know this, we also understand why the children need not have the same win
 
 
 
-<div id="outline-container-org4bdb5bb" class="outline-2">
-<h2 id="org4bdb5bb">
+<div id="outline-container-orgf9f2183" class="outline-2">
+<h2 id="orgf9f2183">
 <span class="section-number-2">4.</span> Summary</h2>
 <div class="outline-text-2" id="text-4">
 <p>

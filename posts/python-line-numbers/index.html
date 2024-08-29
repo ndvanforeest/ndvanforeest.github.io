@@ -118,30 +118,30 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org77afad9">1. Intro</a></li>
-<li><a href="#org386654b">2. Plan given to ChatGPT</a></li>
+<li><a href="#orgfb0bdc5">1. Intro</a></li>
+<li><a href="#orged700f7">2. Plan given to ChatGPT</a></li>
 <li>
-<a href="#org22cc900">3. The Code</a>
+<a href="#org4bb7530">3. The Code</a>
 <ul>
-<li><a href="#orge6a8b28">3.1. The modules</a></li>
-<li><a href="#org57bfae2">3.2. Finding the tagged line numbers in the python file</a></li>
-<li><a href="#orgf0fdfbd">3.3. Updating a \(\LaTeX\) file</a></li>
-<li><a href="#org236746f">3.4. Updating an orgmode file</a></li>
-<li><a href="#orgd00a29c">3.5. Last steps</a></li>
+<li><a href="#orga43ca2d">3.1. The modules</a></li>
+<li><a href="#orgf0c7292">3.2. Finding the tagged line numbers in the python file</a></li>
+<li><a href="#org2d03018">3.3. Updating a \(\LaTeX\) file</a></li>
+<li><a href="#orge635c80">3.4. Updating an orgmode file</a></li>
+<li><a href="#org2c99afb">3.5. Last steps</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org77afad9" class="outline-2">
-<h2 id="org77afad9">
+<div id="outline-container-orgfb0bdc5" class="outline-2">
+<h2 id="orgfb0bdc5">
 <span class="section-number-2">1.</span> Intro</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 For quite some problems I have a separate python program, which I want to keep separate, and a \(\LaTeX\) or org mode file that explains or contains part of the python file. It is easy to include part of the code by using line numbers, like so
 </p>
-<pre class="example" id="org7fc427d">
+<pre class="example" id="orge3ee87f">
 \inputminted[firstline=12, lastline=23]{python}{python_file.py}
 </pre>
 <p>
@@ -152,8 +152,8 @@ As I don't like this type of work,  I decided to write some code to solve  this 
 </div>
 
 
-<div id="outline-container-org386654b" class="outline-2">
-<h2 id="org386654b">
+<div id="outline-container-orged700f7" class="outline-2">
+<h2 id="orged700f7">
 <span class="section-number-2">2.</span> Plan given to ChatGPT</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -183,13 +183,13 @@ Once the version worked for \(\LaTeX\), I updated it so that it can work with or
 <p>
 So, for a \(\LaTeX\) file, tag like this:
 </p>
-<pre class="example" id="org2d6e73c">
+<pre class="example" id="orgeb37571">
 \inputminted[firstline=12+, lastline=23]{python}{python_file.py} % tictoc
 </pre>
 <p>
 and for an orgmode file,  like this:
 </p>
-<pre class="example" id="orge9ad4c6">
+<pre class="example" id="orgaad0dc6">
 #+INCLUDE: "python_file.py" src python:lines "84-110" ## tictoc
 </pre>
 <p>
@@ -200,13 +200,13 @@ Note the intentional <b>double</b> <code>##</code> to comment the tag.
 
 
 
-<div id="outline-container-org22cc900" class="outline-2">
-<h2 id="org22cc900">
+<div id="outline-container-org4bb7530" class="outline-2">
+<h2 id="org4bb7530">
 <span class="section-number-2">3.</span> The Code</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orge6a8b28" class="outline-3">
-<h3 id="orge6a8b28">
+<div id="outline-container-orga43ca2d" class="outline-3">
+<h3 id="orga43ca2d">
 <span class="section-number-3">3.1.</span> The modules</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
@@ -216,8 +216,8 @@ Note the intentional <b>double</b> <code>##</code> to comment the tag.
 </div>
 </div>
 
-<div id="outline-container-org57bfae2" class="outline-3">
-<h3 id="org57bfae2">
+<div id="outline-container-orgf0c7292" class="outline-3">
+<h3 id="orgf0c7292">
 <span class="section-number-3">3.2.</span> Finding the tagged line numbers in the python file</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
@@ -257,8 +257,8 @@ This function looks up the line numbers. It strips trailing white space between 
 </div>
 </div>
 
-<div id="outline-container-orgf0fdfbd" class="outline-3">
-<h3 id="orgf0fdfbd">
+<div id="outline-container-org2d03018" class="outline-3">
+<h3 id="org2d03018">
 <span class="section-number-3">3.3.</span> Updating a \(\LaTeX\) file</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
@@ -281,7 +281,7 @@ In the for loop, it looks up the line numbers of the tagged code in the python f
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">python_file</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">py_file</span><span class="p">:</span>
                 <span class="n">lines</span> <span class="o">=</span> <span class="n">py_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
                 <span class="n">begin_index</span><span class="p">,</span> <span class="n">end_index</span> <span class="o">=</span> <span class="n">find_block_lines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">marker</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">begin_index</span><span class="p">,</span> <span class="n">end_index</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">begin_index</span><span class="p">,</span> <span class="n">end_index</span><span class="p">,</span> <span class="n">marker</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">begin_index</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">end_index</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                     <span class="n">pattern</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="sa">fr</span><span class="s1">'</span><span class="se">\\</span><span class="s1">inputminted\[firstline=\d+, lastline=\d+\]</span><span class="se">{{</span><span class="s1">python</span><span class="se">}}</span><span class="s1">'</span>
@@ -289,7 +289,7 @@ In the for loop, it looks up the line numbers of the tagged code in the python f
                     <span class="p">)</span>
                     <span class="n">replacement</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="sa">fr</span><span class="s1">'</span><span class="se">\\</span><span class="s1">inputminted[firstline=</span><span class="si">{</span><span class="n">begin_index</span><span class="si">}</span><span class="s1">, '</span>
-                        <span class="sa">fr</span><span class="s1">'lastline=</span><span class="si">{</span><span class="n">end_index</span><span class="si">}</span><span class="s1">]</span><span class="se">{{</span><span class="s1">python</span><span class="se">}}{{</span><span class="si">{</span><span class="n">python_file</span><span class="si">}</span><span class="se">}}</span><span class="s1"> \% </span><span class="si">{</span><span class="n">marker</span><span class="si">}</span><span class="s1">'</span>
+                        <span class="sa">fr</span><span class="s1">'lastline=</span><span class="si">{</span><span class="n">end_index</span><span class="si">}</span><span class="s1">]</span><span class="se">{{</span><span class="s1">python</span><span class="se">}}{{</span><span class="si">{</span><span class="n">python_file</span><span class="si">}</span><span class="se">}}</span><span class="s1"> % </span><span class="si">{</span><span class="n">marker</span><span class="si">}</span><span class="s1">'</span>
                     <span class="p">)</span>
                     <span class="n">latex_content</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">replacement</span><span class="p">,</span> <span class="n">latex_content</span><span class="p">)</span>
 
@@ -299,8 +299,8 @@ In the for loop, it looks up the line numbers of the tagged code in the python f
 </div>
 </div>
 
-<div id="outline-container-org236746f" class="outline-3">
-<h3 id="org236746f">
+<div id="outline-container-orge635c80" class="outline-3">
+<h3 id="orge635c80">
 <span class="section-number-3">3.4.</span> Updating an orgmode file</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
@@ -310,23 +310,23 @@ Updating the org file works similarly. However, in the org mode I write the tag 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">org_filename</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
         <span class="n">org_content</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-        <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span>
-            <span class="sa">r</span><span class="s1">'#\+INCLUDE: \"(.*?)\" src python:lines \"\d+-\d+\" ## ([\w]+)'</span><span class="p">,</span>
-            <span class="n">org_content</span><span class="p">,</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">r</span><span class="s1">'#\+INCLUDE: \"(.*?)\" src python :lines \"\d+-\d+\" ## ([\w]+)'</span>
         <span class="p">)</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">org_content</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">python_file_name</span><span class="p">,</span> <span class="n">marker</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">python_file_name</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">py_file</span><span class="p">:</span>
                 <span class="n">python_lines</span> <span class="o">=</span> <span class="n">py_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
                 <span class="n">begin_index</span><span class="p">,</span> <span class="n">end_index</span> <span class="o">=</span> <span class="n">find_block_lines</span><span class="p">(</span><span class="n">python_lines</span><span class="p">,</span> <span class="n">marker</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">begin_index</span><span class="p">,</span> <span class="n">end_index</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">begin_index</span><span class="p">,</span> <span class="n">end_index</span><span class="p">,</span> <span class="n">marker</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">begin_index</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">end_index</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                     <span class="n">pattern</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="sa">fr</span><span class="s1">'#\+INCLUDE: "</span><span class="si">{</span><span class="n">python_file_name</span><span class="si">}</span><span class="s1">" src '</span>
-                        <span class="sa">fr</span><span class="s1">'python:lines "\d+-\d+" ## </span><span class="si">{</span><span class="n">marker</span><span class="si">}</span><span class="s1">'</span>
+                        <span class="sa">fr</span><span class="s1">'python :lines "\d+-\d+" ## </span><span class="si">{</span><span class="n">marker</span><span class="si">}</span><span class="s1">'</span>
                     <span class="p">)</span>
                     <span class="n">replacement</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="sa">fr</span><span class="s1">'#+INCLUDE: "</span><span class="si">{</span><span class="n">python_file_name</span><span class="si">}</span><span class="s1">" src '</span>
-                        <span class="sa">fr</span><span class="s1">'python:lines "</span><span class="si">{</span><span class="n">begin_index</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">end_index</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">" ## </span><span class="si">{</span><span class="n">marker</span><span class="si">}</span><span class="s1">'</span>
+                        <span class="sa">fr</span><span class="s1">'python :lines "</span><span class="si">{</span><span class="n">begin_index</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">end_index</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">" ## </span><span class="si">{</span><span class="n">marker</span><span class="si">}</span><span class="s1">'</span>
                     <span class="p">)</span>
                     <span class="n">org_content</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">replacement</span><span class="p">,</span> <span class="n">org_content</span><span class="p">)</span>
 
@@ -337,8 +337,8 @@ Updating the org file works similarly. However, in the org mode I write the tag 
 </div>
 
 
-<div id="outline-container-orgd00a29c" class="outline-3">
-<h3 id="orgd00a29c">
+<div id="outline-container-org2c99afb" class="outline-3">
+<h3 id="org2c99afb">
 <span class="section-number-3">3.5.</span> Last steps</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>

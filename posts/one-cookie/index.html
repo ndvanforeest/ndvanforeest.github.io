@@ -125,18 +125,18 @@ We have a class with \(N=19\) children and one ">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org1a893e9">1. Introduction</a></li>
-<li><a href="#orgabce972">2. A general approach</a></li>
-<li><a href="#org5df9e53">3. An appealing, but wrong, strategy</a></li>
-<li><a href="#org5dcb2dc">4. An optimal strategy</a></li>
-<li><a href="#org61af01f">5. Summary</a></li>
+<li><a href="#org4c256c2">1. Introduction</a></li>
+<li><a href="#orgf0e8ada">2. A general approach</a></li>
+<li><a href="#org6237f09">3. An appealing, but wrong, strategy</a></li>
+<li><a href="#org8d63878">4. An optimal strategy</a></li>
+<li><a href="#org481770d">5. Summary</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org1a893e9" class="outline-2">
-<h2 id="org1a893e9">
+<div id="outline-container-org4c256c2" class="outline-2">
+<h2 id="org4c256c2">
 <span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -162,12 +162,12 @@ In this section we introduce some general concepts that are generally useful. Th
 </div>
 </div>
 
-<div id="outline-container-orgabce972" class="outline-2">
-<h2 id="orgabce972">
+<div id="outline-container-orgf0e8ada" class="outline-2">
+<h2 id="orgf0e8ada">
 <span class="section-number-2">2.</span> A general approach</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-<a id="orgb305b4b"></a>
+<a id="org7e7f891"></a>
 </p>
 
 <p>
@@ -410,7 +410,7 @@ Since each round contains two throws,  the number of throws is \(\E Y = 2/p = 72
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-For \(N=19\),  what is the expected number of throws under an acceptance-rejection policy similar to the one of <a href="#org76fffec">1</a>?
+For \(N=19\),  what is the expected number of throws under an acceptance-rejection policy similar to the one of <a href="#orgf864634">1</a>?
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -481,19 +481,19 @@ The rejection set, i.e., the number of states not assigned to any child, is \(21
 </details>
 </div>
 <p>
-Observe that with the strategy discussed in <a href="#org0e073c9">1</a> for \(N=19\), we always have to throw at least three times.
-However, the strategy of <a href="#orge251d89">1</a> sometimes  completes in just two throws.
+Observe that with the strategy discussed in <a href="#orgf1db941">1</a> for \(N=19\), we always have to throw at least three times.
+However, the strategy of <a href="#org61a5b4a">1</a> sometimes  completes in just two throws.
 Might there be a optimal policy that needs somewhere between \(2\) and \(3\) throws on average?
 </p>
 </div>
 </div>
 
-<div id="outline-container-org5df9e53" class="outline-2">
-<h2 id="org5df9e53">
+<div id="outline-container-org6237f09" class="outline-2">
+<h2 id="org6237f09">
 <span class="section-number-2">3.</span> An appealing, but wrong, strategy</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-<a id="org50f447f"></a>
+<a id="org7f5663c"></a>
 </p>
 
 
@@ -501,7 +501,7 @@ Might there be a optimal policy that needs somewhere between \(2\) and \(3\) thr
 One promising idea to improve on the strategy of using complete <i>rounds</i> of two throws for \(N=19\) is as follows.
 If there is no winner after the first and second throw, just throw the die a third time.
 Now check whether the result of the second and third throw is in the list of winning outcomes.
-To illustrate, if \((X_1, X_2) = (4, 3)\), then, by <a href="#orge251d89">1</a>, the outcome \((4,3)\) is not a winning sequence, so that we have to continue with a third throw.
+To illustrate, if \((X_1, X_2) = (4, 3)\), then, by <a href="#org61a5b4a">1</a>, the outcome \((4,3)\) is not a winning sequence, so that we have to continue with a third throw.
 After seeing \(X_3=4\), there is winning sequence, since \((X_2, X_3) = (3,4)\), which corresponds to child \((3-1)\cdot 6 + 4 = 16\).
 If, however, \((X_1, X_2, X_3) = (4, 5, 1)\) there is not yet a winner, because neither \((4,5)\) nor \((5,1)\) correspond to a child.
 Supposing that \(X_{4}=3\), the result of the last two throws is \((X_3, X_4) = (1, 3)\) so child \(3\) wins.
@@ -585,7 +585,7 @@ We can do further statistical tests, but for the moment I simply conclude that, 
 
 
 <p>
-<strong style="font-variant: all-small-caps">Still I find</strong> it interesting to analyze how many throws this monkey strategy needs on average tof inish, in particular how it compares to the acceptance-rejection policy designed in <a href="#org0e073c9">1</a>.
+<strong style="font-variant: all-small-caps">Still I find</strong> it interesting to analyze how many throws this monkey strategy needs on average tof inish, in particular how it compares to the acceptance-rejection policy designed in <a href="#orgf1db941">1</a>.
 If it slower, then the policy to use (multiple) rounds of three throws times is better in all respects, but if the monkey policy is faster, we might make a trade off between fairness and speed.
 Note that this is a common theme in optimization: nearly always there are multiple objectives that we like to minimize or maximize, but we cannot perform optimally on all dimenstions at the same time.
 If so, we need to make a choice which objective we prefer over another.<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup></p>
@@ -641,17 +641,17 @@ In summary, although unfair, the monkey policy needs less throws on average than
 </div>
 </div>
 
-<div id="outline-container-org5dcb2dc" class="outline-2">
-<h2 id="org5dcb2dc">
+<div id="outline-container-org8d63878" class="outline-2">
+<h2 id="org8d63878">
 <span class="section-number-2">4.</span> An optimal strategy</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-<a id="org6fe4cd2"></a>
+<a id="org8008e0e"></a>
 </p>
 
 <p>
 In the above we learned that when the class contains \(N=19\) children, the monkey strategy, which prescribes to continue throwing the die until a winning pattern emerges, does not give a fair outcome.
-Hence, for the moment, by <a href="#org0e073c9">1</a> the best fair algorithm for \(N=19\) seems to throw three times: if that gives a winner, stop; otherwise throw three times again, and continue with rounds until there is a winner.
+Hence, for the moment, by <a href="#orgf1db941">1</a> the best fair algorithm for \(N=19\) seems to throw three times: if that gives a winner, stop; otherwise throw three times again, and continue with rounds until there is a winner.
 </p>
 
 <p>
@@ -895,7 +895,7 @@ Hence, the expected number of throws is \(E Y =\frac{4}{6} + 2\cdot \frac{2}{6} 
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
 Explain that  \(\E Y = 72/35\) for \(N=7\).
-Compare with <a href="#org6a48a30">1</a>.
+Compare with <a href="#org19f98c8">1</a>.
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -1086,7 +1086,7 @@ n= 96, r= 16, r/n=0.1667, alpha=0.0003, EY=2.5329
 <p>
 This seems to converges to \(2.533\). The last task is to run the code for \(N=19\).
 This gives \(\E Y=2.509\).
-Comparing this to the monkey strategy of <a href="#org6868077">1</a> we see that this algorithm  does better on all respects: it is fair <i>and</i> requires less throws on average.
+Comparing this to the monkey strategy of <a href="#org172e284">1</a> we see that this algorithm  does better on all respects: it is fair <i>and</i> requires less throws on average.
 </p>
 
 <p>
@@ -1144,8 +1144,8 @@ This implies that \(r = n \pmod 19 \in \{0, 1,\ldots, 17\}\).
 
 
 
-<div id="outline-container-org61af01f" class="outline-2">
-<h2 id="org61af01f">
+<div id="outline-container-org481770d" class="outline-2">
+<h2 id="org481770d">
 <span class="section-number-2">5.</span> Summary</h2>
 <div class="outline-text-2" id="text-5">
 <p>

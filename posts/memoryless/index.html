@@ -124,19 +124,19 @@ BH give a quick argument to compute \(\E M\) and \(\E L\) where
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org011ed4c">1. Introduction</a></li>
-<li><a href="#org3a49fd9">2. Discrete memoryless rvs</a></li>
-<li><a href="#org3efcf47">3. Continuous memoryless rvs</a></li>
-<li><a href="#org5ec628c">4. The solution</a></li>
+<li><a href="#org34af071">1. Introduction</a></li>
+<li><a href="#orgfe38e52">2. Discrete memoryless rvs</a></li>
+<li><a href="#org5ed8cd9">3. Continuous memoryless rvs</a></li>
+<li><a href="#orge75e008">4. The solution</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org011ed4c" class="outline-2">
-<h2 id="org011ed4c">
+<div id="outline-container-org34af071" class="outline-2">
+<h2 id="org34af071">
 <span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-<a id="org9bd0d23"></a>
+<a id="org7910882"></a>
 BH give a quick argument to compute \(\E M\) and \(\E L\) where
 \(M=\max\{X,Y\}\)  and \(L=\min\{X,Y\}\) are the maximum and minimum of two iid exponential rvs \(X\) and \(Y\).
 Since  \(X\) and \(Y\)  have the same distribution,
@@ -148,14 +148,14 @@ Since  \(X\) and \(Y\)  have the same distribution,
 Therefore,
 </p>
 \begin{equation}
-\label{org8619836}
+\label{org54f2cb1}
 \E M = 2\E X - \E L.
 \end{equation}
 <p>
 Next, by the fact that  \(X\) and \(Y\) are memoryless,
 </p>
 \begin{equation}
-\label{orgf33074a}
+\label{org2523272}
 \E M = \E L  + \E X.
 \end{equation}
 <p>
@@ -166,14 +166,14 @@ Then,  <i>due to memorylessness</i>, the service time of the remaining job `rest
 Adding these two equations and noting that \(\E L\) cancels we get \(2\E M = 3 \E X \), hence:
 </p>
 \begin{align}
-\label{org17bdd80}
+\label{orgccd69c3}
 \E M &amp;= \frac 3 2 \E X, &amp; \E L &amp;= \E M - \E X = \frac 1 2 \E X.
 \end{align}
 
 <p>
-This argument seems general enough, so it must hold for discrete memoryless rvs too, i.e., when \(X, Y \sim \Geo{p}\). But that is not the case: it is only true when \(X, Y \sim \Exp{\lambda}\) and independent. To see what is wrong I tried as many different approaches to this problem I could think of, which  resulted in this text.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> In <a href="#orgf6f80aa">2</a> we'll derive \eqref{org8619836}  for geometric rvs in multiple  different ways.
-Hence, the culprit must be \eqref{orgf33074a}. Then, in  <a href="#org6c6ea6b">3</a> we'll show that both equations  <i>are true</i> for exponential rvs.
-Finally, in <a href="#org9f46b88">4</a> we find a formula that is similar to \(\E M = \E L + \E X\) but that holds for both types of memoryless rvs, whether they are discrete or continuous.
+This argument seems general enough, so it must hold for discrete memoryless rvs too, i.e., when \(X, Y \sim \Geo{p}\). But that is not the case: it is only true when \(X, Y \sim \Exp{\lambda}\) and independent. To see what is wrong I tried as many different approaches to this problem I could think of, which  resulted in this text.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> In <a href="#orgfb4d7ed">2</a> we'll derive \eqref{org54f2cb1}  for geometric rvs in multiple  different ways.
+Hence, the culprit must be \eqref{org2523272}. Then, in  <a href="#org2fac379">3</a> we'll show that both equations  <i>are true</i> for exponential rvs.
+Finally, in <a href="#orgca90d69">4</a> we find a formula that is similar to \(\E M = \E L + \E X\) but that holds for both types of memoryless rvs, whether they are discrete or continuous.
 </p>
 
 <p>
@@ -190,12 +190,12 @@ If different methods give the same answer, the chances of having made a mistake 
 </div>
 </div>
 
-<div id="outline-container-org3a49fd9" class="outline-2">
-<h2 id="org3a49fd9">
+<div id="outline-container-orgfe38e52" class="outline-2">
+<h2 id="orgfe38e52">
 <span class="section-number-2">2.</span> Discrete memoryless rvs</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-<a id="orgf6f80aa"></a>
+<a id="orgfb4d7ed"></a>
 </p>
 
 <p>
@@ -206,11 +206,11 @@ Let \(X\) be \(\sim \Geo{p}\) and write \(q = 1-p\).
 <p>
 What is the domain of \(X\)?
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -240,11 +240,11 @@ Mind that, even though this is neat, it only work for geometric rvs.
 <p>
 Explain the above.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -265,11 +265,11 @@ Clearly, such tricks are nice and quick, but they are not general. We should als
 Simplify \(\P{X &gt; j}= \sum_{i=j+1}^{\infty} \P{X=i}\) to see that this is equal to \(q^{j+1}\).
 Realize that from this, \(\P{X\geq j}  = \P{X &gt; j-1} = q^{j}\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -296,16 +296,16 @@ p q^{j+1} \frac 1 p = q^{j+1}.
 Use indicator variables to show that
 </p>
 \begin{equation}
-\label{orgb0ec031}
+\label{orgaa792d9}
 \E X
 = \sum_{i=0}^{\infty} i\P{X=i}
 =  \sum_{i=0}^{\infty} \sum_{j=0}^{\infty} \1{j &lt; i} \P{X=i} =p/q.
 \end{equation}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -331,11 +331,11 @@ Use indicator variables to show that
 <p>
 Look up the definition of a memoryless rv, and check that \(X\) is memoryless.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -371,11 +371,11 @@ What is the domain of \(L\)? Then, show that
 \begin{equation*}
 \P{L\geq i}=q^{2i} \implies L\sim\Geo{1-q^{2}}.
 \end{equation*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -386,11 +386,11 @@ For 2D LOTUS, take \(g(i,j) = \min\{i, j\}\).
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -415,14 +415,14 @@ For 2D LOTUS, take \(g(i,j) = \min\{i, j\}\).
 Show that
 </p>
 \begin{equation}
-\label{org347686d}
+\label{orgbb73f4d}
 \E L=q^{2}/(1-q^{2}).
 \end{equation}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -433,18 +433,18 @@ Show that
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
                       </font>
                     </strong>
                   </summary><p>
-Immediate from the hint and \eqref{orgb0ec031}.
+Immediate from the hint and \eqref{orgaa792d9}.
 </p>
 
 
@@ -455,14 +455,14 @@ Immediate from the hint and \eqref{orgb0ec031}.
 Show that
 </p>
 \begin{equation}
-\label{org526c9dd}
+\label{orgd950d39}
 \E L + \E X = \frac q{1-q}\frac{1+2q}{1+q}.
 \end{equation}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -473,11 +473,11 @@ Use that \(1-q^2=(1-q)(1+q)\).
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -502,14 +502,14 @@ Use that \(1-q^2=(1-q)(1+q)\).
 Show that
 </p>
 \begin{equation}
-\label{orgb930347}
+\label{orgd41e121}
 2\E X  -\E L = \frac q{1-q} \frac{2+q}{1+q}.
 \end{equation}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -528,11 +528,11 @@ Show that
 </details>
 </div>
 <p>
-Clearly, unless \(q=0\), \(\E L + \E X \neq 2\E X - \E L\), hence, \(\E M\) can only be one of the two and  \eqref{org8619836} and \eqref{orgf33074a} cannot be both true.
+Clearly, unless \(q=0\), \(\E L + \E X \neq 2\E X - \E L\), hence, \(\E M\) can only be one of the two and  \eqref{org54f2cb1} and \eqref{org2523272} cannot be both true.
 </p>
 
 <p>
-To convince ourselves that \eqref{orgb930347}, hence \eqref{org8619836}, is indeed true, we pursue  three ideas.
+To convince ourselves that \eqref{orgd41e121}, hence \eqref{org54f2cb1}, is indeed true, we pursue  three ideas.
 </p>
 
 <p>
@@ -546,11 +546,11 @@ Show for the PMF of \(M\) that
 \begin{align*}
 p_M(k) &amp;= \P{M=k} = 2 pq^{k}(1-q^{k}) + p^2q^{2k}.
 \end{align*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -561,11 +561,11 @@ Use 2D LOTUS on \(g(x,y) = \1{\max\{x, y\} = k}\).
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -588,11 +588,11 @@ Use 2D LOTUS on \(g(x,y) = \1{\max\{x, y\} = k}\).
 <p>
 With the previous exercise, show now that \(p_M(k) =2 \P{X=k} - \P{L=k}\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -619,21 +619,21 @@ where I use that \(p^{2}-2p = p(p-2) = (1-q)(1-q-2)=-(1-q)(1+q)=-(1-q^{2})\).
 <p>
 Finally, show that \(\E M = 2 \E X  - \E L\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
                       </font>
                     </strong>
-                  </summary></details><details class="code-details" style="padding: 1em;
+                  </summary></details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -657,11 +657,11 @@ Finally, show that \(\E M = 2 \E X  - \E L\).
 <p>
 First show that  \(\P{M \leq k} = (1-q^{k+1})^{2}.\)
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -683,11 +683,11 @@ First show that  \(\P{M \leq k} = (1-q^{k+1})^{2}.\)
 <p>
 Simplify \(\P{M=k} = \P{M\leq k} - \P{M\leq k-1}\) to see that \(p_M(k) = 2\P{X=k} - \P{L=k}\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -716,11 +716,11 @@ Explain that
 \begin{equation*}
 \P{L=i, M=k} = 2p^{2}q^{i+k}\1{k &gt; i}+ p^{2}q^{2i}\1{i=k}).
 \end{equation*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -738,13 +738,13 @@ Explain that
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="#org1e7a39c">1</a> and marginalization to compute the marginal PMF \(\P{M=k}\).
+Use <a href="#org0e4a05b">1</a> and marginalization to compute the marginal PMF \(\P{M=k}\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -755,11 +755,11 @@ Marginalize out \(L\).
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -780,13 +780,13 @@ Marginalize out \(L\).
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="#org1e7a39c">1</a> to compute \(\P{L=i}\).
+Use <a href="#org0e4a05b">1</a> to compute \(\P{L=i}\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -797,11 +797,11 @@ Marginalize out \(M\).
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -830,16 +830,16 @@ Let us now focus on exponential rvs rather than geometric rvs.
 </div>
 </div>
 
-<div id="outline-container-org3efcf47" class="outline-2">
-<h2 id="org3efcf47">
+<div id="outline-container-org5ed8cd9" class="outline-2">
+<h2 id="org5ed8cd9">
 <span class="section-number-2">3.</span> Continuous memoryless rvs</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-<a id="org6c6ea6b"></a>
+<a id="org2fac379"></a>
 </p>
 
 <p>
-In this section we analyze the correctness of \eqref{org8619836} and \eqref{orgf33074a} for continuous memoryless rvs, i.e., exponentially distributed rvs.
+In this section we analyze the correctness of \eqref{org54f2cb1} and \eqref{org2523272} for continuous memoryless rvs, i.e., exponentially distributed rvs.
 I decided to analyze this in as much detail as I could think of, hoping that this would provide me with a lead to see how to generalize the equation \(\E M = \E L + \E X\) such that it covers also the case with geometric rvs.
 </p>
 
@@ -852,11 +852,11 @@ I decided to analyze this in as much detail as I could think of, hoping that thi
 <p>
 Show that \(X\) is memoryless.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -876,11 +876,11 @@ With \(t \geq s\),
 <p>
 Show that \(\E X = 1/\lambda\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -891,11 +891,11 @@ Use partial integration.
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -935,11 +935,11 @@ With partial integration (do it!), the integral evaluates to \(1\).
 <p>
 Show that \(F_L(x) = 1-e^{-2\lambda x}\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -950,11 +950,11 @@ Using independence and the specific property of the r.v. \(L\) that \(\{L &gt; x
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -974,7 +974,7 @@ The result follows since  \(F_{L}(x) = 1-G_{L}(x)\).
 </details>
 </div>
 <p>
-Clearly, this implies that  \(L\sim \Exp{2\lambda}\) and \(\E L = 1/(2\lambda) = \E X /2\). Hence, we see that \eqref{org17bdd80} holds now.
+Clearly, this implies that  \(L\sim \Exp{2\lambda}\) and \(\E L = 1/(2\lambda) = \E X /2\). Hence, we see that \eqref{orgccd69c3} holds now.
 Moreover, with the same trick we see  that the distribution function \(F_{M}\) for the maximum \(M\) is given by
 </p>
 \begin{equation*}
@@ -1004,11 +1004,11 @@ A warning is in place: conceptually this approach is easy, but doing  the integr
 <p>
 Use the fundamental bridge to re-derive the above expression for \(F_M(v)\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1030,11 +1030,11 @@ Use the fundamental bridge to re-derive the above expression for \(F_M(v)\).
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
 Show that the density of \(M\) has the form \(f_{M}(v)=\partial_{v} F_M(v) = 2(1-e^{-\lambda v}) \lambda e^{-\lambda v}\).<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup></p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1052,11 +1052,11 @@ Show that the density of \(M\) has the form \(f_{M}(v)=\partial_{v} F_M(v) = 2(1
 <p>
 Use  the density \(f_{M}\) to show  that \(\E M = 2\E X - \E L\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1078,7 +1078,7 @@ where the last equality follows from the previous exercises.
 </details>
 </div>
 <p>
-Recalling that we already obtained  \(\E L = \E X/ 2\),  we see that \(\E M = 2 \E X - \E L = 3\E X/2\), which settles the truth of  \eqref{org17bdd80}.
+Recalling that we already obtained  \(\E L = \E X/ 2\),  we see that \(\E M = 2 \E X - \E L = 3\E X/2\), which settles the truth of  \eqref{orgccd69c3}.
 </p>
 
 
@@ -1094,11 +1094,11 @@ Use the fundamental bridge to show that for \(u\leq v\),
 \begin{equation*}
   F_{L,M}(u,v) = \P{L\leq u, M\leq v} = 2\int_0^u (F_Y(v)- F_Y(x)) f_X(x) \d x.
 \end{equation*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1124,11 +1124,11 @@ Take partial derivatives to show that
 \begin{equation*}
 f_{L,M}(u,v) = 2f_X(u) f_Y(v)\1{u\leq v}.
 \end{equation*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1151,13 +1151,13 @@ f_{L,M}(u,v)
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-In <a href="#org4c6c057">1</a> marginalize out \(L\) to find \(f_M\), and marginalize out \(M\) to find \(f_L\).
+In <a href="#org5294248">1</a> marginalize out \(L\) to find \(f_M\), and marginalize out \(M\) to find \(f_L\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1194,14 +1194,14 @@ Let  \(X\sim \Geo{\lambda/n}\) for some \(\lambda &gt; 0\) and \(n\gg 0\). Then 
 Show that
 </p>
 \begin{equation}
-\label{org01835a1}
+\label{org7c08d10}
 \P{X/n \approx x} \approx \frac{\lambda} n \left(1-\frac \lambda n\right)^{x n}.
 \end{equation}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1222,7 +1222,7 @@ since \(p=\lambda/n\), \(q=1-p=1-\lambda/n\), and \(i=nx\).
 </details>
 </div>
 <p>
-Next,  introduce the highly intuitive notation<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>  \(\d x = \lim_{n\to \infty} 1/n\), and use the standard limit<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>  \((1-\lambda/n)^n\to e^{-\lambda}\) as \(n\to\infty\) to see that \eqref{org01835a1} converges to
+Next,  introduce the highly intuitive notation<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>  \(\d x = \lim_{n\to \infty} 1/n\), and use the standard limit<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>  \((1-\lambda/n)^n\to e^{-\lambda}\) as \(n\to\infty\) to see that \eqref{org7c08d10} converges to
 </p>
 \begin{equation*}
 \P{X/n \approx x} \to \lambda e^{-\lambda x} \d x = f_{X}(x) \d x,\quad\text{ as } n \to \infty.
@@ -1236,11 +1236,11 @@ If you don't like this trick with \(\d x\), here is another method, based on mom
 Derive the moment-generating function \(M_{X/n}(s)\) of \(X/n\) when \(X\sim \Geo{p}\).
 Then, let \(p = \lambda/n\), and show that \(\lim_{n\to\infty}M_{X/n}(s) = M_{Y}(s)\), where \(Y \sim \Exp{\lambda}\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -1252,11 +1252,11 @@ In fact, this is precisely Taylor's expansion of \(e^{\lambda}\).
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1292,26 +1292,26 @@ With these limits in place, we can relate the minimum \(L=\min\{X, Y\}\) for the
 <p>
 Suppose that \(X, Y\sim \Geo{\lambda/n}\), then check that \(\lim_{n\to\infty}\E{L/n} = 1/2\lambda\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
                       </font>
                     </strong>
                   </summary><p>
-Use \eqref{org347686d}.
+Use \eqref{orgbb73f4d}.
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1338,13 +1338,13 @@ Here is yet another check on the correctness of \(f_M(x)\).
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Show that  the PMF \(\P{M=k}\) for the discrete \(M\) in <a href="#orgc423ec0">1</a> converges to \(f_M(x)\) of <a href="#org5c9b127">1</a> when \(n\to \infty\). Take \(k\) suitable.
+Show that  the PMF \(\P{M=k}\) for the discrete \(M\) in <a href="#orgf8075ee">1</a> converges to \(f_M(x)\) of <a href="#org901a78e">1</a> when \(n\to \infty\). Take \(k\) suitable.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1367,7 +1367,7 @@ Now observe that the second term, proportional to \(\d x^{2}\) can be neglected.
 </details>
 </div>
 <p>
-<strong style="font-variant: all-small-caps">Finally</strong>  a third  way to check the above results, namely by verifying  \eqref{orgf33074a}, i.e.  \(\E{M-L} = \E X\).
+<strong style="font-variant: all-small-caps">Finally</strong>  a third  way to check the above results, namely by verifying  \eqref{org2523272}, i.e.  \(\E{M-L} = \E X\).
 For this, we  compute the joint CDF \(f_{L, M-L}(x, y)\). With this,  you'll  see directly how to compute \(\E{M-L}\).
 </p>
 
@@ -1378,11 +1378,11 @@ Use the fundamental bridge to obtain
 \begin{equation*}
 F_{L,M-L}(x,y) = (1- e^{-2\lambda x}) (1-e^{-\lambda y}) =  F_L(x) F_Y(y).
 \end{equation*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -1393,11 +1393,11 @@ The idea is not difficult, but the technical details require attention, in parti
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1428,11 +1428,11 @@ F_{L, M-L}(x, y)
 <p>
 Conclude that \(M-L\) and \(L\) are independent, and \(M-L\sim Y\).
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1466,28 +1466,28 @@ By the  above exercise, we find that \(\E{M-L} = \E Y = \E X\), as \(X\) and \(Y
 Hence, we should check that for  <i>all</i> \(i, j\)
 </p>
 \begin{equation}
-\label{org0679a78}
+\label{orgb88a0f5}
 \P{L=i, M-L=j} = \P{L=i} \P{M-L=j}.
 \end{equation}
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="#org1e7a39c">1</a> to see that
+Use <a href="#org0e4a05b">1</a> to see that
 </p>
 \begin{equation*}
 \P{L=i, M-L=j} = 2p^2q^{2i+j} \1{j\geq 1} + p^2q^{2i}\1{j=0}.
 \end{equation*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
                       </font>
                     </strong>
                   </summary><p>
-Realize that \(\P{L=i, M-L=j}=  \P{L=i, M=i+j}\). Now fill in the formula of <a href="#org1e7a39c">1</a>.
+Realize that \(\P{L=i, M-L=j}=  \P{L=i, M=i+j}\). Now fill in the formula of <a href="#org0e4a05b">1</a>.
 </p>
 
 
@@ -1503,11 +1503,11 @@ Derive that
 \begin{equation*}
 \P{M-L=j} = \frac{2p^2q^{j}}{1-q^2}\1{j\geq 1} + \frac{p^2q^{j}}{1-q^2}\1{j=0}.
 \end{equation*}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1528,48 +1528,48 @@ Suppose \(j &gt; 0\) (for \(j=0\) the maths is the same). Then,
 </details>
 </div>
 <p>
-Recalling that \(\P{L=i} = (1-q^2)q^{2i}\), it follows right away from \eqref{org0679a78} that \(L\)  and \(M-L\) are independent.
-Interestingly, from <a href="#org8bd1867">1</a> we see \(M-L\sim Y\) for the continuous case. However, here, for the geometric case, \(\P{M-L=j} \neq pq^{j} = \P{Y=j}\).  This explains why \(\E M \neq \E L + \E X\) for geometric rvs: we should be more careful in how to split \(M\) in terms of \(L\) and \(X\).
+Recalling that \(\P{L=i} = (1-q^2)q^{2i}\), it follows right away from \eqref{orgb88a0f5} that \(L\)  and \(M-L\) are independent.
+Interestingly, from <a href="#orgb692f13">1</a> we see \(M-L\sim Y\) for the continuous case. However, here, for the geometric case, \(\P{M-L=j} \neq pq^{j} = \P{Y=j}\).  This explains why \(\E M \neq \E L + \E X\) for geometric rvs: we should be more careful in how to split \(M\) in terms of \(L\) and \(X\).
 </p>
 
 
 
 <p>
 <strong style="font-variant: all-small-caps">All in all</strong>, we have checked and double checked all our expressions and limits for the geometric and exponential distribution.
-We had success too: the solution of the last exercise provides the key to understand why \eqref{org8619836} and \eqref{orgf33074a} are true for exponentially distributed rvs, but not for geometric random variables.
+We had success too: the solution of the last exercise provides the key to understand why \eqref{org54f2cb1} and \eqref{org2523272} are true for exponentially distributed rvs, but not for geometric random variables.
 In fact, in the solutions we can see the term corresponding to \(X=Y=i\) for \(X,Y\sim \Geo{p}\) becomes negligibly small when \(n\to 0\).
 In other words, \(\P{X=Y}&gt;0\)  when \(X\) and \(Y\) are discrete, but \(\P{X=Y}=0\) when  \(X\) and \(Y\) are continuous.
-Moreover, by <a href="#org8bd1867">1</a>, \(\E M = \E{L + M-L} = \E L + \E{M-L}\), but \(\E{M-L} \neq \E X\). So, to resolve our leading problem we should reconsider \(\E{M-L}\).
+Moreover, by <a href="#orgb692f13">1</a>, \(\E M = \E{L + M-L} = \E L + \E{M-L}\), but \(\E{M-L} \neq \E X\). So, to resolve our leading problem we should reconsider \(\E{M-L}\).
 </p>
 </div>
 </div>
 
 
-<div id="outline-container-org5ec628c" class="outline-2">
-<h2 id="org5ec628c">
+<div id="outline-container-orge75e008" class="outline-2">
+<h2 id="orge75e008">
 <span class="section-number-2">4.</span> The solution</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-<a id="org9f46b88"></a>
+<a id="orgca90d69"></a>
 </p>
 
 
 <p>
-Let us now try to repair \eqref{orgf33074a}, i.e., \(\E M = \E L + \E X\),  for the case \(X,Y\sim\Geo{p}\). We should be careful about the non-negligible case that \(M=L\), so we move, carefully, step by step.
+Let us now try to repair \eqref{org2523272}, i.e., \(\E M = \E L + \E X\),  for the case \(X,Y\sim\Geo{p}\). We should be careful about the non-negligible case that \(M=L\), so we move, carefully, step by step.
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
 Why is the following true:
 </p>
 \begin{align}
-\label{org31970a6}
+\label{orgd799764}
 \E M &amp;= \E L + \E{(M-L) \1{M &gt; L}}  = \E L + 2\E{(Y-X) \1{Y &gt; X}}.
 \end{align}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1587,14 +1587,14 @@ Because either \(M=L\) or \(M &gt; L\). Recall from earlier work that the factor
 Show that
 </p>
 \begin{equation}
-\label{orgc328e15}
+\label{orgddea8af}
 2\E{(Y-X) \1{Y &gt; X}} = \frac{2q} {1-q^{2}}.
 \end{equation}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -1605,11 +1605,11 @@ Reread BH.7.2.2. to realize that \(\E{M-L} = \E{|X-Y|}\). Relate the latter expe
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1632,13 +1632,13 @@ Reread BH.7.2.2. to realize that \(\E{M-L} = \E{|X-Y|}\). Relate the latter expe
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Combine the above with the expression for \(\E L\) of \eqref{org347686d} to obtain  \eqref{orgb930347} for \(\E M = 2\E X - \E L\), thereby verifying the correctness of \eqref{org31970a6}.
+Combine the above with the expression for \(\E L\) of \eqref{orgbb73f4d} to obtain  \eqref{orgd41e121} for \(\E M = 2\E X - \E L\), thereby verifying the correctness of \eqref{orgd799764}.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1656,7 +1656,7 @@ where I use that \(1-q^{2}=(1-q)(1+q)\).
 </details>
 </div>
 <p>
-While \eqref{org31970a6} is correct, I am still not happy with the second part of \eqref{org31970a6} as I find it hard/unintuitive to interpret.
+While \eqref{orgd799764} is correct, I am still not happy with the second part of \eqref{orgd799764} as I find it hard/unintuitive to interpret.
 Restarting again from scratch, here is another attempt to rewrite \(\E M\) by using \(Z\sim \FS{p}\), i.e., \(Z\) has the first success distribution with parameter \(p\), in other words, \(Z \sim X+1\) with \(X\sim\Geo{p}\).
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
@@ -1664,14 +1664,14 @@ Restarting again from scratch, here is another attempt to rewrite \(\E M\) by us
 Explain that
 </p>
 \begin{equation}
-\label{org459bf1d}
+\label{orgcfea3f4}
 \E M = \E L + \E{ Z \1{M &gt; L}},
 \end{equation}
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1698,13 +1698,13 @@ Show that
 \E{Z\1{M &gt; L}} = \frac{2q} {1-q^{2}},
 \end{equation*}
 <p>
-i.e., the same as \eqref{orgc328e15}, hence \eqref{org459bf1d} is correct.
+i.e., the same as \eqref{orgddea8af}, hence \eqref{orgcfea3f4} is correct.
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -1715,11 +1715,11 @@ Observe that \(Z\)   is independent from \(X\) and \(Y\), hence from \(M\) and \
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1744,17 +1744,17 @@ We know that \(\E Z = 1 + \E X = 1 + q/p = 1/p\), while
 </details>
 </div>
 <p>
-<strong style="font-variant: all-small-caps">I am nearly</strong> happy, but I want to see that \eqref{org459bf1d}, which is correct for discrete rvs, has also the correct limiting behavior.
+<strong style="font-variant: all-small-caps">I am nearly</strong> happy, but I want to see that \eqref{orgcfea3f4}, which is correct for discrete rvs, has also the correct limiting behavior.
 </p>
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
 Show that \(\E{Z/n\1{M &gt; L}} \to 1/\lambda\), which is the expectation of an \(\Exp{\lambda}\) rv!
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1789,7 +1789,7 @@ and
 Finally I understand why \(\E M = \E L + \E X\) for \(X,Y\sim \Exp{\lambda}\) and why this is not true for discrete \(X, Y\).
 For discrete rvs, \(L\) and \(M\) can be equal, while for continuous rvs, this is impossible<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>
 It took a long time, and a lot of work, to understand how to resolve the confusing problem, but I learned a lot.
-In particular, I find \eqref{org459bf1d} a nice and revealing equation.
+In particular, I find \eqref{orgcfea3f4} a nice and revealing equation.
 </p>
 
 <p>

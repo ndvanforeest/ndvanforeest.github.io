@@ -94,18 +94,18 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/one-cookie/#org1a893e9">1. Introduction</a></li>
-<li><a href="../posts/one-cookie/#orgabce972">2. A general approach</a></li>
-<li><a href="../posts/one-cookie/#org5df9e53">3. An appealing, but wrong, strategy</a></li>
-<li><a href="../posts/one-cookie/#org5dcb2dc">4. An optimal strategy</a></li>
-<li><a href="../posts/one-cookie/#org61af01f">5. Summary</a></li>
+<li><a href="../posts/one-cookie/#org4c256c2">1. Introduction</a></li>
+<li><a href="../posts/one-cookie/#orgf0e8ada">2. A general approach</a></li>
+<li><a href="../posts/one-cookie/#org6237f09">3. An appealing, but wrong, strategy</a></li>
+<li><a href="../posts/one-cookie/#org8d63878">4. An optimal strategy</a></li>
+<li><a href="../posts/one-cookie/#org481770d">5. Summary</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org1a893e9" class="outline-2">
-<h2 id="org1a893e9">
+<div id="outline-container-org4c256c2" class="outline-2">
+<h2 id="org4c256c2">
 <span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -131,12 +131,12 @@ In this section we introduce some general concepts that are generally useful. Th
 </div>
 </div>
 
-<div id="outline-container-orgabce972" class="outline-2">
-<h2 id="orgabce972">
+<div id="outline-container-orgf0e8ada" class="outline-2">
+<h2 id="orgf0e8ada">
 <span class="section-number-2">2.</span> A general approach</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-<a id="orgb305b4b"></a>
+<a id="org7e7f891"></a>
 </p>
 
 <p>
@@ -379,7 +379,7 @@ Since each round contains two throws,  the number of throws is \(\E Y = 2/p = 72
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-For \(N=19\),  what is the expected number of throws under an acceptance-rejection policy similar to the one of <a href="../posts/one-cookie/#org76fffec">1</a>?
+For \(N=19\),  what is the expected number of throws under an acceptance-rejection policy similar to the one of <a href="../posts/one-cookie/#orgf864634">1</a>?
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -450,19 +450,19 @@ The rejection set, i.e., the number of states not assigned to any child, is \(21
 </details>
 </div>
 <p>
-Observe that with the strategy discussed in <a href="../posts/one-cookie/#org0e073c9">1</a> for \(N=19\), we always have to throw at least three times.
-However, the strategy of <a href="../posts/one-cookie/#orge251d89">1</a> sometimes  completes in just two throws.
+Observe that with the strategy discussed in <a href="../posts/one-cookie/#orgf1db941">1</a> for \(N=19\), we always have to throw at least three times.
+However, the strategy of <a href="../posts/one-cookie/#org61a5b4a">1</a> sometimes  completes in just two throws.
 Might there be a optimal policy that needs somewhere between \(2\) and \(3\) throws on average?
 </p>
 </div>
 </div>
 
-<div id="outline-container-org5df9e53" class="outline-2">
-<h2 id="org5df9e53">
+<div id="outline-container-org6237f09" class="outline-2">
+<h2 id="org6237f09">
 <span class="section-number-2">3.</span> An appealing, but wrong, strategy</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-<a id="org50f447f"></a>
+<a id="org7f5663c"></a>
 </p>
 
 
@@ -470,7 +470,7 @@ Might there be a optimal policy that needs somewhere between \(2\) and \(3\) thr
 One promising idea to improve on the strategy of using complete <i>rounds</i> of two throws for \(N=19\) is as follows.
 If there is no winner after the first and second throw, just throw the die a third time.
 Now check whether the result of the second and third throw is in the list of winning outcomes.
-To illustrate, if \((X_1, X_2) = (4, 3)\), then, by <a href="../posts/one-cookie/#orge251d89">1</a>, the outcome \((4,3)\) is not a winning sequence, so that we have to continue with a third throw.
+To illustrate, if \((X_1, X_2) = (4, 3)\), then, by <a href="../posts/one-cookie/#org61a5b4a">1</a>, the outcome \((4,3)\) is not a winning sequence, so that we have to continue with a third throw.
 After seeing \(X_3=4\), there is winning sequence, since \((X_2, X_3) = (3,4)\), which corresponds to child \((3-1)\cdot 6 + 4 = 16\).
 If, however, \((X_1, X_2, X_3) = (4, 5, 1)\) there is not yet a winner, because neither \((4,5)\) nor \((5,1)\) correspond to a child.
 Supposing that \(X_{4}=3\), the result of the last two throws is \((X_3, X_4) = (1, 3)\) so child \(3\) wins.
@@ -554,7 +554,7 @@ We can do further statistical tests, but for the moment I simply conclude that, 
 
 
 <p>
-<strong style="font-variant: all-small-caps">Still I find</strong> it interesting to analyze how many throws this monkey strategy needs on average tof inish, in particular how it compares to the acceptance-rejection policy designed in <a href="../posts/one-cookie/#org0e073c9">1</a>.
+<strong style="font-variant: all-small-caps">Still I find</strong> it interesting to analyze how many throws this monkey strategy needs on average tof inish, in particular how it compares to the acceptance-rejection policy designed in <a href="../posts/one-cookie/#orgf1db941">1</a>.
 If it slower, then the policy to use (multiple) rounds of three throws times is better in all respects, but if the monkey policy is faster, we might make a trade off between fairness and speed.
 Note that this is a common theme in optimization: nearly always there are multiple objectives that we like to minimize or maximize, but we cannot perform optimally on all dimenstions at the same time.
 If so, we need to make a choice which objective we prefer over another.<sup><a id="fnr.5" class="footref" href="../posts/one-cookie/#fn.5" role="doc-backlink">5</a></sup></p>
@@ -610,17 +610,17 @@ In summary, although unfair, the monkey policy needs less throws on average than
 </div>
 </div>
 
-<div id="outline-container-org5dcb2dc" class="outline-2">
-<h2 id="org5dcb2dc">
+<div id="outline-container-org8d63878" class="outline-2">
+<h2 id="org8d63878">
 <span class="section-number-2">4.</span> An optimal strategy</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-<a id="org6fe4cd2"></a>
+<a id="org8008e0e"></a>
 </p>
 
 <p>
 In the above we learned that when the class contains \(N=19\) children, the monkey strategy, which prescribes to continue throwing the die until a winning pattern emerges, does not give a fair outcome.
-Hence, for the moment, by <a href="../posts/one-cookie/#org0e073c9">1</a> the best fair algorithm for \(N=19\) seems to throw three times: if that gives a winner, stop; otherwise throw three times again, and continue with rounds until there is a winner.
+Hence, for the moment, by <a href="../posts/one-cookie/#orgf1db941">1</a> the best fair algorithm for \(N=19\) seems to throw three times: if that gives a winner, stop; otherwise throw three times again, and continue with rounds until there is a winner.
 </p>
 
 <p>
@@ -864,7 +864,7 @@ Hence, the expected number of throws is \(E Y =\frac{4}{6} + 2\cdot \frac{2}{6} 
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
 Explain that  \(\E Y = 72/35\) for \(N=7\).
-Compare with <a href="../posts/one-cookie/#org6a48a30">1</a>.
+Compare with <a href="../posts/one-cookie/#org19f98c8">1</a>.
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -1055,7 +1055,7 @@ n= 96, r= 16, r/n=0.1667, alpha=0.0003, EY=2.5329
 <p>
 This seems to converges to \(2.533\). The last task is to run the code for \(N=19\).
 This gives \(\E Y=2.509\).
-Comparing this to the monkey strategy of <a href="../posts/one-cookie/#org6868077">1</a> we see that this algorithm  does better on all respects: it is fair <i>and</i> requires less throws on average.
+Comparing this to the monkey strategy of <a href="../posts/one-cookie/#org172e284">1</a> we see that this algorithm  does better on all respects: it is fair <i>and</i> requires less throws on average.
 </p>
 
 <p>
@@ -1113,8 +1113,8 @@ This implies that \(r = n \pmod 19 \in \{0, 1,\ldots, 17\}\).
 
 
 
-<div id="outline-container-org61af01f" class="outline-2">
-<h2 id="org61af01f">
+<div id="outline-container-org481770d" class="outline-2">
+<h2 id="org481770d">
 <span class="section-number-2">5.</span> Summary</h2>
 <div class="outline-text-2" id="text-5">
 <p>
@@ -1180,24 +1180,24 @@ We will ignore such mathematical points in the sequel.</p></div>
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/making-an-exercise-and-solution-environment/#org747ca6c">1. The Problem</a></li>
-<li><a href="../posts/making-an-exercise-and-solution-environment/#orga95c6c9">2. My Environment</a></li>
+<li><a href="../posts/making-an-exercise-and-solution-environment/#orga034ee0">1. The Problem</a></li>
+<li><a href="../posts/making-an-exercise-and-solution-environment/#orgafcafe0">2. My Environment</a></li>
 <li>
-<a href="../posts/making-an-exercise-and-solution-environment/#org8bcd865">3. The adapted <code>init.el</code></a>
+<a href="../posts/making-an-exercise-and-solution-environment/#org54b7b6a">3. The adapted <code>init.el</code></a>
 <ul>
-<li><a href="../posts/making-an-exercise-and-solution-environment/#orgac5b313">3.1. Loading the relevant packages</a></li>
-<li><a href="../posts/making-an-exercise-and-solution-environment/#org2520824">3.2. Updating the code for <code>box</code> and <code>details</code> blocks</a></li>
-<li><a href="../posts/making-an-exercise-and-solution-environment/#org01b30b6">3.3. Making the exercise, hint and solution blocks</a></li>
+<li><a href="../posts/making-an-exercise-and-solution-environment/#org68cb8f5">3.1. Loading the relevant packages</a></li>
+<li><a href="../posts/making-an-exercise-and-solution-environment/#org2482694">3.2. Updating the code for <code>box</code> and <code>details</code> blocks</a></li>
+<li><a href="../posts/making-an-exercise-and-solution-environment/#org95d82f1">3.3. Making the exercise, hint and solution blocks</a></li>
 </ul>
 </li>
-<li><a href="../posts/making-an-exercise-and-solution-environment/#org7955784">4. Testing</a></li>
+<li><a href="../posts/making-an-exercise-and-solution-environment/#orgdbc6e41">4. Testing</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org747ca6c" class="outline-2">
-<h2 id="org747ca6c">
+<div id="outline-container-orga034ee0" class="outline-2">
+<h2 id="orga034ee0">
 <span class="section-number-2">1.</span> The Problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -1210,11 +1210,11 @@ However, when exporting the file to <code>html</code> via my website I would lik
 <p>
 How to make an excercise environment like this?
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -1225,11 +1225,11 @@ And a hint like this?
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1245,8 +1245,8 @@ To see how to do this, read on.
 </div>
 </div>
 
-<div id="outline-container-orga95c6c9" class="outline-2">
-<h2 id="orga95c6c9">
+<div id="outline-container-orgafcafe0" class="outline-2">
+<h2 id="orgafcafe0">
 <span class="section-number-2">2.</span> My Environment</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -1269,11 +1269,11 @@ The org mode plugin also provides an <code>init.el</code> file that I used as a 
 <p>
 The <code>init.el</code> file contains the line <code>(setq package-load-list '((htmlize t)))</code>. This should be removed. Why?
 </p>
-<details class="code-details" style="padding: 1em;
+<details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="green">
                          Hint
@@ -1284,11 +1284,11 @@ What does <code>package-load-list</code> do?
 </p>
 
 
-</details><details class="code-details" style="padding: 1em;
+</details><details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
                           border-radius: 15px;
                           color: hsl(157 75%);
-                          font-size: 0.9em;
+                          font-size: 1em;
                           box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;"><summary><strong>
                       <font face="Courier" size="3" color="red">
                          Solution
@@ -1305,8 +1305,8 @@ I need to install <code>org-special-block-extras</code>, and this command preven
 </div>
 
 
-<div id="outline-container-org8bcd865" class="outline-2">
-<h2 id="org8bcd865">
+<div id="outline-container-org54b7b6a" class="outline-2">
+<h2 id="org54b7b6a">
 <span class="section-number-2">3.</span> The adapted <code>init.el</code>
 </h2>
 <div class="outline-text-2" id="text-3">
@@ -1315,8 +1315,8 @@ Since I need functionality from <code>org-special-block-extras</code>, I have to
 </p>
 </div>
 
-<div id="outline-container-orgac5b313" class="outline-3">
-<h3 id="orgac5b313">
+<div id="outline-container-org68cb8f5" class="outline-3">
+<h3 id="org68cb8f5">
 <span class="section-number-3">3.1.</span> Loading the relevant packages</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
@@ -1366,8 +1366,8 @@ Next I load two packages. The hook on <code>org-mode</code> is necessary.
 </div>
 </div>
 
-<div id="outline-container-org2520824" class="outline-3">
-<h3 id="org2520824">
+<div id="outline-container-org2482694" class="outline-3">
+<h3 id="org2482694">
 <span class="section-number-3">3.2.</span> Updating the code for <code>box</code> and <code>details</code> blocks</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
@@ -1455,8 +1455,8 @@ And also for the  <code>box</code> block.
 </div>
 </div>
 
-<div id="outline-container-org01b30b6" class="outline-3">
-<h3 id="org01b30b6">
+<div id="outline-container-org95d82f1" class="outline-3">
+<h3 id="org95d82f1">
 <span class="section-number-3">3.3.</span> Making the exercise, hint and solution blocks</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
@@ -1483,8 +1483,8 @@ I copied the above on top of the <code>init.el</code> file, and kept the rest.
 </div>
 </div>
 
-<div id="outline-container-org7955784" class="outline-2">
-<h2 id="org7955784">
+<div id="outline-container-orgdbc6e41" class="outline-2">
+<h2 id="orgdbc6e41">
 <span class="section-number-2">4.</span> Testing</h2>
 <div class="outline-text-2" id="text-4">
 <p>
@@ -1510,20 +1510,20 @@ Let's test this on this file. As this file sits in the <code>posts</code> we nee
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#orgb9401a9">1. Problem Setting</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#org6364f3f">1. Problem Setting</a></li>
 <li>
-<a href="../posts/snells-envelope-house-selling-and-buying/#orgda831e4">2. Selling a House</a>
+<a href="../posts/snells-envelope-house-selling-and-buying/#orga64bfcf">2. Selling a House</a>
 <ul>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#orgb2cf312">2.1. Best Price Under a Fixed Threshold Policy</a></li>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org01b419b">2.2. Best Price Under a Dynamic  Threshold Policy</a></li>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org5a2af13">2.3. Snell's Envelope</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#orgd257dd6">2.1. Best Price Under a Fixed Threshold Policy</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#org5dc42fb">2.2. Best Price Under a Dynamic  Threshold Policy</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#org494b1b1">2.3. Snell's Envelope</a></li>
 </ul>
 </li>
 <li>
-<a href="../posts/snells-envelope-house-selling-and-buying/#orgbf5b6da">3. Buying a House</a>
+<a href="../posts/snells-envelope-house-selling-and-buying/#orga6b9a7a">3. Buying a House</a>
 <ul>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org20e92a9">3.1. A heuristic procedure</a></li>
-<li><a href="../posts/snells-envelope-house-selling-and-buying/#org8b168a6">3.2. The formal procedure</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#org73556bf">3.1. A heuristic procedure</a></li>
+<li><a href="../posts/snells-envelope-house-selling-and-buying/#org1a5eca4">3.2. The formal procedure</a></li>
 </ul>
 </li>
 </ul>
@@ -1533,8 +1533,8 @@ Let's test this on this file. As this file sits in the <code>posts</code> we nee
 
 
 
-<div id="outline-container-orgb9401a9" class="outline-2">
-<h2 id="orgb9401a9">
+<div id="outline-container-org6364f3f" class="outline-2">
+<h2 id="org6364f3f">
 <span class="section-number-2">1.</span> Problem Setting</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -1559,8 +1559,8 @@ I include some python code to get numerical output.
 </div>
 
 
-<div id="outline-container-orgda831e4" class="outline-2">
-<h2 id="orgda831e4">
+<div id="outline-container-orga64bfcf" class="outline-2">
+<h2 id="orga64bfcf">
 <span class="section-number-2">2.</span> Selling a House</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -1572,8 +1572,8 @@ I used <a href="https://arminstraub.com/math/hiringsecretary">this site</a>, whe
 </div>
 
 
-<div id="outline-container-orgb2cf312" class="outline-3">
-<h3 id="orgb2cf312">
+<div id="outline-container-orgd257dd6" class="outline-3">
+<h3 id="orgd257dd6">
 <span class="section-number-3">2.1.</span> Best Price Under a Fixed Threshold Policy</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
@@ -1584,7 +1584,7 @@ The expected sales price becomes
 
 
 <p>
-<a id="orgc21186c"></a>
+<a id="org2c3def1"></a>
 </p>
 \begin{equation}\label{snell-eq1}
 \E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}},
@@ -1642,7 +1642,7 @@ Why is  \(\E{X_n \1{\tau=\infty}}= \frac{q^{n+1}}2\) for \(n\)?
 </div>
 <br><div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Conclude  from <a href="../posts/snells-envelope-house-selling-and-buying/#orgc21186c">2.1</a> that:
+Conclude  from <a href="../posts/snells-envelope-house-selling-and-buying/#org2c3def1">2.1</a> that:
 </p>
 \begin{align*}
 v_{n}(q) := \E{X_{\tau}} &amp;= \frac{1}{2}(1-q^{n} + q).
@@ -1730,8 +1730,8 @@ For the future I might consider some additional questions.
 </div>
 
 
-<div id="outline-container-org01b419b" class="outline-3">
-<h3 id="org01b419b">
+<div id="outline-container-org5dc42fb" class="outline-3">
+<h3 id="org5dc42fb">
 <span class="section-number-3">2.2.</span> Best Price Under a Dynamic  Threshold Policy</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
@@ -1776,8 +1776,8 @@ v(10)=0.861098212205712
 </div>
 
 
-<div id="outline-container-org5a2af13" class="outline-3">
-<h3 id="org5a2af13">
+<div id="outline-container-org494b1b1" class="outline-3">
+<h3 id="org494b1b1">
 <span class="section-number-3">2.3.</span> Snell's Envelope</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
@@ -1787,9 +1787,9 @@ I  copied it from `Promenade alétoire' by M. Benaïm and N. El Karoui.
 </p>
 
 <p>
-<a id="orgeaada7d"></a>
+<a id="org1e19c3c"></a>
 </p>
-<div text="Snell" class="theorem" id="orgd0eaeec">
+<div text="Snell" class="theorem" id="org6b62f8c">
 <p>
 Consider a sequence of rvs \(\{X_i\}_{i=1}^n\) adapted to a filtration \(\{\F_{i}\}_{i=1}^{n}\).
 Introduce the sequence of rvs \(\{Y_i\}\) by backward recurrence as
@@ -1838,8 +1838,8 @@ By the theorem the stopping time \(\tau^*\) is optimal among all sellers (polici
 </div>
 </div>
 
-<div id="outline-container-orgbf5b6da" class="outline-2">
-<h2 id="orgbf5b6da">
+<div id="outline-container-orga6b9a7a" class="outline-2">
+<h2 id="orga6b9a7a">
 <span class="section-number-2">3.</span> Buying a House</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -1867,8 +1867,8 @@ We assume that \(n &gt; 2\), because when \(n=1,2\) the problem is not interesti
 </div>
 
 
-<div id="outline-container-org20e92a9" class="outline-3">
-<h3 id="org20e92a9">
+<div id="outline-container-org73556bf" class="outline-3">
+<h3 id="org73556bf">
 <span class="section-number-3">3.1.</span> A heuristic procedure</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
@@ -1961,7 +1961,7 @@ P(r) \geq P(r+1)
 Consequently, the best \(r\) is given by
 </p>
 \begin{equation}
-\label{org636acc8}
+\label{org9f96c40}
 r^{*} = \min{r &gt; 1: P(r) &gt; P(r+1) } = \min {r&gt;1 :  \sum_{k=r}^n \frac{1}{k-1} \geq 1}.
 \end{equation}
 <p>
@@ -1970,12 +1970,12 @@ Note that for \(n &gt; 2\), the policy with \(r=1\) can be ruled out right away 
 </div>
 </div>
 
-<div id="outline-container-org8b168a6" class="outline-3">
-<h3 id="org8b168a6">
+<div id="outline-container-org1a5eca4" class="outline-3">
+<h3 id="org1a5eca4">
 <span class="section-number-3">3.2.</span> The formal procedure</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
-We formalize the problem specification so that we can apply Snell's envelope to prove that the sampling policy with threshold \eqref{org636acc8}just developed is optimal.
+We formalize the problem specification so that we can apply Snell's envelope to prove that the sampling policy with threshold \eqref{org9f96c40}just developed is optimal.
 </p>
 
 <p>
@@ -2127,7 +2127,7 @@ Y_{i} &amp;= \frac{i}{n}\max{\xi_i , \sum_{k=i+1}^n \frac{1}{k-1}} = \frac{i}{n}
 
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <h3></h3> 
 <p>
-Use <a href="../posts/snells-envelope-house-selling-and-buying/#orgeaada7d">Snell's theorem</a> to explain that the stopping time \eqref{org636acc8} is optimal.
+Use <a href="../posts/snells-envelope-house-selling-and-buying/#org1e19c3c">Snell's theorem</a> to explain that the stopping time \eqref{org9f96c40} is optimal.
 </p>
 <details class="code-details" style="padding: 0.6em;
                           background-color: #e5f5e5;
@@ -2144,7 +2144,7 @@ Compute Snell's envelope with the formulas above.
 It is evident for all \(i\) that \(\xi_i = 0 \implies 0 = X_{i} &lt; Y_i\).
 Next, starting from $i=1s, as long as \(i\) is such that \(1 &lt; \sum_{k=i+1}^{n} \frac{1}{k-1}\), \(X_{i} &lt; Y_i\) even when \(\xi_i = 1\).
 The earliest visit such that \(X_i = Y_i\) becomes possible is when \(\xi_i=1 &gt; \sum_{k=i+1}^{n} \frac{1}{k-1}\). But this \(i\) is precisely the threshold given by
-\eqref{org636acc8}.
+\eqref{org9f96c40}.
 </p>
 
 
@@ -2172,22 +2172,22 @@ In conclusion, it is optimal to select house \(i\) when \(i\geq r^{*}\) and when
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/vickrey-auctions/#org3ed1f95">1. Introduction</a></li>
+<li><a href="../posts/vickrey-auctions/#orgf97f322">1. Introduction</a></li>
 <li>
-<a href="../posts/vickrey-auctions/#orgdd25cf0">2. Some complexity theory</a>
+<a href="../posts/vickrey-auctions/#orgf1424f0">2. Some complexity theory</a>
 <ul>
-<li><a href="../posts/vickrey-auctions/#org171c050">2.1. Sorting</a></li>
+<li><a href="../posts/vickrey-auctions/#orgf6d6b13">2.1. Sorting</a></li>
 </ul>
 </li>
-<li><a href="../posts/vickrey-auctions/#org70b28ff">3. The Vickrey auction</a></li>
-<li><a href="../posts/vickrey-auctions/#org32536f1">4. Summary</a></li>
+<li><a href="../posts/vickrey-auctions/#org9cab474">3. The Vickrey auction</a></li>
+<li><a href="../posts/vickrey-auctions/#org87b9b8d">4. Summary</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org3ed1f95" class="outline-2">
-<h2 id="org3ed1f95">
+<div id="outline-container-orgf97f322" class="outline-2">
+<h2 id="orgf97f322">
 <span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -2223,8 +2223,8 @@ In the last section we use this algorithm to find the second highest bid in a Vi
 </div>
 </div>
 
-<div id="outline-container-orgdd25cf0" class="outline-2">
-<h2 id="orgdd25cf0">
+<div id="outline-container-orgf1424f0" class="outline-2">
+<h2 id="orgf1424f0">
 <span class="section-number-2">2.</span> Some complexity theory</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -2383,8 +2383,8 @@ We now have the means to compare the efficiency of algorithms.
 </div>
 
 
-<div id="outline-container-org171c050" class="outline-3">
-<h3 id="org171c050">
+<div id="outline-container-orgf6d6b13" class="outline-3">
+<h3 id="orgf6d6b13">
 <span class="section-number-3">2.1.</span> Sorting</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
@@ -2568,8 +2568,8 @@ What is the complexity of this \(k\)-median algorithm?
 </div>
 
 
-<div id="outline-container-org70b28ff" class="outline-2">
-<h2 id="org70b28ff">
+<div id="outline-container-org9cab474" class="outline-2">
+<h2 id="org9cab474">
 <span class="section-number-2">3.</span> The Vickrey auction</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -2681,14 +2681,14 @@ It remains to make plots.
 </pre></div>
 
 <p>
-We run virtually the same code for \(X_i\sim \Norm{1/2, 1/\sqrt{12}}\), and plot in Fig. <a href="../posts/vickrey-auctions/#orgf616c63">1</a> the density \(f_2\) and the histogram obtained by  simulation.
+We run virtually the same code for \(X_i\sim \Norm{1/2, 1/\sqrt{12}}\), and plot in Fig. <a href="../posts/vickrey-auctions/#orge279cc2">1</a> the density \(f_2\) and the histogram obtained by  simulation.
 The right  panel of the figure shows the histogram for a simulation with \(X_i\sim\Norm{\mu=0.5, \sigma=1/\sqrt{12}}\).
 Clearly, the model of the bid sizes has a major effect on the price we can get for our expensive car.
 </p>
 
 
 
-<div id="orgf616c63" class="figure">
+<div id="orge279cc2" class="figure">
 <p><img src="../images/vickrey_graph.png" alt="nil"></p>
 <p><span class="figure-number">Figure 1: </span>The density \(f_2\) of the second highest bid \(Y_{2}\). In the left panel \(X_i\sim\Unif{[0,1]}\), in the right \(X_i\sim\Norm{\mu=0.5, \sigma=1/\sqrt{12}}\).</p>
 </div>
@@ -2720,8 +2720,8 @@ When we have 10 bidders, we have to place 10 uniform rvs on the interval \([0,1]
 </div>
 
 
-<div id="outline-container-org32536f1" class="outline-2">
-<h2 id="org32536f1">
+<div id="outline-container-org87b9b8d" class="outline-2">
+<h2 id="org87b9b8d">
 <span class="section-number-2">4.</span> Summary</h2>
 <div class="outline-text-2" id="text-4">
 <p>
@@ -2733,7 +2733,7 @@ Finally, we realized that the second bid is actually the second value of the ord
 </p>
 
 <p>
-Actually, I did not expect that the density would have such a big tail to the left, as is shown in Fig. <a href="../posts/vickrey-auctions/#orgf616c63">1</a>.
+Actually, I did not expect that the density would have such a big tail to the left, as is shown in Fig. <a href="../posts/vickrey-auctions/#orge279cc2">1</a>.
 Perhaps this explains why, instead of Vickrey auctions, sellers might prefer Dutch auctions in which the selling price starts very high and decreases until the first person accepts the price.
 However, let's not draw simplistic conclusions; we should turn to a serious book on auction theory instead.
 In our work we are occupied with showing the many uses of recursion, some maths, and coding.
@@ -2774,22 +2774,22 @@ For further background, check Wikipedia.</p></div>
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org5f005b2">1. The problem</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgd7b62ea">2. Finding a Solution</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgfc26e9e">3. The decision variables</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org44ac960">4. Constraints with starting values</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org8acc4f4">5. Equality Constraints</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orga6d3c6c">6. Inequality Constraints</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org9b65a89">7. Objective</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org0442506">8. Solving the problem</a></li>
-<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org22c454e">9. The solution</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org4d4e96e">1. The problem</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orge0e122e">2. Finding a Solution</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org45a94c6">3. The decision variables</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org1357c22">4. Constraints with starting values</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgd6951f7">5. Equality Constraints</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org2a9be8b">6. Inequality Constraints</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#orgd22765f">7. Objective</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org5770e3f">8. Solving the problem</a></li>
+<li><a href="../posts/solving-a-number-game-with-a-mip-solver/#org79dba9b">9. The solution</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org5f005b2" class="outline-2">
-<h2 id="org5f005b2">
+<div id="outline-container-org4d4e96e" class="outline-2">
+<h2 id="org4d4e96e">
 <span class="section-number-2">1.</span> The problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -2798,15 +2798,15 @@ The numbers in the fields should respect any inequality between two fields. We n
 </p>
 
 
-<div id="org4a22fd7" class="figure">
+<div id="org00a2ccd" class="figure">
 <p><img src="../images/number_game.png" alt="nil"></p>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-orgd7b62ea" class="outline-2">
-<h2 id="orgd7b62ea">
+<div id="outline-container-orge0e122e" class="outline-2">
+<h2 id="orge0e122e">
 <span class="section-number-2">2.</span> Finding a Solution</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -2822,8 +2822,8 @@ We will use  <a href="https://pythonhosted.org/PuLP/">pulp</a> to solve this puz
 </div>
 
 
-<div id="outline-container-orgfc26e9e" class="outline-2">
-<h2 id="orgfc26e9e">
+<div id="outline-container-org45a94c6" class="outline-2">
+<h2 id="org45a94c6">
 <span class="section-number-2">3.</span> The decision variables</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -2838,8 +2838,8 @@ The values, rows and columns are all elements of the set \(\{1, 2, 3, 4, 5\}\).
 </div>
 
 
-<div id="outline-container-org44ac960" class="outline-2">
-<h2 id="org44ac960">
+<div id="outline-container-org1357c22" class="outline-2">
+<h2 id="org1357c22">
 <span class="section-number-2">4.</span> Constraints with starting values</h2>
 <div class="outline-text-2" id="text-4">
 <p>
@@ -2852,8 +2852,8 @@ The simplest constraints deal with the numbers that are given in the diagram.
 </div>
 </div>
 
-<div id="outline-container-org8acc4f4" class="outline-2">
-<h2 id="org8acc4f4">
+<div id="outline-container-orgd6951f7" class="outline-2">
+<h2 id="orgd6951f7">
 <span class="section-number-2">5.</span> Equality Constraints</h2>
 <div class="outline-text-2" id="text-5">
 <p>
@@ -2882,8 +2882,8 @@ And also only one value per column.
 </div>
 </div>
 
-<div id="outline-container-orga6d3c6c" class="outline-2">
-<h2 id="orga6d3c6c">
+<div id="outline-container-org2a9be8b" class="outline-2">
+<h2 id="org2a9be8b">
 <span class="section-number-2">6.</span> Inequality Constraints</h2>
 <div class="outline-text-2" id="text-6">
 <p>
@@ -2959,8 +2959,8 @@ Note that since all cells must have different values, all strict inequalities in
 </div>
 </div>
 
-<div id="outline-container-org9b65a89" class="outline-2">
-<h2 id="org9b65a89">
+<div id="outline-container-orgd22765f" class="outline-2">
+<h2 id="orgd22765f">
 <span class="section-number-2">7.</span> Objective</h2>
 <div class="outline-text-2" id="text-7">
 <p>
@@ -2972,8 +2972,8 @@ We only use pulp to find a feasible solution.
 </div>
 </div>
 
-<div id="outline-container-org0442506" class="outline-2">
-<h2 id="org0442506">
+<div id="outline-container-org5770e3f" class="outline-2">
+<h2 id="org5770e3f">
 <span class="section-number-2">8.</span> Solving the problem</h2>
 <div class="outline-text-2" id="text-8">
 <p>
@@ -2984,8 +2984,8 @@ Solving the problem comes down to calling the <code>solve()</code> method of <co
 </div>
 </div>
 
-<div id="outline-container-org22c454e" class="outline-2">
-<h2 id="org22c454e">
+<div id="outline-container-org79dba9b" class="outline-2">
+<h2 id="org79dba9b">
 <span class="section-number-2">9.</span> The solution</h2>
 <div class="outline-text-2" id="text-9">
 <p>
@@ -3037,17 +3037,17 @@ Yes! Let's print it.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/weighted-random-shuffling/#orgd693844">1. Weighted random shuffling</a></li>
-<li><a href="../posts/weighted-random-shuffling/#org5c79fe3">2. Weighted shuffling in pure python</a></li>
-<li><a href="../posts/weighted-random-shuffling/#org297d7b0">3. Fast shuffling</a></li>
-<li><a href="../posts/weighted-random-shuffling/#org923647f">4. A wrong idea</a></li>
+<li><a href="../posts/weighted-random-shuffling/#orgbd767cc">1. Weighted random shuffling</a></li>
+<li><a href="../posts/weighted-random-shuffling/#org0e4c9a1">2. Weighted shuffling in pure python</a></li>
+<li><a href="../posts/weighted-random-shuffling/#orgfe4f92c">3. Fast shuffling</a></li>
+<li><a href="../posts/weighted-random-shuffling/#org0706e38">4. A wrong idea</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-orgd693844" class="outline-2">
-<h2 id="orgd693844">
+<div id="outline-container-orgbd767cc" class="outline-2">
+<h2 id="orgbd767cc">
 <span class="section-number-2">1.</span> Weighted random shuffling</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -3063,8 +3063,8 @@ this code.
 </div>
 </div>
 
-<div id="outline-container-org5c79fe3" class="outline-2">
-<h2 id="org5c79fe3">
+<div id="outline-container-org0e4c9a1" class="outline-2">
+<h2 id="org0e4c9a1">
 <span class="section-number-2">2.</span> Weighted shuffling in pure python</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -3120,8 +3120,8 @@ element \(i\) cannot be selected the next time.
 </div>
 </div>
 
-<div id="outline-container-org297d7b0" class="outline-2">
-<h2 id="org297d7b0">
+<div id="outline-container-orgfe4f92c" class="outline-2">
+<h2 id="orgfe4f92c">
 <span class="section-number-2">3.</span> Fast shuffling</h2>
 <div class="outline-text-2" id="text-3">
 <p>
@@ -3162,8 +3162,8 @@ Some testing shows, for a reason unknown to me, that <code>np.searchsorted</code
 </div>
 </div>
 
-<div id="outline-container-org923647f" class="outline-2">
-<h2 id="org923647f">
+<div id="outline-container-org0706e38" class="outline-2">
+<h2 id="org0706e38">
 <span class="section-number-2">4.</span> A wrong idea</h2>
 <div class="outline-text-2" id="text-4">
 <p>
@@ -3199,8 +3199,8 @@ where \(w_i\) are the weights and \(U_i\) uniform random deviates on
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/memoization/#org72f2ff0">1. Content of a Discrete Hyper Pyramid</a></li>
-<li><a href="../posts/memoization/#org50fc530">2. A probability problem</a></li>
+<li><a href="../posts/memoization/#org842d74b">1. Content of a Discrete Hyper Pyramid</a></li>
+<li><a href="../posts/memoization/#orgb82b4da">2. A probability problem</a></li>
 </ul>
 </div>
 </div>
@@ -3208,8 +3208,8 @@ where \(w_i\) are the weights and \(U_i\) uniform random deviates on
 
 
 
-<div id="outline-container-org72f2ff0" class="outline-2">
-<h2 id="org72f2ff0">
+<div id="outline-container-org842d74b" class="outline-2">
+<h2 id="org842d74b">
 <span class="section-number-2">1.</span> Content of a Discrete Hyper Pyramid</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -3241,8 +3241,8 @@ Computing \(\P{n,N}\) is easy when we use  memoization. In fact,  we can code th
 </div>
 </div>
 
-<div id="outline-container-org50fc530" class="outline-2">
-<h2 id="org50fc530">
+<div id="outline-container-orgb82b4da" class="outline-2">
+<h2 id="orgb82b4da">
 <span class="section-number-2">2.</span> A probability problem</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -3329,13 +3329,13 @@ If things are not yet solved in the nikola plugin for orgmode, put this as the e
 <p>
 And now you can refer to any page like so
 </p>
-<pre class="example" id="org3e72e3f">
+<pre class="example" id="org61f8638">
 link:/bio
 </pre>
 <p>
 or
 </p>
-<pre class="example" id="orgf988571">
+<pre class="example" id="org9e4349d">
 [[link:/bio][My bio page]]
 </pre>
                 </div>
@@ -3354,12 +3354,12 @@ or
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org380ee47">1. The  problem</a></li>
+<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org1db301e">1. The  problem</a></li>
 <li>
-<a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#orgcc61281">2. My solution</a>
+<a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#orgb5f0b5e">2. My solution</a>
 <ul>
-<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org1edcc73">2.1. One option.</a></li>
-<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org86eff46">2.2. Another option</a></li>
+<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#org22bb08d">2.1. One option.</a></li>
+<li><a href="../posts/latex-pythontex-matplotlib-tikzplotlib/#orgc23f399">2.2. Another option</a></li>
 </ul>
 </li>
 </ul>
@@ -3367,8 +3367,8 @@ or
 </div>
 
 
-<div id="outline-container-org380ee47" class="outline-2">
-<h2 id="org380ee47">
+<div id="outline-container-org1db301e" class="outline-2">
+<h2 id="org1db301e">
 <span class="section-number-2">1.</span> The  problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -3386,8 +3386,8 @@ And then there came a day that I did not like this anymore.
 </div>
 </div>
 
-<div id="outline-container-orgcc61281" class="outline-2">
-<h2 id="orgcc61281">
+<div id="outline-container-orgb5f0b5e" class="outline-2">
+<h2 id="orgb5f0b5e">
 <span class="section-number-2">2.</span> My solution</h2>
 <div class="outline-text-2" id="text-2">
 <p>
@@ -3400,8 +3400,8 @@ I use <a href="https://github.com/cereda/arara">arara</a> to compile the LaTeX f
 </p>
 </div>
 
-<div id="outline-container-org1edcc73" class="outline-3">
-<h3 id="org1edcc73">
+<div id="outline-container-org22bb08d" class="outline-3">
+<h3 id="org22bb08d">
 <span class="section-number-3">2.1.</span> One option.</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
@@ -3445,8 +3445,8 @@ Note that this is an MWE; for a good figure you'll need to tune it to your needs
 </div>
 </div>
 
-<div id="outline-container-org86eff46" class="outline-3">
-<h3 id="org86eff46">
+<div id="outline-container-orgc23f399" class="outline-3">
+<h3 id="orgc23f399">
 <span class="section-number-3">2.2.</span> Another option</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
@@ -3497,14 +3497,14 @@ print(tikzplotlib.get<span class="nb">_</span>tikz<span class="nb">_</span>code(
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="../posts/my-first-post/#orgb9698e5">Here is my first post</a></li>
+<li><a href="../posts/my-first-post/#orgc2bb859">Here is my first post</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgb9698e5" class="outline-2">
-<h2 id="orgb9698e5">Here is my first post</h2>
-<div class="outline-text-2" id="text-orgb9698e5">
+<div id="outline-container-orgc2bb859" class="outline-2">
+<h2 id="orgc2bb859">Here is my first post</h2>
+<div class="outline-text-2" id="text-orgc2bb859">
 <p>
 I want to write posts and a homepage in org mode.
 (I dislike <code>markdown</code>, and I detest typing math in <code>rst</code>.)
