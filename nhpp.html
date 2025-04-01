@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simulating  Arrival Times for a Non-homogeneous Poisson Process</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="css/tufte.css" type="text/css" />
+<link rel="stylesheet" href="css/ox-tufte.css" type="text/css" />
+<script>
+  window.MathJax = {
+    tex: {
+      macros: {
+        argmin: ["\\mathop{\\mathrm{arg\\,min}}", 0],
+        argmax: ["\\mathop{\\mathrm{arg\\,max}}", 0],
+        abs: ["\\left\\vert#1\\right\\vert", 1],
+        mineq: "\\mathrel{-}=",
+        pluseq: "\\mathrel{+}=",
+        supp: ["\\mathrm{supp}\\left(#1\\right)", 1],
+        B: "\\mathbb{B}",
+        C: "\\mathcal{C}",
+        d: ["\\,\\textrm{d}#1", 1],
+        E: ["\\mathsf{E}\\left[#1\\right]", 1],
+        F: "\\mathcal{F}",
+        P: ["\\mathsf{P}\\left\\{#1\\right\\}", 1],
+        R: "\\mathbb{R}",
+        V: ["\\mathsf{V}\\left[#1\\right]", 1],
+        Pois: ["\\mathrm{Pois}(#1)", 1],
+        Norm: ["\\mathrm{Norm}(#1)", 1],
+        Unif: ["\\mathrm{Unif}(#1)", 1],
+        "1": ["\\mathbb{1}\\left\\{#1\\right\\}", 1],
+      },
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header id="preamble" class="status">
+<header class='site-header'>
+  <div class='site-header-container'>
+    <a href="https://ndvanforeest.github.io/">
+    <img src="img/harry.jpg" alt='parsec logo' class='site-logo'>
+    </a>
+      <div class='site-title-container'>
+        <h1 class='site-title'>Nicky&rsquo;s site</h1>
+      </div>
+    </div>
+</header>
+<hr class='menu-divider'>
+<nav class='menu'>
+  <ul>
+    <li><a href='index.html'>Home</a></li>
+    <li><a href='about_this_site.html'>About this site</a></li>
+    <li><a href='bio.html'>Bio</a></li>
+  </ul>
+</nav>
+<hr class='menu-divider'>
+</header>
+<article id="content" class="content">
+<header>
+<h1 class="title">Simulating  Arrival Times for a Non-homogeneous Poisson Process</h1>
+</header>
+
+
+<section id="outline-container-org7f16d57" class="outline-2">
+<h2 id="org7f16d57">Intro</h2>
+<div class="outline-text-2" id="text-org7f16d57">
+<p>
+We provide an algorithm to generate arrival times of a non-homogeneous Poisson process (nhpp) when the rate function \(\lambda(s)\) is piecewise constant.
+Specifically, we assume given two sequences \(\{\lambda_{j}\}_{j=0}^{\infty}\) and \(\{s_{j}\}_{j=0}^{\infty}\), with \(s_{0}=0\),  the \(s_{j}\) strictly increasing, and \(s_{k}\to \infty\) as \(k\to\infty\), and then we take \(\lambda(s) = \lambda_{j}\) for \(s\in [s_{j}, s_{j+1}]\).
+An example would be a daily scheme of arrival rates of patients per hour at a hospital, where \(\lambda_{0} = 1\) from \([0, 8)\), \(\lambda_{1} = 10\) from \([8, 12)\), \(\lambda_{2} = 8\) from \([12, 18)\) and \(\lambda_{4}=3\) from \([18, 24)]\),  update \(\{s_{j}\}\) accordingly).
+</p>
+</div>
+</section>
+
+<section id="outline-container-org99c01cb" class="outline-2">
+<h2 id="org99c01cb">The Maths</h2>
+<div class="outline-text-2" id="text-org99c01cb">
+<p>
+One way to simulate a non-homogenous Poisson process with piece-wise constant rates is as follows.
+</p>
+<ol class="org-ol">
+<li>For each interval  \([s_j, s_{j+1}]\) compute the duration \(t_j = s_{j+1}-s_j\).</li>
+<li>Generate a random deviate \(R_j \sim \Pois{\lambda_j t_j}\).</li>
+<li>Generate \(R_j\) uniform deviates \(U_i \sim \Unif{[s_j, s_{j+1}]}\).</li>
+<li>The uniform deviates form the arrivals times on \([s_j, s_{j+1}]\).</li>
+</ol>
+<p>
+This procedure is easy, but the computation of a Poisson distributed random deviate is somewhat costly.
+</p>
+
+<p>
+Perhaps the next procedure is more efficient&#x2013;I have not tested it, so I don&rsquo;t know.
+The paper <a href="https://web.ics.purdue.edu/~pasupath/PAPERS/2011pasB.pdf">Generating Nonhomogeneous Poisson Processes</a> by Raghu Pasupathy explains that we need to find the smallest \(t\) such that \(\Lambda (s, t) = \int_{s}^{t} \lambda(y)\d y =x \), where \(x = -\log u\) and \(u\sim\Unif{[0.1]}\).
+</p>
+</div>
+
+<div id="outline-container-orgd98eb26" class="outline-3">
+<h3 id="orgd98eb26">A constant rate throughout</h3>
+<div class="outline-text-3" id="text-orgd98eb26">
+<p>
+If the rate \(\lambda(x) \equiv \lambda\) is contant throughout, finding such \(t\) is simple because \(\Lambda(s, t) = \lambda (t-s)\) so that \(t= s + s/\lambda\).
+This gives the following algorithm:
+</p>
+<ol class="org-ol">
+<li>\(s = 0\).</li>
+<li>\(s \mineq \log(u)/\lambda, \quad u \sim \Unif{[0,1]}\).</li>
+<li>Yield \(s\) and return to step 2.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org7925b9e" class="outline-3">
+<h3 id="org7925b9e">Piecewise Constant</h3>
+<div class="outline-text-3" id="text-org7925b9e">
+<p>
+Let us generalize this proceduce so that we can deal with  piecewise constant  \(\lambda(\cdot)\).
+Noting that the sequence \(\{s_{j}\}\) places a grid on \(\R^{+}\), we define
+</p>
+\begin{align*}
+j &= \max\{i: s_{i} \leq s\}, & k &=\min\left\{i : \Lambda(s, s_{i})  >x\right\},
+\end{align*}
+<p>
+i.e., \(s_{j}\) is the point on the grid just below \(s\), and \(s_{k}\) is the smallest point on the grid such that the integral \(\Lambda(s, s_{k})\) exceeds \(x\).
+For the algorithm, if \(s+x/\lambda_{j}< s_{j+1}\), then we can set \(s += x/\lambda_{j}\), and return \(s\) as the next arrival time.
+However, if if \(s+x/\lambda_{j}\geq s_{j+1}\), we use the following idea:
+</p>
+\begin{equation*}
+x = \Lambda(s, t) = \Lambda(s_{j}, s_{k}) - \Lambda(s_{j}, s) - \Lambda(t, s_{k}).
+\end{equation*}
+<p>
+Since \(\lambda(\cdot)\) is \(\lambda_{j}\) on \([s_{j}, s]\) and \(\lambda(\cdot) = \lambda_{k-1}\) on \([t, s_{k})\),
+</p>
+\begin{align*}
+\Lambda(s_{j}, s) &= \lambda_{j}(s-s_{k}),  & \Lambda(t, s_{k}) = \lambda_{k-1} (s_{k}-t).
+\end{align*}
+<p>
+Thus, if we have \(s_{j}\) and \(s_{k}\), the next arrival time \(t\) after \(s\) is easily  solved from the equation
+</p>
+\begin{equation*}
+\lambda_{k-1}(s_{k} -t ) = x +  \Lambda(s_{j}, s) - \Lambda(s_{j}, s_{k}).
+\end{equation*}
+<p>
+That is,
+</p>
+\begin{equation}\label{eq:nh8}
+t = s_{k } -  (\Lambda(s_{j}, s_{k}) - x -  \Lambda(s_{j}, s) )/\lambda_{k-1}.
+\end{equation}
+</div>
+</div>
+</section>
+
+
+
+<section id="outline-container-orgee35afe" class="outline-2">
+<h2 id="orgee35afe">The Algorithm</h2>
+<div class="outline-text-2" id="text-orgee35afe">
+<p>
+With this idea, we obtain the following algorithm. Assume that \(\lambda_{0} > 0\) (Otherwise search for the first \(\lambda_{j}>0\), and start from there).
+</p>
+
+<ol class="org-ol">
+<li>\(s=0\), \(j=0\)</li>
+<li>\(s \mineq \log(u)/\lambda_{j}\)</li>
+<li>If \(s < s_{j+1}\), yield \(s\) and return to step 2, else</li>
+<li>\(T = \lambda_{j}(s_{j+1}-s)\).</li>
+<li>While \(T<0\): \(j \pluseq 1\), \(T \pluseq \lambda_{j}(s_{j+1}-s_{j})\).</li>
+<li>\(s = s_{j+1} - T/\lambda_{j}\).</li>
+<li>Yield \(s\) and return to step 2.</li>
+</ol>
+</div>
+</section>
+
+<section id="outline-container-org7f6f53b" class="outline-2">
+<h2 id="org7f6f53b">The Python &lt;Code</h2>
+<div class="outline-text-2" id="text-org7f6f53b">
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-keyword">from</span> typing <span class="org-keyword">import</span> Iterator
+
+<span class="org-keyword">import</span> numpy <span class="org-keyword">as</span> np
+
+
+<span class="org-keyword">def</span> <span class="org-function-name">nhpp_range</span>(
+    start: <span class="org-builtin">float</span>,
+    end: <span class="org-builtin">float</span>,
+    times: Iterator[<span class="org-builtin">float</span>],
+    rates: Iterator[<span class="org-builtin">float</span>],
+    gen: np.random.Generator <span class="org-operator">=</span> np.random.default_rng(3),
+) <span class="org-operator">-&gt;</span> Iterator[<span class="org-builtin">float</span>]:
+    <span class="org-variable-name">rate</span> <span class="org-operator">=</span> <span class="org-builtin">next</span>(rates)
+    <span class="org-variable-name">down</span>, <span class="org-variable-name">up</span> <span class="org-operator">=</span> <span class="org-builtin">next</span>(times), <span class="org-builtin">next</span>(times)
+    <span class="org-keyword">while</span> np.isclose(rate, 0):
+        <span class="org-variable-name">rate</span> <span class="org-operator">=</span> <span class="org-builtin">next</span>(rates)
+        <span class="org-variable-name">down</span>, <span class="org-variable-name">up</span> <span class="org-operator">=</span> up, <span class="org-builtin">next</span>(times)
+    <span class="org-variable-name">now</span> <span class="org-operator">=</span> <span class="org-builtin">max</span>(start, down)
+    <span class="org-keyword">while</span> <span class="org-constant">True</span>:
+        <span class="org-variable-name">now</span> <span class="org-operator">+=</span> gen.exponential() <span class="org-operator">/</span> rate
+        <span class="org-variable-name">T</span> <span class="org-operator">=</span> rate <span class="org-operator">*</span> (up <span class="org-operator">-</span> now)
+        <span class="org-keyword">while</span> T <span class="org-operator">&lt;</span> 0:
+            <span class="org-variable-name">rate</span> <span class="org-operator">=</span> <span class="org-builtin">next</span>(rates)
+            <span class="org-variable-name">down</span>, <span class="org-variable-name">up</span> <span class="org-operator">=</span> up, <span class="org-builtin">next</span>(times)
+            <span class="org-variable-name">T</span> <span class="org-operator">+=</span> rate <span class="org-operator">*</span> (up <span class="org-operator">-</span> down)
+        <span class="org-variable-name">now</span> <span class="org-operator">=</span> up <span class="org-operator">-</span> T <span class="org-operator">/</span> rate
+        <span class="org-keyword">if</span> now <span class="org-operator">&gt;</span> end:
+            <span class="org-keyword">break</span>
+        <span class="org-keyword">yield</span> now
+
+</pre>
+</div>
+</div>
+</section>
+
+
+<section id="outline-container-org2dc1f56" class="outline-2">
+<h2 id="org2dc1f56">The Tests</h2>
+<div class="outline-text-2" id="text-org2dc1f56">
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-keyword">from</span> datetime <span class="org-keyword">import</span> datetime, timedelta
+<span class="org-keyword">from</span> itertools <span class="org-keyword">import</span> cycle, accumulate
+<span class="org-keyword">from</span> collections <span class="org-keyword">import</span> Counter
+<span class="org-keyword">import</span> numpy <span class="org-keyword">as</span> np
+<span class="org-keyword">from</span> nhpp <span class="org-keyword">import</span> nhpp_range
+
+
+<span class="org-keyword">def</span> <span class="org-function-name">test_floats</span>():
+    <span class="org-variable-name">gen</span> <span class="org-operator">=</span> np.random.default_rng(3)
+
+    <span class="org-variable-name">start</span> <span class="org-operator">=</span> 0
+    <span class="org-variable-name">end</span> <span class="org-operator">=</span> 40
+    <span class="org-variable-name">periods</span> <span class="org-operator">=</span> [1, 1, 3]
+    <span class="org-variable-name">rates</span> <span class="org-operator">=</span> [0, 1, 10]
+
+    <span class="org-variable-name">times</span> <span class="org-operator">=</span> []
+    <span class="org-variable-name">counter</span> <span class="org-operator">=</span> Counter()
+    <span class="org-variable-name">counter</span>[0] <span class="org-operator">=</span> 0
+    <span class="org-keyword">for</span> time <span class="org-keyword">in</span> nhpp_range(
+        start, end, accumulate(cycle(periods), initial<span class="org-operator">=</span>start), cycle(rates)
+    ):
+        times.append(time)
+        <span class="org-variable-name">counter</span>[<span class="org-builtin">int</span>(time) <span class="org-operator">%</span> 5] <span class="org-operator">+=</span> 1
+    <span class="org-builtin">print</span>(counter)
+
+    <span class="org-variable-name">A</span> <span class="org-operator">=</span> np.array(times)
+    <span class="org-variable-name">X</span> <span class="org-operator">=</span> A[1:] <span class="org-operator">-</span> A[:<span class="org-operator">-</span>1]
+    <span class="org-builtin">print</span>(X.mean(), X.std())
+    <span class="org-variable-name">theoretical_mean_rate</span> <span class="org-operator">=</span> <span class="org-builtin">sum</span>(p <span class="org-operator">*</span> r <span class="org-keyword">for</span> r, p <span class="org-keyword">in</span> <span class="org-builtin">zip</span>(rates, periods)) <span class="org-operator">/</span> <span class="org-builtin">sum</span>(
+        periods
+    )
+    <span class="org-builtin">print</span>(1 <span class="org-operator">/</span> theoretical_mean_rate)
+
+
+<span class="org-keyword">def</span> <span class="org-function-name">test_datetimes</span>():
+    <span class="org-variable-name">start</span> <span class="org-operator">=</span> datetime(2023, 8, 9, 10, 0)
+    <span class="org-variable-name">end</span> <span class="org-operator">=</span> datetime(2023, 8, 10, 18, 0)
+    <span class="org-variable-name">rates</span> <span class="org-operator">=</span> <span class="org-builtin">list</span>(<span class="org-builtin">range</span>(13))
+    <span class="org-variable-name">periods</span> <span class="org-operator">=</span> [2] <span class="org-operator">*</span> <span class="org-builtin">len</span>(rates)
+
+    <span class="org-variable-name">time</span> <span class="org-operator">=</span> start
+    <span class="org-keyword">for</span> delta <span class="org-keyword">in</span> nhpp_range(
+        0,
+        (end <span class="org-operator">-</span> start).total_seconds() <span class="org-operator">/</span> 3600,
+        accumulate(cycle(periods), initial<span class="org-operator">=</span>0),
+        cycle(rates),
+    ):
+        <span class="org-variable-name">time</span> <span class="org-operator">+=</span> timedelta(hours<span class="org-operator">=</span>delta)
+        <span class="org-builtin">print</span>(time)
+    <span class="org-builtin">print</span>(start, time)
+
+
+<span class="org-keyword">if</span> <span class="org-builtin">__name__</span> <span class="org-operator">==</span> <span class="org-string">"__main__"</span>:
+    test_floats()
+    test_datetimes()
+</pre>
+</div>
+</div>
+</section>
+</article>
+<footer id="postamble" class="status">
+<hr> <p class="footer"> &#8226; A site by Nicky van Foreest &#8226;   Last updated: 2025:04:01, Generated with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.4 (<a href="https://orgmode.org">Org</a> mode 9.6.15)</p>
+</footer>
+</body>
+</html>
