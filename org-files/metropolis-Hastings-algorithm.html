@@ -228,6 +228,7 @@ If I start with a Markov chain, then I have no clue about the functional form of
 So far my misconceptions.
 After reading yet more, I finally discovered that the MH algorithm is used for distributions whose functional form is completely known, but only the normalizing constant is too hard to compute.
 In other words, we just use the MH algorithm to estimate the normalizing constant by means of simulation.
+In fact, once you understand that the only goal of MH algorithm is <i>to sample from a given, but <b>unnormalized</b>, density function</i>, the algorithm is quite easy to understand.
 </p>
 
 <p>
@@ -238,7 +239,6 @@ I learned it <a href="https://github.com/abdulfatir/sampling-methods-numpy/blob/
 <p>
 We start with the regular imports.
 </p>
-
 <div class="org-src-container">
 <pre class="src src-python"><span class="org-keyword">import</span> matplotlib.pyplot <span class="org-keyword">as</span> plt
 <span class="org-keyword">import</span> numpy <span class="org-keyword">as</span> np
@@ -266,9 +266,8 @@ We define \(Z\) here, but don&rsquo;t use it in the simulation because there we 
 
 <p>
 We next run the MH algorithm.
-I implicitly assume that the Markov chain that is used is symmetric, so that it falls out of the equations.
-Observe, it is not my aim to explain the details of the MH algorithm, but just how it works.
-Once you understand that the MH algorithm is meant to be used to sample from a given <i>unnormalized</i> density function, the rest is quite easy to understand.
+I implicitly assume that the Markov chain that is used is symmetric, so that it falls<label id='fnr.1' for='fnr-in.1.9790334' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.9790334' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>It is not my aim to explain the details of the MH algorithm; I just want to show to it works.</span>
+out of the equations.
 </p>
 
 <p>
@@ -320,7 +319,7 @@ where  \(|A| = (1 - -1)/n = 2/n\) when the interval \([-1,1]\) is chopped up int
 
 <p>
 Let&rsquo;s compare our estimates to the theoretical values.
-Here we use \(Z\) to scale \(p\) to the proper value.<label id='fnr.1' for='fnr-in.1.1716693' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.1716693' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>Once again, note that we did not use the normalization constant \(Z\) in the simulations.</span>
+Here we use \(Z\) to scale \(p\) to the proper value.<label id='fnr.2' for='fnr-in.2.5738824' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.5738824' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>Once again, note that we did not use the normalization constant \(Z\) in the simulations.</span>
 </p>
 
 <div class="org-src-container">
@@ -335,14 +334,14 @@ plt.savefig(<span class="org-string">"../images/MH-half-circle.png"</span>, dpi<
 </pre>
 </div>
 
-<figure src="/img/MH-half-circle.png" id="orgde0f8b8">
+<figure src="/img/MH-half-circle.png" id="orgfa898cb">
 <p>
 
 </p>
 </figure>
 
 
-<figure id="orgfa898cb">
+<figure id="org7161a33">
 <img src="https://ndvanforeest.github.io/img/MH-half-circle.png" alt="MH-half-circle.png" style="width:100%;">
 
 <figcaption><span class="figure-number">Figure 1: </span>My half-circle diagram</figcaption>
