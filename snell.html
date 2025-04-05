@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-04-04 Fri 23:18 -->
+<!-- 2025-04-05 Sat 09:30 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>House Selling and Buying, Snell's Envelope</title>
-<meta name="author" content="nicky" />
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" href="css/tufte.css" type="text/css" />
 <link rel="stylesheet" href="css/ox-tufte.css" type="text/css" />
@@ -392,13 +391,55 @@
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+<header id="preamble" class="status">
+<header class='site-header'>
+  <div class='site-header-container'>
+    <a href="https://ndvanforeest.github.io/">
+    <img src="img/harry.jpg" alt='parsec logo' class='site-logo'>
+    </a>
+      <div class='site-title-container'>
+        <h1 class='site-title'>Nicky&rsquo;s site</h1>
+      </div>
+    </div>
+</header>
+<hr class='menu-divider'>
+<nav class='menu'>
+  <ul>
+    <li><a href='index.html'>Home</a></li>
+    <li><a href='about_this_site.html'>About this site</a></li>
+    <li><a href='bio.html'>Bio</a></li>
+  </ul>
+</nav>
+<hr class='menu-divider'>
+</header>
 <article id="content" class="content">
 <header>
 <h1 class="title">House Selling and Buying, Snell&rsquo;s Envelope</h1>
-</header>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org99c01cb">Problem Setting</a></li>
+<li><a href="#orgd98eb26">Selling a House</a>
+<ul>
+<li><a href="#org9639605">Best Price Under a Fixed Threshold Policy</a></li>
+<li><a href="#org9beed48">Best Price Under a Dynamic  Threshold Policy</a></li>
+<li><a href="#orgde0f8b8">Snell&rsquo;s Envelope</a></li>
+</ul>
+</li>
+<li><a href="#orgfa898cb">Buying a House</a>
+<ul>
+<li><a href="#org194cf40">A heuristic procedure</a></li>
+<li><a href="#org0043671">The formal procedure</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+
 <section id="outline-container-org99c01cb" class="outline-2">
-<h2 id="org99c01cb"><span class="section-number-2">1.</span> Problem Setting</h2>
-<div class="outline-text-2" id="text-1">
+<h2 id="org99c01cb">Problem Setting</h2>
+<div class="outline-text-2" id="text-org99c01cb">
 <p>
 I  have a house for sale and I am prepared to organize at most \(n\geq 1\) house viewings.
 Assume that offers are idd rvs \(\sim \Unif{[0,1]}\), and that I have to accept an offer on the spot or reject it.
@@ -421,9 +462,9 @@ I include some python code to get numerical output.
 </section>
 
 
-<section id="outline-container-orgde0f8b8" class="outline-2">
-<h2 id="orgde0f8b8"><span class="section-number-2">2.</span> Selling a House</h2>
-<div class="outline-text-2" id="text-2">
+<section id="outline-container-orgd98eb26" class="outline-2">
+<h2 id="orgd98eb26">Selling a House</h2>
+<div class="outline-text-2" id="text-orgd98eb26">
 <p>
 When selling a house, at most \(n\) buyers will present their offers \(\{X_i\}_{i=1}^n\) , iid and uniform on \([0,1]\), one after the other.
 Rejected offers are lost.
@@ -433,16 +474,16 @@ I used <a href="https://arminstraub.com/math/hiringsecretary">this site</a>, whe
 </div>
 
 
-<div id="outline-container-org0ce0959" class="outline-3">
-<h3 id="org0ce0959"><span class="section-number-3">2.1.</span> Best Price Under a Fixed Threshold Policy</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-org9639605" class="outline-3">
+<h3 id="org9639605">Best Price Under a Fixed Threshold Policy</h3>
+<div class="outline-text-3" id="text-org9639605">
 <p>
 Let&rsquo;s start with a simple policy: I accept the first offer that exceeds some threshold \(q\) that remains fixed for the entire sales period.
 This threshold policy can be formulated in terms of the stopping time \(\tau = \inf\{i : X_i \geq q\}\), where \(\inf \varnothing = \infty\) so that \(\tau=\infty\) when all \(X_i < q\).
 The expected sales price becomes
 </p>
 \begin{equation}
-\label{orgd98eb26}
+\label{org7925b9e}
 \E{X_{\tau}} = \sum_{i=1}^n \E{X_i\1{\tau = i}} + \E{X_n \1{\tau=\infty}},
 \end{equation}
 <p>
@@ -509,7 +550,7 @@ Why is  \(\E{X_n \1{\tau=\infty}}= \frac{q^{n+1}}2\) for \(n\)?
 
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <b>Exercise:</b> 
 <p>
-Conclude  from \eqref{orgd98eb26} that:
+Conclude  from \eqref{org7925b9e} that:
 </p>
 \begin{align*}
 v_{n}(q) := \E{X_{\tau}} &= \frac{1}{2}(1-q^{n} + q).
@@ -608,9 +649,9 @@ For the future I might consider some additional questions.
 </div>
 
 
-<div id="outline-container-orgb948b55" class="outline-3">
-<h3 id="orgb948b55"><span class="section-number-3">2.2.</span> Best Price Under a Dynamic  Threshold Policy</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-org9beed48" class="outline-3">
+<h3 id="org9beed48">Best Price Under a Dynamic  Threshold Policy</h3>
+<div class="outline-text-3" id="text-org9beed48">
 <p>
 A fixed threshold policy cannot be optimal, because the less visits we have left, the lower the acceptance threshold should be.
 We next find the optimal levels when we have \(1 \leq k \leq  n\) visits to go.
@@ -655,9 +696,9 @@ v(10)=0.861098212205712
 </div>
 
 
-<div id="outline-container-org2dc1f56" class="outline-3">
-<h3 id="org2dc1f56"><span class="section-number-3">2.3.</span> Snell&rsquo;s Envelope</h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-orgde0f8b8" class="outline-3">
+<h3 id="orgde0f8b8">Snell&rsquo;s Envelope</h3>
+<div class="outline-text-3" id="text-orgde0f8b8">
 <p>
 The optimal policy can be found by using a more general, but more abstract, framework, namely by means of <i>Snell&rsquo;s envelope</i>.
 Perhaps the easiest way to see how this works is to start with a theorem, stripped from some of its technical clutter.
@@ -665,7 +706,7 @@ I  copied it from `Promenade alétoire&rsquo; by M. Benaïm and N. El Karoui.
 </p>
 
 <p>
-<a id="org9beed48"></a>
+<a id="org2dc1f56"></a>
 </p>
 <p>
 Consider a sequence of rvs \(\{X_i\}_{i=1}^n\) adapted to a filtration \(\{\F_{i}\}_{i=1}^{n}\).
@@ -712,9 +753,9 @@ By the theorem the stopping time \(\tau^*\) is optimal among all sellers (polici
 </div>
 </section>
 
-<section id="outline-container-org0043671" class="outline-2">
-<h2 id="org0043671"><span class="section-number-2">3.</span> Buying a House</h2>
-<div class="outline-text-2" id="text-3">
+<section id="outline-container-orgfa898cb" class="outline-2">
+<h2 id="orgfa898cb">Buying a House</h2>
+<div class="outline-text-2" id="text-orgfa898cb">
 <p>
 Contrary to when selling a house, when buying a house I don&rsquo;t have an absolute benchmark.
 In the house selling case, all offers are capped by \(1\), and when the very first bid is already very close to \(1\), I know that that the probability of getting a better offer at a later date will be small.
@@ -739,9 +780,9 @@ We assume that \(n > 2\), because when \(n=1,2\) the problem is not interesting.
 </div>
 
 
-<div id="outline-container-org7161a33" class="outline-3">
-<h3 id="org7161a33"><span class="section-number-3">3.1.</span> A heuristic procedure</h3>
-<div class="outline-text-3" id="text-3-1">
+<div id="outline-container-org194cf40" class="outline-3">
+<h3 id="org194cf40">A heuristic procedure</h3>
+<div class="outline-text-3" id="text-org194cf40">
 <p>
 A simple policy to select a house is like this: choose a level \(r>1\), reject the first \(r-1\) houses visited, then continue sampling and choose house \(k \geq r\) when house \(k\) is the best so far.
 Thus, the first \(r-1\) visits form a sampling set and the threshold is the best of the houses in this sampling set.
@@ -839,7 +880,7 @@ P(r) \geq P(r+1)
 Consequently, the best \(r\) is given by
 </p>
 \begin{equation}
-\label{orgfa898cb}
+\label{org7161a33}
 r^{*} = \min{r > 1: P(r) > P(r+1) } = \min {r>1 :  \sum_{k=r}^n \frac{1}{k-1} \geq 1}.
 \end{equation}
 <p>
@@ -848,11 +889,11 @@ Note that for \(n > 2\), the policy with \(r=1\) can be ruled out right away as 
 </div>
 </div>
 
-<div id="outline-container-org194cf40" class="outline-3">
-<h3 id="org194cf40"><span class="section-number-3">3.2.</span> The formal procedure</h3>
-<div class="outline-text-3" id="text-3-2">
+<div id="outline-container-org0043671" class="outline-3">
+<h3 id="org0043671">The formal procedure</h3>
+<div class="outline-text-3" id="text-org0043671">
 <p>
-We formalize the problem specification so that we can apply Snell&rsquo;s envelope to prove that the sampling policy with threshold \eqref{orgfa898cb} just developed is optimal.
+We formalize the problem specification so that we can apply Snell&rsquo;s envelope to prove that the sampling policy with threshold \eqref{org7161a33} just developed is optimal.
 </p>
 
 <p>
@@ -1012,7 +1053,7 @@ Y_{i} &= \frac{i}{n}\max{\xi_i , \sum_{k=i+1}^n \frac{1}{k-1}} = \frac{i}{n}\sum
 
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <b>Exercise:</b> 
 <p>
-Use <a href="#org9beed48">Snell&rsquo;s theorem</a> to explain that the stopping time \eqref{orgfa898cb} is optimal.
+Use <a href="#org2dc1f56">Snell&rsquo;s theorem</a> to explain that the stopping time \eqref{org7161a33} is optimal.
 </p>
 <details class="code-details"
                  style ="padding: 0.6em;
@@ -1033,7 +1074,7 @@ Compute Snell&rsquo;s envelope with the formulas above.
 It is evident for all \(i\) that \(\xi_i = 0 \implies 0 = X_{i} < Y_i\).
 Next, starting from $i=1s, as long as \(i\) is such that \(1 < \sum_{k=i+1}^{n} \frac{1}{k-1}\), \(X_{i} < Y_i\) even when \(\xi_i = 1\).
 The earliest visit such that \(X_i = Y_i\) becomes possible is when \(\xi_i=1 > \sum_{k=i+1}^{n} \frac{1}{k-1}\). But this \(i\) is precisely the threshold given by
-\eqref{orgfa898cb}.
+\eqref{org7161a33}.
 </p>
 
 
