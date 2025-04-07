@@ -217,8 +217,8 @@
 </header>
 
 <section id="outline-container-org99c01cb" class="outline-2">
-<h2 id="org99c01cb">Introduction</h2>
-<div class="outline-text-2" id="text-org99c01cb">
+<h2 id="org99c01cb"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
 <p>
 We have a class with \(N=19\) children and one biscuit.
 We would like to select one child to give the biscuit, but fate should decide which child.
@@ -243,9 +243,9 @@ The first is <i>recursion</i>, the second is to use <i>acceptance-rejection</i> 
 </div>
 </section>
 
-<section id="outline-container-org9beed48" class="outline-2">
-<h2 id="org9beed48">A general approach</h2>
-<div class="outline-text-2" id="text-org9beed48">
+<section id="outline-container-org7f6f53b" class="outline-2">
+<h2 id="org7f6f53b"><span class="section-number-2">2.</span> A general approach</h2>
+<div class="outline-text-2" id="text-2">
 <p>
 <a id="orgd98eb26"></a>
 </p>
@@ -417,7 +417,6 @@ We need at least one throw. In case of a success, we can stop. In case of a fail
 </p>
 
 
-
 </details>
 </div>
 <p>
@@ -539,7 +538,7 @@ Since each round contains two throws,  the number of throws is \(\E Y = 2/p = 72
 
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <b>Exercise 9:</b> 
 <p>
-For \(N=19\),  what is the expected number of throws under an acceptance-rejection policy similar to the one of <a href="#org7f6f53b">1</a>?
+For \(N=19\),  what is the expected number of throws under an acceptance-rejection policy similar to the one of Exercise 7?
 </p>
 <details class="code-details"
                  style ="padding: 0.6em;
@@ -625,20 +624,20 @@ The rejection set, i.e., the number of states not assigned to any child, is \(21
 </details>
 </div>
 <p>
-Observe that with the strategy discussed in <a href="#orgb948b55">1</a> for \(N=19\), we always have to throw at least three times.
-However, the strategy of sometimes  completes in just two throws.
-Might there be a optimal policy that needs somewhere between \(2\) and \(3\) throws on average?
+Observe that with the strategy discussed in Exercise 11 for \(N=19\), we always have to throw at least three times.
+However, the strategy of Exercise 9 sometimes  completes in just two throws.
+Might there be an optimal policy that needs somewhere between \(2\) and \(3\) throws on average?
 </p>
 </div>
 </section>
 
 
 
-<section id="outline-container-orgff52af2" class="outline-2">
-<h2 id="orgff52af2">An appealing, but wrong, strategy</h2>
-<div class="outline-text-2" id="text-orgff52af2">
+<section id="outline-container-orga55bdd4" class="outline-2">
+<h2 id="orga55bdd4"><span class="section-number-2">3.</span> An appealing, but wrong, strategy</h2>
+<div class="outline-text-2" id="text-3">
 <p>
-<a id="org2dc1f56"></a>
+<a id="orgb948b55"></a>
 </p>
 
 
@@ -669,7 +668,7 @@ The rejection set <code>reject</code> contains the tuples that do not correspond
 If <code>last_two</code> is an element of <code>reject</code>, we throw the die again and update <code>last_two</code> to include the last throw.
 We continue with throwing until <code>last_two</code> is accepted.
 Once we have a winner, we add one win for this child.
-Finally, the <code>count</code> object counts how often each outcome occurs.<label id='fnr.6' for='fnr-in.6.2232248' class='margin-toggle sidenote-number'><sup class='numeral'>6</sup></label><input type='checkbox' id='fnr-in.6.2232248' class='margin-toggle'><span class='sidenote'><sup class='numeral'>6</sup>Ask ChatGPT to explain code you don&rsquo;t understand.</span>
+Finally, the <code>count</code> object counts how often each outcome occurs.<label id='fnr.6' for='fnr-in.6.5738824' class='margin-toggle sidenote-number'><sup class='numeral'>6</sup></label><input type='checkbox' id='fnr-in.6.5738824' class='margin-toggle'><span class='sidenote'><sup class='numeral'>6</sup>Ask ChatGPT to explain code you don&rsquo;t understand.</span>
 </p>
 
 <div class="org-src-container">
@@ -735,10 +734,10 @@ We can do further statistical tests, but for the moment I simply conclude that, 
 
 
 <p>
-It interesting to analyze how many throws this monkey strategy needs on average tof inish, in particular how it compares to the acceptance-rejection policy designed in <a href="#orgb948b55">1</a>.
+It interesting to analyze how many throws this monkey strategy needs on average tof inish, in particular how it compares to the acceptance-rejection policy designed in Exercise 11.
 If it slower, then the policy to use (multiple) rounds of three throws times is better in all respects, but if the monkey policy is faster, we might make a trade off between fairness and speed.
 Note that this is a common theme in optimization: nearly always there are multiple objectives that we like to minimize or maximize, but we cannot perform optimally on all dimenstions at the same time.
-If so, we need to make a choice which objective we prefer over another.<label id='fnr.7' for='fnr-in.7.1471703' class='margin-toggle sidenote-number'><sup class='numeral'>7</sup></label><input type='checkbox' id='fnr-in.7.1471703' class='margin-toggle'><span class='sidenote'><sup class='numeral'>7</sup>Finding good objectives is most often not a mathematical problem, in fact, some (or much) wisdom is needed to understand when to use mathematics, and when to stop using mathematics.</span>
+If so, we need to make a choice which objective we prefer over another.<label id='fnr.7' for='fnr-in.7.852288' class='margin-toggle sidenote-number'><sup class='numeral'>7</sup></label><input type='checkbox' id='fnr-in.7.852288' class='margin-toggle'><span class='sidenote'><sup class='numeral'>7</sup>Finding good objectives is most often not a mathematical problem, in fact, some (or much) wisdom is needed to understand when to use mathematics, and when to stop using mathematics.</span>
 </p>
 
 
@@ -798,16 +797,16 @@ In summary, although unfair, the monkey policy needs less throws on average than
 </div>
 </section>
 
-<section id="outline-container-org496e461" class="outline-2">
-<h2 id="org496e461">An optimal strategy</h2>
-<div class="outline-text-2" id="text-org496e461">
+<section id="outline-container-orgaf542ca" class="outline-2">
+<h2 id="orgaf542ca"><span class="section-number-2">4.</span> An optimal strategy</h2>
+<div class="outline-text-2" id="text-4">
 <p>
-<a id="org79c4fb7"></a>
+<a id="org1520f12"></a>
 </p>
 
 <p>
 In the above we learned that when the class contains \(N=19\) children, the monkey strategy, which prescribes to continue throwing the die until a winning pattern emerges, does not give a fair outcome.
-Hence, for the moment, by <a href="#orgb948b55">1</a> the best fair algorithm for \(N=19\) seems to throw three times: if that gives a winner, stop; otherwise throw three times again, and continue with rounds until there is a winner.
+Hence, for the moment, by Exercise 11 the best fair algorithm for \(N=19\) seems to throw three times: if that gives a winner, stop; otherwise throw three times again, and continue with rounds until there is a winner.
 </p>
 
 <p>
@@ -1013,7 +1012,7 @@ Removing the largest possible acceptance set containing \(4\times 20 = 80\), we 
 </div>
 <p>
 Clearly, to deal with cases such as \(N=19\) we need to modify the above algorithm.
-Here is a generalized version.<label id='fnr.8' for='fnr-in.8.3252421' class='margin-toggle sidenote-number'><sup class='numeral'>8</sup></label><input type='checkbox' id='fnr-in.8.3252421' class='margin-toggle'><span class='sidenote'><sup class='numeral'>8</sup>We assign the outcome of the throw of the die to the variable \(X\) just for clarity.</span>
+Here is a generalized version.<label id='fnr.8' for='fnr-in.8.7200933' class='margin-toggle sidenote-number'><sup class='numeral'>8</sup></label><input type='checkbox' id='fnr-in.8.7200933' class='margin-toggle'><span class='sidenote'><sup class='numeral'>8</sup>We assign the outcome of the throw of the die to the variable \(X\) just for clarity.</span>
 </p>
 <div class="org-src-container">
 <pre class="src src-python"><span class="org-keyword">def</span> <span class="org-function-name">select_uniformly_with_a_die</span>(N):
@@ -1094,7 +1093,7 @@ Hence, the expected number of throws is \(E Y =\frac{4}{6} + 2\cdot \frac{2}{6} 
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <b>Exercise 20:</b> 
 <p>
 Explain that  \(\E Y = 72/35\) for \(N=7\).
-Compare with <a href="#org72a3840">1</a>.
+Compare with Exercise 8.
 </p>
 <details class="code-details"
                  style ="padding: 0.6em;
@@ -1311,7 +1310,7 @@ n= 96, r= 16, r/n=0.1667, alpha=0.0003, EY=2.5329
 <p>
 This seems to converges to \(2.533\). The last task is to run the code for \(N=19\).
 This gives \(\E Y=2.509\).
-Comparing this to the monkey strategy of <a href="#org819e6b8">1</a> we see that this algorithm  does better on all respects: it is fair <i>and</i> requires less throws on average.
+Comparing this to the monkey strategy of Exercise 12 we see that this algorithm  does better on all respects: it is fair <i>and</i> requires less throws on average.
 </p>
 
 <p>
@@ -1380,9 +1379,9 @@ This implies that \(r = n \pmod 19 \in \{0, 1,\ldots, 17\}\).
 
 
 
-<section id="outline-container-orgd9cd98a" class="outline-2">
-<h2 id="orgd9cd98a">Summary</h2>
-<div class="outline-text-2" id="text-orgd9cd98a">
+<section id="outline-container-orgc025086" class="outline-2">
+<h2 id="orgc025086"><span class="section-number-2">5.</span> Summary</h2>
+<div class="outline-text-2" id="text-5">
 <p>
 By studying the above toy problem we covered many nice and useful ideas.
 We developed acceptance-rejection strategies to select a winner.
