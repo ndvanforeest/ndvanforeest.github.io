@@ -7,6 +7,7 @@
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" href="/css/tufte.css" type="text/css" />
 <link rel="stylesheet" href="/css/ox-tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/pygments.css" type="text/css" />
           <style>
           /* From: https://endlessparentheses.com/public/css/endless.css */
           /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
@@ -216,43 +217,43 @@
 <h1 class="title">Throwing a die for a cookie; Acceptance-rejection policies</h1>
 </header>
 
-<section id="outline-container-org99c01cb" class="outline-2">
-<h2 id="org99c01cb"><span class="section-number-2">1.</span> Introduction</h2>
+<section id="outline-container-orgd98eb26" class="outline-2">
+<h2 id="orgd98eb26"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We have a class with \(N=19\) children and one biscuit.
 We would like to select one child to give the biscuit, but fate should decide which child.
-Can we use a fair six-sided die to select a winner, with multiple throws, such that all children have an equal probability of winning?
+Can we use a fair six-sided die to select a winner <label id='fnr.1' for='fnr-in.1.7953239' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.7953239' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>Perhaps  with multiple throws.</span> such that all children have an equal probability of winning?
 And if so, what strategy would be best, in the sense that it minimizes the expected number of throws?
 </p>
 
 <p>
 To answer these questions, we start with the analysis of simple cases to learn, hopefully, how to handle the case with \(19\) children.
 In this process we design a simple and intuitive strategy.
-As this policy is somehwat hard to analyze mathematically, we&rsquo;ll use simulation to assess its quality.
+As this policy is somewhat hard to analyze mathematically, we&rsquo;ll use simulation to assess its quality.
 It turns out that this policy is unfair: some children will have a larger probability of winning than others.
 Then we retract a bit and provide a better algorithm, which <i>is</i> fair <i>and</i> optimal in the sense that is requires the least number of throws on average to select the winner.
-<label id='fnr.1' for='fnr-in.1.7953239' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.7953239' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>I discussed this problem with Henk Tijms and he pointed out an answer on <a href="https://www.quora.com/How-do-I-use-a-fair-6-sided-die-to-generate-a-random-number-from-1-to-20-with-each-outcome-occurring-with-the-same-probability">Quora</a> on how to handle a class with 20 pupils.
+<label id='fnr.2' for='fnr-in.2.7849163' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.7849163' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>I discussed this problem with Henk Tijms and he pointed out an answer on <a href="https://www.quora.com/How-do-I-use-a-fair-6-sided-die-to-generate-a-random-number-from-1-to-20-with-each-outcome-occurring-with-the-same-probability">Quora</a> on how to handle a class with 20 pupils.
 I generalized this answer to an algorithm that can deal with an arbitrary (but finite) number of children.</span>
 </p>
 
 <p>
-In this section we introduce some general concepts that are generally useful.
+Below we introduce some general concepts that are generally useful.
 The first is <i>recursion</i>, the second is to use <i>acceptance-rejection</i> policies to decide whether a game should continue or stop.
 </p>
 </div>
 </section>
 
-<section id="outline-container-org7f6f53b" class="outline-2">
-<h2 id="org7f6f53b"><span class="section-number-2">2.</span> A general approach</h2>
+<section id="outline-container-org9beed48" class="outline-2">
+<h2 id="org9beed48"><span class="section-number-2">2.</span> A general approach</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-<a id="orgd98eb26"></a>
+<a id="org7925b9e"></a>
 </p>
 
 <p>
 The first aim is to find a policy that selects in a fair way a winner.
-But before embarking on how to do this for general classes, we start with considering some simple problems. Perhaps we spot a pattern!
+But before embarking on how to do this  classes with arbitrary number of children, we start with considering some simple problems. Perhaps we spot a pattern!
 </p>
 
 
@@ -313,17 +314,6 @@ If the outcome is in \(\{1, 2\}\), give the biscuit to the first child; if in \(
 
 </details>
 </div>
-<p>
-When \(N=4\), we can use the following policy.
-Throw the die for each child.
-Each child whose outcome is below \(5\) `survives&rsquo; to the next round.
-When there are no survivors after the first round (all threw \(5\) or \(6\) ) let them all throw once again.
-When there are \(1\), \(2\), or \(3\) survivors, use the suitable strategy we developed above.
-Thus, the idea of this algorithm is like this: use the die to reduce the group such that a set of children remains for which we already have a policy.
-However, while this is a fool-proof strategy, it requires at least \(4\) throws.
-We&rsquo;d better search for more efficient policies.
-</p>
-
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <b>Exercise 3:</b> 
 <p>
 For \(N=4\), find a policy  that uses precisely two throws of the die to  select a child.
@@ -357,6 +347,22 @@ Then we have two <i>smaller</i> groups, and for these smaller group we already k
 Clearly, the <i>pattern</i> of recursion is to try to express the solution in terms of solutions of problems we solved earlier.
 </p>
 
+
+<p>
+When \(N=4\), we can also use another policy.
+Throw the die for each child.
+Each child whose outcome is below \(5\) `survives&rsquo; to the next round.
+When all children survived or when there are no survivors <label id='fnr.3' for='fnr-in.3.9790334' class='margin-toggle sidenote-number'><sup class='numeral'>3</sup></label><input type='checkbox' id='fnr-in.3.9790334' class='margin-toggle'><span class='sidenote'><sup class='numeral'>3</sup>All threw in \(\{1, 2, 3, 4\}\) or all threw in \(\{5, 6\}\).</span>
+let them all throw once again.
+Continue until there are \(1\), \(2\), or \(3\) survivors, and then use one of the above strategies to select a winner.
+Thus, the idea of this algorithm is like this: use the die to reduce the group such that a set of children remains for which we already have a policy.
+More generally, such a strategy is known as an <i>acceptance-rejection</i> policy: accept an outcome of an experiment when the outcome lies in a certain subset of the state space, otherwise reject the outcome, and sample again.<label id='fnr.4' for='fnr-in.4.2856921' class='margin-toggle sidenote-number'><sup class='numeral'>4</sup></label><input type='checkbox' id='fnr-in.4.2856921' class='margin-toggle'><span class='sidenote'><sup class='numeral'>4</sup>It seems like an experiment in which the aim is to prove that a new medicine works.
+If the data shows that the medicine does not work, just repeat.</span>
+Clearly, this is a fool-proof strategy, but it requires at least \(4\) throws.
+We&rsquo;d better search for more efficient policies.
+</p>
+
+
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <b>Exercise 4:</b> 
 <p>
 For \(N=4\) we can also keep on throwing until a child is selected. How would such a strategy work?
@@ -376,23 +382,19 @@ For \(N=4\) we can also keep on throwing until a child is selected. How would su
                 </strong>
               </summary>
 <p>
-Throw the die once. If the outcome is in \(\{1, 2, 3, 4\}\), there is a winner. Otherwise, when  the outcome is \(5\) or \(6\), throw again, and continue throwing until the outcome \(X\in \{1, 2, 3, 4\}\).
+Throw the die once.
+If the outcome \(X\) is in \(\{1, 2, 3, 4\}\), then the child with index \(X\) is a winner.
+Otherwise, when  \(X \in \{5, 6\}\), throw again, and continue throwing until the outcome \(X\in \{1, 2, 3, 4\}\).
 </p>
 
 
 </details>
 </div>
 <p>
-This second strategy is known as an <i>acceptance-rejection</i> policy: accept an outcome of an experiment when the outcome lies in a certain subset of the state space, otherwise reject the outcome, and sample again.<label id='fnr.2' for='fnr-in.2.6293918' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.6293918' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>It seems like an experiment in which the aim is to prove that a new medicine works.
-If the data shows that the medicine does not work, just repeat.</span>
-</p>
-
-<p>
-We can compute the expected number of throws for the second policy with, so-called, <i>first-step</i> analysis.
+We can compute the expected number of throws for this policy with, so-called, <i>first-step</i> analysis.
 Write \(Y\) for the number of throws we need for the die to hit the set \(\{1,2,3,4\}\).
 The probability to hit this set is \(p=2/3\), while the probability to hit \(\{5,6\}\) is \(q=1-p\).
 </p>
-
 
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <b>Exercise 5:</b> 
 <p>
@@ -422,8 +424,8 @@ We need at least one throw. In case of a success, we can stop. In case of a fail
 <p>
 In probability terms, we say that \(Y\) has the <i>first success distribution</i> with failure probablity \(q\).
 This rv is similar to a geometric rv, but slightly different.
-The first success rv counts the number of throws up to <i>and including</i> the number of throws until a success; the geometric rv counts the number of failures until the success, so one less.<label id='fnr.3' for='fnr-in.3.9790334' class='margin-toggle sidenote-number'><sup class='numeral'>3</sup></label><input type='checkbox' id='fnr-in.3.9790334' class='margin-toggle'><span class='sidenote'><sup class='numeral'>3</sup>I  frequently mess up these rvs.</span>
-From this,<label id='fnr.4' for='fnr-in.4.2856921' class='margin-toggle sidenote-number'><sup class='numeral'>4</sup></label><input type='checkbox' id='fnr-in.4.2856921' class='margin-toggle'><span class='sidenote'><sup class='numeral'>4</sup>There is subtle detail for this idea to work, \(\E Y\) should be finite.
+The first success rv counts the number of throws up to <i>and including</i> the number of throws until a success; the geometric rv counts the number of failures until the success, so one less.<label id='fnr.5' for='fnr-in.5.572549' class='margin-toggle sidenote-number'><sup class='numeral'>5</sup></label><input type='checkbox' id='fnr-in.5.572549' class='margin-toggle'><span class='sidenote'><sup class='numeral'>5</sup>I  frequently mess up these rvs.</span>
+From this,<label id='fnr.6' for='fnr-in.6.4993595' class='margin-toggle sidenote-number'><sup class='numeral'>6</sup></label><input type='checkbox' id='fnr-in.6.4993595' class='margin-toggle'><span class='sidenote'><sup class='numeral'>6</sup>There is subtle detail for this idea to work, \(\E Y\) should be finite.
 We will ignore such mathematical points in the sequel.</span>
 </p>
 \begin{equation*}
@@ -434,9 +436,9 @@ So, for \(N=4\), \(\E Y = 3/2\).
 </p>
 
 <p>
-Interestingly, the first strategy, based on recursion, always needs exactly \(2\) throws.
-Instead, the acceptance-rejection method requires less throws on average, but there is no formal bound on \(Y\).
-<label id='fnr.5' for='fnr-in.5.572549' class='margin-toggle sidenote-number'><sup class='numeral'>5</sup></label><input type='checkbox' id='fnr-in.5.572549' class='margin-toggle'><span class='sidenote'><sup class='numeral'>5</sup>Here is an important take away in the design of random algorithms.
+Interestingly, the strategy of Exercise 3, based on recursion, always needs exactly \(2\) throws.
+Instead, the acceptance-rejection method of Exercise 4 requires less throws on average, but there is no formal bound on \(Y\).
+<label id='fnr.7' for='fnr-in.7.1716693' class='margin-toggle sidenote-number'><sup class='numeral'>7</sup></label><input type='checkbox' id='fnr-in.7.1716693' class='margin-toggle'><span class='sidenote'><sup class='numeral'>7</sup>Here is an important take away in the design of random algorithms.
 Sometimes it is required that an algorithm finishes in a guaranteed fixed amount time, rather than that it finishes fast.
 When time constraints are relevant, it&rsquo;s good to have a deterministic algorithm, even though it can be slower on average.</span>
 </p>
@@ -495,7 +497,7 @@ Let \(X_1\) and \(X_2\) be the outcomes of the first and second throw, respectiv
 When \(X_1=1, X_2\leq 5\), that is, when the outcome of both throws lies in \(\{(1,1), (1,2), (1,3), (1,4), (1,5)\}\), child 1 wins.
 When \(X_1=2, X_2 \leq 5\), child 2 wins, and so on until child 6.
 For child \(7\), take the associated set such that \(X_1 \leq 5, X_2 = 6\).
-Observe that these events don&rsquo;t overlap. Finally, if the outcome is \((6,6)\), rethrow the die.
+Observe that all these events don&rsquo;t overlap. Finally, if the outcome is \((6,6)\), rethrow the die.
 </p>
 
 
@@ -582,8 +584,8 @@ Why is this form of acceptance-rejection much more efficient for classes of size
                 </strong>
               </summary>
 <p>
-For \(N=7\) we can cover the sample space nearly, the rejection set contains just one element.
-However, for \(N=19\), the cover of the state space with 36 outcomes is maximally inefficient.
+For \(N=7\) we can cover the entire sample space nearly, the rejection set contains just one element.
+However, for \(N=19\), the rejection set is maximal, hence the algorithm is  maximally inefficient.
 </p>
 
 
@@ -613,11 +615,13 @@ Use the idea of the previous exercise to design a policy that needs slightly ove
 Take rounds, each with three throws, to get a sample space of size \(6^{3} = 216\) states.
 Split this into 19 subsets of equal size to guarantee that all children have the same probability to win, but such that the rejection is minimal.
 Since \(19\times 11 = 209\) each subset should contain 11 samples.
-For instance, for child 1 we can take \((1,1,1), (1,1,2), \ldots, (1, 2, 5)\).
+For instance, for child 1 we can take \((1,1,1)\), \((1,1,2)\), \(\ldots\), \((1, 2, 5)\).
 </p>
 
 <p>
-The rejection set, i.e., the number of states not assigned to any child, is \(216-209=7\). Thus, the probability to need another rounds is \(7/209\), and the expected number of rounds is \(216/209\). Hence, the expected number of throws \(\E Y = 3 \times 216/209 \approx 3\).
+The rejection set, i.e., the number of states not assigned to any child, is \(216-209=7\).
+Thus, the probability to need another round is \(7/209\), and the expected number of rounds is \(216/209\).
+Hence, the expected number of throws \(\E Y = 3 \times 216/209 \approx 3\).
 </p>
 
 
@@ -633,32 +637,35 @@ Might there be an optimal policy that needs somewhere between \(2\) and \(3\) th
 
 
 
-<section id="outline-container-orga55bdd4" class="outline-2">
-<h2 id="orga55bdd4"><span class="section-number-2">3.</span> An appealing, but wrong, strategy</h2>
+<section id="outline-container-orgf718da5" class="outline-2">
+<h2 id="orgf718da5"><span class="section-number-2">3.</span> An appealing, but wrong, strategy</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-<a id="orgb948b55"></a>
+<a id="org2dc1f56"></a>
 </p>
 
 
 <p>
-One promising idea to improve on the strategy of using complete <i>rounds</i> of two throws for \(N=19\) is as follows.
-If there is no winner after the first and second throw, just throw the die a third time.
+One promising idea to improve on the earlier acceptance-rejection strategy is as follows.
+For \(N=19\), if there is no winner after the first and second throw, just throw the die a third time.
 Now check whether the result of the second and third throw is in the list of winning outcomes.
-To illustrate, if \((X_1, X_2) = (4, 3)\), then, by , the outcome \((4,3)\) is not a winning sequence, so that we have to continue with a third throw.
+To illustrate, if \((X_1, X_2) = (4, 3)\), then, by Exercise 9, the outcome \((4,3)\) is not a winning sequence, so that we have to continue with a third throw.
 After seeing \(X_3=4\), there is winning sequence, since \((X_2, X_3) = (3,4)\), which corresponds to child \((3-1)\cdot 6 + 4 = 16\).
 If, however, \((X_1, X_2, X_3) = (4, 5, 1)\) there is not yet a winner, because neither \((4,5)\) nor \((5,1)\) correspond to a child.
-Supposing that \(X_{4}=3\), the result of the last two throws is \((X_3, X_4) = (1, 3)\) so child \(3\) wins.
+Finally, if \(X_{4}=3\), the result of the last two throws is \((X_3, X_4) = (1, 3)\), and so child \(3\) wins.
 </p>
 
 <p>
 Notwithstanding that this is an appealing strategy, I was not convinced that this strategy will result in all children having an equal probability to win.
-The reason is that it reminded me of the, so-called, `monkey-typing problem&rsquo;. In a later chapter we will explore this problem, but since its analysis requires some new mathematical ideas, we will use here simulation to see how our this new `monkey&rsquo; policy performs when \(N=19\).
+The reason is that it reminded me of the, so-called, `monkey-typing problem&rsquo;.
+Later we will explore this problem, but since its analysis requires some new mathematical ideas, we will use here simulation to see how this `monkey&rsquo; policy performs when \(N=19\).
 </p>
 
 <p>
-Before we discuss the code below, you should know that in Python (like in C and many other programming languages) arrays start at index 0.
-This will turn out very practical later in this chapter when we use modulo computions. Hence, in all maths and the code below, children start couting at \(0\), and if we have, for example \(4\) children, the associated set will be \(\{0, 1, 2, 3\}\), and <i>not</i> \(\{1, 2, 3, 4\}\).
+Before we discuss the code for the simulation below, you should know that in Python<label id='fnr.8' for='fnr-in.8.2232248' class='margin-toggle sidenote-number'><sup class='numeral'>8</sup></label><input type='checkbox' id='fnr-in.8.2232248' class='margin-toggle'><span class='sidenote'><sup class='numeral'>8</sup>Just like C and many other programming languages.</span>
+arrays start at index 0.
+This will turn out very practical later in this chapter when we use modulo computions.
+Hence, in all maths and the code below, children start couting at \(0\) <label id='fnr.9' for='fnr-in.9.8061131' class='margin-toggle sidenote-number'><sup class='numeral'>9</sup></label><input type='checkbox' id='fnr-in.9.8061131' class='margin-toggle'><span class='sidenote'><sup class='numeral'>9</sup>If we have, for example \(4\) children, the associated set will be \(\{0, 1, 2, 3\}\), and <i>not</i> \(\{1, 2, 3, 4\}\).</span>
 </p>
 
 <p>
@@ -668,36 +675,34 @@ The rejection set <code>reject</code> contains the tuples that do not correspond
 If <code>last_two</code> is an element of <code>reject</code>, we throw the die again and update <code>last_two</code> to include the last throw.
 We continue with throwing until <code>last_two</code> is accepted.
 Once we have a winner, we add one win for this child.
-Finally, the <code>count</code> object counts how often each outcome occurs.<label id='fnr.6' for='fnr-in.6.5738824' class='margin-toggle sidenote-number'><sup class='numeral'>6</sup></label><input type='checkbox' id='fnr-in.6.5738824' class='margin-toggle'><span class='sidenote'><sup class='numeral'>6</sup>Ask ChatGPT to explain code you don&rsquo;t understand.</span>
+Finally, the <code>count</code> object counts how often each child wins.<label id='fnr.10' for='fnr-in.10.6442931' class='margin-toggle sidenote-number'><sup class='numeral'>10</sup></label><input type='checkbox' id='fnr-in.10.6442931' class='margin-toggle'><span class='sidenote'><sup class='numeral'>10</sup>Ask ChatGPT to explain code you don&rsquo;t understand.</span>
 </p>
 
-<div class="org-src-container">
-<pre class="src src-python"><span class="org-keyword">import</span> collections
-<span class="org-keyword">import</span> itertools
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
 
-<span class="org-keyword">import</span> numpy <span class="org-keyword">as</span> np
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="org-variable-name">rng</span> <span class="org-operator">=</span> np.random.default_rng(1)
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="org-variable-name">reject</span> <span class="org-operator">=</span> <span class="org-builtin">set</span>().union((3, i) <span class="org-keyword">for</span> i <span class="org-keyword">in</span> <span class="org-builtin">range</span>(1, 6))
-<span class="org-keyword">for</span> i, j <span class="org-keyword">in</span> itertools.product([4, 5], <span class="org-builtin">range</span>(6)):
-    reject.add((i, j))
+<span class="n">reject</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span><span class="o">.</span><span class="n">union</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)):</span>
+    <span class="n">reject</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
 
-<span class="org-variable-name">count</span> <span class="org-operator">=</span> collections.Counter()
-<span class="org-variable-name">num_runs</span> <span class="org-operator">=</span> 100_000
-<span class="org-keyword">for</span> _ <span class="org-keyword">in</span> <span class="org-builtin">range</span>(num_runs):
-    <span class="org-variable-name">last_two</span> <span class="org-operator">=</span> (rng.integers(6), rng.integers(6))
-    <span class="org-keyword">while</span> last_two <span class="org-keyword">in</span> reject:
-        <span class="org-variable-name">last_two</span> <span class="org-operator">=</span> (last_two[1], rng.integers(6))
-    <span class="org-variable-name">count</span>[last_two] <span class="org-operator">+=</span> 1
-<span class="org-variable-name">most</span> <span class="org-operator">=</span> count.most_common()[0][1]
-<span class="org-variable-name">least</span> <span class="org-operator">=</span> count.most_common()[<span class="org-operator">-</span>1][1]
-<span class="org-variable-name">mean</span> <span class="org-operator">=</span> num_runs <span class="org-operator">//</span> 19
+<span class="n">count</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">()</span>
+<span class="n">num_runs</span> <span class="o">=</span> <span class="mi">100_000</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_runs</span><span class="p">):</span>
+    <span class="n">last_two</span> <span class="o">=</span> <span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+    <span class="k">while</span> <span class="n">last_two</span> <span class="ow">in</span> <span class="n">reject</span><span class="p">:</span>
+        <span class="n">last_two</span> <span class="o">=</span> <span class="p">(</span><span class="n">last_two</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+    <span class="n">count</span><span class="p">[</span><span class="n">last_two</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="n">most</span> <span class="o">=</span> <span class="n">count</span><span class="o">.</span><span class="n">most_common</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">least</span> <span class="o">=</span> <span class="n">count</span><span class="o">.</span><span class="n">most_common</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">num_runs</span> <span class="o">//</span> <span class="mi">19</span>
 
-<span class="org-builtin">print</span>(f<span class="org-string">"</span>{<span class="org-builtin">len</span>(reject)<span class="org-operator">=</span>}<span class="org-string">, </span>{<span class="org-builtin">len</span>(count)<span class="org-operator">=</span>}<span class="org-string">"</span>)
-<span class="org-builtin">print</span>(f<span class="org-string">"</span>{least<span class="org-operator">=</span>}<span class="org-string">, </span>{mean<span class="org-operator">=</span>}<span class="org-string">, </span>{most<span class="org-operator">=</span>}<span class="org-string">, </span>{count.total()<span class="org-operator">=</span>}<span class="org-string">"</span>)
-</pre>
-</div>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">reject</span><span class="p">)</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">count</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">least</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">mean</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">most</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">count</span><span class="o">.</span><span class="n">total</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
 
 <pre class="example">
 len(reject)=17, len(count)=19
@@ -711,16 +716,14 @@ The difference between the children that win the most and the least is about 900
 Is this large?
 To provide some context, we can compare this with a simulation of uniform numbers on \(\{0, 1, \ldots, 18\}\).
 </p>
-<div class="org-src-container">
-<pre class="src src-python"><span class="org-keyword">import</span> numpy <span class="org-keyword">as</span> np
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="org-variable-name">rng</span> <span class="org-operator">=</span> np.random.default_rng(1)
-<span class="org-variable-name">N</span> <span class="org-operator">=</span> 100_000
-<span class="org-variable-name">X</span> <span class="org-operator">=</span> rng.integers(19, size<span class="org-operator">=</span>N)
-<span class="org-variable-name">bins</span> <span class="org-operator">=</span> np.bincount(X)
-<span class="org-builtin">print</span>(f<span class="org-string">"</span>{<span class="org-builtin">min</span>(bins)<span class="org-operator">=</span>}<span class="org-string">, </span>{<span class="org-builtin">max</span>(bins)<span class="org-operator">=</span>}<span class="org-string">"</span>)
-</pre>
-</div>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">100_000</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">19</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
 
 <pre class="example">
 min(bins)=5144, max(bins)=5363
@@ -734,29 +737,27 @@ We can do further statistical tests, but for the moment I simply conclude that, 
 
 
 <p>
-It interesting to analyze how many throws this monkey strategy needs on average tof inish, in particular how it compares to the acceptance-rejection policy designed in Exercise 11.
+It interesting to analyze how many throws this monkey strategy needs on average to finish, in particular how it compares to the acceptance-rejection policy designed in Exercise 11.
 If it slower, then the policy to use (multiple) rounds of three throws times is better in all respects, but if the monkey policy is faster, we might make a trade off between fairness and speed.
 Note that this is a common theme in optimization: nearly always there are multiple objectives that we like to minimize or maximize, but we cannot perform optimally on all dimenstions at the same time.
-If so, we need to make a choice which objective we prefer over another.<label id='fnr.7' for='fnr-in.7.852288' class='margin-toggle sidenote-number'><sup class='numeral'>7</sup></label><input type='checkbox' id='fnr-in.7.852288' class='margin-toggle'><span class='sidenote'><sup class='numeral'>7</sup>Finding good objectives is most often not a mathematical problem, in fact, some (or much) wisdom is needed to understand when to use mathematics, and when to stop using mathematics.</span>
+If so, we need to make a choice which objective we prefer over another.<label id='fnr.11' for='fnr-in.11.8101394' class='margin-toggle sidenote-number'><sup class='numeral'>11</sup></label><input type='checkbox' id='fnr-in.11.8101394' class='margin-toggle'><span class='sidenote'><sup class='numeral'>11</sup>Finding good objectives is most often not a mathematical problem, in fact, some (or much) wisdom is needed to understand when to use mathematics, and when to stop using mathematics.</span>
 </p>
 
 
 <p>
-Returning to the analysis of the average number of throws it takes the monkey to select a winner, consider the code below.
+Returning to the analysis of the average number of throws the monkey needs to select a winner, consider the code below.
 The next exercise asks you to explain some parts of it.
 </p>
-<div class="org-src-container">
-<pre class="src src-python"><span class="org-variable-name">T</span> <span class="org-operator">=</span> 0
-<span class="org-keyword">for</span> _ <span class="org-keyword">in</span> <span class="org-builtin">range</span>(N):
-    <span class="org-variable-name">last_two</span> <span class="org-operator">=</span> (rng.integers(6), rng.integers(6))
-    <span class="org-variable-name">T</span> <span class="org-operator">+=</span> 2
-    <span class="org-keyword">while</span> last_two <span class="org-keyword">in</span> reject:
-        <span class="org-variable-name">last_two</span> <span class="org-operator">=</span> (last_two[1], rng.integers(6))
-        <span class="org-variable-name">T</span> <span class="org-operator">+=</span> 1
+<div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">last_two</span> <span class="o">=</span> <span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+    <span class="n">T</span> <span class="o">+=</span> <span class="mi">2</span>
+    <span class="k">while</span> <span class="n">last_two</span> <span class="ow">in</span> <span class="n">reject</span><span class="p">:</span>
+        <span class="n">last_two</span> <span class="o">=</span> <span class="p">(</span><span class="n">last_two</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+        <span class="n">T</span> <span class="o">+=</span> <span class="mi">1</span>
 
-<span class="org-builtin">print</span>(f<span class="org-string">"</span>{T<span class="org-operator">/</span>N<span class="org-operator">=</span>}<span class="org-string">"</span>)
-</pre>
-</div>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">T</span><span class="o">/</span><span class="n">N</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
 
 <pre class="example">
 T/N=2.94335
@@ -766,7 +767,7 @@ T/N=2.94335
 
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <b>Exercise 12:</b> 
 <p>
-Explain why <code>T</code> counts the total number of throws for <code>N</code> simulations.
+Explain why <code>T</code> counts the total number of throws to finish in  <code>N</code> games.
 </p>
 <details class="code-details"
                  style ="padding: 0.6em;
@@ -792,16 +793,16 @@ We add \(2\) to capture the first two throws for each new game. Then we add a th
 <p>
 As <code>T</code> counts the total number of throws for \(N\) games, <code>T/N</code> is the average number of throws per game.
 Apparently, this lies just a bit below \(3\).
-In summary, although unfair, the monkey policy needs less throws on average than the best acceptance-rejection policy so far, as this already needs three throws for the first round.
+In summary, although unfair, the monkey policy needs less throws on average than the best acceptance-rejection policy so far, as this already needs slightly over three throws for the first round.
 </p>
 </div>
 </section>
 
-<section id="outline-container-orgaf542ca" class="outline-2">
-<h2 id="orgaf542ca"><span class="section-number-2">4.</span> An optimal strategy</h2>
+<section id="outline-container-org496e461" class="outline-2">
+<h2 id="org496e461"><span class="section-number-2">4.</span> An optimal strategy</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-<a id="org1520f12"></a>
+<a id="org0b22235"></a>
 </p>
 
 <p>
@@ -826,18 +827,16 @@ Consider the  following code, where \(X\) is an iid uniform rv on \(\{0,\ldots,5
 The line <code>t % 20</code> computes the remainder of <code>t</code> after dividing by \(20\).
 </p>
 
-<div class="org-src-container">
-<pre class="src src-python"><span class="org-keyword">import</span> numpy <span class="org-keyword">as</span> np
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="org-variable-name">rng</span> <span class="org-operator">=</span> np.random.default_rng(1)
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="org-variable-name">t</span> <span class="org-operator">=</span> 0
-<span class="org-keyword">while</span> t <span class="org-operator">&lt;</span> 16:
-    <span class="org-variable-name">X</span> <span class="org-operator">=</span> rng.integers(6)
-    <span class="org-variable-name">t</span> <span class="org-operator">=</span> 6 <span class="org-operator">*</span> t <span class="org-operator">+</span> X
-<span class="org-variable-name">t</span> <span class="org-operator">=</span> t <span class="org-operator">%</span> 20
-</pre>
-</div>
+<span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">:</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">t</span> <span class="o">+</span> <span class="n">X</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">t</span> <span class="o">%</span> <span class="mi">20</span>
+</pre></div>
 
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <b>Exercise 13:</b> 
 <p>
@@ -868,12 +867,12 @@ t_{1} = 6 t_{0} + X_{1} = X_{1} \sim \Unif{\{0, \ldots, 5\}}.
 <p>
 After the second, the rv \(6t_{1} \sim \Unif{\{0, 6, 12, 18, 24, 30\}}\).
 And thus, \(t_{2} = 6t_{1} + X_{2} \sim \Unif{\{0, 1, 2, \ldots, 35\}}\).
-If \(t_{2} \geq 16\), then \(t_{2}\in \{16, 35\}\).
+If \(t_{2} \geq 16\), then \(t_{2}\in \{16, 17, 18, \ldots, 35\}\).
 But in this case \(t_{2} | t_{2} \geq 16\) is uniform on a set with 20 elements.
 Thus, by taking the remainder \(t_{2} \pmod{20}\) we get a uniform rv on \(\{0, 1, 2, \ldots, 19\}\).
 If, on the other hand, \(t_{2} < 16\), then \(t_{2} | t_{2} < 16 \sim \Unif{\{0, 1, \ldots, 15\}}\).
 A third throw then gives \(t_{3} = 6t_{2}+ X_{2} \sim\Unif{\{0, 1, 2, \ldots, 95\}}\).
-When \(t_{3}\in \{16, 95\}\) we can divide by 20 and take the remainder (observe that the set \(\{16, 17,\ldots, 95\}\) has 80 elements).
+When \(t_{3}\in \{16, 17, \ldots, 95\}\) we can divide by 20 and take the remainder (observe that the set \(\{16, 17,\ldots, 95\}\) has 80 elements).
 And, when \(t_{3}\leq 15\), throw again, and so on.
 </p>
 
@@ -902,7 +901,7 @@ Why does this algorithm minimize the expected number of throws to obtain a rv un
                 </strong>
               </summary>
 <p>
-After every throw, the set that requires another throw is minimal.
+After every throw, the size of the set that requires another throw is minimal.
 Specifically, of the set \(\{0, 1, \ldots, 95\}\) we can at most remove 80 elements to guarantee a uniform drawing after dividing by 20 and taking the remainder.
 </p>
 
@@ -911,7 +910,7 @@ Specifically, of the set \(\{0, 1, \ldots, 95\}\) we can at most remove 80 eleme
 </div>
 <p>
 The above two exercises explain the threshold \(16\) of the algorithm for \(N=20\).
-Now that we understand this, we can try to generalize the algorithm to other values for \(N\), such \(N=19\).
+Now that we understand this, we can try to generalize the algorithm to other values for \(N\), such as \(N=19\).
 Consider the following update rule for \(i=1, 2, \ldots\), \(t_0=0\), and \(X_1\sim\Unif{\{0, \ldots, 5\}}\),
 </p>
 \begin{equation*}
@@ -1012,20 +1011,18 @@ Removing the largest possible acceptance set containing \(4\times 20 = 80\), we 
 </div>
 <p>
 Clearly, to deal with cases such as \(N=19\) we need to modify the above algorithm.
-Here is a generalized version.<label id='fnr.8' for='fnr-in.8.7200933' class='margin-toggle sidenote-number'><sup class='numeral'>8</sup></label><input type='checkbox' id='fnr-in.8.7200933' class='margin-toggle'><span class='sidenote'><sup class='numeral'>8</sup>We assign the outcome of the throw of the die to the variable \(X\) just for clarity.</span>
+Here is a generalized version.<label id='fnr.12' for='fnr-in.12.9115149' class='margin-toggle sidenote-number'><sup class='numeral'>12</sup></label><input type='checkbox' id='fnr-in.12.9115149' class='margin-toggle'><span class='sidenote'><sup class='numeral'>12</sup>We assign the outcome of the throw of the die to the variable \(X\) just for clarity.</span>
 </p>
-<div class="org-src-container">
-<pre class="src src-python"><span class="org-keyword">def</span> <span class="org-function-name">select_uniformly_with_a_die</span>(N):
-    <span class="org-variable-name">n</span> <span class="org-operator">=</span> <span class="org-variable-name">r</span> <span class="org-operator">=</span> 1
-    <span class="org-variable-name">t</span> <span class="org-operator">=</span> 0
-    <span class="org-keyword">while</span> t <span class="org-operator">&lt;</span> r:
-        <span class="org-variable-name">X</span> <span class="org-operator">=</span> rng.integers(6)
-        <span class="org-variable-name">t</span> <span class="org-operator">=</span> 6 <span class="org-operator">*</span> t <span class="org-operator">+</span> X
-        <span class="org-variable-name">n</span> <span class="org-operator">=</span> 6 <span class="org-operator">*</span> r
-        <span class="org-variable-name">r</span> <span class="org-operator">=</span> n <span class="org-operator">%</span> N
-    <span class="org-keyword">return</span> t <span class="org-operator">%</span> N
-</pre>
-</div>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">select_uniformly_with_a_die</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">t</span> <span class="o">+</span> <span class="n">X</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">r</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">n</span> <span class="o">%</span> <span class="n">N</span>
+    <span class="k">return</span> <span class="n">t</span> <span class="o">%</span> <span class="n">N</span>
+</pre></div>
 
 <div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em;"> <b>Exercise 18:</b> 
 <p>
@@ -1148,30 +1145,32 @@ Why does this algorithm work for general \(N\)?
 <p>
 The variable \(r\) contains the remainder of \(n\) after dividing by \(N\).
 The largest that \(t\) can become after a new iteration is \(6r + 5\), while the smallest value of \(t\) is \(0\), which we get after successive outcomes of \(X=0\).
-Thus, \(t\in \{0, 1, \ldots 6r + 5\}\). This set contains \(n=6r\) elements.  By taking \(r\) to \(n \pmod{N}\) we minimize the size of the rejection set for the next throw.
+Thus, \(t\in \{0, 1, \ldots 6r + 5\}\).
+This set contains \(n=6r\) elements.
+By setting \(r\) to \(n \pmod{N}\) we minimize the size of the rejection set for the next throw.
 </p>
+
 
 
 </details>
 </div>
 <p>
-Let us test generalized algorithm numerically. Here is the code.
+Let us test this generalized algorithm numerically.
+Here is the code.
 </p>
 
-<div class="org-src-container">
-<pre class="src src-python"><span class="org-variable-name">count</span> <span class="org-operator">=</span> collections.Counter()
-<span class="org-keyword">for</span> _ <span class="org-keyword">in</span> <span class="org-builtin">range</span>(num_runs):
-    <span class="org-variable-name">s</span> <span class="org-operator">=</span> select_uniformly_with_a_die(19)
-    <span class="org-variable-name">count</span>[s] <span class="org-operator">+=</span> 1
+<div class="highlight"><pre><span></span><span class="n">count</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_runs</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">select_uniformly_with_a_die</span><span class="p">(</span><span class="mi">19</span><span class="p">)</span>
+    <span class="n">count</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
 
-<span class="org-variable-name">most</span> <span class="org-operator">=</span> count.most_common()[0][1]
-<span class="org-variable-name">least</span> <span class="org-operator">=</span> count.most_common()[<span class="org-operator">-</span>1][1]
-<span class="org-variable-name">mean</span> <span class="org-operator">=</span> num_runs <span class="org-operator">//</span> 19
+<span class="n">most</span> <span class="o">=</span> <span class="n">count</span><span class="o">.</span><span class="n">most_common</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">least</span> <span class="o">=</span> <span class="n">count</span><span class="o">.</span><span class="n">most_common</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">num_runs</span> <span class="o">//</span> <span class="mi">19</span>
 
-<span class="org-builtin">print</span>(f<span class="org-string">"</span>{<span class="org-builtin">len</span>(count)<span class="org-operator">=</span>}<span class="org-string">, </span>{count.total()<span class="org-operator">=</span>}<span class="org-string">"</span>)
-<span class="org-builtin">print</span>(f<span class="org-string">"</span>{least<span class="org-operator">=</span>}<span class="org-string">, </span>{mean<span class="org-operator">=</span>}<span class="org-string">, </span>{most<span class="org-operator">=</span>}<span class="org-string">"</span>)
-</pre>
-</div>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">count</span><span class="p">)</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">count</span><span class="o">.</span><span class="n">total</span><span class="p">()</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">least</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">mean</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">most</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
 
 <pre class="example">
 len(count)=19, count.total()=100000
@@ -1283,19 +1282,17 @@ Numerically we stop when \(\alpha_i \leq \epsilon\), with \(\epsilon\) some smal
 
 </details>
 </div>
-<div class="org-src-container">
-<pre class="src src-python"><span class="org-variable-name">N</span> <span class="org-operator">=</span> 20
-<span class="org-variable-name">n</span> <span class="org-operator">=</span> <span class="org-variable-name">r</span> <span class="org-operator">=</span> 1
-<span class="org-variable-name">alpha</span>, <span class="org-variable-name">eps</span> <span class="org-operator">=</span> 1, 1e<span class="org-operator">-</span>3
-<span class="org-variable-name">EY</span> <span class="org-operator">=</span> 0
-<span class="org-keyword">while</span> alpha <span class="org-operator">&gt;=</span> eps:
-    <span class="org-variable-name">EY</span> <span class="org-operator">+=</span> alpha
-    <span class="org-variable-name">n</span> <span class="org-operator">=</span> 6 <span class="org-operator">*</span> r
-    <span class="org-variable-name">r</span> <span class="org-operator">=</span> n <span class="org-operator">%</span> N
-    <span class="org-variable-name">alpha</span> <span class="org-operator">*=</span> r <span class="org-operator">/</span> n
-    <span class="org-builtin">print</span>(f<span class="org-string">"</span>{n<span class="org-operator">=</span>:3d}<span class="org-string">, </span>{r<span class="org-operator">=</span>:3d}<span class="org-string">, </span>{r<span class="org-operator">/</span>n<span class="org-operator">=</span>:2.4f}<span class="org-string">, </span>{alpha<span class="org-operator">=</span>:2.4f}<span class="org-string">, </span>{EY<span class="org-operator">=</span>:2.4f}<span class="org-string">"</span>)
-</pre>
-</div>
+<div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">alpha</span><span class="p">,</span> <span class="n">eps</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1e-3</span>
+<span class="n">EY</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">alpha</span> <span class="o">&gt;=</span> <span class="n">eps</span><span class="p">:</span>
+    <span class="n">EY</span> <span class="o">+=</span> <span class="n">alpha</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">r</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">n</span> <span class="o">%</span> <span class="n">N</span>
+    <span class="n">alpha</span> <span class="o">*=</span> <span class="n">r</span> <span class="o">/</span> <span class="n">n</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n</span><span class="si">=:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">r</span><span class="si">=:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">r</span><span class="o">/</span><span class="n">n</span><span class="si">=:</span><span class="s2">2.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">alpha</span><span class="si">=:</span><span class="s2">2.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">EY</span><span class="si">=:</span><span class="s2">2.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
 
 <pre class="example">
 n=  6, r=  6, r/n=1.0000, alpha=1.0000, EY=1.0000
@@ -1379,8 +1376,8 @@ This implies that \(r = n \pmod 19 \in \{0, 1,\ldots, 17\}\).
 
 
 
-<section id="outline-container-orgc025086" class="outline-2">
-<h2 id="orgc025086"><span class="section-number-2">5.</span> Summary</h2>
+<section id="outline-container-orgd9cd98a" class="outline-2">
+<h2 id="orgd9cd98a"><span class="section-number-2">5.</span> Summary</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 By studying the above toy problem we covered many nice and useful ideas.
@@ -1391,7 +1388,7 @@ This final algorithm is not quite trivial, but effective and suprisingly short.
 </p>
 
 <p>
-In the next section we&rsquo;ll look at the monkey-typing strategy.
+Later we&rsquo;ll look at the monkey-typing strategy.
 This will provide us with a number of useful tools, in particular first-step analysis.
 </p>
 </div>
