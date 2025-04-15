@@ -141,6 +141,73 @@
                         color:red;
                         text-decoration: none;}
           </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
 <script>
   window.MathJax = {
     tex: {
@@ -709,7 +776,7 @@ We use the code below to make Fig. <a href="#orgaf542ca">4</a>.
 <p>
 Apparently we get a nice smooth density, but it has probability mass on the negative numbers even though we know that \(X\geq 0\).
 As this is not to my liking, I discuss now a method to solve this problem.
-<label id='fnr.2' for='fnr-in.2.7036216' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.7036216' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>I used this site: <a href="https://thirdorderscientist.org/homoclinic-orbit/2013/10/24/kernel-density-estimation-for-random-variables-with-bounded-support-mdash-the-transformation-trick">https://thirdorderscientist.org/homoclinic-orbit/2013/10/24/kernel-density-estimation-for-random-variables-with-bounded-support-mdash-the-transformation-trick</a></span>
+<label id='fnr.2' for='fnr-in.2.7036216' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.7036216' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>I used this <a href="https://thirdorderscientist.org/homoclinic-orbit/2013/10/24/kernel-density-estimation-for-random-variables-with-bounded-support-mdash-the-transformation-trick">site</a>.</span>
 </p>
 
 
@@ -727,7 +794,7 @@ Recall the general 1D transform formula for densities \(f_Y(y) \d y = f_X(x) \d 
 f_X(x) = f_{Y}(y) /x, \quad y = \log (x).
 \end{equation*}
 <p>
-The code below implements this.
+The code below implements this; the result is in Fig. <a href="#org496e461">5</a>.
 </p>
 
 
@@ -757,7 +824,7 @@ The code below implements this.
 </pre></div>
 
 
-<figure id="orgb22ef7e">
+<figure id="org496e461">
 <img src="https://ndvanforeest.github.io/img/kde_transform_positive.png" alt="kde_transform_positive.png" style="width:100%;">
 
 <figcaption><span class="figure-number">Figure 5: </span>A curtailed smoothed pdf for an \(\Exp{\lambda}\) rv.</figcaption>
@@ -824,27 +891,12 @@ Set \(y=\log(x/(1-x))\), and solve for \(y\).
 <h2 id="org8b8830a"><span class="section-number-2">5.</span> Summary</h2>
 <div class="outline-text-2" id="text-5">
 <p>
-Based on the insights above, I don&rsquo;t think I will use the second method based on function approximation any further.
-It is not guaranteed to work, and it requires fiddling with the smoothing parameter \(\sigma\) and choosing the nodes, i.e., the number of basis functions.
-Hence, it seems not to be fool-proof, which is something I don&rsquo;t like.
-Moreover, this method requires much more computation power than using bins, and the maths is also (much) harder.
-As far as I my limited understanding goes for the moment, using radial basis functions are mathematicall nice, but not directly useful for my simple goals.
-</p>
-
-
-<p>
-All in all, for my simple goals I am not happy with this method.
-First, it is difficult to understand, at least quite a bit more than the previous method.
+All in all, for my simple goals I am not happy with kernel density estimate methods
+First, it is difficult to understand, at least quite a bit more than my simple  method of section 1.
 Second, I need to choose and/or tune hyper parameter.
 This is something I don&rsquo;t like because I don&rsquo;t know how to do it, and if I choose not to know the theory, I have to search empiricallyfor good values, and that I find painfully boring.
 Third, numerically it is much more demanding than my earlier method to compute the epmf.
-Fourth, and finally, the observation that \(\phi'\) can become negative is a killer for me.
-</p>
-
-
-<p>
-Perhaps it&rsquo;s possible to repair all this, by playing with \(\sigma\), using more points as centers, and finally, including checks that \(\phi'\) cannot become negative.
-However, I prefer the simpler method.
+Fourth, and finally, the observation that \(\phi'\) can become negative or assign probability mass outside of the support of the rv is a killer for me
 </p>
 </div>
 </section>
