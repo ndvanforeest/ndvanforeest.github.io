@@ -665,12 +665,12 @@ We see that \(\phi\) lies  closely to the ecdf \(F\) in the left part of the gra
 </p>
 </div>
 </section>
-<section id="outline-container-orgb22ef7e" class="outline-2">
-<h2 id="orgb22ef7e"><span class="section-number-2">4.</span> KDEs for rvs with bounded support</h2>
+<section id="outline-container-org0c96d26" class="outline-2">
+<h2 id="org0c96d26"><span class="section-number-2">4.</span> KDEs for rvs with bounded support</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Let us now apply our new tools to estimate the density for a number of samples of \(X\sim \Exp{2}\).
-Now that we know roughly how KDE works, we can the KDE algorithm of scipy with confidence, knowing that this implemation will be quite a bit faster and more robust than our attempt.
+Now that we know roughly how KDE works, we can the KDE algorithm of scipy with confidence, knowing that this implemation will be quite a bit faster and more robust than ours.
 We use the code below to make Fig. <a href="#orgaf542ca">4</a>.
 </p>
 
@@ -694,56 +694,42 @@ We use the code below to make Fig. <a href="#orgaf542ca">4</a>.
 <span class="n">f_x</span> <span class="o">=</span> <span class="n">kde</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x_grid</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">f_x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../img/kde_transform_exp.pdf&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../img/kde_transform_exp.png&quot;</span><span class="p">)</span>
 </pre></div>
 
 
-<p style="width:100%;">
-<a href="https://ndvanforeest.github.io/img/kde_transform_exp.pdf" style="width:100%;">https://ndvanforeest.github.io/img/kde_transform_exp.pdf</a>
-</p>
+
+<figure id="orgaf542ca">
+<img src="https://ndvanforeest.github.io/img/kde_transform_exp.png" alt="kde_transform_exp.png" style="width:100%;">
+
+<figcaption><span class="figure-number">Figure 4: </span>The smoothed pdf for an \(\Exp{\lambda}\) rv.</figcaption>
+</figure>
+
 
 <p>
-<a href="./../img/kde_transform_exp.pdf">./../img/kde_transform_exp.pdf</a>
-</p>
-
-
-<p>
-Apparently we get a nice smooth density, but it has mass on the negative numbers even though we know that \(X\geq 0\).
+Apparently we get a nice smooth density, but it has probability mass on the negative numbers even though we know that \(X\geq 0\).
 As this is not to my liking, I discuss now a method to solve this problem.
-<label id='fnr.2' for='fnr-in.2.7036216' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.7036216' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>I started my research with this resource.
-However, as I had no idea how to apply this, I read until I did understand, which actually lead to this section.
-Here is a site that helped me to answer my questions.
-<a href="https://thirdorderscientist.org/homoclinic-orbit/2013/10/24/kernel-density-estimation-for-random-variables-with-bounded-support-mdash-the-transformation-trick">https://thirdorderscientist.org/homoclinic-orbit/2013/10/24/kernel-density-estimation-for-random-variables-with-bounded-support-mdash-the-transformation-trick</a></span>
+<label id='fnr.2' for='fnr-in.2.7036216' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.7036216' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>I used this site: <a href="https://thirdorderscientist.org/homoclinic-orbit/2013/10/24/kernel-density-estimation-for-random-variables-with-bounded-support-mdash-the-transformation-trick">https://thirdorderscientist.org/homoclinic-orbit/2013/10/24/kernel-density-estimation-for-random-variables-with-bounded-support-mdash-the-transformation-trick</a></span>
 </p>
 
 
 <p>
 Actually, it is not very difficult to work around the problem.
 The main idea is to transform \(X\) to a rv \(Y\) that has support on the entire real line.
-Then we compute the KDE for \(Y\), and transform that the KDE for \(X\).
-One obvious choice is to take \(Y=\log X\), and apply the KDE to \(Y_{i} = \log X_{i}\) that are based on the samples \(X_i\) of \(X\).
+Then we compute the KDE for \(Y\), and transform that KDE to a KDE for \(X\).
+One obvious choice is to take \(Y=\log X\), and apply the KDE to \(y_{i} = \log x_{i}\) that are based on the samples \(x_i\) of \(X\).
 </p>
 
 <p>
 Recall the general 1D transform formula for densities \(f_Y(y) \d y = f_X(x) \d x\). If we use \(y = \log x\), then \(\d y/ \d x = 1/x\), hence
 </p>
 \begin{equation*}
-\hat f_X(x) = \hat f_{Y}(y) /x, \quad y = \log (x).
+f_X(x) = f_{Y}(y) /x, \quad y = \log (x).
 \end{equation*}
 <p>
 The code below implements this.
 </p>
 
-\begin{figure}[tbh]
-\centering
-\begin{tabular}{cc}
-\includegraphics{figures/kde_transform_exp.pdf}
-&
-\includegraphics{figures/kde_transform_positive.pdf}
-\end{tabular}
-\caption{The left panel shows the KDE of  200 samples of an $\Exp{2}$ rv, the right of the  KDE after the tranform $y=\log x$.}
-\label{fig:kdetransform1}
-\end{figure}
 
 <div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
@@ -767,35 +753,76 @@ The code below implements this.
 <span class="n">f_y</span> <span class="o">=</span> <span class="n">kde</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">y_grid</span><span class="p">)</span>
 <span class="n">f_x</span> <span class="o">=</span> <span class="n">f_y</span> <span class="o">/</span> <span class="n">x_grid</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">f_x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../img/kde_transform_positive.pdf&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../img/kde_transform_positive.png&quot;</span><span class="p">)</span>
 </pre></div>
 
-\begin{exercise}
-Which lines of the code implement the transform of $X$ to $Y$ and back?
-\begin{solution}
-Line 21 computes the transform from $Y$ to $X$.
-\end{solution}
-\end{exercise}
 
+<figure id="orgb22ef7e">
+<img src="https://ndvanforeest.github.io/img/kde_transform_positive.png" alt="kde_transform_positive.png" style="width:100%;">
+
+<figcaption><span class="figure-number">Figure 5: </span>A curtailed smoothed pdf for an \(\Exp{\lambda}\) rv.</figcaption>
+</figure>
+
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 5:</b> 
 <p>
-\new{Finally, when we} have to deal with rvs with finite support for instance on \([0,1]\), we can use the function  \(f(x) = \log x - \log(1-x)\).
+Which lines of the code implement the transform of \(X\) to \(Y\) and back?
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Line 21 computes the transform from \(Y\) to \(X\).
 </p>
 
-\begin{exercise}
-Show that the inverse of $f$ is given by $f^{-1}(y) = e^y/(1+e^{y})$.
-\begin{solution}
-Set $y=\log(x/(1-x))$, and solve for $y$.
-\end{solution}
-\end{exercise}
 
-\begin{exercise}
-How to handle a rv $X$ that has support, for instance, $\supp{X} = [-3, 5]$?
-\begin{solution}
-First scale to the rv $Y = (X+3)/8 = X/8 + 3/8$, and note that $\supp{Y}=[0,1]$.
-\end{solution}
-\end{exercise}
+</details>
+</div>
+<p>
+Finally, when we have to deal with rvs with finite support for instance on \([0,1]\), we can use the function  \(f(x) = \log x - \log(1-x)\).
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 6:</b> 
+<p>
+Show that the inverse of \(f\) is given by \(f^{-1}(y) = e^y/(1+e^{y})\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Set \(y=\log(x/(1-x))\), and solve for \(y\).
+</p>
 
 
+</details>
+</div>
+</div>
+</section>
+<section id="outline-container-org8b8830a" class="outline-2">
+<h2 id="org8b8830a"><span class="section-number-2">5.</span> Summary</h2>
+<div class="outline-text-2" id="text-5">
 <p>
 Based on the insights above, I don&rsquo;t think I will use the second method based on function approximation any further.
 It is not guaranteed to work, and it requires fiddling with the smoothing parameter \(\sigma\) and choosing the nodes, i.e., the number of basis functions.
@@ -803,11 +830,8 @@ Hence, it seems not to be fool-proof, which is something I don&rsquo;t like.
 Moreover, this method requires much more computation power than using bins, and the maths is also (much) harder.
 As far as I my limited understanding goes for the moment, using radial basis functions are mathematicall nice, but not directly useful for my simple goals.
 </p>
-</div>
-</section>
-<section id="outline-container-org0c96d26" class="outline-2">
-<h2 id="org0c96d26"><span class="section-number-2">5.</span> Summary</h2>
-<div class="outline-text-2" id="text-5">
+
+
 <p>
 All in all, for my simple goals I am not happy with this method.
 First, it is difficult to understand, at least quite a bit more than the previous method.
