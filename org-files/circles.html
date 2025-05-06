@@ -272,7 +272,8 @@ Finally, \((u,v)\) are the coordinates of the point \(C\) where all circles inte
 
 
 <p>
-With these variables, it is straightforward to solve for \(u\) and \(v\). The point \(C\) lies on the large cricle and on the small circle.
+With these variables, it is straightforward to solve for \(u\) and \(v\).
+The point \(C\) lies on the large cicle and on the small circle.
 </p>
 <div class="highlight"><pre><span></span><span class="n">large_circle</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span> <span class="o">^</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">v</span> <span class="o">-</span> <span class="n">R</span><span class="p">)</span> <span class="o">^</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">R</span> <span class="o">^</span> <span class="mi">2</span>
 <span class="n">small_circle</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">^</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">v</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span> <span class="o">^</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">r</span> <span class="o">^</span> <span class="mi">2</span>
@@ -293,10 +294,9 @@ With these variables, it is straightforward to solve for \(u\) and \(v\). The po
 </p>
 
 <p>
-I am not interested in the actual expressions for \(u\) and \(v\), so I don&rsquo;t print them.
 The next step is to realize that \(C\) also lies on the green circle.
-Since, the midpoint of the green circle is \((0, -y)\), \(C\) can also be written as \((u, (-y+v))\).
-Finally, \(B\) also lies on the green circle, hence \(B=(x, -y)\).
+Since, the midpoint of the green circle is \((0, -y)\), and \(C\) has coordinates \((u,v)\), it must be that  \((u-0)^{2} +  (v-y)^{2} = r^{2}_{3}\).
+Finally, the point \(B\), with coordinates \((x, 0)\), also lies on the green circle, hence at \((x-0)^{2} + (0-y)^{2} = r_{3}^{2}\).
 By combining this we can solve for \(y\).
 </p>
 
@@ -373,7 +373,6 @@ Here is the Python code behind Fig.<a href="#org99c01cb">1</a>.
 <span class="n">rR</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="c1"># fig, ax = plt.subplots()</span>
 
 <span class="n">circle</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">((</span><span class="o">-</span><span class="n">x</span><span class="p">,</span> <span class="n">R</span><span class="p">),</span> <span class="n">R</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">circle</span><span class="p">)</span>
