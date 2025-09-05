@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_d1b05ab4aee2097ab8a5941a5c36a85a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.css"/>
+</head>
+<body>
+    
+    
+    <style>
+    .leaflet-tooltip {
+        font-size: 14px;
+        font-weight: bold;
+        color: darkblue;
+    }
+    .leaflet-popup-content {
+        font-size: 14px;
+        font-weight: bold;
+        color: darkblue;
+    }    </style>
+    
+    
+    <div style="
+        position: fixed;
+        bottom: 50px; left: 50px; width: 220px;
+        background-color: white;
+        border: 2px solid grey;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+        z-index:9999;
+        font-size:14px;
+    ">
+    <b>TSP langs monumenten in gebied 20</b><br>
+    Length: 1.2 km
+    </div>
+    
+    
+            <div class="folium-map" id="map_d1b05ab4aee2097ab8a5941a5c36a85a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_d1b05ab4aee2097ab8a5941a5c36a85a = L.map(
+                "map_d1b05ab4aee2097ab8a5941a5c36a85a",
+                {
+                    center: [53.21705996608188, 6.566824296491228],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 16,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_b7864ab80e01ba41b92260405d82daea = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_b7864ab80e01ba41b92260405d82daea.addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+            var marker_190abcb131b913f2cf71b5b5c89f69b1 = L.marker(
+                [53.2184996, 6.5662932],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_6d5e2677d385b63650eac01195b14055 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_92f0cc4ccdd87c53aefde60eea7dee3d = $(`<div id="html_92f0cc4ccdd87c53aefde60eea7dee3d" style="width: 100.0%; height: 100.0%;"><b>Waagplein 1</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2184996,6.5662932" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18467" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_6d5e2677d385b63650eac01195b14055.setContent(html_92f0cc4ccdd87c53aefde60eea7dee3d);
+            
+        
+
+        marker_190abcb131b913f2cf71b5b5c89f69b1.bindPopup(popup_6d5e2677d385b63650eac01195b14055)
+        ;
+
+        
+    
+    
+            marker_190abcb131b913f2cf71b5b5c89f69b1.bindTooltip(
+                `<div>
+                     Waagplein 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_5fe741e4645107bbfb7c53905de062f4 = L.marker(
+                [53.2176055, 6.5668195],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_97350412073e0eb99660563998ef79d4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_302a307bc82bbfa18a7407ba8d3fee01 = $(`<div id="html_302a307bc82bbfa18a7407ba8d3fee01" style="width: 100.0%; height: 100.0%;"><b>Herestraat 13</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2176055,6.5668195" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18497" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_97350412073e0eb99660563998ef79d4.setContent(html_302a307bc82bbfa18a7407ba8d3fee01);
+            
+        
+
+        marker_5fe741e4645107bbfb7c53905de062f4.bindPopup(popup_97350412073e0eb99660563998ef79d4)
+        ;
+
+        
+    
+    
+            marker_5fe741e4645107bbfb7c53905de062f4.bindTooltip(
+                `<div>
+                     Herestraat 13
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_758445a25ed195c73c8169f90d73165c = L.marker(
+                [53.2172156, 6.5673736],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_f3e1d90ead202f8c5193466f5732f19b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5a9ebe8a2fe32a528ea46dfb68d07ed2 = $(`<div id="html_5a9ebe8a2fe32a528ea46dfb68d07ed2" style="width: 100.0%; height: 100.0%;"><b>Herestraat 28</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2172156,6.5673736" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18498" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_f3e1d90ead202f8c5193466f5732f19b.setContent(html_5a9ebe8a2fe32a528ea46dfb68d07ed2);
+            
+        
+
+        marker_758445a25ed195c73c8169f90d73165c.bindPopup(popup_f3e1d90ead202f8c5193466f5732f19b)
+        ;
+
+        
+    
+    
+            marker_758445a25ed195c73c8169f90d73165c.bindTooltip(
+                `<div>
+                     Herestraat 28
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_efdfd586b8f836c4357cdd3bf05f9f9a = L.marker(
+                [53.2171765, 6.5674079],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_d7480459e6386d6aa6b3c788fa4b9a4e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f59526d102a4c04e1000de0d1997d3da = $(`<div id="html_f59526d102a4c04e1000de0d1997d3da" style="width: 100.0%; height: 100.0%;"><b>Herestraat 30</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2171765,6.5674079" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18499" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_d7480459e6386d6aa6b3c788fa4b9a4e.setContent(html_f59526d102a4c04e1000de0d1997d3da);
+            
+        
+
+        marker_efdfd586b8f836c4357cdd3bf05f9f9a.bindPopup(popup_d7480459e6386d6aa6b3c788fa4b9a4e)
+        ;
+
+        
+    
+    
+            marker_efdfd586b8f836c4357cdd3bf05f9f9a.bindTooltip(
+                `<div>
+                     Herestraat 30
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_180fdaa052f38d98f20b83d202098c3a = L.marker(
+                [53.216944444444444, 6.567777777777778],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_55858a46ff157b906146f29eafb66225 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_37bc8d76fcd22670fa3fd53a1ddd9dfe = $(`<div id="html_37bc8d76fcd22670fa3fd53a1ddd9dfe" style="width: 100.0%; height: 100.0%;"><b>Herestraat 40 Hoogstraat 3</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.216944444444444,6.567777777777778" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18500" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_55858a46ff157b906146f29eafb66225.setContent(html_37bc8d76fcd22670fa3fd53a1ddd9dfe);
+            
+        
+
+        marker_180fdaa052f38d98f20b83d202098c3a.bindPopup(popup_55858a46ff157b906146f29eafb66225)
+        ;
+
+        
+    
+    
+            marker_180fdaa052f38d98f20b83d202098c3a.bindTooltip(
+                `<div>
+                     Herestraat 40 Hoogstraat 3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_92132a0d98b510853bd862c8c8884dec = L.marker(
+                [53.2159617, 6.5668524],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_c1ec05900eaf1589942e6ee214bb4b36 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c50344ef31c5d0e80262ab13e161e88e = $(`<div id="html_c50344ef31c5d0e80262ab13e161e88e" style="width: 100.0%; height: 100.0%;"><b>Pelsterstraat 37</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2159617,6.5668524" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18652" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_c1ec05900eaf1589942e6ee214bb4b36.setContent(html_c50344ef31c5d0e80262ab13e161e88e);
+            
+        
+
+        marker_92132a0d98b510853bd862c8c8884dec.bindPopup(popup_c1ec05900eaf1589942e6ee214bb4b36)
+        ;
+
+        
+    
+    
+            marker_92132a0d98b510853bd862c8c8884dec.bindTooltip(
+                `<div>
+                     Pelsterstraat 37
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_01e349098d06f5b79b6cc3c16022c0e1 = L.marker(
+                [53.2157291, 6.567057],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_80ab5a77cdf103b5420ebbd982162be7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1b1ebde11d641d7ec161844b08bed3a2 = $(`<div id="html_1b1ebde11d641d7ec161844b08bed3a2" style="width: 100.0%; height: 100.0%;"><b>Pelsterstraat 39</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2157291,6.567057" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18653" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_80ab5a77cdf103b5420ebbd982162be7.setContent(html_1b1ebde11d641d7ec161844b08bed3a2);
+            
+        
+
+        marker_01e349098d06f5b79b6cc3c16022c0e1.bindPopup(popup_80ab5a77cdf103b5420ebbd982162be7)
+        ;
+
+        
+    
+    
+            marker_01e349098d06f5b79b6cc3c16022c0e1.bindTooltip(
+                `<div>
+                     Pelsterstraat 39
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_38aae64287a5af90cb66b42c4342ee5c = L.marker(
+                [53.2162327, 6.5667711],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_e48e0ad8f5c3071786095355f25a2e33 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_433694c482cadf797ec7c2fe6bd3e991 = $(`<div id="html_433694c482cadf797ec7c2fe6bd3e991" style="width: 100.0%; height: 100.0%;"><b>Pelsterstraat 39-47</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2162327,6.5667711" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18654" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_e48e0ad8f5c3071786095355f25a2e33.setContent(html_433694c482cadf797ec7c2fe6bd3e991);
+            
+        
+
+        marker_38aae64287a5af90cb66b42c4342ee5c.bindPopup(popup_e48e0ad8f5c3071786095355f25a2e33)
+        ;
+
+        
+    
+    
+            marker_38aae64287a5af90cb66b42c4342ee5c.bindTooltip(
+                `<div>
+                     Pelsterstraat 39-47
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_9a02ead4052be5c06c257b3922a6c044 = L.marker(
+                [53.2170074, 6.5663035],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_f87e33dad85e4479d90a48f06d79ea0b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3c25a6979369613741b1a3f103e86893 = $(`<div id="html_3c25a6979369613741b1a3f103e86893" style="width: 100.0%; height: 100.0%;"><b>Pelsterstraat 4</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2170074,6.5663035" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18656" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_f87e33dad85e4479d90a48f06d79ea0b.setContent(html_3c25a6979369613741b1a3f103e86893);
+            
+        
+
+        marker_9a02ead4052be5c06c257b3922a6c044.bindPopup(popup_f87e33dad85e4479d90a48f06d79ea0b)
+        ;
+
+        
+    
+    
+            marker_9a02ead4052be5c06c257b3922a6c044.bindTooltip(
+                `<div>
+                     Pelsterstraat 4
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_8b83b10f3c41138b808380e7e35b3780 = L.marker(
+                [53.2179605, 6.5663305],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_c45d65501706898ac24274469d6c18cf = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_dc48c7bab3ea364232afede07a9803ef = $(`<div id="html_dc48c7bab3ea364232afede07a9803ef" style="width: 100.0%; height: 100.0%;"><b>Tussen beide markten 2-4</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2179605,6.5663305" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18714" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_c45d65501706898ac24274469d6c18cf.setContent(html_dc48c7bab3ea364232afede07a9803ef);
+            
+        
+
+        marker_8b83b10f3c41138b808380e7e35b3780.bindPopup(popup_c45d65501706898ac24274469d6c18cf)
+        ;
+
+        
+    
+    
+            marker_8b83b10f3c41138b808380e7e35b3780.bindTooltip(
+                `<div>
+                     Tussen beide markten 2-4
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_88720a0842957c5293d5d1356963551e = L.marker(
+                [53.2175187, 6.5662547],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_5154c4f86fa87d17ce2d5cc56a21c355 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_955a2fb654b1aa7c19ec127d28b605e4 = $(`<div id="html_955a2fb654b1aa7c19ec127d28b605e4" style="width: 100.0%; height: 100.0%;"><b>Vismarkt 14</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2175187,6.5662547" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18718" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_5154c4f86fa87d17ce2d5cc56a21c355.setContent(html_955a2fb654b1aa7c19ec127d28b605e4);
+            
+        
+
+        marker_88720a0842957c5293d5d1356963551e.bindPopup(popup_5154c4f86fa87d17ce2d5cc56a21c355)
+        ;
+
+        
+    
+    
+            marker_88720a0842957c5293d5d1356963551e.bindTooltip(
+                `<div>
+                     Vismarkt 14
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_c9e1f794d27d41f9f73f441ddda0a997 = L.marker(
+                [53.2174764, 6.5661701],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_067a84ffa16a7cc0fd26e2ab554fb81a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_479cb7f09f29fbb7e9a67099ea099bf9 = $(`<div id="html_479cb7f09f29fbb7e9a67099ea099bf9" style="width: 100.0%; height: 100.0%;"><b>Vismarkt 16</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2174764,6.5661701" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18719" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_067a84ffa16a7cc0fd26e2ab554fb81a.setContent(html_479cb7f09f29fbb7e9a67099ea099bf9);
+            
+        
+
+        marker_c9e1f794d27d41f9f73f441ddda0a997.bindPopup(popup_067a84ffa16a7cc0fd26e2ab554fb81a)
+        ;
+
+        
+    
+    
+            marker_c9e1f794d27d41f9f73f441ddda0a997.bindTooltip(
+                `<div>
+                     Vismarkt 16
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_8f004804d8e03ff099e8d0f5cd354446 = L.marker(
+                [53.2162022, 6.5657055],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_a2c846790ad0159c0560d8b70041c25c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_482fec41ab174933321138d9412f097b = $(`<div id="html_482fec41ab174933321138d9412f097b" style="width: 100.0%; height: 100.0%;"><b>Haddingestraat 18</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2162022,6.5657055" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485652" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_a2c846790ad0159c0560d8b70041c25c.setContent(html_482fec41ab174933321138d9412f097b);
+            
+        
+
+        marker_8f004804d8e03ff099e8d0f5cd354446.bindPopup(popup_a2c846790ad0159c0560d8b70041c25c)
+        ;
+
+        
+    
+    
+            marker_8f004804d8e03ff099e8d0f5cd354446.bindTooltip(
+                `<div>
+                     Haddingestraat 18
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_9d75d9076dd335daaddcabdb9c6fb0f7 = L.marker(
+                [53.217777777777776, 6.566666666666666],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_ed1ef4354f80e814658df8500ecb6c4d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1cc37bc34f6f01b295ebe3bd3b0b0621 = $(`<div id="html_1cc37bc34f6f01b295ebe3bd3b0b0621" style="width: 100.0%; height: 100.0%;"><b>Herestraat 1 Tussen Beide Markten 2</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.217777777777776,6.566666666666666" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485759" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_ed1ef4354f80e814658df8500ecb6c4d.setContent(html_1cc37bc34f6f01b295ebe3bd3b0b0621);
+            
+        
+
+        marker_9d75d9076dd335daaddcabdb9c6fb0f7.bindPopup(popup_ed1ef4354f80e814658df8500ecb6c4d)
+        ;
+
+        
+    
+    
+            marker_9d75d9076dd335daaddcabdb9c6fb0f7.bindTooltip(
+                `<div>
+                     Herestraat 1 Tussen Beide Markten 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_386eaa1c21cf8983f636373c21086a4c = L.marker(
+                [53.2177448, 6.5666874],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_d7c523f3df7a556d1be40c4b52f37248 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ef5e5f24704ac3d759c2e40ec7f90700 = $(`<div id="html_ef5e5f24704ac3d759c2e40ec7f90700" style="width: 100.0%; height: 100.0%;"><b>Herestraat 7</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2177448,6.5666874" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485767" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_d7c523f3df7a556d1be40c4b52f37248.setContent(html_ef5e5f24704ac3d759c2e40ec7f90700);
+            
+        
+
+        marker_386eaa1c21cf8983f636373c21086a4c.bindPopup(popup_d7c523f3df7a556d1be40c4b52f37248)
+        ;
+
+        
+    
+    
+            marker_386eaa1c21cf8983f636373c21086a4c.bindTooltip(
+                `<div>
+                     Herestraat 7
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_b5951042d8b0e56774476a9ac26af581 = L.marker(
+                [53.2172595, 6.5673383],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_ead44d125b95fb51bc1c3eb929510009 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2bec8d0cf32783357579bba9af65a802 = $(`<div id="html_2bec8d0cf32783357579bba9af65a802" style="width: 100.0%; height: 100.0%;"><b>Herestraat 26</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2172595,6.5673383" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485779" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_ead44d125b95fb51bc1c3eb929510009.setContent(html_2bec8d0cf32783357579bba9af65a802);
+            
+        
+
+        marker_b5951042d8b0e56774476a9ac26af581.bindPopup(popup_ead44d125b95fb51bc1c3eb929510009)
+        ;
+
+        
+    
+    
+            marker_b5951042d8b0e56774476a9ac26af581.bindTooltip(
+                `<div>
+                     Herestraat 26
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_8ec10b3261206967973a9c00558a7174 = L.marker(
+                [53.2164936, 6.5679636],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_04fddf06c543426ac9865d662bacf65f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_97fb8753d406219a2e1214b018f4cd01 = $(`<div id="html_97fb8753d406219a2e1214b018f4cd01" style="width: 100.0%; height: 100.0%;"><b>Herestraat 52</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2164936,6.5679636" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485785" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_04fddf06c543426ac9865d662bacf65f.setContent(html_97fb8753d406219a2e1214b018f4cd01);
+            
+        
+
+        marker_8ec10b3261206967973a9c00558a7174.bindPopup(popup_04fddf06c543426ac9865d662bacf65f)
+        ;
+
+        
+    
+    
+            marker_8ec10b3261206967973a9c00558a7174.bindTooltip(
+                `<div>
+                     Herestraat 52
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_c12b7a10f34635c792846c11d074d55c = L.marker(
+                [53.215833333333336, 6.567222222222222],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_9c277ca4e575ad5e135f649b1de9824b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e4b9ce8499b47db64529f3483cafdb84 = $(`<div id="html_e4b9ce8499b47db64529f3483cafdb84" style="width: 100.0%; height: 100.0%;"><b>Pelsterstraat 44 Kleine Pelsterstraat 9</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.215833333333336,6.567222222222222" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486141" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_9c277ca4e575ad5e135f649b1de9824b.setContent(html_e4b9ce8499b47db64529f3483cafdb84);
+            
+        
+
+        marker_c12b7a10f34635c792846c11d074d55c.bindPopup(popup_9c277ca4e575ad5e135f649b1de9824b)
+        ;
+
+        
+    
+    
+            marker_c12b7a10f34635c792846c11d074d55c.bindTooltip(
+                `<div>
+                     Pelsterstraat 44 Kleine Pelsterstraat 9
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_d142ddd90b4b5436141bdf82bb034d15 = L.marker(
+                [53.2175, 6.566666666666666],
+                {
+}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+        var popup_585480b1148062bfbabd5f76a5e08532 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_15e117002dc4d41173e678ba4271b827 = $(`<div id="html_15e117002dc4d41173e678ba4271b827" style="width: 100.0%; height: 100.0%;"><b>Vismarkt 6 (Koude Gat)</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2175,6.566666666666666" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486633" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_585480b1148062bfbabd5f76a5e08532.setContent(html_15e117002dc4d41173e678ba4271b827);
+            
+        
+
+        marker_d142ddd90b4b5436141bdf82bb034d15.bindPopup(popup_585480b1148062bfbabd5f76a5e08532)
+        ;
+
+        
+    
+    
+            marker_d142ddd90b4b5436141bdf82bb034d15.bindTooltip(
+                `<div>
+                     Vismarkt 6 (Koude Gat)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_b6a51b8725f5c3d4a03784c555b34771 = L.polyline(
+                [[53.218523, 6.566335], [53.218523, 6.566335], [53.218523, 6.566336], [53.218499, 6.56636], [53.218499, 6.566359], [53.218474, 6.566384], [53.21843, 6.56625], [53.21828, 6.566403], [53.218111, 6.566573], [53.218092, 6.566523], [53.218046, 6.566572], [53.217961, 6.56633], [53.217913, 6.566196], [53.217848, 6.566301], [53.217666, 6.566531], [53.217666, 6.566531], [53.21766, 6.566507], [53.217624, 6.566384], [53.217596, 6.566196], [53.217577, 6.56618], [53.217564, 6.566162], [53.217561, 6.566158], [53.217535, 6.566098], [53.217434, 6.565869], [53.217245, 6.565396], [53.217062, 6.564918], [53.216756, 6.565167], [53.216678, 6.565224], [53.216541, 6.56534], [53.216176, 6.565604], [53.216541, 6.56534], [53.216678, 6.565224], [53.216756, 6.565167], [53.216955, 6.565858], [53.217045, 6.566164], [53.216934, 6.566237], [53.216958, 6.566337], [53.216934, 6.566237], [53.216769, 6.566352], [53.216493, 6.56656], [53.216233, 6.566771], [53.215995, 6.566964], [53.215803, 6.567119], [53.215758, 6.567156], [53.215685, 6.567215], [53.215625, 6.567266], [53.215617, 6.567272], [53.215663, 6.567417], [53.215858, 6.568065], [53.215903, 6.568216], [53.215961, 6.568194], [53.216463, 6.567841], [53.216943, 6.567503], [53.217005, 6.567731], [53.216943, 6.567503], [53.217152, 6.567326], [53.217191, 6.567293], [53.217234, 6.567257], [53.217635, 6.566917], [53.217751, 6.566819], [53.21772, 6.566715], [53.217718, 6.566709], [53.217751, 6.566819], [53.217883, 6.566712], [53.217911, 6.566689], [53.217981, 6.566634], [53.218046, 6.566572], [53.218092, 6.566523], [53.218111, 6.566573], [53.21828, 6.566403], [53.21843, 6.56625], [53.218474, 6.566384], [53.218499, 6.566359], [53.218499, 6.56636], [53.218523, 6.566336], [53.218523, 6.566335], [53.218523, 6.566335]],
+                {"bubblingMouseEvents": true, "color": "#3388ff", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#3388ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.9, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+        
+    
+            var locate_control_95cd8fa8d51eb7d1b84a423953b81454 = L.control.locate(
+                {"keepCurrentZoomLevel": true}
+            ).addTo(map_d1b05ab4aee2097ab8a5941a5c36a85a);
+            
+        
+</script>
+</html>
