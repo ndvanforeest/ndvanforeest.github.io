@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Using Fast Fourier Transforms for Kernel Density Estimation</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="/css/tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/ox-tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/pygments.css" type="text/css" />
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+<script>
+  window.MathJax = {
+    tex: {
+      macros: {
+        argmin: ["\\mathop{\\mathrm{arg\\,min}}", 0],
+        argmax: ["\\mathop{\\mathrm{arg\\,max}}", 0],
+        abs: ["\\left\\vert#1\\right\\vert", 1],
+        given: ["\\,\\middle|\\,", 0],
+        mineq: "\\mathrel{-}=",
+        pluseq: "\\mathrel{+}=",
+        supp: ["\\mathrm{supp}\\left(#1\\right)", 1],
+        Max: ["\\max\\left\\{#1\\right\\}", 1],
+        Min: ["\\min\\left\\{#1\\right\\}", 1],
+        Inf: ["\\inf\\left\\{#1\\right\\}", 1],
+        IInf: ["\\displaystyle\\mathop{\\inf}_{#1}\\left\\{#2\\right\\}", 2],
+        Sup: ["\\sup\\left\\{#1\\right\\}", 1],
+        SSup: ["\\displaystyle\\mathop{\\sup}_{#1}\\left\\{#2\\right\\}", 2],
+        B: "\\mathbb{B}",
+        C: "\\mathcal{C}",
+        d: "\\,\\textrm{d}",
+        E: ["\\mathsf{E}\\left[#1\\right]", 1],
+        F: "\\mathcal{F}",
+        N: "\\mathbb{N}",
+        P: ["\\mathsf{P}\\left\\{#1\\right\\}", 1],
+        R: "\\mathbb{R}",
+        V: ["\\mathsf{V}\\left[#1\\right]", 1],
+        Z: "\\mathbb{Z}",
+        Bin: ["\\mathrm{Bin}(#1)", 1],
+        Exp: ["\\mathrm{Exp}(#1)", 1],
+        FS: ["\\mathrm{FS}(#1)", 1],
+        Gamm: ["\\mathrm{Gamm}(#1)", 1],
+        Geo: ["\\mathrm{Geo}(#1)", 1],
+        HGeom: ["\\mathrm{HGeom}(#1)", 1],
+        Norm: ["\\mathrm{Norm}(#1)", 1],
+        Pois: ["\\mathrm{Pois}(#1)", 1],
+        Unif: ["\\mathrm{Unif}(#1)", 1],
+        "1": ["\\mathbb{1}\\left\\{#1\\right\\}", 1],
+      },
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header id="preamble" class="status">
+<header class='site-header'>
+  <div class='site-header-container'>
+    <a href="https://ndvanforeest.github.io/">
+    <img src="/img/harry.jpg" alt='parsec logo' class='site-logo'>
+    </a>
+      <div class='site-title-container'>
+        <h1 class='site-title'>Nicky&rsquo;s site</h1>
+      </div>
+    </div>
+</header>
+<hr class='menu-divider'>
+<nav class='menu'>
+  <ul>
+    <li><a href='/index.html'>Home</a></li>
+    <li><a href='/about_this_site.html'>About this site</a></li>
+    <li><a href='/bio.html'>Bio</a></li>
+    <li><a href='/books.html'>Books</a></li>
+    <li><a href='/city_walks.html'>City Walks</a></li>
+  </ul>
+</nav>
+<hr class='menu-divider'>
+</header>
+<article id="content" class="content">
+<header>
+<h1 class="title">Using Fast Fourier Transforms for Kernel Density Estimation</h1>
+</header><section id="outline-container-org7161a33" class="outline-2">
+<h2 id="org7161a33"><span class="section-number-2">1.</span> The Fast Fourier Transform (FFT)</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The FFT is actually a super fast algorithm to find the probability mass function (pmf) of the sum of two independent discrete rvs.
+To see it&rsquo;s value, we start with a simple example.
+</p>
+
+<p>
+Consider  two rvs \(X, Y\) both with outcomes in \(\{0, \ldots, N-1\}\) and pmfs \(p_{X}\) and \(p_{Y}\).
+A simple  procedure to compute the distribution of the sum \(Z=X+Y\) is by means of conditioning:
+</p>
+\begin{equation}
+\label{org7f16d57}
+p_Z(n)= \P{Z=n} = \sum_{k=0}^n\P{X+Y=n | X = k} p_X(k) = \sum_{k=0}^n p_Y(n-k) p_X(k).
+\end{equation}
+<p>
+Such a sum over terms \(a_{n-k}b_{k}\) where \(a_{n-k} = p_Y(n-k)\) and \(b_k = p_X(k)\) is called a <i>convolution</i> of the series \(\{a_k\}_{k=0}^n\) and \(\{b_k\}_{k=0}^{n}\).
+Here is the code to compute \(p_{Z}\).
+</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="n">px</span> <span class="o">=</span> <span class="n">py</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># unnormalized</span>
+<span class="n">pz</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">px</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">py</span><span class="p">)):</span>
+        <span class="n">pz</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">px</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">py</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+</pre></div>
+
+<p>
+Observe that we need two nested <code>for</code> loops.
+This becomes very slow when \(N > 10^{3}\) or so.
+</p>
+
+<p>
+A fast way can be found by using moment-generation functions (mgfs).
+To see how this might help, we use the following idea.
+To uniquely fix a constant, i.e., a 0-degree polynomial, we just need the value of this polynomial at one point.
+For a line, i.e., a 1-degree polynomial, we need the value at two points.
+For a parabola, i.e., a 2-degree polynomial, we need three points.
+In general, there is a theorem that states that by specifying \(N\) points we can fix a polynomial with degree \(N-1\).
+</p>
+
+<p>
+If we expand the mgf of the rv \(X\), we obtain
+</p>
+\begin{equation*}
+M_X(s) = \E{e^{sX}} = \sum_{k=0}^{N-1} e^{s k}p_X(k) = \sum_{k=0}^{N-1}  p_X(k) (e^{s })^{k},
+\end{equation*}
+<p>
+because the pmf of \(X\) is concentrated on \(N\) points.
+Clearly, \(M_X\) is a \(N-1\)-degree polynomial in \(x=e^{s}\).
+By the same argument, \(M_Y\) is also a polynomial of degree \(N-1\).
+Therefore
+</p>
+\begin{equation}
+\label{org7925b9e}
+M_Z(z) = \E{z^{X+Y}} = \E{z^X} \E{z^{Y}} = M_{X}(z) M_Y(z)
+\end{equation}
+<p>
+is the product of two \(N-1\) degree polynomials.
+Consequently, \(M_{Z}\) must be a polynomial of degree \(2(N-1)\).
+Thus, to characterize \(M_{Z}\) we need \(2 (N-1) + 1 = 2N - 1\) points.
+In other words, if we know the values \(M_X(z_k)\) and \(M_Y(z_k)\) at points \(z_{k}, k=0, \ldots 2N-1\), then the \(2N-1\) values \(M_Z(z_k) = M_X(z_k) M_Y(z_k)\) should fix the coefficients of \(M_{Z}\) uniquely.
+And since computing \(M_{Z}\) at the \(2N-1\) points \(z_0, z_{1}, \ldots, z_{2N-1}\) involves \(2N-1\) multiplications, this is an \(O(N)\) procedure.
+</p>
+
+
+<p>
+So, to benefit from an \(O(N)\) procedure, we need to know the complexity to compute \(M_{X}\) and \(M_Y\) at \(2N -1\) points \(\{z_{k}\}\).
+A naive method to compute the mgf of the rv \(X \sim\Unif{\{1, 2, 3\}}\) on the points \(z=1, 2, 3, 4, 5\) is like this.
+</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">px</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">mx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">px</span><span class="p">)):</span>
+        <span class="n">mx</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">px</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+</pre></div>
+<p>
+But observe that this method has \(O(N^2)\) complexity, so it appears that we have gained nothing.
+</p>
+
+
+<p>
+However, with a very clever choice of points \(z_k\) there exists an \(O(N\log N)\) algorithm to compute \(M_X\) at \(N\) points.
+Moreover, the same algorithm can be used to invert \(M_{Z}\), that is, we can retrieve the probabilities \(p_{Z}(k), k=0, \ldots, 2N-1\) from the values \(M_Z(z_k), k=0, \ldots 2N-1\) also in \(O(N\log N)\) time.
+This algorithm is the fast Fourier transform which we discuss now.
+<label id='fnr.1' for='fnr-in.1.572549' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.572549' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>Part of the material here is based on my favorite book on algorithms: Introduction to Algorithms, by T.H.
+Cormen, C.E.
+Leiserson, R.L.
+Rivest.</span>
+</p>
+
+<p>
+To understand the basic workings of the FFT we just need Euler&rsquo;s formula \(e^{i \pi} = -1\) where \(i=\sqrt{-1}\).
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 1:</b> 
+<p>
+Use Euler&rsquo;s formula to show that \(e^{2 \pi i n} = 1\) for all \(n\in \Z\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+First, \(e^{2 \pi i} = ((e^{\pi i})^{2} = (-1)^2 = 1\). Next, \(e^{2\pi i n} = (e^{2 \pi i})^{n} = 1^{n}\).
+</p>
+
+
+</details>
+</div>
+<p>
+The FFT consists of three steps.
+The first important idea is to focus on the set of points \(s_k=2\pi i k/N\), rather than a general set of points, and take \(N\) a power of \(2\).
+With this,
+</p>
+\begin{equation*}
+M_X(s_k) = \E{e^{s_k X}} = \sum_{n=0}^{N-1} \exp\left(\frac{2\pi i n k}{N}\right) p_X(n).
+\end{equation*}
+<p>
+The second step is very simple.
+Split the polynomial \(M_{X}\) into two polynomials, one with the even terms, the other with odd terms:
+</p>
+\begin{align*}
+M_X(s_k)
+%&=  \sum_{n=0}^{N-1} \exp\left(\frac{2\pi i n k}{N}\right)e^{2\pi i k n/N} p_X(n) \\
+&=  \sum_{n=0}^{N/2-1} \exp\left(\frac{2\pi i (2n) k}{N}\right) p_X(2n) +  \sum_{n=0}^{N/2-1} \exp\left(\frac{2\pi i (2n+1) k}{N}\right) p_X(2n+1) \\
+&=  \sum_{n=0}^{N/2-1} \exp\left(\frac{2\pi i  k n}{N/2}\right) p_X(2n) +  \exp\left(\frac{2\pi i k}{N}\right)\sum_{n=0}^{N/2-1} \exp\left(\frac{2\pi i  k n}{N/2}\right) p_X(2n+1)\\
+&=:  E(s_{k}) + \exp\left(\frac{2\pi i k}{N} \right)O(s_{k}).
+\end{align*}
+<p>
+Thus, \(E\) and \(O\) represent the even and odd terms of \(M_{X}\) and both are polynomials of degree \(N/2\) rather than \(N\).
+</p>
+
+<p>
+The third trick is also simple, but its importance is somewhat hard to realize.
+Write \(k' = k + N/2\), then
+</p>
+\begin{align*}
+\exp \left( \frac{2\pi i n k'}{N/2}  \right) &=
+\exp \left( \frac{2\pi i n (k + N/2)}{N/2}  \right) =
+\exp \left( \frac{2\pi i n k}{N/2}  \right)
+\exp \left( \frac{2\pi i n  N/2}{N/2}  \right) =
+\exp \left( \frac{2\pi i n k}{N/2}  \right), \\
+\exp \left( \frac{2\pi i  k'}{N}  \right) &=
+\exp \left( \frac{2\pi i  (k+N/2)}{N}  \right) =
+\exp \left( \frac{2\pi i  k}{N}  \right)
+\exp \left( \frac{2\pi i  N/2}{N}  \right)  =
+-\exp \left( \frac{2\pi i  k}{N}  \right),
+\end{align*}
+<p>
+where we use Exercise 1.
+This implies that \(E(s_{k+N/2}) = E(s_k)\) and \(O(s_{k+N/2}) = O(s_k)\).
+With this we can see that for \(k=0, \ldots, N/2-1\),
+</p>
+\begin{equation}
+\label{eq:21}
+M_X(s_k) = E(s_{k}) + e^{2\pi i k /N} O(s_{k}),
+\end{equation}
+<p>
+and on \(k'=N/2, \ldots, N-1\),
+</p>
+\begin{equation}
+\label{eq:18}
+M_{X}(s_{k'}) = M_X(s_{k+N/2}) = E(s_{k}) - e^{2\pi i k /N} O(s_{k}),
+\end{equation}
+<p>
+Hence, we only have to compute \(E\) and \(O\) on \(N/2\) points \(s_k\) to retrieve \(M_X\) at \(N\) points!
+The last step is to realize that we can apply this procedure recursively to \(E\) and \(O\), until the recursions reach 0-degree polynomials, which are just constants.<label id='fnr.2' for='fnr-in.2.4993595' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.4993595' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>For some further interesting discussion: <a href="https://jakevdp.github.io/blog/2013/08/28/understanding-the-fft/">https://jakevdp.github.io/blog/2013/08/28/understanding-the-fft/</a>.</span>
+</p>
+
+<p>
+If you recall how quicksort works, then you&rsquo;ll realize immediately that the FFT has complexity \(O(N\log N)\) rather than \(O(N^2)\).
+</p>
+
+<p>
+With the work above, the code for the FFT is now simple.
+There is one detail: the FFT is defined in terms of \(M_X(-s)\) instead of \(M_X(s)\).
+For that reason we need to include a minus sign in the factor <code>f</code> in the code.
+Next, in python  <code>2j</code> represents the imaginary number \(2i\).
+The last line is just a check on the correctness.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">FFT</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A recursive implementation of the 1D Cooley-Tukey FFT&quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">N</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span>
+    <span class="k">elif</span> <span class="n">N</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;size of x must be a power of 2&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">E</span> <span class="o">=</span> <span class="n">FFT</span><span class="p">(</span><span class="n">x</span><span class="p">[::</span><span class="mi">2</span><span class="p">])</span>  <span class="c1"># even</span>
+        <span class="n">O</span> <span class="o">=</span> <span class="n">FFT</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span> <span class="c1"># odd</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">N</span><span class="p">)</span> <span class="c1"># factor</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">E</span> <span class="o">+</span> <span class="n">f</span> <span class="o">*</span> <span class="n">O</span><span class="p">,</span> <span class="n">E</span> <span class="o">-</span> <span class="n">f</span> <span class="o">*</span> <span class="n">O</span><span class="p">])</span>
+
+
+<span class="n">gen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">FFT</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+The inverse FFT works equivalently.
+Given a set of numbers \(\{z_{k}\}_{k=0}^{2N-1}\), the inverse is defined as
+</p>
+\begin{equation*}
+p_Z(k) = \frac{1}{2N} \sum_{n=0}^{2N-1} z_{k} e^{2 \pi i k n/2N}.
+\end{equation*}
+<p>
+We leave the rest to the reader.
+</p>
+
+<p>
+While the above illustrates the basic principles of FFT, it is better not to use it for real problems.
+Industry strength implementations, such as the one in numpy, use decennia of smart ideas to improve the speed and robustness of the algorithm.
+For this reason we use <code>np.fft.fft</code> henceforth.
+</p>
+
+<p>
+Let us demonstrate how to use the FFT to find the distribution of the sum \(Z\) of two uniform dice each with sides \(\{0, 1,\ldots, 5\}\).
+Note that \(\min Z= 0\) and \(\max Z = 10\); we should compute \(M_{X}\) and \(M_{Y}\) on at least \(6+6-1\) points, and don&rsquo;t take the real part of the FFT.<label id='fnr.3' for='fnr-in.3.9481302' class='margin-toggle sidenote-number'><sup class='numeral'>3</sup></label><input type='checkbox' id='fnr-in.3.9481302' class='margin-toggle'><span class='sidenote'><sup class='numeral'>3</sup>I made both errors initially.</span>
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">px</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">px_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">px</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">pz_hat</span> <span class="o">=</span> <span class="n">px_hat</span> <span class="o">*</span> <span class="n">px_hat</span>  <span class="c1"># multiply pointwise</span>
+<span class="n">pz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">pz_hat</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+</pre></div>
+</div>
+</section>
+<section id="outline-container-org1520f12" class="outline-2">
+<h2 id="org1520f12"><span class="section-number-2">2.</span> Using the FFT to smoothen histograms</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+With the FFT we can now develop code to smoothen a histogram by means of KDE.<label id='fnr.4' for='fnr-in.4.852288' class='margin-toggle sidenote-number'><sup class='numeral'>4</sup></label><input type='checkbox' id='fnr-in.4.852288' class='margin-toggle'><span class='sidenote'><sup class='numeral'>4</sup>I am not particularly fond of using KDEs, see <a href="././ecdf-and-kernels.html">here</a>. However, FFT is a nice tool, so let&rsquo;s just demonstrate its use.</span>
+Suppose we have observed outcomes \(x_1, x_2, \ldots, x_n\) of some rv \(X\) and we want to use a kernel \(K_h\) to estimate the density at a some point \(x\):
+</p>
+\begin{align*}
+f(x) = \frac{1}{n}\sum_{i=1}^n K_h(u - x_i)
+\end{align*}
+<p>
+If we concentrate on a grid \(u_{k} = u_0 + h k\),  for \(h\) small and \(u_0\) some reference point, then,
+</p>
+\begin{align*}
+ f(u_{k}) = \frac{1}{n}\sum_{i=1}^n \sum_{j} K_h(u_{k} - u_j)\1{x_{i} \in [u_j, u_j+h)} = \frac{1}{n} \sum_{j} n_{j}K_h(u_{k} - u_j),
+\end{align*}
+<p>
+where \(n_j\) is the number of outcomes in the interval \([u_j, u_j + h)\).
+Clearly, \(u_{k}-u_j = (k-j)h\), hence, \(K_h(u_k-u_j) = K_h((k-j)h)\).
+If we write \(a_{k-j} = K_{s}((k-j)h)\), then,
+</p>
+\begin{align*}
+ f(u_{k}) = \frac{1}{n} \sum_{j} n_{j} a_{k-j}.
+\end{align*}
+<p>
+But now observe that this \(f\) is a convolution!
+And this opens the door to using FFT as a fast method for smoothing.
+</p>
+
+<p>
+Here is the code; Fig. <a href="#org0043671">1</a> shows the result.
+</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="c1"># Make a camel shaped density</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">loc</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="n">N_grid</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">7</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">N_grid</span><span class="p">)</span>
+<span class="n">meshsize</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>  <span class="c1"># scale is used as bandwith</span>
+<span class="n">kernel_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span>
+<span class="n">hist</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">grid</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">hist_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
+<span class="n">pdf_hat</span> <span class="o">=</span> <span class="n">kernel_hat</span> <span class="o">*</span> <span class="n">hist_hat</span>
+<span class="n">pdf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">pdf_hat</span><span class="p">)</span><span class="o">.</span><span class="n">real</span> <span class="o">*</span> <span class="n">meshsize</span>
+<span class="n">pdf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">pdf</span><span class="p">)</span>  <span class="c1"># to shift the kde to the center</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hist</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;hist&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">pdf</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;kde&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../img/kde.png&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+
+<figure id="org0043671">
+<img src="https://ndvanforeest.github.io/img/kde.png" alt="kde.png" style="width:100%;">
+
+<figcaption><span class="figure-number">Figure 1: </span>An example of using KDE on a histogram.</figcaption>
+</figure>
+</div>
+</section>
+<section id="outline-container-orgff52af2" class="outline-2">
+<h2 id="orgff52af2"><span class="section-number-2">3.</span> Summary</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+We achieved quite a lot in this section.
+First of all we have seen how to compute convolutions, i.e., the distribution of the sum of two discrete rvs, in the best way, namely with Fast Fourier Transforms.
+Then we applied FFT to smoothen a histogram by means of Kernel Density Estimation.
+</p>
+</div>
+</section>
+</article>
+<footer id="postamble" class="status">
+<hr> <p class="footer"> &#8226; A site by Nicky van Foreest &#8226;   Last updated: 2025-04-14 Mon 00:00, Generated with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 30.1 (<a href="https://orgmode.org">Org</a> mode 9.7.11)</p>
+</footer>
+</body>
+</html>
