@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_2aebb425b0a893c5364b28c4099def46 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.css"/>
+</head>
+<body>
+    
+    
+    <style>
+    .leaflet-tooltip {
+        font-size: 14px;
+        font-weight: bold;
+        color: darkblue;
+    }
+    .leaflet-popup-content {
+        font-size: 14px;
+        font-weight: bold;
+        color: darkblue;
+    }    </style>
+    
+    
+    <div style="
+        position: fixed;
+        bottom: 50px; left: 50px; width: 220px;
+        background-color: white;
+        border: 2px solid grey;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+        z-index:9999;
+        font-size:14px;
+    ">
+    <b>TSP langs monumenten in gebied 5</b><br>
+    Lengte: 1.7 km
+    </div>
+    
+    
+            <div class="folium-map" id="map_2aebb425b0a893c5364b28c4099def46" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_2aebb425b0a893c5364b28c4099def46 = L.map(
+                "map_2aebb425b0a893c5364b28c4099def46",
+                {
+                    center: [53.21298327055556, 6.564501167222223],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 16,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_e6e6fc5702d82dea51b0c3e28f4483d5 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_e6e6fc5702d82dea51b0c3e28f4483d5.addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+            var marker_c3fdf6119aa13e10c1d848929658c481 = L.marker(
+                [53.2116069, 6.5635448],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_e8fed9654063e9a261e4d3257a7d3e00 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a95b2103f4205a877b88e117c9ad0d60 = $(`<div id="html_a95b2103f4205a877b88e117c9ad0d60" style="width: 100.0%; height: 100.0%;"><b>Stationsplein 1-6</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2116069,6.5635448" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18691" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_e8fed9654063e9a261e4d3257a7d3e00.setContent(html_a95b2103f4205a877b88e117c9ad0d60);
+            
+        
+
+        marker_c3fdf6119aa13e10c1d848929658c481.bindPopup(popup_e8fed9654063e9a261e4d3257a7d3e00)
+        ;
+
+        
+    
+    
+            marker_c3fdf6119aa13e10c1d848929658c481.bindTooltip(
+                `<div>
+                     Stationsplein 1-6
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_ef9544f3a5874b7133350259813f50fc = L.marker(
+                [53.2134278, 6.5640509],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_3cfaa751df99492cf7d84d413957ee3a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0faa2a57d9a348a96091625d1d7fbcff = $(`<div id="html_0faa2a57d9a348a96091625d1d7fbcff" style="width: 100.0%; height: 100.0%;"><b>Coehoornsingel 30-32</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2134278,6.5640509" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485508" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_3cfaa751df99492cf7d84d413957ee3a.setContent(html_0faa2a57d9a348a96091625d1d7fbcff);
+            
+        
+
+        marker_ef9544f3a5874b7133350259813f50fc.bindPopup(popup_3cfaa751df99492cf7d84d413957ee3a)
+        ;
+
+        
+    
+    
+            marker_ef9544f3a5874b7133350259813f50fc.bindTooltip(
+                `<div>
+                     Coehoornsingel 30-32
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_661a3c81da21741bb2f549fde6c89152 = L.marker(
+                [53.215, 6.565277777777778],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_173b8a8d3993d5645e2c23f4baf453c3 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b8c53a3ed3a15cc814b4228fb4ae908b = $(`<div id="html_b8c53a3ed3a15cc814b4228fb4ae908b" style="width: 100.0%; height: 100.0%;"><b>Nieuwstad 30 t/m 30 17</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.215,6.565277777777778" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485955" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_173b8a8d3993d5645e2c23f4baf453c3.setContent(html_b8c53a3ed3a15cc814b4228fb4ae908b);
+            
+        
+
+        marker_661a3c81da21741bb2f549fde6c89152.bindPopup(popup_173b8a8d3993d5645e2c23f4baf453c3)
+        ;
+
+        
+    
+    
+            marker_661a3c81da21741bb2f549fde6c89152.bindTooltip(
+                `<div>
+                     Nieuwstad 30 t/m 30 17
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_7e5bc410ede405b4b7aa987defda2f8c = L.marker(
+                [53.2126617, 6.565488],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_7ba1b7a3ddf49000017d46a1cb831965 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a1531365929aa3ef335b942b0eb801ed = $(`<div id="html_a1531365929aa3ef335b942b0eb801ed" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 29-31-33-35</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2126617,6.565488" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486537" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_7ba1b7a3ddf49000017d46a1cb831965.setContent(html_a1531365929aa3ef335b942b0eb801ed);
+            
+        
+
+        marker_7e5bc410ede405b4b7aa987defda2f8c.bindPopup(popup_7ba1b7a3ddf49000017d46a1cb831965)
+        ;
+
+        
+    
+    
+            marker_7e5bc410ede405b4b7aa987defda2f8c.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 29-31-33-35
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_7fc5d0ccfa3e25106b16420a39296fcf = L.marker(
+                [53.2126617, 6.565488],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_e43db0330507eb2f4d116d2b69ba0460 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8f9c99c4771a2125253ff53b43ddfb82 = $(`<div id="html_8f9c99c4771a2125253ff53b43ddfb82" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 37-37a</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2126617,6.565488" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486561" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_e43db0330507eb2f4d116d2b69ba0460.setContent(html_8f9c99c4771a2125253ff53b43ddfb82);
+            
+        
+
+        marker_7fc5d0ccfa3e25106b16420a39296fcf.bindPopup(popup_e43db0330507eb2f4d116d2b69ba0460)
+        ;
+
+        
+    
+    
+            marker_7fc5d0ccfa3e25106b16420a39296fcf.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 37-37a
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_8516fae2add9939849925020b0783cc3 = L.marker(
+                [53.213055555555556, 6.565833333333334],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_38a18a02bc2d3f15e75c62bdc33108be = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ddc55dac44ed7b015ffab3b21d07dc02 = $(`<div id="html_ddc55dac44ed7b015ffab3b21d07dc02" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 41 Ubbo Emmiusstraat 34-34a</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.213055555555556,6.565833333333334" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486568" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_38a18a02bc2d3f15e75c62bdc33108be.setContent(html_ddc55dac44ed7b015ffab3b21d07dc02);
+            
+        
+
+        marker_8516fae2add9939849925020b0783cc3.bindPopup(popup_38a18a02bc2d3f15e75c62bdc33108be)
+        ;
+
+        
+    
+    
+            marker_8516fae2add9939849925020b0783cc3.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 41 Ubbo Emmiusstraat 34-34a
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_6c2f392e1d389c9abce20aecc2714cc1 = L.marker(
+                [53.2129324, 6.5649954],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_7a9c418236f5348dc35d4f570a6ea37b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_fc5ba752481f2c0808d356340b07145f = $(`<div id="html_fc5ba752481f2c0808d356340b07145f" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 51</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2129324,6.5649954" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486577" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_7a9c418236f5348dc35d4f570a6ea37b.setContent(html_fc5ba752481f2c0808d356340b07145f);
+            
+        
+
+        marker_6c2f392e1d389c9abce20aecc2714cc1.bindPopup(popup_7a9c418236f5348dc35d4f570a6ea37b)
+        ;
+
+        
+    
+    
+            marker_6c2f392e1d389c9abce20aecc2714cc1.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 51
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_9b459a73b6d81ef8d8e4a1a69e8b26fc = L.marker(
+                [53.2129256, 6.5646204],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_1066171e203c4c774f50f74cd349c25f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_cc547563e288cdba359ef59216c4551b = $(`<div id="html_cc547563e288cdba359ef59216c4551b" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 55</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2129256,6.5646204" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486583" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_1066171e203c4c774f50f74cd349c25f.setContent(html_cc547563e288cdba359ef59216c4551b);
+            
+        
+
+        marker_9b459a73b6d81ef8d8e4a1a69e8b26fc.bindPopup(popup_1066171e203c4c774f50f74cd349c25f)
+        ;
+
+        
+    
+    
+            marker_9b459a73b6d81ef8d8e4a1a69e8b26fc.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 55
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_5f6a4ce404b7f0628c1a524c2c084ef6 = L.marker(
+                [53.2129277, 6.5644972],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_0837232b29726518869efe0557c14875 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_de35859df646f0f1d3cf7b133054587c = $(`<div id="html_de35859df646f0f1d3cf7b133054587c" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 57</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2129277,6.5644972" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486589" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_0837232b29726518869efe0557c14875.setContent(html_de35859df646f0f1d3cf7b133054587c);
+            
+        
+
+        marker_5f6a4ce404b7f0628c1a524c2c084ef6.bindPopup(popup_0837232b29726518869efe0557c14875)
+        ;
+
+        
+    
+    
+            marker_5f6a4ce404b7f0628c1a524c2c084ef6.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 57
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_3d702814ff5b444974079a8720da9809 = L.marker(
+                [53.2125422, 6.5644174],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_8a836a7d620b7d6a6d16d4da939d0524 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_4fa6dcbd659f9a7214faaab3411e6bf5 = $(`<div id="html_4fa6dcbd659f9a7214faaab3411e6bf5" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 108</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2125422,6.5644174" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486621" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_8a836a7d620b7d6a6d16d4da939d0524.setContent(html_4fa6dcbd659f9a7214faaab3411e6bf5);
+            
+        
+
+        marker_3d702814ff5b444974079a8720da9809.bindPopup(popup_8a836a7d620b7d6a6d16d4da939d0524)
+        ;
+
+        
+    
+    
+            marker_3d702814ff5b444974079a8720da9809.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 108
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_ccf82d6ca6dce09fdec44570c2555fb5 = L.marker(
+                [53.2125506, 6.5638027],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_30c37afe700eff92ae5d172ec39ad09e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_dfe7923995e314c620e5a99448bac8ab = $(`<div id="html_dfe7923995e314c620e5a99448bac8ab" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 110</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2125506,6.5638027" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486627" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_30c37afe700eff92ae5d172ec39ad09e.setContent(html_dfe7923995e314c620e5a99448bac8ab);
+            
+        
+
+        marker_ccf82d6ca6dce09fdec44570c2555fb5.bindPopup(popup_30c37afe700eff92ae5d172ec39ad09e)
+        ;
+
+        
+    
+    
+            marker_ccf82d6ca6dce09fdec44570c2555fb5.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 110
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_0ef5bcd2879316091dbe0ccf3f22b16d = L.marker(
+                [53.2127442, 6.5632211],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_759b5652a615c1e77f2f48d839b2dd63 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9673183dfb3335b8069cace1a20d0e8f = $(`<div id="html_9673183dfb3335b8069cace1a20d0e8f" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 112</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2127442,6.5632211" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486835" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_759b5652a615c1e77f2f48d839b2dd63.setContent(html_9673183dfb3335b8069cace1a20d0e8f);
+            
+        
+
+        marker_0ef5bcd2879316091dbe0ccf3f22b16d.bindPopup(popup_759b5652a615c1e77f2f48d839b2dd63)
+        ;
+
+        
+    
+    
+            marker_0ef5bcd2879316091dbe0ccf3f22b16d.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 112
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_6ea60182d0bdfc0b2b54bd0c5263fd1b = L.marker(
+                [53.2130002, 6.563969],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_1d8ab520d570b77324dcbb33a921a597 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_6e7a1ad64dc3c3645c025b7ca854818c = $(`<div id="html_6e7a1ad64dc3c3645c025b7ca854818c" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 65</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2130002,6.563969" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486851" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_1d8ab520d570b77324dcbb33a921a597.setContent(html_6e7a1ad64dc3c3645c025b7ca854818c);
+            
+        
+
+        marker_6ea60182d0bdfc0b2b54bd0c5263fd1b.bindPopup(popup_1d8ab520d570b77324dcbb33a921a597)
+        ;
+
+        
+    
+    
+            marker_6ea60182d0bdfc0b2b54bd0c5263fd1b.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 65
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_6dd67512e429d495633bebf3331891bd = L.marker(
+                [53.2131066, 6.5635251],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_dcb5cc80233914892c911d53fb59d857 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_28e06949dae7dd61b2e19d1f0cfb6db6 = $(`<div id="html_28e06949dae7dd61b2e19d1f0cfb6db6" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 75</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2131066,6.5635251" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486859" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_dcb5cc80233914892c911d53fb59d857.setContent(html_28e06949dae7dd61b2e19d1f0cfb6db6);
+            
+        
+
+        marker_6dd67512e429d495633bebf3331891bd.bindPopup(popup_dcb5cc80233914892c911d53fb59d857)
+        ;
+
+        
+    
+    
+            marker_6dd67512e429d495633bebf3331891bd.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 75
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_9c6ad5d12a6c8dc2772572c0de810353 = L.marker(
+                [53.2131812, 6.563239],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_362934f285bddd53197af88811833acf = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a8f1e28d1d2e1768d3dfa44ad18a70fe = $(`<div id="html_a8f1e28d1d2e1768d3dfa44ad18a70fe" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 79</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2131812,6.563239" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486867" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_362934f285bddd53197af88811833acf.setContent(html_a8f1e28d1d2e1768d3dfa44ad18a70fe);
+            
+        
+
+        marker_9c6ad5d12a6c8dc2772572c0de810353.bindPopup(popup_362934f285bddd53197af88811833acf)
+        ;
+
+        
+    
+    
+            marker_9c6ad5d12a6c8dc2772572c0de810353.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 79
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_835be41114d6e05167bc508b9232273e = L.marker(
+                [53.2129266, 6.564777],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_d8adc82cb615d79ff8b4f617d43395ae = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7b2eaf98603009683fee7708372b2ad3 = $(`<div id="html_7b2eaf98603009683fee7708372b2ad3" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 53</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2129266,6.564777" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486874" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_d8adc82cb615d79ff8b4f617d43395ae.setContent(html_7b2eaf98603009683fee7708372b2ad3);
+            
+        
+
+        marker_835be41114d6e05167bc508b9232273e.bindPopup(popup_d8adc82cb615d79ff8b4f617d43395ae)
+        ;
+
+        
+    
+    
+            marker_835be41114d6e05167bc508b9232273e.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 53
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_47b4c3306095f57874b1705f257deccd = L.marker(
+                [53.2132929, 6.5657842],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_f3f909aa75f288e992d661857b67ece0 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_034f579541f4c9ec2beb380589d3ce53 = $(`<div id="html_034f579541f4c9ec2beb380589d3ce53" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiusstraat 32</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2132929,6.5657842" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486882" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_f3f909aa75f288e992d661857b67ece0.setContent(html_034f579541f4c9ec2beb380589d3ce53);
+            
+        
+
+        marker_47b4c3306095f57874b1705f257deccd.bindPopup(popup_f3f909aa75f288e992d661857b67ece0)
+        ;
+
+        
+    
+    
+            marker_47b4c3306095f57874b1705f257deccd.bindTooltip(
+                `<div>
+                     Ubbo Emmiusstraat 32
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_e7622a38e877f123d7dbdd678cb556bc = L.marker(
+                [53.213055555555556, 6.565833333333334],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_eb11a7e66fcbb54245957ef833c0f471 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_021e4c764d0f82f0d2c683d64d671345 = $(`<div id="html_021e4c764d0f82f0d2c683d64d671345" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiusstraat 34-34a Ubbo Emmiussingel 41</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.213055555555556,6.565833333333334" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486933" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_eb11a7e66fcbb54245957ef833c0f471.setContent(html_021e4c764d0f82f0d2c683d64d671345);
+            
+        
+
+        marker_e7622a38e877f123d7dbdd678cb556bc.bindPopup(popup_eb11a7e66fcbb54245957ef833c0f471)
+        ;
+
+        
+    
+    
+            marker_e7622a38e877f123d7dbdd678cb556bc.bindTooltip(
+                `<div>
+                     Ubbo Emmiusstraat 34-34a Ubbo Emmiussingel 41
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_e0dc21c586409cac172a0276bba13309 = L.marker(
+                [53.2130228, 6.5638764],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_a0142669bf0524c6b4d93d425c48ee17 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e1e290713465a4c35c4fbfc323cc4183 = $(`<div id="html_e1e290713465a4c35c4fbfc323cc4183" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 67</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2130228,6.5638764" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486939" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_a0142669bf0524c6b4d93d425c48ee17.setContent(html_e1e290713465a4c35c4fbfc323cc4183);
+            
+        
+
+        marker_e0dc21c586409cac172a0276bba13309.bindPopup(popup_a0142669bf0524c6b4d93d425c48ee17)
+        ;
+
+        
+    
+    
+            marker_e0dc21c586409cac172a0276bba13309.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 67
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_a657d5ef1659ef773346f191427aeffc = L.marker(
+                [53.2130432, 6.5637823],
+                {
+}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+        var popup_fa1172fd5e5ed35d9e70607c7d111221 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_098d77726dd56e039c94e87115c8f884 = $(`<div id="html_098d77726dd56e039c94e87115c8f884" style="width: 100.0%; height: 100.0%;"><b>Ubbo Emmiussingel 69</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2130432,6.5637823" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486946" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_fa1172fd5e5ed35d9e70607c7d111221.setContent(html_098d77726dd56e039c94e87115c8f884);
+            
+        
+
+        marker_a657d5ef1659ef773346f191427aeffc.bindPopup(popup_fa1172fd5e5ed35d9e70607c7d111221)
+        ;
+
+        
+    
+    
+            marker_a657d5ef1659ef773346f191427aeffc.bindTooltip(
+                `<div>
+                     Ubbo Emmiussingel 69
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_eb8b1c47938c1bbc1a201cc3526a2294 = L.polyline(
+                [[53.211607, 6.563545], [53.211635, 6.563549], [53.211664, 6.563565], [53.211702, 6.563384], [53.21172, 6.563381], [53.211743, 6.563342], [53.211751, 6.563323], [53.211758, 6.563305], [53.211774, 6.563246], [53.211967, 6.562392], [53.212076, 6.561875], [53.212098, 6.561887], [53.212123, 6.561783], [53.212234, 6.561712], [53.212283, 6.561704], [53.21238, 6.561773], [53.212415, 6.561797], [53.212614, 6.561938], [53.212742, 6.562029], [53.212857, 6.562109], [53.212861, 6.562091], [53.212875, 6.562043], [53.212888, 6.562005], [53.21291, 6.562038], [53.212961, 6.562093], [53.213013, 6.562132], [53.213067, 6.56217], [53.213122, 6.562204], [53.213196, 6.562246], [53.21327, 6.562285], [53.213326, 6.562309], [53.213383, 6.562329], [53.213456, 6.562347], [53.213531, 6.562359], [53.213571, 6.56236], [53.213601, 6.562361], [53.213652, 6.562367], [53.213824, 6.562526], [53.213807, 6.562594], [53.213548, 6.56354], [53.213467, 6.563838], [53.213419, 6.56395], [53.213428, 6.564051], [53.213419, 6.56395], [53.213467, 6.563838], [53.2136, 6.56377], [53.214116, 6.563543], [53.214261, 6.563537], [53.214413, 6.563553], [53.214442, 6.563557], [53.214451, 6.563621], [53.214447, 6.563687], [53.214471, 6.563691], [53.214487, 6.563693], [53.214502, 6.563695], [53.214524, 6.563699], [53.214555, 6.563704], [53.214587, 6.563708], [53.214614, 6.563712], [53.214625, 6.563714], [53.21462, 6.563819], [53.214655, 6.563827], [53.214699, 6.56384], [53.214791, 6.563861], [53.214839, 6.563864], [53.21482, 6.563999], [53.214816, 6.564245], [53.214849, 6.564476], [53.215012, 6.565179], [53.215029, 6.565262], [53.215012, 6.565179], [53.214626, 6.565323], [53.214607, 6.565334], [53.214558, 6.565362], [53.214556, 6.565522], [53.2145, 6.565531], [53.214466, 6.565536], [53.214414, 6.565544], [53.214417, 6.565443], [53.214368, 6.565471], [53.214323, 6.565497], [53.213566, 6.565628], [53.213288, 6.56566], [53.21305, 6.565687], [53.21305, 6.565687], [53.212949, 6.565699], [53.212887, 6.565707], [53.212874, 6.565362], [53.21285, 6.565234], [53.21284, 6.565006], [53.21283, 6.564789], [53.212829, 6.564757], [53.212831, 6.564616], [53.212833, 6.564508], [53.212836, 6.564473], [53.212856, 6.564263], [53.212883, 6.564069], [53.212911, 6.563921], [53.21292, 6.563877], [53.212935, 6.563815], [53.212958, 6.563723], [53.21302, 6.563475], [53.213023, 6.563463], [53.213099, 6.563178], [53.213122, 6.56309], [53.21313, 6.563057], [53.213142, 6.563027], [53.21316, 6.563], [53.21318, 6.56298], [53.213171, 6.562979], [53.213159, 6.562976], [53.213127, 6.562966], [53.213097, 6.562952], [53.213067, 6.562933], [53.213038, 6.562911], [53.213011, 6.562884], [53.212984, 6.562854], [53.21296, 6.56282], [53.212949, 6.562803], [53.212955, 6.562844], [53.212958, 6.562887], [53.212957, 6.562929], [53.212952, 6.56297], [53.212869, 6.563307], [53.212836, 6.563439], [53.21278, 6.563674], [53.212731, 6.563912], [53.212731, 6.563912], [53.212695, 6.564134], [53.212668, 6.564362], [53.212664, 6.564437], [53.212655, 6.564584], [53.212659, 6.56482], [53.212672, 6.565247], [53.212658, 6.565398], [53.212661, 6.565488], [53.212661, 6.565488], [53.212667, 6.565631], [53.212671, 6.56573], [53.21261, 6.565725], [53.21256, 6.56573], [53.212483, 6.565739], [53.212315, 6.565768], [53.212312, 6.565762], [53.212301, 6.565749], [53.212293, 6.565743], [53.21228, 6.565739], [53.212275, 6.565739], [53.212271, 6.565739], [53.212258, 6.565744], [53.21225, 6.565751], [53.21224, 6.565765], [53.212234, 6.565776], [53.212065, 6.565794], [53.211729, 6.565824], [53.211709, 6.565826], [53.21169, 6.565828], [53.211684, 6.565828], [53.211662, 6.565802], [53.211639, 6.565785], [53.211634, 6.565615], [53.21161, 6.565623], [53.211593, 6.565628], [53.21159, 6.565494], [53.21158, 6.565155], [53.21158, 6.564945], [53.211581, 6.564878], [53.211585, 6.564814], [53.211594, 6.564695], [53.211611, 6.564541], [53.211653, 6.56429], [53.211718, 6.563943], [53.211787, 6.563635], [53.211731, 6.563603], [53.211699, 6.563586], [53.211664, 6.563565], [53.211635, 6.563549], [53.211607, 6.563545]],
+                {"bubblingMouseEvents": true, "color": "#3388ff", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#3388ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.9, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+        
+    
+            var locate_control_9dbfd92e91fa7c4d9f51df09a3073422 = L.control.locate(
+                {"keepCurrentZoomLevel": true}
+            ).addTo(map_2aebb425b0a893c5364b28c4099def46);
+            
+        
+</script>
+</html>

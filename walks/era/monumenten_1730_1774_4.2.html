@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_805b63af84d64d117bb7f313afcb79ef {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.css"/>
+</head>
+<body>
+    
+    
+    <style>
+    .leaflet-tooltip {
+        font-size: 14px;
+        font-weight: bold;
+        color: darkblue;
+    }
+    .leaflet-popup-content {
+        font-size: 14px;
+        font-weight: bold;
+        color: darkblue;
+    }    </style>
+    
+    
+    <div style="
+        position: fixed;
+        bottom: 50px; left: 50px; width: 220px;
+        background-color: white;
+        border: 2px solid grey;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+        z-index:9999;
+        font-size:14px;
+    ">
+    <b>TSP langs monumenten gebouwd tussen 1730-1774</b><br>
+    Lengte: 4.2 km
+    </div>
+    
+    
+            <div class="folium-map" id="map_805b63af84d64d117bb7f313afcb79ef" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_805b63af84d64d117bb7f313afcb79ef = L.map(
+                "map_805b63af84d64d117bb7f313afcb79ef",
+                {
+                    center: [53.21857532345679, 6.5632924419753085],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 16,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_e0af83690fdbf081a640c7831a96266b = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_e0af83690fdbf081a640c7831a96266b.addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+            var marker_c93e45c81c2d311ebafecd63078179c4 = L.marker(
+                [53.2182667, 6.568321],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_a7c03974750aee59e0da93dacb830cb2 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9712233e1bfaff4278a77b341e1edbbb = $(`<div id="html_9712233e1bfaff4278a77b341e1edbbb" style="width: 100.0%; height: 100.0%;"><b>Grote Markt 36</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2182667,6.568321" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18469" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_a7c03974750aee59e0da93dacb830cb2.setContent(html_9712233e1bfaff4278a77b341e1edbbb);
+            
+        
+
+        marker_c93e45c81c2d311ebafecd63078179c4.bindPopup(popup_a7c03974750aee59e0da93dacb830cb2)
+        ;
+
+        
+    
+    
+            marker_c93e45c81c2d311ebafecd63078179c4.bindTooltip(
+                `<div>
+                     Grote Markt 36
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_1b69b5205f295b3e42485bd2c4c58f75 = L.marker(
+                [53.2196259, 6.5593201],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_07af6d3449f1b1b9177f26996b85a681 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d9a4cfba78c80b45185b6218ae3f9e2b = $(`<div id="html_d9a4cfba78c80b45185b6218ae3f9e2b" style="width: 100.0%; height: 100.0%;"><b>Hoekstraat 44</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2196259,6.5593201" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18507" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_07af6d3449f1b1b9177f26996b85a681.setContent(html_d9a4cfba78c80b45185b6218ae3f9e2b);
+            
+        
+
+        marker_1b69b5205f295b3e42485bd2c4c58f75.bindPopup(popup_07af6d3449f1b1b9177f26996b85a681)
+        ;
+
+        
+    
+    
+            marker_1b69b5205f295b3e42485bd2c4c58f75.bindTooltip(
+                `<div>
+                     Hoekstraat 44
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_4484e80603ca0fa3aa4b21cd3000d4a9 = L.marker(
+                [53.2205808, 6.5575324],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_dc1dc0a79d0ebeaa7dabedd3949591df = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7bc05a733b9b375ede5ed27ad947bd24 = $(`<div id="html_7bc05a733b9b375ede5ed27ad947bd24" style="width: 100.0%; height: 100.0%;"><b>Zoutstraat 16</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2205808,6.5575324" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18738" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_dc1dc0a79d0ebeaa7dabedd3949591df.setContent(html_7bc05a733b9b375ede5ed27ad947bd24);
+            
+        
+
+        marker_4484e80603ca0fa3aa4b21cd3000d4a9.bindPopup(popup_dc1dc0a79d0ebeaa7dabedd3949591df)
+        ;
+
+        
+    
+    
+            marker_4484e80603ca0fa3aa4b21cd3000d4a9.bindTooltip(
+                `<div>
+                     Zoutstraat 16
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_cef56262cd920dba8a269254773d5f89 = L.marker(
+                [53.220555555555556, 6.557777777777778],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_e059d95a3bf18a53f1684f2134691d0c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_72f2af9e720a7c0072f63ff8b3340883 = $(`<div id="html_72f2af9e720a7c0072f63ff8b3340883" style="width: 100.0%; height: 100.0%;"><b>Havenstraat 12 Zoutstraat 17</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.220555555555556,6.557777777777778" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18496" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_e059d95a3bf18a53f1684f2134691d0c.setContent(html_72f2af9e720a7c0072f63ff8b3340883);
+            
+        
+
+        marker_cef56262cd920dba8a269254773d5f89.bindPopup(popup_e059d95a3bf18a53f1684f2134691d0c)
+        ;
+
+        
+    
+    
+            marker_cef56262cd920dba8a269254773d5f89.bindTooltip(
+                `<div>
+                     Havenstraat 12 Zoutstraat 17
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_e19868430c81b9509f3ed3a9baa7f363 = L.marker(
+                [53.216909, 6.5621891],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_a251a8753ce7b72346c50f88fc3be4c5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e390e42e2e163c73f2c7901b76b0d188 = $(`<div id="html_e390e42e2e163c73f2c7901b76b0d188" style="width: 100.0%; height: 100.0%;"><b>Akerkhof 33</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.216909,6.5621891" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18421" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_a251a8753ce7b72346c50f88fc3be4c5.setContent(html_e390e42e2e163c73f2c7901b76b0d188);
+            
+        
+
+        marker_e19868430c81b9509f3ed3a9baa7f363.bindPopup(popup_a251a8753ce7b72346c50f88fc3be4c5)
+        ;
+
+        
+    
+    
+            marker_e19868430c81b9509f3ed3a9baa7f363.bindTooltip(
+                `<div>
+                     Akerkhof 33
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_0fabff4029ab4d8501313b5d70b305ff = L.marker(
+                [53.2206128, 6.5635005],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_37df3c55057a68fcdb30b941e7242694 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8a72bf3f5b67db8340a7d57bd569bd28 = $(`<div id="html_8a72bf3f5b67db8340a7d57bd569bd28" style="width: 100.0%; height: 100.0%;"><b>Oude Boteringestraat 63</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2206128,6.5635005" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18621" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_37df3c55057a68fcdb30b941e7242694.setContent(html_8a72bf3f5b67db8340a7d57bd569bd28);
+            
+        
+
+        marker_0fabff4029ab4d8501313b5d70b305ff.bindPopup(popup_37df3c55057a68fcdb30b941e7242694)
+        ;
+
+        
+    
+    
+            marker_0fabff4029ab4d8501313b5d70b305ff.bindTooltip(
+                `<div>
+                     Oude Boteringestraat 63
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_efbef7bc77649f260fcad5ef11bd1db0 = L.marker(
+                [53.216166, 6.5706947],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_9c1dfabfe682929699007d091e7b192e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8749f054c359c8e2459e02afc6d564eb = $(`<div id="html_8749f054c359c8e2459e02afc6d564eb" style="width: 100.0%; height: 100.0%;"><b>Oosterstraat 69</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.216166,6.5706947" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18606" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_9c1dfabfe682929699007d091e7b192e.setContent(html_8749f054c359c8e2459e02afc6d564eb);
+            
+        
+
+        marker_efbef7bc77649f260fcad5ef11bd1db0.bindPopup(popup_9c1dfabfe682929699007d091e7b192e)
+        ;
+
+        
+    
+    
+            marker_efbef7bc77649f260fcad5ef11bd1db0.bindTooltip(
+                `<div>
+                     Oosterstraat 69
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_7c86f80f378f8cf84c9ec938cf686545 = L.marker(
+                [53.2197721, 6.5607988],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_9da071919cc38b01a529a1621b196133 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_652b251d6a24c0d260b1f44d0e9c9e69 = $(`<div id="html_652b251d6a24c0d260b1f44d0e9c9e69" style="width: 100.0%; height: 100.0%;"><b>Visserstraat 13</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2197721,6.5607988" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18727" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_9da071919cc38b01a529a1621b196133.setContent(html_652b251d6a24c0d260b1f44d0e9c9e69);
+            
+        
+
+        marker_7c86f80f378f8cf84c9ec938cf686545.bindPopup(popup_9da071919cc38b01a529a1621b196133)
+        ;
+
+        
+    
+    
+            marker_7c86f80f378f8cf84c9ec938cf686545.bindTooltip(
+                `<div>
+                     Visserstraat 13
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_6327d78092413706f6a879ed212491fd = L.marker(
+                [53.2164618, 6.5725762],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_91a0a8b36e91c84e239290d0b89f3fd8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1fd32e5e26eda313fff4e7186de0de38 = $(`<div id="html_1fd32e5e26eda313fff4e7186de0de38" style="width: 100.0%; height: 100.0%;"><b>Steentilstraat 12-14</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2164618,6.5725762" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18694" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_91a0a8b36e91c84e239290d0b89f3fd8.setContent(html_1fd32e5e26eda313fff4e7186de0de38);
+            
+        
+
+        marker_6327d78092413706f6a879ed212491fd.bindPopup(popup_91a0a8b36e91c84e239290d0b89f3fd8)
+        ;
+
+        
+    
+    
+            marker_6327d78092413706f6a879ed212491fd.bindTooltip(
+                `<div>
+                     Steentilstraat 12-14
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_9ca6526c854a85bc7664709dc8732a4a = L.marker(
+                [53.2167051, 6.5700295],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_991c049663bb126c0649760978ca84ad = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_db1d91af5047fe31f4f34497254c056d = $(`<div id="html_db1d91af5047fe31f4f34497254c056d" style="width: 100.0%; height: 100.0%;"><b>Oosterstraat 53</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2167051,6.5700295" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18605" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_991c049663bb126c0649760978ca84ad.setContent(html_db1d91af5047fe31f4f34497254c056d);
+            
+        
+
+        marker_9ca6526c854a85bc7664709dc8732a4a.bindPopup(popup_991c049663bb126c0649760978ca84ad)
+        ;
+
+        
+    
+    
+            marker_9ca6526c854a85bc7664709dc8732a4a.bindTooltip(
+                `<div>
+                     Oosterstraat 53
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_4ed749df628e41342b38326200e4cce6 = L.marker(
+                [53.2163609, 6.5641351],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_49fb6141537801056f0ea8483cb49ffb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1506a1fa0ea73d1e38bce9a06cf664bc = $(`<div id="html_1506a1fa0ea73d1e38bce9a06cf664bc" style="width: 100.0%; height: 100.0%;"><b>Folkingestraat 7</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2163609,6.5641351" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18451" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_49fb6141537801056f0ea8483cb49ffb.setContent(html_1506a1fa0ea73d1e38bce9a06cf664bc);
+            
+        
+
+        marker_4ed749df628e41342b38326200e4cce6.bindPopup(popup_49fb6141537801056f0ea8483cb49ffb)
+        ;
+
+        
+    
+    
+            marker_4ed749df628e41342b38326200e4cce6.bindTooltip(
+                `<div>
+                     Folkingestraat 7
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_a41ec19aaa81abfc9a83acff4ed845a7 = L.marker(
+                [53.2218994, 6.5625624],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_fe952cf9ab584370b71c96ee2b02662f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2fe663dcb57ffc08f7d0d8f545e8b8c6 = $(`<div id="html_2fe663dcb57ffc08f7d0d8f545e8b8c6" style="width: 100.0%; height: 100.0%;"><b>Ossenmarkt 4-4a</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2218994,6.5625624" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18610" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_fe952cf9ab584370b71c96ee2b02662f.setContent(html_2fe663dcb57ffc08f7d0d8f545e8b8c6);
+            
+        
+
+        marker_a41ec19aaa81abfc9a83acff4ed845a7.bindPopup(popup_fe952cf9ab584370b71c96ee2b02662f)
+        ;
+
+        
+    
+    
+            marker_a41ec19aaa81abfc9a83acff4ed845a7.bindTooltip(
+                `<div>
+                     Ossenmarkt 4-4a
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_6ac191c1fdf96e4bc599f41cfb56e260 = L.marker(
+                [53.219166666666666, 6.557777777777778],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_270eb2a04cf81c96e2f93ac18588d2f6 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_4ff548d529ec695fc5ce62adc4d1fa3e = $(`<div id="html_4ff548d529ec695fc5ce62adc4d1fa3e" style="width: 100.0%; height: 100.0%;"><b>Noorderhaven 72 Vishoek 2</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.219166666666666,6.557777777777778" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18599" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_270eb2a04cf81c96e2f93ac18588d2f6.setContent(html_4ff548d529ec695fc5ce62adc4d1fa3e);
+            
+        
+
+        marker_6ac191c1fdf96e4bc599f41cfb56e260.bindPopup(popup_270eb2a04cf81c96e2f93ac18588d2f6)
+        ;
+
+        
+    
+    
+            marker_6ac191c1fdf96e4bc599f41cfb56e260.bindTooltip(
+                `<div>
+                     Noorderhaven 72 Vishoek 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_30413b05d9ac50c441ff1db36bc0a3fc = L.marker(
+                [53.2221091, 6.5621699],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_2718018c33aeca1b1fc87fa3373b61f1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3dab7ce17d5a83d764ede954f7aa3810 = $(`<div id="html_3dab7ce17d5a83d764ede954f7aa3810" style="width: 100.0%; height: 100.0%;"><b>Ossenmarkt 3</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2221091,6.5621699" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18609" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_2718018c33aeca1b1fc87fa3373b61f1.setContent(html_3dab7ce17d5a83d764ede954f7aa3810);
+            
+        
+
+        marker_30413b05d9ac50c441ff1db36bc0a3fc.bindPopup(popup_2718018c33aeca1b1fc87fa3373b61f1)
+        ;
+
+        
+    
+    
+            marker_30413b05d9ac50c441ff1db36bc0a3fc.bindTooltip(
+                `<div>
+                     Ossenmarkt 3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_c1dabb986d6740fee9996c3275c237ee = L.marker(
+                [53.2165676, 6.5586429],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_adfd2c97b880a0c016d6648da27fc642 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e5c0b12983fc3dcf2f98fa3ad15be812 = $(`<div id="html_e5c0b12983fc3dcf2f98fa3ad15be812" style="width: 100.0%; height: 100.0%;"><b>Astraat 10</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2165676,6.5586429" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18427" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_adfd2c97b880a0c016d6648da27fc642.setContent(html_e5c0b12983fc3dcf2f98fa3ad15be812);
+            
+        
+
+        marker_c1dabb986d6740fee9996c3275c237ee.bindPopup(popup_adfd2c97b880a0c016d6648da27fc642)
+        ;
+
+        
+    
+    
+            marker_c1dabb986d6740fee9996c3275c237ee.bindTooltip(
+                `<div>
+                     Astraat 10
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_a95032d34d768dce145f87716e42b506 = L.marker(
+                [53.2189548, 6.564719],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_70ce09388b019c10d9345530a5ea1406 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_375668452c2bfd73c6394a7b90907409 = $(`<div id="html_375668452c2bfd73c6394a7b90907409" style="width: 100.0%; height: 100.0%;"><b>Oude Boteringestraat 12</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2189548,6.564719" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18629" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_70ce09388b019c10d9345530a5ea1406.setContent(html_375668452c2bfd73c6394a7b90907409);
+            
+        
+
+        marker_a95032d34d768dce145f87716e42b506.bindPopup(popup_70ce09388b019c10d9345530a5ea1406)
+        ;
+
+        
+    
+    
+            marker_a95032d34d768dce145f87716e42b506.bindTooltip(
+                `<div>
+                     Oude Boteringestraat 12
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_1a47b3c10f24f42d41436484531e003b = L.marker(
+                [53.2179125, 6.5594598],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_691ef34321172c16d5fbab8a8b252f2e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ecdc337f02f59c763bd8ce48fc7bf98e = $(`<div id="html_ecdc337f02f59c763bd8ce48fc7bf98e" style="width: 100.0%; height: 100.0%;"><b>Hoge der A 17</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2179125,6.5594598" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18522" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_691ef34321172c16d5fbab8a8b252f2e.setContent(html_ecdc337f02f59c763bd8ce48fc7bf98e);
+            
+        
+
+        marker_1a47b3c10f24f42d41436484531e003b.bindPopup(popup_691ef34321172c16d5fbab8a8b252f2e)
+        ;
+
+        
+    
+    
+            marker_1a47b3c10f24f42d41436484531e003b.bindTooltip(
+                `<div>
+                     Hoge der A 17
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_9c16772aa11f590b360f0f0aa97d3166 = L.marker(
+                [53.2157291, 6.567057],
+                {
+}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+        var popup_f219e9cebe4e02fa117b5d8238a53a54 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a73a324c324e2294138045e8c827efb5 = $(`<div id="html_a73a324c324e2294138045e8c827efb5" style="width: 100.0%; height: 100.0%;"><b>Pelsterstraat 39</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2157291,6.567057" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18653" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_f219e9cebe4e02fa117b5d8238a53a54.setContent(html_a73a324c324e2294138045e8c827efb5);
+            
+        
+
+        marker_9c16772aa11f590b360f0f0aa97d3166.bindPopup(popup_f219e9cebe4e02fa117b5d8238a53a54)
+        ;
+
+        
+    
+    
+            marker_9c16772aa11f590b360f0f0aa97d3166.bindTooltip(
+                `<div>
+                     Pelsterstraat 39
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_7bbbc2c56f70162fc3fb38a123acbb1a = L.polyline(
+                [[53.218356, 6.568294], [53.218359, 6.568326], [53.218361, 6.568611], [53.21835, 6.568721], [53.21834, 6.568935], [53.21832, 6.568981], [53.218292, 6.569023], [53.218272, 6.569035], [53.218235, 6.569055], [53.218081, 6.569142], [53.217538, 6.569563], [53.217373, 6.569688], [53.217294, 6.569743], [53.217202, 6.569806], [53.216831, 6.570098], [53.21677, 6.570175], [53.21663, 6.570351], [53.216199, 6.57096], [53.216149, 6.571035], [53.216109, 6.571111], [53.216078, 6.571168], [53.216056, 6.571211], [53.216043, 6.571235], [53.216018, 6.571277], [53.215994, 6.571315], [53.215977, 6.571334], [53.216019, 6.571435], [53.216242, 6.571981], [53.216423, 6.572467], [53.216462, 6.572576], [53.216423, 6.572467], [53.216242, 6.571981], [53.216019, 6.571435], [53.215977, 6.571334], [53.215994, 6.571315], [53.216018, 6.571277], [53.216043, 6.571235], [53.216056, 6.571211], [53.216078, 6.571168], [53.216109, 6.571111], [53.216149, 6.571035], [53.216199, 6.57096], [53.216128, 6.570728], [53.215788, 6.56962], [53.216198, 6.569234], [53.215908, 6.56842], [53.215852, 6.568257], [53.215903, 6.568216], [53.215858, 6.568065], [53.215663, 6.567417], [53.215617, 6.567272], [53.215625, 6.567266], [53.215685, 6.567215], [53.215758, 6.567156], [53.216493, 6.56656], [53.216769, 6.566352], [53.216934, 6.566237], [53.217045, 6.566164], [53.216955, 6.565858], [53.216756, 6.565167], [53.216678, 6.565224], [53.216541, 6.56534], [53.216355, 6.564436], [53.216321, 6.564272], [53.216385, 6.564224], [53.216688, 6.563995], [53.216745, 6.563984], [53.216762, 6.56398], [53.216871, 6.563897], [53.217033, 6.563776], [53.217058, 6.56376], [53.217042, 6.563695], [53.217098, 6.563654], [53.216951, 6.562976], [53.216841, 6.562375], [53.216885, 6.562355], [53.216926, 6.562335], [53.216936, 6.56233], [53.216926, 6.562335], [53.216885, 6.562355], [53.216841, 6.562375], [53.216679, 6.561435], [53.216658, 6.561302], [53.216628, 6.561109], [53.216608, 6.560604], [53.216604, 6.560506], [53.216604, 6.560219], [53.216616, 6.559752], [53.216594, 6.559647], [53.216606, 6.559542], [53.216624, 6.559232], [53.21663, 6.559153], [53.216643, 6.558869], [53.216638, 6.558639], [53.216643, 6.558869], [53.21663, 6.559153], [53.216624, 6.559232], [53.216606, 6.559542], [53.216594, 6.559647], [53.21691, 6.559677], [53.217019, 6.559668], [53.217114, 6.559661], [53.217145, 6.559659], [53.217349, 6.559604], [53.217479, 6.559555], [53.217561, 6.559524], [53.217626, 6.5595], [53.217742, 6.559442], [53.217866, 6.559339], [53.217866, 6.559339], [53.217944, 6.559268], [53.218087, 6.559124], [53.218178, 6.559], [53.218328, 6.558771], [53.21857, 6.558446], [53.21879, 6.558213], [53.218879, 6.558144], [53.21881, 6.557926], [53.218801, 6.557897], [53.218919, 6.557784], [53.219107, 6.557603], [53.219227, 6.557487], [53.219278, 6.557467], [53.21931, 6.557478], [53.219337, 6.55751], [53.219429, 6.557703], [53.219606, 6.558164], [53.219386, 6.558404], [53.21966, 6.559268], [53.219666, 6.559287], [53.219715, 6.55945], [53.219911, 6.56006], [53.2201, 6.560662], [53.220287, 6.561219], [53.219959, 6.561477], [53.219933, 6.561404], [53.219772, 6.560907], [53.219745, 6.560824], [53.219772, 6.560907], [53.219933, 6.561404], [53.219959, 6.561477], [53.220287, 6.561219], [53.220586, 6.560993], [53.220617, 6.560969], [53.220664, 6.560934], [53.220884, 6.560775], [53.220946, 6.560732], [53.220964, 6.56072], [53.220936, 6.560611], [53.220893, 6.560454], [53.220843, 6.560298], [53.22058, 6.559462], [53.220324, 6.558622], [53.220138, 6.558056], [53.220319, 6.557887], [53.220358, 6.557868], [53.220388, 6.557853], [53.220617, 6.557643], [53.220536, 6.557717], [53.220388, 6.557853], [53.220358, 6.557868], [53.220319, 6.557887], [53.220138, 6.558056], [53.220324, 6.558622], [53.22058, 6.559462], [53.220843, 6.560298], [53.220893, 6.560454], [53.220936, 6.560611], [53.220964, 6.56072], [53.220991, 6.56082], [53.221154, 6.561437], [53.221182, 6.561407], [53.221353, 6.561229], [53.221544, 6.561031], [53.221567, 6.561022], [53.221593, 6.561043], [53.221746, 6.561449], [53.221946, 6.561948], [53.221974, 6.562028], [53.222053, 6.562239], [53.221974, 6.562028], [53.22195, 6.56206], [53.221916, 6.562105], [53.222034, 6.562424], [53.221916, 6.562105], [53.221754, 6.56232], [53.221553, 6.56262], [53.221529, 6.562656], [53.221488, 6.56272], [53.221461, 6.562756], [53.221436, 6.562781], [53.221408, 6.562703], [53.221376, 6.56273], [53.221284, 6.562811], [53.221187, 6.562896], [53.221154, 6.562925], [53.220888, 6.563146], [53.220582, 6.563392], [53.220512, 6.563448], [53.220179, 6.563719], [53.219957, 6.563902], [53.2198, 6.564044], [53.219792, 6.564052], [53.219404, 6.564448], [53.219241, 6.564623], [53.219191, 6.56466], [53.219084, 6.564766], [53.219001, 6.564848], [53.218954, 6.564895], [53.218897, 6.564952], [53.218759, 6.565116], [53.21862, 6.565295], [53.21863, 6.565329], [53.218554, 6.565427], [53.218396, 6.565629], [53.218404, 6.56565], [53.218419, 6.565691], [53.218517, 6.565956], [53.218543, 6.566064], [53.218559, 6.566131], [53.218671, 6.566572], [53.218836, 6.567234], [53.218783, 6.56729], [53.218687, 6.567428], [53.218472, 6.567747], [53.218422, 6.567788], [53.218284, 6.567868], [53.218297, 6.567914], [53.218337, 6.568122], [53.218356, 6.568294]],
+                {"bubblingMouseEvents": true, "color": "#3388ff", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#3388ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.9, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+        
+    
+            var locate_control_45b4682b1bc52ef0d7c9ebfbada597ae = L.control.locate(
+                {"keepCurrentZoomLevel": true}
+            ).addTo(map_805b63af84d64d117bb7f313afcb79ef);
+            
+        
+</script>
+</html>

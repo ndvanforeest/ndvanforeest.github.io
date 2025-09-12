@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Section 5.2</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="/css/tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/ox-tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/pygments.css" type="text/css" />
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+<script>
+  window.MathJax = {
+    tex: {
+      macros: {
+        argmin: ["\\mathop{\\mathrm{arg\\,min}}", 0],
+        argmax: ["\\mathop{\\mathrm{arg\\,max}}", 0],
+        abs: ["\\left\\vert#1\\right\\vert", 1],
+        given: ["\\,\\middle|\\,", 0],
+        mineq: "\\mathrel{-}=",
+        pluseq: "\\mathrel{+}=",
+        supp: ["\\mathrm{supp}\\left(#1\\right)", 1],
+        B: "\\mathbb{B}",
+        C: "\\mathcal{C}",
+        d: "\\,\\textrm{d}",
+        E: ["\\mathsf{E}\\left[#1\\right]", 1],
+        F: "\\mathcal{F}",
+        N: "\\mathbb{N}",
+        P: ["\\mathsf{P}\\left\\{#1\\right\\}", 1],
+        R: "\\mathbb{R}",
+        V: ["\\mathsf{V}\\left[#1\\right]", 1],
+        Z: "\\mathbb{Z}",
+        Bin: ["\\mathrm{Bin}(#1)", 1],
+        Exp: ["\\mathrm{Exp}(#1)", 1],
+        FS: ["\\mathrm{FS}(#1)", 1],
+        Gamm: ["\\mathrm{Gamm}(#1)", 1],
+        Geo: ["\\mathrm{Geo}(#1)", 1],
+        HGeom: ["\\mathrm{HGeom}(#1)", 1],
+        Norm: ["\\mathrm{Norm}(#1)", 1],
+        Pois: ["\\mathrm{Pois}(#1)", 1],
+        Unif: ["\\mathrm{Unif}(#1)", 1],
+        "1": ["\\mathbb{1}\\left\\{#1\\right\\}", 1],
+      },
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header id="preamble" class="status">
+<header class='site-header'>
+  <div class='site-header-container'>
+    <a href="https://ndvanforeest.github.io/">
+    <img src="/img/harry.jpg" alt='parsec logo' class='site-logo'>
+    </a>
+      <div class='site-title-container'>
+        <h1 class='site-title'>Nicky&rsquo;s site</h1>
+      </div>
+    </div>
+</header>
+<hr class='menu-divider'>
+<nav class='menu'>
+  <ul>
+    <li><a href='/index.html'>Home</a></li>
+    <li><a href='/about_this_site.html'>About this site</a></li>
+    <li><a href='/bio.html'>Bio</a></li>
+    <li><a href='/books.html'>Books</a></li>
+  </ul>
+</nav>
+<hr class='menu-divider'>
+</header>
+<article id="content" class="content">
+<header>
+<h1 class="title">Section 5.2</h1>
+</header><div class="highlight"><pre><span></span><span class="w">  </span><span class="p">(</span><span class="nf">make-variable-buffer-local</span><span class="w"> </span><span class="ss">&#39;org-latex-title-command</span><span class="p">)</span>
+<span class="w">  </span><span class="c1">; (setq org-latex-title-command (concat &quot;\\chapter{%t}\n&quot;))</span>
+</pre></div>
+<section id="outline-container-orgee35afe" class="outline-2">
+<h2 id="orgee35afe"><span class="section-number-2">1.</span> General Canonical Transformations</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I found the analysis in the first part of Section 5.2 somewhat strange: why do all this coding when it turns out that it&rsquo;s easiest to express the canonical condition in terms of a matrix equation? I therefore skip this first part, and move to symplectic matrices straightaway.
+</p>
+</div>
+<div id="outline-container-org99c01cb" class="outline-3">
+<h3 id="org99c01cb"><span class="section-number-3">1.1.</span> The standard imports.</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="highlight"><pre><span></span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;utils5.1.sage&quot;</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;utils5.2.sage&quot;</span><span class="p">)</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;real&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;show_expression.sage&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org7925b9e" class="outline-3">
+<h3 id="org7925b9e"><span class="section-number-3">1.2.</span> Symplectic matrices</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+We start with building the symplectic unit.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">symplectic_unit</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">identity_matrix</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">block_matrix</span><span class="p">([[</span><span class="n">zero_matrix</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">I</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">I</span><span class="p">,</span> <span class="n">zero_matrix</span><span class="p">(</span><span class="n">n</span><span class="p">)]])</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="n">symplectic_unit</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Now we make the test on whether a matrix is symplectic or not.
+Two remarks:
+</p>
+<ol class="org-ol">
+<li>Sometimes Sagemath seems to miss that \(\sqrt{x}/\sqrt{x} = 1\), even after adding the assumption that \(x\) is positive. This turned out to be problematic when running this test on examples below. It turned out that expanding the matrix \(M\) resolved this type of problem.</li>
+<li>I like to see the output in case the transformation is not symplectic, hence the print statement at the end.</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">is_symplectic_matrix</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">nrows</span><span class="p">()</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">symplectic_unit</span><span class="p">(</span><span class="n">n</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">sage</span><span class="o">.</span><span class="n">matrix</span><span class="o">.</span><span class="n">matrix_symbolic_dense</span><span class="o">.</span><span class="n">Matrix_symbolic_dense</span><span class="p">):</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">M</span> <span class="o">*</span> <span class="n">J</span> <span class="o">*</span> <span class="n">M</span><span class="o">.</span><span class="n">transpose</span><span class="p">())</span><span class="o">.</span><span class="n">simplify_full</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">M</span> <span class="o">*</span> <span class="n">J</span> <span class="o">*</span> <span class="n">M</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">res</span> <span class="o">==</span> <span class="n">J</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">res</span> <span class="o">-</span> <span class="n">J</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+<p>
+We can test this code on a symplectic unit \(J\).
+Let&rsquo;s fill in \(J=A\) in the relation \(J = A J A^{T}\).
+This then becomes \(J J J^{T} = J J J^{-1} = J\), since \(J^{-1} = J^{T}\). We conclude that \(J\) is a symplectic matrix itself.
+</p>
+<div class="highlight"><pre><span></span><span class="n">J</span> <span class="o">=</span> <span class="n">symplectic_unit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="n">is_symplectic_matrix</span><span class="p">(</span><span class="n">J</span><span class="p">))</span>
+</pre></div>
+
+<p>
+The next important function is the test on whether a transformation is symplectic, which depends on a few other functions that we will build below.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">is_symplectic_transform</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
+    <span class="k">return</span> <span class="k">lambda</span> <span class="n">state</span><span class="p">:</span> <span class="n">compose</span><span class="p">(</span>
+        <span class="n">is_symplectic_matrix</span><span class="p">,</span> <span class="n">qp_submatrix</span><span class="p">,</span> <span class="n">D_as_matrix</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+    <span class="p">)(</span><span class="n">state</span><span class="p">)</span>
+</pre></div>
+
+<p>
+The function <code>qp_submatrix</code> is easy.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">qp_submatrix</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">M</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">1</span><span class="p">:]</span>
+</pre></div>
+
+<p>
+The function <code>D_as_matrix</code> requires some more work.
+It takes a phase-space transformation \(C\) as argument, that is, a map from \(\text{up}(t, q', p')\) to \(\text{up}(t, q, p)\), and returns a function that operates on the state \(\text{up}(t, q', p')\) to produce the derivativ \(D C\) in matrix form.
+Thus, we need a function to convert tuples to vectors, and another function that lets \(C\) operate on vectors instead of tuples.
+Once we have this, we can apply Sagemath&rsquo;s <code>jacobian</code> to compute the derivative of the functions <code>vmap(vec)</code> with respect to the vectorized up-tuple <code>state</code>.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">D_as_matrix</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+        <span class="n">vec</span> <span class="o">=</span> <span class="n">up_to_vector</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="n">vmap</span> <span class="o">=</span> <span class="n">to_vector_map</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+        <span class="c1">#return jacobian(vmap(vec), vec).simplify_full()</span>
+        <span class="k">return</span> <span class="n">jacobian</span><span class="p">(</span><span class="n">vmap</span><span class="p">(</span><span class="n">state</span><span class="p">),</span> <span class="n">vec</span><span class="p">)</span><span class="o">.</span><span class="n">simplify_full</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">f</span>
+</pre></div>
+
+<p>
+In Sagemath we work with matrices and vectors instead of up and down tuples.
+Note that we give up on whether coordinates and momenta are standing or lying vectors.
+Everything becomes just a vector.
+This is of course a consequence of the use of symplectic matrices.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">up_to_vector</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">vector</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">time</span><span class="p">(</span><span class="n">state</span><span class="p">),</span> <span class="o">*</span><span class="n">coordinate</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">list</span><span class="p">(),</span> <span class="o">*</span><span class="n">momentum</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">list</span><span class="p">()]</span>
+    <span class="p">)</span>
+</pre></div>
+
+
+<p>
+Here is a test.
+</p>
+<div class="highlight"><pre><span></span><span class="n">var</span><span class="p">(</span><span class="s2">&quot;r, phi, p_r, p_phi&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;real&quot;</span><span class="p">)</span>
+<span class="n">assume</span><span class="p">(</span><span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">r_phi</span> <span class="o">=</span> <span class="n">up</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">column_matrix</span><span class="p">([</span><span class="n">r</span><span class="p">,</span> <span class="n">phi</span><span class="p">]),</span> <span class="n">row_matrix</span><span class="p">([</span><span class="n">p_r</span><span class="p">,</span> <span class="n">p_phi</span><span class="p">]))</span>
+</pre></div>
+
+<p>
+The functions should be each others inverse.
+</p>
+<div class="highlight"><pre><span></span><span class="n">vec</span> <span class="o">=</span> <span class="n">up_to_vector</span><span class="p">(</span><span class="n">r_phi</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
+</pre></div>
+
+<p>
+Point transformations can be used as canonical transformations.
+So this case forms a more serious test.
+</p>
+<div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="n">up_to_vector</span><span class="p">(</span><span class="n">F_to_CH</span><span class="p">(</span><span class="n">p_to_r</span><span class="p">)(</span><span class="n">r_phi</span><span class="p">))</span><span class="o">.</span><span class="n">simplify_full</span><span class="p">())</span>
+</pre></div>
+
+<p>
+The other function is <code>to_vector_map(C)</code>.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">to_vector_map</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">compose</span><span class="p">(</span><span class="n">up_to_vector</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="n">to_vector_map</span><span class="p">(</span><span class="n">F_to_CH</span><span class="p">(</span><span class="n">p_to_r</span><span class="p">))(</span><span class="n">r_phi</span><span class="p">)</span><span class="o">.</span><span class="n">simplify_full</span><span class="p">())</span>
+</pre></div>
+
+<p>
+We can test whether the transformation to polar coordinates is canonical.
+</p>
+<div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="n">is_symplectic_transform</span><span class="p">(</span><span class="n">F_to_CH</span><span class="p">(</span><span class="n">p_to_r</span><span class="p">))(</span><span class="n">r_phi</span><span class="p">))</span>
+</pre></div>
+
+<p>
+This is a test for a general 2D point transformation.
+It took me a bit of time to see how to translate the next Scheme code.
+</p>
+<div class="highlight"><pre><span></span>(define (F s)
+  ((literal-function &#39;F
+    (-&gt; (X Real (UP Real Real)) (UP Real Real))
+    (time s)
+    (coordinates s)))
+</pre></div>
+<p>
+In Sagemath this becomes:
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">F</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+    <span class="n">t</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">local</span><span class="p">),</span> <span class="n">coordinate</span><span class="p">(</span><span class="n">local</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vector</span><span class="p">([</span><span class="n">function</span><span class="p">(</span><span class="s2">&quot;f&quot;</span><span class="p">)(</span><span class="n">t</span><span class="p">,</span> <span class="o">*</span><span class="n">q</span><span class="p">),</span> <span class="n">function</span><span class="p">(</span><span class="s2">&quot;g&quot;</span><span class="p">)(</span><span class="n">t</span><span class="p">,</span> <span class="o">*</span><span class="n">q</span><span class="p">)])</span>
+</pre></div>
+
+<p>
+The next check takes some time to complete.
+</p>
+<div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="s2">&quot;y p_x p_y&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;real&quot;</span><span class="p">)</span>
+<span class="n">xy</span> <span class="o">=</span> <span class="n">up</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">vector</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]),</span> <span class="n">vector</span><span class="p">([</span><span class="n">p_x</span><span class="p">,</span> <span class="n">p_y</span><span class="p">]))</span>
+
+<span class="n">show</span><span class="p">(</span><span class="n">is_symplectic_transform</span><span class="p">(</span><span class="n">F_to_CH</span><span class="p">(</span><span class="n">F</span><span class="p">))(</span><span class="n">xy</span><span class="p">))</span>
+</pre></div>
+
+<p>
+We can do some tests on earlier examples.
+Formally we know already the answer, but why use them to test our code (and our understanding)?
+</p>
+
+<p>
+This one tests the polar-canonical transformation. BTW, this example reported false when the matrix <code>M</code> in <code>is_symplectic_matrix</code> was not expanded.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">polar_canonical</span><span class="p">(</span><span class="n">alpha</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">coordinate</span><span class="p">(</span><span class="n">state</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">I</span> <span class="o">=</span> <span class="n">momentum</span><span class="p">(</span><span class="n">state</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">I</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">I</span> <span class="o">*</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">up</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">vector</span><span class="p">([</span><span class="n">x</span><span class="p">]),</span> <span class="n">vector</span><span class="p">([</span><span class="n">p</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="n">f</span>
+
+
+<span class="n">_</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="s2">&quot;theta&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;real&quot;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="s2">&quot;I alpha&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;positive&quot;</span><span class="p">)</span>
+<span class="n">theta_I</span> <span class="o">=</span> <span class="n">up</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">vector</span><span class="p">([</span><span class="n">theta</span><span class="p">]),</span> <span class="n">vector</span><span class="p">([</span><span class="n">I</span><span class="p">]))</span>
+<span class="n">show</span><span class="p">(</span><span class="n">is_symplectic_transform</span><span class="p">(</span><span class="n">polar_canonical</span><span class="p">(</span><span class="n">alpha</span><span class="p">))(</span><span class="n">theta_I</span><span class="p">))</span>
+</pre></div>
+
+<p>
+This is a <i>non</i>-canonical transformation.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">a_non_canonical_transform</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">coordinate</span><span class="p">(</span><span class="n">state</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">momentum</span><span class="p">(</span><span class="n">state</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">I</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">I</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">up</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">vector</span><span class="p">([</span><span class="n">x</span><span class="p">]),</span> <span class="n">vector</span><span class="p">([</span><span class="n">p</span><span class="p">]))</span>
+
+
+<span class="n">show</span><span class="p">(</span><span class="n">is_symplectic_transform</span><span class="p">(</span><span class="n">a_non_canonical_transform</span><span class="p">)(</span><span class="n">theta_I</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Here \(I\) is a momentum, not the identity matrix.
+</p>
+</div>
+</div>
+</section>
+</article>
+<footer id="postamble" class="status">
+<hr> <p class="footer"> &#8226; A site by Nicky van Foreest &#8226;   Last updated: , Generated with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 30.1 (<a href="https://orgmode.org">Org</a> mode 9.7.11)</p>
+</footer>
+</body>
+</html>

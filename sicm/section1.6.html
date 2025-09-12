@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Section 1.6</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="/css/tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/ox-tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/pygments.css" type="text/css" />
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+<script>
+  window.MathJax = {
+    tex: {
+      macros: {
+        argmin: ["\\mathop{\\mathrm{arg\\,min}}", 0],
+        argmax: ["\\mathop{\\mathrm{arg\\,max}}", 0],
+        abs: ["\\left\\vert#1\\right\\vert", 1],
+        given: ["\\,\\middle|\\,", 0],
+        mineq: "\\mathrel{-}=",
+        pluseq: "\\mathrel{+}=",
+        supp: ["\\mathrm{supp}\\left(#1\\right)", 1],
+        B: "\\mathbb{B}",
+        C: "\\mathcal{C}",
+        d: "\\,\\textrm{d}",
+        E: ["\\mathsf{E}\\left[#1\\right]", 1],
+        F: "\\mathcal{F}",
+        N: "\\mathbb{N}",
+        P: ["\\mathsf{P}\\left\\{#1\\right\\}", 1],
+        R: "\\mathbb{R}",
+        V: ["\\mathsf{V}\\left[#1\\right]", 1],
+        Z: "\\mathbb{Z}",
+        Bin: ["\\mathrm{Bin}(#1)", 1],
+        Exp: ["\\mathrm{Exp}(#1)", 1],
+        FS: ["\\mathrm{FS}(#1)", 1],
+        Gamm: ["\\mathrm{Gamm}(#1)", 1],
+        Geo: ["\\mathrm{Geo}(#1)", 1],
+        HGeom: ["\\mathrm{HGeom}(#1)", 1],
+        Norm: ["\\mathrm{Norm}(#1)", 1],
+        Pois: ["\\mathrm{Pois}(#1)", 1],
+        Unif: ["\\mathrm{Unif}(#1)", 1],
+        "1": ["\\mathbb{1}\\left\\{#1\\right\\}", 1],
+      },
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header id="preamble" class="status">
+<header class='site-header'>
+  <div class='site-header-container'>
+    <a href="https://ndvanforeest.github.io/">
+    <img src="/img/harry.jpg" alt='parsec logo' class='site-logo'>
+    </a>
+      <div class='site-title-container'>
+        <h1 class='site-title'>Nicky&rsquo;s site</h1>
+      </div>
+    </div>
+</header>
+<hr class='menu-divider'>
+<nav class='menu'>
+  <ul>
+    <li><a href='/index.html'>Home</a></li>
+    <li><a href='/about_this_site.html'>About this site</a></li>
+    <li><a href='/bio.html'>Bio</a></li>
+    <li><a href='/books.html'>Books</a></li>
+  </ul>
+</nav>
+<hr class='menu-divider'>
+</header>
+<article id="content" class="content">
+<header>
+<h1 class="title">Section 1.6</h1>
+</header><section id="outline-container-org7f6f53b" class="outline-2">
+<h2 id="org7f6f53b"><span class="section-number-2">1.</span> How to find Lagrangians</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org7f16d57" class="outline-3">
+<h3 id="org7f16d57"><span class="section-number-3">1.1.</span> Standard imports</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="highlight"><pre><span></span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;utils1.5.sage&quot;</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;utils1.6.sage&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;show_expression.sage&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org99c01cb" class="outline-3">
+<h3 id="org99c01cb"><span class="section-number-3">1.2.</span> Constant acceleration</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+We start with a point in a uniform gravitational field.
+</p>
+<div class="highlight"><pre><span></span><span class="n">var</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;real&quot;</span><span class="p">)</span>
+<span class="n">var</span><span class="p">(</span><span class="s2">&quot;g m&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;positive&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">L_uniform_acceleration</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">g</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrap_L_unif</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span>  <span class="o">=</span> <span class="n">coordinate</span><span class="p">(</span><span class="n">local</span><span class="p">)</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">velocity</span><span class="p">(</span><span class="n">local</span><span class="p">)</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="n">square</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="n">m</span> <span class="o">*</span> <span class="n">g</span> <span class="o">*</span> <span class="n">y</span>
+        <span class="k">return</span> <span class="n">T</span> <span class="o">-</span> <span class="n">V</span>
+
+    <span class="k">return</span> <span class="n">wrap_L_unif</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="n">column_path</span><span class="p">([</span><span class="n">literal_function</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="n">literal_function</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)])</span>
+<span class="n">l_eq</span> <span class="o">=</span> <span class="n">Lagrange_equations</span><span class="p">(</span><span class="n">L_uniform_acceleration</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">g</span><span class="p">))(</span><span class="n">q</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="n">l_eq</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-orgd98eb26" class="outline-3">
+<h3 id="orgd98eb26"><span class="section-number-3">1.3.</span> Central force field</h3>
+<div class="outline-text-3" id="text-1-3">
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">L_central_rectangular</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Lagrangian</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">coordinate</span><span class="p">(</span><span class="n">local</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">velocity</span><span class="p">(</span><span class="n">local</span><span class="p">)</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="n">square</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">T</span> <span class="o">-</span> <span class="n">U</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">square</span><span class="p">(</span><span class="n">q</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">Lagrangian</span>
+</pre></div>
+
+<p>
+Let us first try this on a concrete potential function.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">U</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">r</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="n">Lagrange_equations</span><span class="p">(</span><span class="n">L_central_rectangular</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">U</span><span class="p">))(</span><span class="n">q</span><span class="p">)(</span><span class="n">t</span><span class="p">))</span>
+</pre></div>
+
+<p>
+Now we  try it on a general central potential.
+</p>
+<div class="highlight"><pre><span></span><span class="n">U</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">function</span><span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">show</span><span class="p">(</span><span class="n">Lagrange_equations</span><span class="p">(</span><span class="n">L_central_rectangular</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">U</span><span class="p">))(</span><span class="n">q</span><span class="p">)(</span><span class="n">t</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org7925b9e" class="outline-3">
+<h3 id="org7925b9e"><span class="section-number-3">1.4.</span> Coordinate transformations</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+To get things straight: the function \(F\) is the transformation of the coordinates \(x'\) to \(x\), i.e., \(x = F(t, x')\).
+The function \(C\) lifts the transformation \(F\) to the phase space, so it transforms \(\Gamma(q')\) to \(\Gamma(q)\).
+</p>
+
+<p>
+The result of \(\partial_1 F v\) is a vector, because \(v\) is a vector.
+We have to cast \(\partial_0 F\) into a vector to enable the summation of these two terms.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">F_to_C</span><span class="p">(</span><span class="n">F</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrap_F_to_C</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">up</span><span class="p">(</span>
+            <span class="n">time</span><span class="p">(</span><span class="n">local</span><span class="p">),</span>
+            <span class="n">F</span><span class="p">(</span><span class="n">local</span><span class="p">),</span>
+            <span class="n">partial</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="mi">0</span><span class="p">)(</span><span class="n">local</span><span class="p">)</span> <span class="o">+</span> <span class="n">partial</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="n">local</span><span class="p">)</span> <span class="o">*</span> <span class="n">velocity</span><span class="p">(</span><span class="n">local</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">wrap_F_to_C</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-orgee35afe" class="outline-3">
+<h3 id="orgee35afe"><span class="section-number-3">1.5.</span> Polar coordinates</h3>
+<div class="outline-text-3" id="text-1-5">
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">p_to_r</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">coordinate</span><span class="p">(</span><span class="n">local</span><span class="p">)</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">column_matrix</span><span class="p">([</span><span class="n">r</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span> <span class="n">r</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)])</span>
+</pre></div>
+
+<p>
+We apply <code>F_to_C</code> and <code>p_to_r</code> to several examples, to test and to understand how they collaborate.
+We need to make the appropriate variables for the space in terms of \(r\) and \(\phi\).
+</p>
+<div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">literal_function</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="n">literal_function</span><span class="p">(</span><span class="s2">&quot;phi&quot;</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">column_path</span><span class="p">([</span><span class="n">r</span><span class="p">,</span> <span class="n">phi</span><span class="p">])</span>
+<span class="n">show</span><span class="p">(</span><span class="n">p_to_r</span><span class="p">(</span><span class="n">Gamma</span><span class="p">(</span><span class="n">q</span><span class="p">)(</span><span class="n">t</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+This is the derivative wrt \(t\).
+As the transformation <code>p_to_r</code> does not depend explicitly on \(t\), the result should be a column matrix of zeros.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">show</span><span class="p">((</span><span class="n">partial</span><span class="p">(</span><span class="n">p_to_r</span><span class="p">,</span> <span class="mi">0</span><span class="p">)(</span><span class="n">Gamma</span><span class="p">(</span><span class="n">q</span><span class="p">)(</span><span class="n">t</span><span class="p">))))</span>
+</pre></div>
+
+<p>
+Next is the derivative wrt \(r\) and \(\phi\).
+</p>
+<div class="highlight"><pre><span></span><span class="n">show</span><span class="p">((</span><span class="n">partial</span><span class="p">(</span><span class="n">p_to_r</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="n">Gamma</span><span class="p">(</span><span class="n">q</span><span class="p">)(</span><span class="n">t</span><span class="p">))))</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="n">F_to_C</span><span class="p">(</span><span class="n">p_to_r</span><span class="p">)(</span><span class="n">Gamma</span><span class="p">(</span><span class="n">q</span><span class="p">)(</span><span class="n">t</span><span class="p">)))</span>
+</pre></div>
+
+<p>
+We can see what happens for the Lagrangian for the central force in polar coordinates.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">L_central_polar</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Lagrangian</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">compose</span><span class="p">(</span><span class="n">L_central_rectangular</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">U</span><span class="p">),</span> <span class="n">F_to_C</span><span class="p">(</span><span class="n">p_to_r</span><span class="p">))(</span><span class="n">local</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Lagrangian</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="c1"># show(L_central_polar(m, U)(Gamma(q)(t)))</span>
+<span class="n">show</span><span class="p">(</span><span class="n">L_central_polar</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">U</span><span class="p">)(</span><span class="n">Gamma</span><span class="p">(</span><span class="n">q</span><span class="p">)(</span><span class="n">t</span><span class="p">))</span><span class="o">.</span><span class="n">simplify_full</span><span class="p">())</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">expr</span> <span class="o">=</span> <span class="n">Lagrange_equations</span><span class="p">(</span><span class="n">L_central_polar</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">U</span><span class="p">))(</span><span class="n">q</span><span class="p">)(</span><span class="n">t</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">simplify_full</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org0ce0959" class="outline-3">
+<h3 id="org0ce0959"><span class="section-number-3">1.6.</span> Coriolis and centrifugal forces</h3>
+<div class="outline-text-3" id="text-1-6">
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">L_free_rectangular</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Lagrangian</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">velocity</span><span class="p">(</span><span class="n">local</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="n">square</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Lagrangian</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">L_free_polar</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Lagrangian</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">L_free_rectangular</span><span class="p">(</span><span class="n">m</span><span class="p">)(</span><span class="n">F_to_C</span><span class="p">(</span><span class="n">p_to_r</span><span class="p">)(</span><span class="n">local</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">Lagrangian</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">F</span><span class="p">(</span><span class="n">Omega</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">local</span><span class="p">)</span>
+        <span class="n">r</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">coordinate</span><span class="p">(</span><span class="n">local</span><span class="p">)</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">vector</span><span class="p">([</span><span class="n">r</span><span class="p">,</span> <span class="n">theta</span> <span class="o">+</span> <span class="n">Omega</span> <span class="o">*</span> <span class="n">t</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">f</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">L_rotating_polar</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">Omega</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Lagrangian</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">L_free_polar</span><span class="p">(</span><span class="n">m</span><span class="p">)(</span><span class="n">F_to_C</span><span class="p">(</span><span class="n">F</span><span class="p">(</span><span class="n">Omega</span><span class="p">))(</span><span class="n">local</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">Lagrangian</span>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">r_to_p</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">coordinate</span><span class="p">(</span><span class="n">local</span><span class="p">)</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">column_matrix</span><span class="p">([</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span><span class="p">),</span> <span class="n">atan</span><span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="n">x</span><span class="p">)])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">L_rotating_rectangular</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">Omega</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Lagrangian</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">L_rotating_polar</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">Omega</span><span class="p">)(</span><span class="n">F_to_C</span><span class="p">(</span><span class="n">r_to_p</span><span class="p">)(</span><span class="n">local</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">Lagrangian</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="s2">&quot;Omega&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;positive&quot;</span><span class="p">)</span>
+<span class="n">q_xy</span> <span class="o">=</span> <span class="n">column_path</span><span class="p">([</span><span class="n">literal_function</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="n">literal_function</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)])</span>
+<span class="n">expr</span> <span class="o">=</span> <span class="n">L_rotating_rectangular</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">Omega</span><span class="p">)(</span><span class="n">Gamma</span><span class="p">(</span><span class="n">q_xy</span><span class="p">)(</span><span class="n">t</span><span class="p">))</span><span class="o">.</span><span class="n">simplify_full</span><span class="p">()</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+</pre></div>
+
+<p>
+The simplification of the Lagrange equations takes some time.
+</p>
+<div class="highlight"><pre><span></span><span class="n">expr</span> <span class="o">=</span> <span class="n">Lagrange_equations</span><span class="p">(</span><span class="n">L_rotating_rectangular</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">Omega</span><span class="p">))(</span><span class="n">q</span><span class="p">)(</span><span class="n">t</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">simplify_full</span><span class="p">())</span>
+</pre></div>
+
+<p>
+I edited the result a bit by hand.
+</p>
+
+\begin{align*}
+- m \Omega^2  x - 2 m \Omega \dot y  + m \ddot x, & - m \Omega^2  y + 2 m \Omega  \dot x + m \ddot y.
+\end{align*}
+</div>
+</div>
+<div id="outline-container-org9639605" class="outline-3">
+<h3 id="org9639605"><span class="section-number-3">1.7.</span> Constraints, a driven pendulum</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+Rather than implementation the formulas of the book at this place, we follow the idea they explain at bit later in the book: formulate a Lagrangian in practical coordinates, then formulate the problem in practical coordinates <i>for that problem</i>, and then use a coordinate transformation from the problem&rsquo;s coordinates to the Lagrangian coordinates.
+</p>
+
+<p>
+For the driven pendulum, the Lagrangian is easiest to express in terms of \(x\) and \(y\) coordinates, while the pendulum needs an angle \(\theta\).
+So, we need a transformation from \(\theta\) to \(x\) and \(y\).
+Note that the function <code>coordinate</code> returns a \((1\times 1)\) column matrix which just contains \(\theta\).
+So, we have to pick element \((0,0)\).
+Another point is that here <code>ys</code> needs to be evaluated at <code>t</code>; in the other functions <code>ys</code> is just passed on as a function.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">dp_coordinates</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">ys</span><span class="p">):</span>
+    <span class="s2">&quot;From theta to x, y coordinates.&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrap_dp</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">local</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">coordinate</span><span class="p">(</span><span class="n">local</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">column_matrix</span><span class="p">([</span><span class="n">l</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">ys</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="n">l</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)])</span>
+
+    <span class="k">return</span> <span class="n">wrap_dp</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">L_pend</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">ys</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrap_L_pend</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">L_uniform_acceleration</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">g</span><span class="p">)(</span>
+            <span class="n">F_to_C</span><span class="p">(</span><span class="n">dp_coordinates</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">ys</span><span class="p">))(</span><span class="n">local</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">wrap_L_pend</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">var</span><span class="p">(</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;positive&quot;</span><span class="p">)</span>
+
+<span class="n">theta</span> <span class="o">=</span> <span class="n">column_path</span><span class="p">([</span><span class="n">literal_function</span><span class="p">(</span><span class="s2">&quot;theta&quot;</span><span class="p">)])</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">literal_function</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+
+<span class="n">expr</span> <span class="o">=</span> <span class="n">L_pend</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">ys</span><span class="p">)(</span><span class="n">Gamma</span><span class="p">(</span><span class="n">theta</span><span class="p">)(</span><span class="n">t</span><span class="p">))</span><span class="o">.</span><span class="n">simplify_full</span><span class="p">()</span>
+<span class="n">show</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</article>
+<footer id="postamble" class="status">
+<hr> <p class="footer"> &#8226; A site by Nicky van Foreest &#8226;   Last updated: 2025-05-09 Fri 00:00, Generated with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 30.1 (<a href="https://orgmode.org">Org</a> mode 9.7.11)</p>
+</footer>
+</body>
+</html>

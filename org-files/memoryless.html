@@ -1,0 +1,2811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Memoryless Excursions</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="/css/tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/ox-tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/pygments.css" type="text/css" />
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+<script>
+  window.MathJax = {
+    tex: {
+      macros: {
+        argmin: ["\\mathop{\\mathrm{arg\\,min}}", 0],
+        argmax: ["\\mathop{\\mathrm{arg\\,max}}", 0],
+        abs: ["\\left\\vert#1\\right\\vert", 1],
+        given: ["\\,\\middle|\\,", 0],
+        mineq: "\\mathrel{-}=",
+        pluseq: "\\mathrel{+}=",
+        supp: ["\\mathrm{supp}\\left(#1\\right)", 1],
+        Max: ["\\max\\left\\{#1\\right\\}", 1],
+        Min: ["\\min\\left\\{#1\\right\\}", 1],
+        Inf: ["\\inf\\left\\{#1\\right\\}", 1],
+        IInf: ["\\displaystyle\\mathop{\\inf}_{#1}\\left\\{#2\\right\\}", 2],
+        Sup: ["\\sup\\left\\{#1\\right\\}", 1],
+        SSup: ["\\displaystyle\\mathop{\\sup}_{#1}\\left\\{#2\\right\\}", 2],
+        B: "\\mathbb{B}",
+        C: "\\mathcal{C}",
+        d: "\\,\\textrm{d}",
+        E: ["\\mathsf{E}\\left[#1\\right]", 1],
+        F: "\\mathcal{F}",
+        N: "\\mathbb{N}",
+        P: ["\\mathsf{P}\\left\\{#1\\right\\}", 1],
+        R: "\\mathbb{R}",
+        V: ["\\mathsf{V}\\left[#1\\right]", 1],
+        Z: "\\mathbb{Z}",
+        Bin: ["\\mathrm{Bin}(#1)", 1],
+        Exp: ["\\mathrm{Exp}(#1)", 1],
+        FS: ["\\mathrm{FS}(#1)", 1],
+        Gamm: ["\\mathrm{Gamm}(#1)", 1],
+        Geo: ["\\mathrm{Geo}(#1)", 1],
+        HGeom: ["\\mathrm{HGeom}(#1)", 1],
+        Norm: ["\\mathrm{Norm}(#1)", 1],
+        Pois: ["\\mathrm{Pois}(#1)", 1],
+        Unif: ["\\mathrm{Unif}(#1)", 1],
+        "1": ["\\mathbb{1}\\left\\{#1\\right\\}", 1],
+      },
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header id="preamble" class="status">
+<header class='site-header'>
+  <div class='site-header-container'>
+    <a href="https://ndvanforeest.github.io/">
+    <img src="/img/harry.jpg" alt='parsec logo' class='site-logo'>
+    </a>
+      <div class='site-title-container'>
+        <h1 class='site-title'>Nicky&rsquo;s site</h1>
+      </div>
+    </div>
+</header>
+<hr class='menu-divider'>
+<nav class='menu'>
+  <ul>
+    <li><a href='/index.html'>Home</a></li>
+    <li><a href='/about_this_site.html'>About this site</a></li>
+    <li><a href='/bio.html'>Bio</a></li>
+    <li><a href='/books.html'>Books</a></li>
+    <li><a href='/city_walks.html'>City Walks</a></li>
+  </ul>
+</nav>
+<hr class='menu-divider'>
+</header>
+<article id="content" class="content">
+<header>
+<h1 class="title">Memoryless Excursions</h1>
+</header><section id="outline-container-orgb948b55" class="outline-2">
+<h2 id="orgb948b55"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<a id="org7f16d57"></a>
+Blitzstein and Hwang give a quick argument in their book on probability to compute \(\E M\) and \(\E L\) where
+\(M=\max\{X,Y\}\)  and \(L=\min\{X,Y\}\) are the maximum and minimum of two iid exponential rvs \(X\) and \(Y\).
+Since  \(X\) and \(Y\)  have the same distribution,
+</p>
+\begin{equation*}
+\E L + \E M = \E{L+M}=\E{X+Y} = 2\E X.
+\end{equation*}
+<p>
+Therefore,
+</p>
+\begin{equation}
+\label{org99c01cb}
+\E M = 2\E X - \E L.
+\end{equation}
+<p>
+Next, by the fact that  \(X\) and \(Y\) are memoryless,
+</p>
+\begin{equation}
+\label{orgd98eb26}
+\E M = \E L  + \E X.
+\end{equation}
+<p>
+An interpretation can help to see this. There are two machines, each working on a job in parallel.
+Let \(X\) and \(Y\) be the production times at either machine.
+The time the first job finishes is evidently \(L=\min\{X, Y\}\).
+Then,  <i>due to memorylessness</i>, the service time of the remaining job `restarts&rsquo;; this takes an expected time \(\E X\) to complete.
+Adding these two equations and noting that \(\E L\) cancels we get \(2\E M = 3 \E X \), hence:
+</p>
+\begin{align}
+\label{org7925b9e}
+\E M &= \frac 3 2 \E X, & \E L &= \E M - \E X = \frac 1 2 \E X.
+\end{align}
+
+<p>
+This argument seems general enough, so it must hold for discrete memoryless rvs too, i.e., when \(X, Y \sim \Geo{p}\). But that is not the case: it is only true when \(X, Y \sim \Exp{\lambda}\) and independent. To see what is wrong I tried as many different approaches to this problem I could think of, which  resulted in this text.<label id='fnr.1' for='fnr-in.1.9790334' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.9790334' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>Part of this material was born out of annoyance.  The  book uses one of those typical probability arguments:  slick, half complete, and wrong as soon as one tries it in other situations. In other words, the type of argument beginner books should stay clear of. I admit that I was quite irritated about the argument offered by the book.</span> In <a href="#org0ce0959">2</a> we&rsquo;ll derive \eqref{org99c01cb}  for geometric rvs in multiple  different ways.
+Hence, the culprit must be \eqref{orgd98eb26}. Then, in  <a href="#org9639605">3</a> we&rsquo;ll show that both equations  <i>are true</i> for exponential rvs.
+Finally, in <a href="#org7f6f53b">4</a> we find a formula that is similar to \(\E M = \E L + \E X\) but that holds for both types of memoryless rvs, whether they are discrete or continuous.
+</p>
+
+<p>
+The analysis of the above problem illustrates many general and useful probability concepts such as  joint CDF, joint PMF/PDF, the fundamental bridge, integration over 2D areas, 2D LOTUS, conditional PMF/PDF, MGFs, and the change of variables formula. It pays off to do the exercises yourself and then study the hints and solutions carefully.
+</p>
+
+<p>
+You&rsquo;ll notice, hopefully, that I use many different methods to solve the same problem, and that I take pains to see how the answers of these methods relate.
+There are at least two reasons for this.
+Often, a problem can be solved in multiple ways, and one method is not necessarily better than another; in fact, different methods may augment the understanding of the problem.
+The second reason is that it is easy to make a mistake in probability.
+If different methods give the same answer, the chances of having made a mistake becomes smaller.
+</p>
+</div>
+</section>
+<section id="outline-container-org7161a33" class="outline-2">
+<h2 id="org7161a33"><span class="section-number-2">2.</span> Discrete memoryless rvs</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+<a id="org0ce0959"></a>
+</p>
+
+<p>
+Before  embarking on a problem, it often helps to  refresh our memory. This is what we do first.
+Let \(X\) be \(\sim \Geo{p}\) and write \(q = 1-p\).
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 1:</b> 
+<p>
+What is the domain of \(X\)?
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Of course \(X \in \{0, 1, 2, \ldots\}\).
+</p>
+
+
+</details>
+</div>
+<p>
+With some fun tricks with recursions it is possible to quickly derive the most important expressions for geometric rvs:
+</p>
+\begin{align*}
+\P{X > 0} &= \P{\textrm{failure}} = q\\
+\P{X > j} &= q \P{X > j-1} \implies \P{X > j}=q^{j}\P{X > 0} = q^{j+1}.\\
+\P{X\geq j} &=  \P{X > j-1} = q^{j}.\\
+\P{X=j} &= \P{X > j-1} - \P{X > j} = q^{j}-q^{j+1} = (1-q)q^{j} = p q^{j}.\\
+\E X &= p\cdot 0 + q(1+\E X) \implies \E X = q/(1-q) = q/p.
+\end{align*}
+<p>
+Mind that, even though this is neat, it only work for geometric rvs.
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 2:</b> 
+<p>
+Explain the above.
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+For \(X > 0\), the first outcome should be a failure. Then, for \(j\) failures, we need to fail \(j-1\) times and then once more. For \(\E X\), if there is a success, we don&rsquo;t need another another experiment. However, in case of a fail, we need another experiment, and we start again. Thus, \(\E X = q(1+\E X) \implies (1-q)\E X = q.\)
+</p>
+
+
+</details>
+</div>
+<p>
+Clearly, such tricks are nice and quick, but they are not general. We should also practice with the general method.
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 3:</b> 
+<p>
+Simplify \(\P{X > j}= \sum_{i=j+1}^{\infty} \P{X=i}\) to see that this is equal to \(q^{j+1}\).
+Realize that from this, \(\P{X\geq j}  = \P{X > j-1} = q^{j}\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+With the regular method:
+</p>
+\begin{align*}
+\P{X > j}
+&= \sum_{i=j+1}^{\infty} \P{X=i} \\
+&= p\sum_{i=j+1}^{\infty} q^{i} \\
+&= p\sum_{i=0}^{\infty} q^{j+1+i} \\
+&= pq^{j+1}\sum_{i=0}^{\infty} q^{i} \\
+&= pq^{j+1}\frac 1 {1-q} =
+p q^{j+1} \frac 1 p = q^{j+1}.
+\end{align*}
+
+
+</details>
+</div>
+<br>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 4:</b> 
+<p>
+Use indicator variables to show that
+</p>
+\begin{equation}
+\label{org9beed48}
+\E X
+= \sum_{i=0}^{\infty} i\P{X=i}
+=  \sum_{i=0}^{\infty} \sum_{j=0}^{\infty} \1{j < i} \P{X=i} =p/q.
+\end{equation}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\E X
+&= \sum_{i=0}^{\infty} i\P{X=i} \\
+&=  \sum_{i=0}^{\infty} \sum_{j=0}^{\infty} \1{j < i} \P{X=i} \\
+&=  \sum_{j=0}^{\infty} \sum_{i=0}^{\infty} \1{j < i} \P{X=i} \\
+&=  \sum_{j=0}^{\infty} \sum_{i=j+1}^{\infty}  \P{X=i} \\
+&=  \sum_{j=0}^{\infty}  \P{X > j} \\
+&=  \sum_{j=0}^{\infty}  q^{j+1}\\
+&=  q \sum_{j=0}^{\infty}  q^{j}\\
+&=  q/(1-q) = q/p.
+\end{align*}
+
+
+</details>
+</div>
+<br>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 5:</b> 
+<p>
+Look up the definition of a memoryless rv, and check that \(X\) is memoryless.
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\P{X\geq n+m\given X\geq m}
+&= \frac{ \P{X\geq n+m,  X\geq m}}{\P{X\geq m}} \\
+&= \frac{ \P{X\geq n+m}}{\P{X\geq m}} \\
+&= \frac{ q^{n+m}}{q^m} \\
+&= q^n= \P{X\geq n}.
+\end{align*}
+
+
+</details>
+</div>
+<p>
+With this refresher, we can derive some useful properties of the minimum \(L=\min\{X, Y\}\), where \(X, Y\sim \Geo{p}\) and \(X, Y\) independent.
+For this we use that
+</p>
+\begin{equation*}
+\P{g(X,Y}\in A\} \stackrel1= \E{\1{g(X, Y) \in A}} \stackrel2= \sum_{i}\sum_j \1{g(i, j)\in A} \P{X=i, Y=j}.
+\end{equation*}
+<p>
+Step 1 is known as <i>the fundamental bridge</i> and step 2 as <i>2D LOTUS</i>.
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 6:</b> 
+<p>
+What is the domain of \(L\)? Then, show that
+</p>
+\begin{equation*}
+\P{L\geq i}=q^{2i} \implies L\sim\Geo{1-q^{2}}.
+\end{equation*}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+For 2D LOTUS, take \(g(i,j) = \min\{i, j\}\).
+</p>
+
+
+</details>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\P{L\geq k}
+&= \sum_{i}\sum_{j} \1{\min\{i,j\}\geq k} \P{X=i, Y=j}\\
+&= \sum_{i\geq k} \sum_{j\geq k} \P{X=i}\P{Y=j}\\
+&=  \P{X\geq k}\P{Y\geq k} = q^{k} q^{k} = q^{2k}.
+\end{align*}
+<p>
+\(\P{L > i}\) has the same form as \(\P{X > i}\), but now with \(q^{2i}\) rather than \(q^{i}\).
+</p>
+
+
+</details>
+</div>
+<br>
+
+
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 7:</b> 
+<p>
+Show that
+</p>
+\begin{equation}
+\label{org2dc1f56}
+\E L=q^{2}/(1-q^{2}).
+\end{equation}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+\(X\sim \Geo{1-q} \implies \E X = q/(1-q)\). Now use that \(L\sim\Geo{1-q^{2}}\).
+</p>
+
+
+</details>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Immediate from the hint and \eqref{org9beed48}.
+</p>
+
+
+</details>
+</div>
+<br>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 8:</b> 
+<p>
+Show that
+</p>
+\begin{equation}
+\label{orgde0f8b8}
+\E L + \E X = \frac q{1-q}\frac{1+2q}{1+q}.
+\end{equation}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Use that \(1-q^2=(1-q)(1+q)\).
+</p>
+
+
+</details>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\E L     + \E X
+&= \frac{q^{2}}{1-q^2} + \frac{q}{1-q} \\
+&= \frac q{1-q}\left(\frac{q}{1+q} + 1\right)\\
+&= \frac q{1-q} \frac{1+2q}{1+q}
+\end{align*}
+
+
+</details>
+</div>
+<p>
+Now we can combine these facts with the properties of the maximum \(M=\max\{X, Y\}\).
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 9:</b> 
+<p>
+Show that
+</p>
+\begin{equation}
+\label{orgfa898cb}
+2\E X  -\E L = \frac q{1-q} \frac{2+q}{1+q}.
+\end{equation}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+2\E X - \E L
+&= 2\frac q{1-q}  - \frac{q^2}{1-q^2}\\
+&= \frac q{1-q}\left(2  - \frac{q}{1+q}\right)\\
+&= \frac q{1-q}\left(\frac{2+2q}{1+q}  - \frac{q}{1+q}\right)\\
+&= \frac q{1-q}\frac{2+q}{1+q}.
+\end{align*}
+
+
+</details>
+</div>
+<p>
+Clearly, unless \(q=0\), \(\E L + \E X \neq 2\E X - \E L\), hence, \(\E M\) can only be one of the two and  \eqref{org99c01cb} and \eqref{orgd98eb26} cannot be both true.
+</p>
+
+<p>
+To convince ourselves that \eqref{orgfa898cb}, hence \eqref{org99c01cb}, is indeed true, we pursue  three ideas.
+</p>
+
+<p>
+Here is the first idea.
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 10:</b> 
+<p>
+Show for the PMF of \(M\) that
+</p>
+\begin{align*}
+p_M(k) &= \P{M=k} = 2 pq^{k}(1-q^{k}) + p^2q^{2k}.
+\end{align*}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Use 2D LOTUS on \(g(x,y) = \1{\max\{x, y\} = k}\).
+</p>
+
+
+</details>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\P{M=k}
+&= \P{\max\{X, Y\} = k} \\
+&=p^{2}\sum_{ij}\1{\max\{i,j\} =k} q^i q^j\\
+&=2 p^{2}\sum_{ij}\1{i=k}\1{j < k} q^i q^j + p^{2}\sum_{ij}\1{i=j=k} q^{i} q^j \\
+&=2 p^{2}q^{k}\sum_{j < k} q^j + p^{2}q^{2k}\\
+&=2 p^{2}q^{k}\frac{1-q^{k}}{1-q} +  p^{2}q^{2k}\\
+\end{align*}
+
+
+</details>
+</div>
+<br>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 11:</b> 
+<p>
+With the previous exercise, show now that \(p_M(k) =2 \P{X=k} - \P{L=k}\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+It&rsquo;s just algebra
+</p>
+\begin{align*}
+\P{M=k}
+&=2 p^{2}q^{k}\frac{1-q^{k}}{1-q} +  p^{2}q^{2k}\\
+&=2 pq^{k}(1-q^{k}) + p^{2}q^{2k}\\
+&=2 pq^{k} +(p^{2}-2p) q^{2k}\\
+&=2 \P{X=k} - \P{L=k},
+\end{align*}
+<p>
+where I use that \(p^{2}-2p = p(p-2) = (1-q)(1-q-2)=-(1-q)(1+q)=-(1-q^{2})\).
+</p>
+
+
+</details>
+</div>
+<br>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 12:</b> 
+<p>
+Finally, show that \(\E M = 2 \E X  - \E L\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+
+
+</details>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\E M
+&= \sum_k k \P{M=k}     \\
+&=  \sum_{k}k (2\P{X=k} - \P{L=k}) \\
+&= 2 \E X  - \E L.
+\end{align*}
+
+
+</details>
+</div>
+<p>
+The second idea.
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 13:</b> 
+<p>
+First show that  \(\P{M \leq k} = (1-q^{k+1})^{2}.\)
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\P{M\leq k}
+&= \P{X\leq k, Y\leq k} \\
+&= \P{X\leq k}\P{Y\leq k} \\
+&= (1-\P{X > k})(1-\P{Y > k}) \\
+&= (1-q^{k+1})^{2}.
+\end{align*}
+
+
+</details>
+</div>
+<br>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 14:</b> 
+<p>
+Simplify \(\P{M=k} = \P{M\leq k} - \P{M\leq k-1}\) to see that \(p_M(k) = 2\P{X=k} - \P{L=k}\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\P{M=k} &= \P{M\leq k} - \P{M\leq k-1}\\
+&= 1-2 q^{k+1} + q^{2k+2} - (1 - 2q^{k} + q^{2k})\\
+&= 2 q^{k}(1-q) + q^{2k}(q^{2}-1) \\
+&= 2 \P{X=k}  - q^{2k}(1-q^{2}) \\
+&= 2 \P{X=k}  - \P{L=k}.
+\end{align*}
+
+
+</details>
+</div>
+<p>
+And the third idea.
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 15:</b> 
+<p>
+Explain that
+</p>
+\begin{equation*}
+\P{L=i, M=k} = 2p^{2}q^{i+k}\1{k > i}+ p^{2}q^{2i}\1{i=k}).
+\end{equation*}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\P{L=i, M=k}
+&= 2\P{X=i, Y=k}\1{k > i} + \P{X=Y=i}\1{i=k} \\
+&= 2p^{2}q^{i+k}\1{k > i}+ p^{2}q^{2i}\1{i=k}.
+\end{align*}
+
+
+</details>
+</div>
+<br>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 16:</b> 
+<p>
+Use Exercise 15 and marginalization to compute the marginal PMF \(\P{M=k}\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Marginalize out \(L\).
+</p>
+
+
+</details>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\P{M=k}
+&= \sum_{i} \P{L=i, M=k} \\
+ &= \sum_{i} (2p^{2}q^{i+k}\1{k > i}+ p^{2}q^{2i}\1{i=k}) \\
+ &= 2p^2q^k\sum_{i=0}^{k-1} q^{i}+ p^{2}q^{2k} \\
+ &= 2pq^k (1-q^{k})+ p^{2}q^{2k} \\
+ &= 2pq^k + (p^{2}-2p) q^{2k},
+\end{align*}
+
+
+</details>
+</div>
+<br>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 17:</b> 
+<p>
+Use Exercise 15 to compute \(\P{L=i}\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Marginalize out \(M\).
+</p>
+
+
+</details>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\P{L=i}
+&= \sum_{k} \P{L=i, M=k} \\
+ &= \sum_{k} (2p^{2}q^{i+k}\1{k > i}+ p^{2}q^{2i}\1{i=k}) \\
+ &= 2p^2q^i\sum_{k=i+1}^{\infty} q^{k}+ p^{2}q^{2i} \\
+ &= 2p^{2}q^{2i+1} \sum_{k=0}^{\infty}q^{k}+ p^{2}q^{2i} \\
+ &= 2pq^{2i+1} + p^{2} q^{2i}\\
+ &= pq^{2i}(2q+p)\\
+ &= (1-q)q^{2i}(q + 1), \quad p+q=1,\\
+ &= (1-q^{2})q^{2i}.
+\end{align*}
+
+
+</details>
+</div>
+<p>
+In conclusion, we verified the correctness of \(\E M = 2\E X - \E L\) in three different (useful) ways.
+Let us now focus on exponential rvs rather than geometric rvs.
+</p>
+</div>
+</section>
+<section id="outline-container-org79c4fb7" class="outline-2">
+<h2 id="org79c4fb7"><span class="section-number-2">3.</span> Continuous memoryless rvs</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<a id="org9639605"></a>
+</p>
+
+<p>
+In this section we analyze the correctness of \eqref{org99c01cb} and \eqref{orgd98eb26} for continuous memoryless rvs, i.e., exponentially distributed rvs.
+I decided to analyze this in as much detail as I could think of, hoping that this would provide me with a lead to see how to generalize the equation \(\E M = \E L + \E X\) such that it covers also the case with geometric rvs.
+</p>
+
+
+
+<p>
+First we need to recall some basic facts about the exponential distribution.
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 18:</b> 
+<p>
+Show that \(X\) is memoryless.
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+With \(t \geq s\),
+</p>
+\begin{equation*}
+\P{X > t|X > s} = \frac{\P{X > t}}{\P{X > s}} = e^{-\lambda t} e^{\lambda s} = e^{-\lambda(t-s)} = \P{X > t - s}.
+\end{equation*}
+
+
+</details>
+</div>
+<br>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 19:</b> 
+<p>
+Show that \(\E X = 1/\lambda\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Use partial integration.
+</p>
+
+
+</details>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+It is essential that  you know both methods to solve this integral.
+</p>
+\begin{align*}
+\E X
+&= \int_{0}^{\infty}  x f_{X}(x) \d x  \\
+&= \int_{0}^{\infty}  x \lambda e^{-\lambda x} \d x  \\
+&= - xe^{-\lambda x} \biggr|_{0}^{\infty} + \int_{0}^{\infty}  e^{-\lambda x} \d x  \\
+&=  - \frac 1 \lambda e^{-\lambda x} \biggr|_{0}^{\infty} = \frac 1 \lambda.
+\end{align*}
+<p>
+Substitution is also a very important technique to solve such integrals. Here we go again:
+</p>
+\begin{align*}
+\E X
+&= \int_{0}^{\infty}  x f_{X}(x) \d x  \\
+&= \int_{0}^{\infty}  x \lambda e^{-\lambda x} \d x  \\
+&= \frac 1 \lambda \int_{0}^{\infty}  u  e^{- u} \d u,
+\end{align*}
+<p>
+by the substitution \(u=\lambda x \implies \d u = \d (\lambda x) \implies \d u = \lambda \d x \implies \d x = \d u / \lambda\).
+With partial integration (do it!), the integral evaluates to \(1\).
+</p>
+
+
+</details>
+</div>
+<p>
+Now we can shift our attention to the rvs \(L\) and \(M\).
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 20:</b> 
+<p>
+Show that \(F_L(x) = 1-e^{-2\lambda x}\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Using independence and the specific property of the r.v. \(L\) that \(\{L > x\} \iff \{X > x, Y > x\}\):
+</p>
+
+
+</details>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+With the hint,
+</p>
+\begin{align*}
+G_L(x) = \P{L > x}  &= \P{X > x, Y > x} = G_X(x)^{2} = e^{-2\lambda x}.
+\end{align*}
+<p>
+The result follows since  \(F_{L}(x) = 1-G_{L}(x)\).
+</p>
+
+
+</details>
+</div>
+<p>
+Clearly, this implies that  \(L\sim \Exp{2\lambda}\) and \(\E L = 1/(2\lambda) = \E X /2\). Hence, we see that \eqref{org7925b9e} holds now.
+Moreover, with the same trick we see  that the distribution function \(F_{M}\) for the maximum \(M\) is given by
+</p>
+\begin{equation*}
+F_{M}(v) = \P{M\leq v}   = \P{X \leq v, Y \leq v} = (F_{X}(v))^{2} = (1-e^{-\lambda v})^{2}.
+\end{equation*}
+
+
+<p>
+Of course this is a nice trick, but it is not a method that allows us to compute the distribution for more general functions of \(X\) and \(Y\).
+For more general cases, we have to use the fundamental bridge and LOTUS, that is,
+for any set<label id='fnr.2' for='fnr-in.2.852288' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.852288' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>If you like maths, you should be quite a bit more careful about what type of set \(A\) is acceptable. Here such matters are of no importance.</span> \(A\) in the domain of \(X \times Y\)
+</p>
+\begin{equation*}
+\begin{split}
+\P{g(X, Y) \in A}
+&= \E{\1{g(X,Y)\in A}}
+= \iint \1{g(x,y) \in A} f_{X,Y}(x,y) \d x \d y \\
+&= \iint_{g^{-1}(A)} f_{X,Y}(x, y) \d x \d y
+= \iint_{\{(x,y): g(x,y) \in A\}} f_{X,Y}(x,y) \d x \d y.
+\end{split}
+\end{equation*}
+<p>
+The joint CDF \(F_{X,Y}\) then follows because \(F_{X,Y}(x,y) = \P{X\leq x, Y\leq y} = \E{\1{X\leq x, Y\leq y}}\).
+A warning is in place: conceptually this approach is easy, but doing  the integration can be very challenging (or impossible).  However, this expression is very important as this is the preferred way to compute distributions by numerical methods and simulation.
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 21:</b> 
+<p>
+Use the fundamental bridge to re-derive the above expression for \(F_M(v)\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\P{M\leq v}
+&= \E{\1{M\leq v}} \\
+&=\int_0^{\infty} \int_0^{\infty} \1{x\leq v, y\leq v} f_{XY}(x,y) \d x \d y \\
+&= \int_0^{\infty} \int_0^{\infty} \1{x\leq v, y\leq v} f_{X}(x) f_{Y}(y) \d x \d y \\
+&= \int_0^{v} f_{X}(x) \d x \int_0^{v}  f_{Y}(y)  \d y \\
+&= F_{X}(v) F_Y(v) = (F_X(v))^2.
+\end{align*}
+
+
+</details>
+</div>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 22:</b> 
+<p>
+Show that the density of \(M\) has the form \(f_{M}(v)=\partial_{v} F_M(v) = 2(1-e^{-\lambda v}) \lambda e^{-\lambda v}\).<label id='fnr.3' for='fnr-in.3.9214321' class='margin-toggle sidenote-number'><sup class='numeral'>3</sup></label><input type='checkbox' id='fnr-in.3.9214321' class='margin-toggle'><span class='sidenote'><sup class='numeral'>3</sup>We write \(\partial_{v}\) as a shorthand for \(\d/\d v\) in the 1D case, and for \(\partial/\partial_{v}\) the partial derivative in the 2D case.</span>
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{equation*}
+  f_M(v) = F_M'(v) = 2 F_X(v) f_X(v) = 2(1-e^{-\lambda v}) \lambda e^{- \lambda v}.
+\end{equation*}
+
+
+</details>
+</div>
+<br>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 23:</b> 
+<p>
+Use  the density \(f_{M}\) to show  that \(\E M = 2\E X - \E L\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\E M
+&= \int_{0}^{\infty} v f_M(v) \d v = \\
+&= 2 \lambda \int_{0}^{\infty} v (1-e^{-\lambda v}) e^{-\lambda v} \d v = \\
+&= 2 \lambda \int_{0}^{\infty} v e^{-\lambda v} \d v -  2 \lambda \int_{0}^{\infty} v e^{-2 \lambda v} \d v \\
+&= 2 \E X - \E L,
+\end{align*}
+<p>
+where the last equality follows from the previous exercises.
+</p>
+
+
+</details>
+</div>
+<p>
+Recalling that we already obtained  \(\E L = \E X/ 2\),  we see that \(\E M = 2 \E X - \E L = 3\E X/2\), which settles the truth of  \eqref{org7925b9e}.
+</p>
+
+
+
+<p>
+We can also compute the densities \(f_{M}(y)\) (and \(f_{L}(x)\) by marginalizing the joint density \(f_{L,M}(x,y)\).
+However, for this, we first need the joint distribution \(F_{L,M}\), and then we can get \(f_{L,M}\) by differentiation, i.e., \(f_{X,Y} = \partial_{x}\partial_y F_{X,Y}\). Let us try this approach too.
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 24:</b> 
+<p>
+Use the fundamental bridge to show that for \(u\leq v\),
+</p>
+\begin{equation*}
+  F_{L,M}(u,v) = \P{L\leq u, M\leq v} = 2\int_0^u (F_Y(v)- F_Y(x)) f_X(x) \d x.
+\end{equation*}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+First the joint distribution. With \(u\leq v\),
+</p>
+\begin{align*}
+F_{L,M}(u,v) &= \P{L\leq u, M \leq v} \\
+&= 2\iint \1{x \leq u, y\leq v, x\leq y} f_{X,Y}(x,y)\d x \d y \\
+&= 2\int_0^u \int_x^v f_Y(y) \d y f_X(x) \d x & \text{independence} \\
+&= 2\int_0^u (F_Y(v)- F_Y(x)) f_X(x) \d x.
+\end{align*}
+
+
+</details>
+</div>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 25:</b> 
+<p>
+Take partial derivatives to show that
+</p>
+\begin{equation*}
+f_{L,M}(u,v) = 2f_X(u) f_Y(v)\1{u\leq v}.
+\end{equation*}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Taking partial derivatives,
+</p>
+\begin{align*}
+f_{L,M}(u,v)
+&=\partial_v\partial_{u}F_{L,M}(u,v) \\
+&=2 \partial_v\partial_{u} \int_0^u (F_Y(v)- F_Y(x)) f_X(x) \d x  \\
+&=2 \partial_v \left\{(F_Y(v)- F_Y(u)) f_X(u) \right \}  \\
+&=2 f_X(u)\partial_v F_Y(v)  \\
+&=2 f_X(u)f_Y(v).
+\end{align*}
+
+
+</details>
+</div>
+<br>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 26:</b> 
+<p>
+In Exercise 25 marginalize out \(L\) to find \(f_M\), and marginalize out \(M\) to find \(f_L\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+  f_M(v) &=  \int_0^{\infty} f_{L,M}(u,v) \d u \\
+&= 2 \int_0^{v} f_{X}(u) f_Y(v) \d u \\
+&= 2 f_Y(v) \int_0^{v} f_{X}(u) \d u  \\
+&= 2f_Y(v) F_X(v), \\
+f_L(u) &=  \int_0^{\infty} f_{L,M}(u,v) \d v \\
+&= 2 f_{X}(u) \int_u^{\infty} f_Y(v) \d v \\
+&= 2 f_{X}(u) G_{Y}(u).
+\end{align*}
+
+
+</details>
+</div>
+<p>
+We did a number of checks for the case \(X, Y\), iid and \(\sim\Exp{\lambda}\),
+but I have a second way to check the  consistency of our results.
+For this I use the idea that the geometric distribution is the discrete analog of the exponential distribution.
+Now we study how this works, and that by taking proper limits we can obtain the results for the continuous setting from the discrete setting.
+</p>
+
+<p>
+First, let&rsquo;s try to obtain an intuitive understanding of how \(X\sim \Geo{\lambda/n}\) approaches  \(Y\sim\Exp{\lambda}\) as \(n\to\infty\).
+For this, divide the interval \([0, \infty)\) into many small intervals of length \(1/n\).
+Let  \(X\sim \Geo{\lambda/n}\) for some \(\lambda > 0\) and \(n\gg 0\). Then take  some \(x\geq 0\) and  let \(i\) be such that \(x\in[i/n, (i+1)/n)\).
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 27:</b> 
+<p>
+Show that
+</p>
+\begin{equation}
+\label{org0c8fbd7}
+\P{X/n \approx x} \approx \frac{\lambda} n \left(1-\frac \lambda n\right)^{x n}.
+\end{equation}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+First,
+</p>
+\begin{align*}
+\P{X/n \approx x} &= \P{X/n \in [i/n, (i+1)/n]} = \P{X \in [i, i+1]} = p q^{i} \\
+&\approx p q^{n x} = \frac{\lambda} n \left(1-\frac \lambda n\right)^{xn},
+\end{align*}
+<p>
+since \(p=\lambda/n\), \(q=1-p=1-\lambda/n\), and \(i=nx\).
+</p>
+
+
+</details>
+</div>
+<p>
+Next,  introduce the highly intuitive notation<label id='fnr.4' for='fnr-in.4.9670868' class='margin-toggle sidenote-number'><sup class='numeral'>4</sup></label><input type='checkbox' id='fnr-in.4.9670868' class='margin-toggle'><span class='sidenote'><sup class='numeral'>4</sup>In your math classes you learned that \(\lim_{n\to \infty} 1/n = 0\). Doesn&rsquo;t this definition therefore imply that \(\d x = 0\)? Well, no, because \(\d x\) is not a real number but an infinitesimal. Infinitesimals allow us to consider a quantity that is so small that it cannot be distinguished from 0 within the real numbers.</span>  \(\d x = \lim_{n\to \infty} 1/n\), and use the standard limit<label id='fnr.5' for='fnr-in.5.8101394' class='margin-toggle sidenote-number'><sup class='numeral'>5</sup></label><input type='checkbox' id='fnr-in.5.8101394' class='margin-toggle'><span class='sidenote'><sup class='numeral'>5</sup>This is not entirely trivial to prove. If you like mathematics, check the neat proof in Rudin&rsquo;s Principles of mathematical analysis.</span>  \((1-\lambda/n)^n\to e^{-\lambda}\) as \(n\to\infty\) to see that \eqref{org0c8fbd7} converges to
+</p>
+\begin{equation*}
+\P{X/n \approx x} \to \lambda e^{-\lambda x} \d x = f_{X}(x) \d x,\quad\text{ as } n \to \infty.
+\end{equation*}
+
+<p>
+If you don&rsquo;t like this trick with \(\d x\), here is another method, based on moment-generating functions.
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 28:</b> 
+<p>
+Derive the moment-generating function \(M_{X/n}(s)\) of \(X/n\) when \(X\sim \Geo{p}\).
+Then, let \(p = \lambda/n\), and show that \(\lim_{n\to\infty}M_{X/n}(s) = M_{Y}(s)\), where \(Y \sim \Exp{\lambda}\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+If you recall the Poisson distribution, you know that \(e^{\lambda} = \sum_{i=0}^{\infty}\lambda^{i}/i!\).
+In fact, this is precisely Taylor&rsquo;s expansion of \(e^{\lambda}\).
+</p>
+
+
+</details>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+M_{X/n}(s)
+&= \E{e^{s X/n}} = \sum_{i} e^{s i/n} p q^{i} = p\sum_{i} (qe^{s/n})^{i} = \frac{p}{1-qe^{s/n}}.
+\end{align*}
+<p>
+With \(p=\lambda/n\) this becomes
+</p>
+\begin{align*}
+M_{X/n}(s)
+&= \frac{\lambda/n}{1-(1-\lambda/n) (1+s/n + 1/n^{2}\times(\cdots))} \\
+&= \frac{\lambda/n}{\lambda/n - s/n + 1/n^{2}\times (\cdots)} \\
+&= \frac{\lambda}{\lambda - s + 1/n\times(\cdots)} \\
+&\to \frac{\lambda}{\lambda - s}, \quad\text{as }  n\to \infty,
+\end{align*}
+<p>
+where we write \(1/n^{2}\times(\cdots)\) for all terms that will disappear when we take the limit \(n\to \infty\).
+This is just handy notation to hide details in which we are not interested.
+</p>
+
+
+</details>
+</div>
+<p>
+With these limits in place, we can relate the minimum \(L=\min\{X, Y\}\) for the discrete and the continuous settings.
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 29:</b> 
+<p>
+Suppose that \(X, Y\sim \Geo{\lambda/n}\), then check that \(\lim_{n\to\infty}\E{L/n} = 1/2\lambda\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Use \eqref{org2dc1f56}.
+</p>
+
+
+</details>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\E{L/n}  &= \frac 1 n \E L = \frac 1 n \frac{q^2}{1-q^{2}} \\
+ &= \frac 1 n \frac{(1-\lambda/n)^2}{1-(1-\lambda/n)^{2}} \\
+ &= \frac 1 n \frac{1-2 \lambda/n + (\lambda/n)^2}{2 \lambda /n + (\lambda/n)^{2}} \\
+ &= \frac{1-2 \lambda/n + (\lambda/n)^2}{2 \lambda + \lambda^{2}/n} \\
+&\to \frac 1{2\lambda}.
+\end{align*}
+
+
+</details>
+</div>
+<p>
+Clearly, \(1/2\lambda=\E X/2\) when \(X\sim\Exp{\lambda}\).
+</p>
+
+<p>
+Here is yet another check on the correctness of \(f_M(x)\).
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 30:</b> 
+<p>
+Show that  the PMF \(\P{M=k}\) for the discrete \(M\) in Exercise 10 converges to \(f_M(x)\) of Exercise 22 when \(n\to \infty\). Take \(k\) suitable.
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Take \(p=\lambda/n\),  \(q=1-\lambda/n\), and \(k \approx x n\), hence \(k/n \approx x\). Then,
+</p>
+\begin{align*}
+\P{M/n=k/n}
+&= 2 p q^{k/n}(1-q^{k/n}) + p^2q^{2k/n} \\
+&= 2 \frac \lambda n \left(1-\frac \lambda n\right)^{k/n}\left(1-\left(1-\frac \lambda n\right)^{k/n}\right) + \frac{\lambda^2}{n^2}\left(1-\frac \lambda n \right)^{2k/n} \\
+&\to 2 \lambda \d x e^{-\lambda x} \left(1 - e^{-\lambda x}\right) + \lambda^{2} \d x^{2}e^{-2\lambda}.
+\end{align*}
+<p>
+Now observe that the second term, proportional to \(\d x^{2}\) can be neglected.
+</p>
+
+
+</details>
+</div>
+<p>
+Finally, I have  a third  way to check the above results, namely by verifying  \eqref{orgd98eb26}, i.e.  \(\E{M-L} = \E X\).
+For this, we  compute the joint CDF \(f_{L, M-L}(x, y)\). With this,  you&rsquo;ll  see directly how to compute \(\E{M-L}\).
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 31:</b> 
+<p>
+Use the fundamental bridge to obtain
+</p>
+\begin{equation*}
+F_{L,M-L}(x,y) = (1- e^{-2\lambda x}) (1-e^{-\lambda y}) =  F_L(x) F_Y(y).
+\end{equation*}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+The idea is not difficult, but the technical details require attention, in particular the limits in the integrations.
+</p>
+
+
+</details>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+F_{L, M-L}(x, y)
+&=\P{L\leq x, M-L\leq y}\\
+&= 2\P{X\leq x, Y-X \leq y, X \leq Y} \\
+&= 2\int_0^{\infty} \int_0^{\infty} \1{u\leq x, v-u\leq y, u \leq v} f_{X,Y}(u, v)  \d u \d v\\
+&= 2\int_0^{\infty} \int_0^{\infty} \1{u\leq x, v-u\leq y, u\leq v} \lambda^2e^{-\lambda u}e^{-\lambda v}\d u \d v\\
+&= 2\int_0^{x} \int_0^{\infty} \1{u\leq v\leq u+y} \lambda^2e^{-\lambda u}e^{-\lambda v}\d v \d u\\
+&= 2\int_0^{x} \lambda e^{-\lambda u} \int_u   ^{u + y}  \lambda e^{-\lambda v}\d v \d u\\
+&= 2\int_0^{x} \lambda e^{-\lambda u} (-e^{-\lambda v}) \biggr|_u^{u+y}\d u \\
+&= 2\int_0^{x} \lambda e^{-\lambda u} (e^{-\lambda u} - e^{-\lambda (u+y)})\d u \\
+&= 2\lambda\int_0^{x}  e^{-2 \lambda u}\d u  - 2\lambda \int_{0}^{x} e^{-\lambda (2u+y)}\d u \\
+&= 2\lambda\int_0^{x}  e^{-2 \lambda u}\d u  - 2\lambda e^{-\lambda y }\int_{0}^{x} e^{-2 \lambda u}\d u \\
+&= (1-e^{-\lambda y}) 2 \lambda \int_0^{x} e^{-2 \lambda u} \d u\\
+&= (1-e^{-\lambda y}) ( -e^{-2\lambda u}) \biggr|_0^{x} \\
+&= (1-e^{-\lambda y})(1- e^{-2\lambda x}).
+\end{align*}
+
+
+</details>
+</div>
+<br>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 32:</b> 
+<p>
+Conclude that \(M-L\) and \(L\) are independent, and \(M-L\sim Y\).
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+As  \(F_{L,M-L}(x,y) = F_Y(y) F_L(x)\). So the CDF factors as a function of \(x\) only and a function of \(y\) only. This implies that \(L\) and \(M-L\) are independent, and moreover that \(F_{M-L}(y) =  F_Y(y)\), so \(M-L \sim Y\). We can also see this from the joint PDF:
+</p>
+\begin{equation*}
+f_{L, M-L}(x,y) = \partial_x \partial_y (F_Y(y) F_L(x)) = f_Y(y) f_L(x),
+\end{equation*}
+<p>
+so the joint PDF (of course) also factors. The independence now follows from BH 7.1.21.
+#but it is also okay to conclude it directly from the CDF factoring as a function of \(x\) only and a function of \(y\) only.
+Because \(L\) and \(M-L\) are independent, the conditional density equals the marginal density:
+</p>
+\begin{equation*}
+f_{M-L|L}(y|x) = \frac{f_{L, M-L}(x, y)}{f_L(x)} = \frac{f_Y(y) f_L(x)}{f_L(x)} = f_Y(y).
+\end{equation*}
+
+
+</details>
+</div>
+<p>
+By the  above exercise, we find that \(\E{M-L} = \E Y = \E X\), as \(X\) and \(Y\) are iid.
+</p>
+
+
+<p>
+This makes me wonder whether \(M-L\) and \(L\) are also independent for the discrete case, i.e.,  when  \(X, Y\) iid and \(\sim \Geo{p}\).
+Hence, we should check that for  <i>all</i> \(i, j\)
+</p>
+\begin{equation}
+\label{orgff52af2}
+\P{L=i, M-L=j} = \P{L=i} \P{M-L=j}.
+\end{equation}
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 33:</b> 
+<p>
+Use Exercise 15 to see that
+</p>
+\begin{equation*}
+\P{L=i, M-L=j} = 2p^2q^{2i+j} \1{j\geq 1} + p^2q^{2i}\1{j=0}.
+\end{equation*}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Realize that \(\P{L=i, M-L=j}=  \P{L=i, M=i+j}\). Now fill in the formula of Exercise 15.
+</p>
+
+
+</details>
+</div>
+<p>
+Now for the RHS.
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 34:</b> 
+<p>
+Derive that
+</p>
+\begin{equation*}
+\P{M-L=j} = \frac{2p^2q^{j}}{1-q^2}\1{j\geq 1} + \frac{p^2q^{j}}{1-q^2}\1{j=0}.
+\end{equation*}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Suppose \(j > 0\) (for \(j=0\) the maths is the same). Then,
+</p>
+\begin{align*}
+  \P{M-L=j}
+&=2\sum_{i=0}^{\infty}\P{X =i, Y=i+j } =
+&=2\sum_{i=0}^{\infty}p q^i pq^{i+j} =
+&=2p^{2}q^{j}\sum_{i=0}^{\infty}q^{2i} =
+&=2p^{2}q^{j}/(1-q^2).
+\end{align*}
+
+
+</details>
+</div>
+<p>
+Recalling that \(\P{L=i} = (1-q^2)q^{2i}\), it follows right away from \eqref{orgff52af2} that \(L\)  and \(M-L\) are independent.
+Interestingly, from Exercise 31 we see \(M-L\sim Y\) for the continuous case. However, here, for the geometric case, \(\P{M-L=j} \neq pq^{j} = \P{Y=j}\).  This explains why \(\E M \neq \E L + \E X\) for geometric rvs: we should be more careful in how to split \(M\) in terms of \(L\) and \(X\).
+</p>
+
+
+
+<p>
+All in all, we have checked and double checked all our expressions and limits for the geometric and exponential distribution.
+We had success too: the solution of the last exercise provides the key to understand why \eqref{org99c01cb} and \eqref{orgd98eb26} are true for exponentially distributed rvs, but not for geometric random variables.
+In fact, in the solutions we can see the term corresponding to \(X=Y=i\) for \(X,Y\sim \Geo{p}\) becomes negligibly small when \(n\to 0\).
+In other words, \(\P{X=Y}>0\)  when \(X\) and \(Y\) are discrete, but \(\P{X=Y}=0\) when  \(X\) and \(Y\) are continuous.
+Moreover, by Exercise 31, \(\E M = \E{L + M-L} = \E L + \E{M-L}\), but \(\E{M-L} \neq \E X\). So, to resolve our leading problem we should reconsider \(\E{M-L}\).
+</p>
+</div>
+</section>
+<section id="outline-container-orgf42ba8d" class="outline-2">
+<h2 id="orgf42ba8d"><span class="section-number-2">4.</span> The solution</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<a id="org7f6f53b"></a>
+</p>
+
+
+<p>
+Let us now try to repair \eqref{orgd98eb26}, i.e., \(\E M = \E L + \E X\),  for the case \(X,Y\sim\Geo{p}\). We should be careful about the non-negligible case that \(M=L\), so we move, carefully, step by step.
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 35:</b> 
+<p>
+Why is the following true:
+</p>
+\begin{align}
+\label{orgf718da5}
+\E M &= \E L + \E{(M-L) \1{M > L}}  = \E L + 2\E{(Y-X) \1{Y > X}}.
+\end{align}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Because either \(M=L\) or \(M > L\). Recall from earlier work that the factor 2 in the second equality follows from the fact that \(X,Y\) iid.
+</p>
+
+
+</details>
+</div>
+<br>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 36:</b> 
+<p>
+Show that
+</p>
+\begin{equation}
+\label{org0b22235}
+2\E{(Y-X) \1{Y > X}} = \frac{2q} {1-q^{2}}.
+\end{equation}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Reread BH.7.2.2. to realize that \(\E{M-L} = \E{|X-Y|}\). Relate the latter expectation to the expression in the problem.
+</p>
+
+
+</details>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\E{(Y-X) \1{Y > X}}
+&= p^2\sum_{ij} (j-i)\1{j > i} q^iq^j\\
+&= p^2\sum_{i} q^i\sum_{j=i+1}^{\infty}(j-i)q^j\\
+&= p^2\sum_{i} q^i q^{i}\sum_{k=1}^{\infty}kq^k, \quad k = j-i\\
+&= p\sum_{i}  q^{2i}\E X \\
+&= \frac{p}{1-q^{2}}\E X \\
+&= \frac{p}{1-q^{2}}\frac q p \\
+&= \frac{q}{1-q^{2}}.
+\end{align*}
+
+
+</details>
+</div>
+<br>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 37:</b> 
+<p>
+Combine the above with the expression for \(\E L\) of \eqref{org2dc1f56} to obtain  \eqref{orgfa898cb} for \(\E M = 2\E X - \E L\), thereby verifying the correctness of \eqref{orgf718da5}.
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+\begin{align*}
+\E L + 2  \E{(Y-X) \1{Y > X}} = \frac{q^{2}}{1-q^2} +  \frac{2q}{1-q^{2}} = \frac q{1-q}\frac{q+2}{1+q},
+\end{align*}
+<p>
+where I use that \(1-q^{2}=(1-q)(1+q)\).
+</p>
+
+
+</details>
+</div>
+<p>
+While \eqref{orgf718da5} is correct, I am still not happy with the second part of \eqref{orgf718da5} as I find it hard/unintuitive to interpret.
+Restarting again from scratch, here is another attempt to rewrite \(\E M\) by using \(Z\sim \FS{p}\), i.e., \(Z\) has the first success distribution with parameter \(p\), in other words, \(Z \sim X+1\) with \(X\sim\Geo{p}\).
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 38:</b> 
+<p>
+Explain that
+</p>
+\begin{equation}
+\label{org0c2fec5}
+\E M = \E L + \E{ Z \1{M > L}},
+\end{equation}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+To see why this might be true, I reason like this.
+After `seeing&rsquo; \(L\), we want to restart.
+Let \(Z\) be the time from the restart to \(M\).
+When \(Z\sim \Geo{p}\), it might happen that \(Z=0\) (with positive probability \(p\)).
+But if \(Z=0\), then \(M=L\), and it that case, we should not restart.
+Hence, if \(Z\sim \Geo{p}\) we are `double counting&rsquo; when \(Z=0\).
+By including the condition \(M > L\) and by taking \(Z\sim\FS{p}\) (so that \(Z > 0\)) I can prevent this.
+</p>
+
+
+</details>
+</div>
+<br>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 39:</b> 
+<p>
+Show that
+</p>
+\begin{equation*}
+\E{Z\1{M > L}} = \frac{2q} {1-q^{2}},
+\end{equation*}
+<p>
+i.e., the same as \eqref{org0b22235}, hence \eqref{org0c2fec5} is correct.
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Hint
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Observe that \(Z\)   is independent from \(X\) and \(Y\), hence from \(M\) and \(L\)
+</p>
+
+
+</details>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+With the hint:
+</p>
+\begin{align*}
+\E{Z\1{M > L}}  = \E Z \E{\1{M > L}} = \E Z \P{M > L} = \frac 1 p \frac{2pq}{1-q^{2}} = \frac{2q}{1-q^{2}},
+\end{align*}
+<p>
+We know that \(\E Z = 1 + \E X = 1 + q/p = 1/p\), while
+</p>
+\begin{align*}
+\P{M > L}
+&= 1-\P{X=Y} = 1-\sum_{i=0}^{\infty} \P{X=Y=i} \\
+&= 1-\frac{p^{2}}{1-q^{2}} = \frac{1 - q^{2} + p^{2}}{1-q^{2}} = \frac{2pq}{1-q^{2}}.
+\end{align*}
+
+
+</details>
+</div>
+<p>
+I am nearly happy, but I want to see that \eqref{org0c2fec5}, which is correct for discrete rvs, has also the correct limiting behavior.
+</p>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 40:</b> 
+<p>
+Show that \(\E{Z/n\1{M > L}} \to 1/\lambda\), which is the expectation of an \(\Exp{\lambda}\) rv!
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+By independence,
+</p>
+\begin{equation*}
+\E{Z/n\1{M > L}} = \E{Z/n} \P{M > L}.
+\end{equation*}
+<p>
+Then,
+</p>
+\begin{equation*}
+\P{M > L}   = \frac{2pq}{1-q^{2}}
+= \frac{2\lambda/n (1-\lambda/n)}{1-(1-\lambda/n)^{2}}
+= \frac{2\lambda/n (1-\lambda/n)}{2\lambda/n -\lambda^{2}/n^{2}}
+= \frac{2 (1-\lambda/n)}{2 -\lambda/n}  \to 1,
+\end{equation*}
+<p>
+and
+</p>
+\begin{equation*}
+\E{Z/n} = \frac 1 n \E Z = \frac 1 n \frac 1 p = \frac 1 {n \lambda/ n} = 1/\lambda.
+\end{equation*}
+
+
+</details>
+</div>
+<p>
+Finally I understand why \(\E M = \E L + \E X\) for \(X,Y\sim \Exp{\lambda}\) and why this is not true for discrete \(X, Y\).
+For discrete rvs, \(L\) and \(M\) can be equal, while for continuous rvs, this is impossible<label id='fnr.6' for='fnr-in.6.7408686' class='margin-toggle sidenote-number'><sup class='numeral'>6</sup></label><input type='checkbox' id='fnr-in.6.7408686' class='margin-toggle'><span class='sidenote'><sup class='numeral'>6</sup>A bit more carefully formulated: the event \(\{L=M\}\) has zero probability for continuous rvs.</span>
+It took a long time, and a lot of work, to understand how to resolve the confusing problem, but I learned a lot.
+In particular, I find \eqref{org0c2fec5} a nice and revealing equation.
+</p>
+
+<p>
+Finally, if you like to train with the  tools you learned,  you can try your hand at analyzing the same problem, but now for uniform \(X, Y\).
+</p>
+</div>
+</section>
+</article>
+<footer id="postamble" class="status">
+<hr> <p class="footer"> &#8226; A site by Nicky van Foreest &#8226;   Last updated: 2025-04-08 Tue 00:00, Generated with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 30.1 (<a href="https://orgmode.org">Org</a> mode 9.7.11)</p>
+</footer>
+</body>
+</html>

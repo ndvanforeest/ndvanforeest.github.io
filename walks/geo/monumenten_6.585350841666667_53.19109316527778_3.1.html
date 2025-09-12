@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_fa1afc0b1010d99e162a14085e6b11bf {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.css"/>
+</head>
+<body>
+    
+    
+    <style>
+    .leaflet-tooltip {
+        font-size: 14px;
+        font-weight: bold;
+        color: darkblue;
+    }
+    .leaflet-popup-content {
+        font-size: 14px;
+        font-weight: bold;
+        color: darkblue;
+    }    </style>
+    
+    
+    <div style="
+        position: fixed;
+        bottom: 50px; left: 50px; width: 220px;
+        background-color: white;
+        border: 2px solid grey;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+        z-index:9999;
+        font-size:14px;
+    ">
+    <b>TSP langs monumenten in gebied 21</b><br>
+    Lengte: 3.1 km
+    </div>
+    
+    
+            <div class="folium-map" id="map_fa1afc0b1010d99e162a14085e6b11bf" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_fa1afc0b1010d99e162a14085e6b11bf = L.map(
+                "map_fa1afc0b1010d99e162a14085e6b11bf",
+                {
+                    center: [53.19109316527778, 6.585350841666667],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 16,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f4d453573b28b3f6cc98fcf422ee2db4 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_f4d453573b28b3f6cc98fcf422ee2db4.addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+            var marker_ff3c726bb81efa869ded51bcec3930a7 = L.marker(
+                [53.191944444444445, 6.591666666666667],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_dd726ab0c05f4ce253a63e2a819eed19 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0920391e7d43c0bf87ccf258b171bab5 = $(`<div id="html_0920391e7d43c0bf87ccf258b171bab5" style="width: 100.0%; height: 100.0%;"><b>Esserhaag (t.h.v. Goeman Borgesiuslaan 161)</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.191944444444445,6.591666666666667" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484133" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_dd726ab0c05f4ce253a63e2a819eed19.setContent(html_0920391e7d43c0bf87ccf258b171bab5);
+            
+        
+
+        marker_ff3c726bb81efa869ded51bcec3930a7.bindPopup(popup_dd726ab0c05f4ce253a63e2a819eed19)
+        ;
+
+        
+    
+    
+            marker_ff3c726bb81efa869ded51bcec3930a7.bindTooltip(
+                `<div>
+                     Esserhaag (t.h.v. Goeman Borgesiuslaan 161)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_a17eba8943d3a0a6f37634eae161efec = L.marker(
+                [53.1891496, 6.5908643],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_59a6f77b122a25294ee10694f2e39bfa = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5efd2c93d5b2736c5fd5cd2ef37a5801 = $(`<div id="html_5efd2c93d5b2736c5fd5cd2ef37a5801" style="width: 100.0%; height: 100.0%;"><b>Esserweg 20</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1891496,6.5908643" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484139" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_59a6f77b122a25294ee10694f2e39bfa.setContent(html_5efd2c93d5b2736c5fd5cd2ef37a5801);
+            
+        
+
+        marker_a17eba8943d3a0a6f37634eae161efec.bindPopup(popup_59a6f77b122a25294ee10694f2e39bfa)
+        ;
+
+        
+    
+    
+            marker_a17eba8943d3a0a6f37634eae161efec.bindTooltip(
+                `<div>
+                     Esserweg 20
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_b3b658b7c6399a2f1176833a55f8e488 = L.marker(
+                [53.1930582, 6.5845713],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_c1f2c33877bb7a558c5b4ebe19c647e0 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5968d6770933a12b5f97fb51280c3660 = $(`<div id="html_5968d6770933a12b5f97fb51280c3660" style="width: 100.0%; height: 100.0%;"><b>Verlengde Hereweg 174</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1930582,6.5845713" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484217" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_c1f2c33877bb7a558c5b4ebe19c647e0.setContent(html_5968d6770933a12b5f97fb51280c3660);
+            
+        
+
+        marker_b3b658b7c6399a2f1176833a55f8e488.bindPopup(popup_c1f2c33877bb7a558c5b4ebe19c647e0)
+        ;
+
+        
+    
+    
+            marker_b3b658b7c6399a2f1176833a55f8e488.bindTooltip(
+                `<div>
+                     Verlengde Hereweg 174
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_907b6220160556bb920016708ca87456 = L.marker(
+                [53.1917554, 6.584262],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_a9adc8db685ae29078e23843637dbe2f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_26451d97f5f83a9c35a62044e9a8f526 = $(`<div id="html_26451d97f5f83a9c35a62044e9a8f526" style="width: 100.0%; height: 100.0%;"><b>Verlengde Hereweg 182</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1917554,6.584262" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484225" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_a9adc8db685ae29078e23843637dbe2f.setContent(html_26451d97f5f83a9c35a62044e9a8f526);
+            
+        
+
+        marker_907b6220160556bb920016708ca87456.bindPopup(popup_a9adc8db685ae29078e23843637dbe2f)
+        ;
+
+        
+    
+    
+            marker_907b6220160556bb920016708ca87456.bindTooltip(
+                `<div>
+                     Verlengde Hereweg 182
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_a9ebc5cfb82a7f6741a1d08ca849b767 = L.marker(
+                [53.1907298, 6.5848001],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_30a711532ab4d94f9271b2a306a3cb92 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_255ff6c01282236fdf6e41eef4f58c0d = $(`<div id="html_255ff6c01282236fdf6e41eef4f58c0d" style="width: 100.0%; height: 100.0%;"><b>Verlengde Hereweg 192</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1907298,6.5848001" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484233" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_30a711532ab4d94f9271b2a306a3cb92.setContent(html_255ff6c01282236fdf6e41eef4f58c0d);
+            
+        
+
+        marker_a9ebc5cfb82a7f6741a1d08ca849b767.bindPopup(popup_30a711532ab4d94f9271b2a306a3cb92)
+        ;
+
+        
+    
+    
+            marker_a9ebc5cfb82a7f6741a1d08ca849b767.bindTooltip(
+                `<div>
+                     Verlengde Hereweg 192
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_2583e916962913a0cea6591db9bbd9c9 = L.marker(
+                [53.1916414, 6.5876117],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_a21440a6cc9da9b9e07d5952f88d4caa = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_40a00226ffc7b0dc77d70f0f3f98a6b0 = $(`<div id="html_40a00226ffc7b0dc77d70f0f3f98a6b0" style="width: 100.0%; height: 100.0%;"><b>Hondsruglaan 17-19</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1916414,6.5876117" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484241" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_a21440a6cc9da9b9e07d5952f88d4caa.setContent(html_40a00226ffc7b0dc77d70f0f3f98a6b0);
+            
+        
+
+        marker_2583e916962913a0cea6591db9bbd9c9.bindPopup(popup_a21440a6cc9da9b9e07d5952f88d4caa)
+        ;
+
+        
+    
+    
+            marker_2583e916962913a0cea6591db9bbd9c9.bindTooltip(
+                `<div>
+                     Hondsruglaan 17-19
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_47d504bceb8865d156e00d56913ff821 = L.marker(
+                [53.19, 6.5875],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_19a1597e2d8d3d7341fde2e6a552e519 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_14794a6280785f293f1edad29161f9d1 = $(`<div id="html_14794a6280785f293f1edad29161f9d1" style="width: 100.0%; height: 100.0%;"><b>Hondsruglaan 21 Quintuslaan 15</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.19,6.5875" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484251" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_19a1597e2d8d3d7341fde2e6a552e519.setContent(html_14794a6280785f293f1edad29161f9d1);
+            
+        
+
+        marker_47d504bceb8865d156e00d56913ff821.bindPopup(popup_19a1597e2d8d3d7341fde2e6a552e519)
+        ;
+
+        
+    
+    
+            marker_47d504bceb8865d156e00d56913ff821.bindTooltip(
+                `<div>
+                     Hondsruglaan 21 Quintuslaan 15
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_3355c4cb760da8b52db8b8c4a6d30537 = L.marker(
+                [53.1922126, 6.582867],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_5aaa6563f469648f34dbbd90a73b9076 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5ea3a31a3615b33554423de16bd916f4 = $(`<div id="html_5ea3a31a3615b33554423de16bd916f4" style="width: 100.0%; height: 100.0%;"><b>Verlengde Hereweg 171</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1922126,6.582867" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484280" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_5aaa6563f469648f34dbbd90a73b9076.setContent(html_5ea3a31a3615b33554423de16bd916f4);
+            
+        
+
+        marker_3355c4cb760da8b52db8b8c4a6d30537.bindPopup(popup_5aaa6563f469648f34dbbd90a73b9076)
+        ;
+
+        
+    
+    
+            marker_3355c4cb760da8b52db8b8c4a6d30537.bindTooltip(
+                `<div>
+                     Verlengde Hereweg 171
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_940ef19b2647db31cba60f21de220bd9 = L.marker(
+                [53.1920038, 6.5829775],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_c848da62cf106497c58fd1dd2b695854 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_948c117064779682a940bb29fb59049f = $(`<div id="html_948c117064779682a940bb29fb59049f" style="width: 100.0%; height: 100.0%;"><b>Verlengde Hereweg 173</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1920038,6.5829775" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484286" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_c848da62cf106497c58fd1dd2b695854.setContent(html_948c117064779682a940bb29fb59049f);
+            
+        
+
+        marker_940ef19b2647db31cba60f21de220bd9.bindPopup(popup_c848da62cf106497c58fd1dd2b695854)
+        ;
+
+        
+    
+    
+            marker_940ef19b2647db31cba60f21de220bd9.bindTooltip(
+                `<div>
+                     Verlengde Hereweg 173
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_180c1a65d2f7a05548b16f80d4fa3572 = L.marker(
+                [53.1917753, 6.5830622],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_a0c65c8b5051ad7e2c8df6f3a0aa31aa = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_dc916770d145a9453045ee35ccf90f45 = $(`<div id="html_dc916770d145a9453045ee35ccf90f45" style="width: 100.0%; height: 100.0%;"><b>Verlengde Hereweg 175</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1917753,6.5830622" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484293" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_a0c65c8b5051ad7e2c8df6f3a0aa31aa.setContent(html_dc916770d145a9453045ee35ccf90f45);
+            
+        
+
+        marker_180c1a65d2f7a05548b16f80d4fa3572.bindPopup(popup_a0c65c8b5051ad7e2c8df6f3a0aa31aa)
+        ;
+
+        
+    
+    
+            marker_180c1a65d2f7a05548b16f80d4fa3572.bindTooltip(
+                `<div>
+                     Verlengde Hereweg 175
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_35a1a5ff628f59fa0ecb64a9ec4519dd = L.marker(
+                [53.1915774, 6.5832009],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_48fe4c675fd82514a301ae983cd1e718 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e8d7d2d2059499469283012eb15f519f = $(`<div id="html_e8d7d2d2059499469283012eb15f519f" style="width: 100.0%; height: 100.0%;"><b>Verlengde Hereweg 177</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1915774,6.5832009" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484300" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_48fe4c675fd82514a301ae983cd1e718.setContent(html_e8d7d2d2059499469283012eb15f519f);
+            
+        
+
+        marker_35a1a5ff628f59fa0ecb64a9ec4519dd.bindPopup(popup_48fe4c675fd82514a301ae983cd1e718)
+        ;
+
+        
+    
+    
+            marker_35a1a5ff628f59fa0ecb64a9ec4519dd.bindTooltip(
+                `<div>
+                     Verlengde Hereweg 177
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_3ff21dd137cbec42ba522263f9864171 = L.marker(
+                [53.1909603, 6.5835337],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_0d429f8917ce5947a1a9c93d38ceb9a6 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f86c3f6be2f38e15228fbc7b3fe4e07a = $(`<div id="html_f86c3f6be2f38e15228fbc7b3fe4e07a" style="width: 100.0%; height: 100.0%;"><b>Verlengde Hereweg 179</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1909603,6.5835337" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484310" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_0d429f8917ce5947a1a9c93d38ceb9a6.setContent(html_f86c3f6be2f38e15228fbc7b3fe4e07a);
+            
+        
+
+        marker_3ff21dd137cbec42ba522263f9864171.bindPopup(popup_0d429f8917ce5947a1a9c93d38ceb9a6)
+        ;
+
+        
+    
+    
+            marker_3ff21dd137cbec42ba522263f9864171.bindTooltip(
+                `<div>
+                     Verlengde Hereweg 179
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_3a124896ccc7e635a812fbd68461bd92 = L.marker(
+                [53.1905235, 6.5837888],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_0166f7e948b04f26d91e188376582f4e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b50763633e27d3276ef453f6d9a1fac5 = $(`<div id="html_b50763633e27d3276ef453f6d9a1fac5" style="width: 100.0%; height: 100.0%;"><b>Verlengde Hereweg 183</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1905235,6.5837888" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484318" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_0166f7e948b04f26d91e188376582f4e.setContent(html_b50763633e27d3276ef453f6d9a1fac5);
+            
+        
+
+        marker_3a124896ccc7e635a812fbd68461bd92.bindPopup(popup_0166f7e948b04f26d91e188376582f4e)
+        ;
+
+        
+    
+    
+            marker_3a124896ccc7e635a812fbd68461bd92.bindTooltip(
+                `<div>
+                     Verlengde Hereweg 183
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_1cec019f57a7456543c3b604a6d23df9 = L.marker(
+                [53.1887305, 6.5844232],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_9997d672bcd52711a768b63ab058e576 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_18855b6ca993188d680796f5b405b799 = $(`<div id="html_18855b6ca993188d680796f5b405b799" style="width: 100.0%; height: 100.0%;"><b>Verlengde Hereweg 191</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1887305,6.5844232" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484324" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_9997d672bcd52711a768b63ab058e576.setContent(html_18855b6ca993188d680796f5b405b799);
+            
+        
+
+        marker_1cec019f57a7456543c3b604a6d23df9.bindPopup(popup_9997d672bcd52711a768b63ab058e576)
+        ;
+
+        
+    
+    
+            marker_1cec019f57a7456543c3b604a6d23df9.bindTooltip(
+                `<div>
+                     Verlengde Hereweg 191
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_ca10750d08272baed751a8ee155a4da4 = L.marker(
+                [53.1926196, 6.5826679],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_9d4d4b4c5d6942e4cc3ad3171ad28be5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_13be2216fb7fe3e46f61f7af43aaed31 = $(`<div id="html_13be2216fb7fe3e46f61f7af43aaed31" style="width: 100.0%; height: 100.0%;"><b>Verlengde Hereweg 167</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1926196,6.5826679" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485388" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_9d4d4b4c5d6942e4cc3ad3171ad28be5.setContent(html_13be2216fb7fe3e46f61f7af43aaed31);
+            
+        
+
+        marker_ca10750d08272baed751a8ee155a4da4.bindPopup(popup_9d4d4b4c5d6942e4cc3ad3171ad28be5)
+        ;
+
+        
+    
+    
+            marker_ca10750d08272baed751a8ee155a4da4.bindTooltip(
+                `<div>
+                     Verlengde Hereweg 167
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_38a6bae4abe539b08fa37276e82479f6 = L.marker(
+                [53.1888088, 6.5878162],
+                {
+}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+        var popup_c2a0501194ac95e3dd7287ebcc6a3aa8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e98dc8a7b686005188c469b12fa9305a = $(`<div id="html_e98dc8a7b686005188c469b12fa9305a" style="width: 100.0%; height: 100.0%;"><b>Hondsruglaan 27</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1888088,6.5878162" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485400" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_c2a0501194ac95e3dd7287ebcc6a3aa8.setContent(html_e98dc8a7b686005188c469b12fa9305a);
+            
+        
+
+        marker_38a6bae4abe539b08fa37276e82479f6.bindPopup(popup_c2a0501194ac95e3dd7287ebcc6a3aa8)
+        ;
+
+        
+    
+    
+            marker_38a6bae4abe539b08fa37276e82479f6.bindTooltip(
+                `<div>
+                     Hondsruglaan 27
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_0a208a52a22134a78a848dcdf7ff0034 = L.polyline(
+                [[53.192099, 6.591591], [53.191979, 6.590916], [53.191961, 6.590662], [53.19196, 6.590291], [53.191949, 6.59029], [53.191795, 6.590283], [53.191658, 6.590284], [53.191376, 6.590447], [53.19032, 6.591072], [53.189376, 6.591641], [53.189107, 6.591795], [53.188948, 6.59119], [53.188909, 6.59104], [53.188542, 6.589636], [53.18832, 6.588711], [53.188532, 6.588633], [53.188891, 6.588516], [53.189512, 6.588314], [53.189488, 6.588114], [53.189391, 6.587596], [53.188963, 6.585397], [53.18894, 6.585286], [53.188917, 6.585177], [53.189061, 6.585084], [53.189045, 6.585016], [53.188883, 6.584323], [53.189045, 6.585016], [53.189061, 6.585084], [53.189467, 6.584813], [53.189867, 6.58458], [53.189932, 6.584542], [53.190785, 6.58408], [53.190709, 6.583689], [53.190785, 6.58408], [53.191039, 6.583944], [53.191656, 6.583614], [53.191743, 6.583568], [53.191859, 6.583507], [53.192082, 6.583389], [53.192389, 6.583226], [53.19229, 6.582815], [53.192389, 6.583226], [53.192649, 6.583053], [53.192681, 6.583037], [53.192688, 6.583033], [53.192681, 6.583037], [53.192707, 6.583168], [53.192731, 6.58329], [53.192784, 6.583583], [53.192834, 6.583851], [53.192803, 6.583993], [53.192793, 6.584093], [53.192813, 6.584143], [53.192819, 6.58423], [53.19283, 6.584249], [53.192835, 6.584324], [53.192806, 6.584651], [53.192823, 6.58473], [53.192877, 6.584769], [53.193018, 6.584712], [53.192877, 6.584769], [53.192823, 6.58473], [53.192806, 6.584651], [53.192835, 6.584324], [53.19283, 6.584249], [53.192819, 6.58423], [53.192813, 6.584143], [53.192793, 6.584093], [53.192803, 6.583993], [53.192834, 6.583851], [53.192784, 6.583583], [53.19265, 6.583499], [53.192595, 6.583493], [53.192559, 6.583461], [53.192542, 6.583391], [53.191786, 6.583792], [53.191857, 6.584215], [53.191786, 6.583792], [53.191385, 6.584003], [53.190957, 6.584235], [53.190653, 6.584396], [53.190024, 6.584729], [53.190065, 6.584966], [53.190092, 6.585135], [53.19014, 6.585453], [53.190172, 6.585772], [53.190203, 6.586212], [53.190241, 6.586884], [53.1903, 6.587405], [53.190303, 6.587431], [53.190385, 6.588002], [53.191641, 6.587612], [53.19213, 6.58746], [53.1924, 6.58741], [53.19248, 6.58742], [53.19258, 6.58748], [53.192722, 6.587646], [53.192213, 6.588908], [53.192123, 6.589188], [53.192041, 6.589511], [53.191986, 6.5899], [53.191966, 6.590108], [53.191964, 6.590157], [53.19196, 6.590291], [53.191961, 6.590662], [53.191979, 6.590916], [53.192099, 6.591591]],
+                {"bubblingMouseEvents": true, "color": "#3388ff", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#3388ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.9, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+        
+    
+            var locate_control_989fc26785b556695ac67cfdc496778b = L.control.locate(
+                {"keepCurrentZoomLevel": true}
+            ).addTo(map_fa1afc0b1010d99e162a14085e6b11bf);
+            
+        
+</script>
+</html>
