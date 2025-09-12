@@ -1,0 +1,2351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Solving Wordle and similar games with recursion and  entropy</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="/css/tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/ox-tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/pygments.css" type="text/css" />
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+<script>
+  window.MathJax = {
+    tex: {
+      macros: {
+        argmin: ["\\mathop{\\mathrm{arg\\,min}}", 0],
+        argmax: ["\\mathop{\\mathrm{arg\\,max}}", 0],
+        abs: ["\\left\\vert#1\\right\\vert", 1],
+        given: ["\\,\\middle|\\,", 0],
+        mineq: "\\mathrel{-}=",
+        pluseq: "\\mathrel{+}=",
+        supp: ["\\mathrm{supp}\\left(#1\\right)", 1],
+        Max: ["\\max\\left\\{#1\\right\\}", 1],
+        Min: ["\\min\\left\\{#1\\right\\}", 1],
+        Inf: ["\\inf\\left\\{#1\\right\\}", 1],
+        IInf: ["\\displaystyle\\mathop{\\inf}_{#1}\\left\\{#2\\right\\}", 2],
+        Sup: ["\\sup\\left\\{#1\\right\\}", 1],
+        SSup: ["\\displaystyle\\mathop{\\sup}_{#1}\\left\\{#2\\right\\}", 2],
+        B: "\\mathbb{B}",
+        C: "\\mathcal{C}",
+        d: "\\,\\textrm{d}",
+        E: ["\\mathsf{E}\\left[#1\\right]", 1],
+        F: "\\mathcal{F}",
+        N: "\\mathbb{N}",
+        P: ["\\mathsf{P}\\left\\{#1\\right\\}", 1],
+        R: "\\mathbb{R}",
+        V: ["\\mathsf{V}\\left[#1\\right]", 1],
+        Z: "\\mathbb{Z}",
+        Bin: ["\\mathrm{Bin}(#1)", 1],
+        Exp: ["\\mathrm{Exp}(#1)", 1],
+        FS: ["\\mathrm{FS}(#1)", 1],
+        Gamm: ["\\mathrm{Gamm}(#1)", 1],
+        Geo: ["\\mathrm{Geo}(#1)", 1],
+        HGeom: ["\\mathrm{HGeom}(#1)", 1],
+        Norm: ["\\mathrm{Norm}(#1)", 1],
+        Pois: ["\\mathrm{Pois}(#1)", 1],
+        Unif: ["\\mathrm{Unif}(#1)", 1],
+        "1": ["\\mathbb{1}\\left\\{#1\\right\\}", 1],
+      },
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header id="preamble" class="status">
+<header class='site-header'>
+  <div class='site-header-container'>
+    <a href="https://ndvanforeest.github.io/">
+    <img src="/img/harry.jpg" alt='parsec logo' class='site-logo'>
+    </a>
+      <div class='site-title-container'>
+        <h1 class='site-title'>Nicky&rsquo;s site</h1>
+      </div>
+    </div>
+</header>
+<hr class='menu-divider'>
+<nav class='menu'>
+  <ul>
+    <li><a href='/index.html'>Home</a></li>
+    <li><a href='/about_this_site.html'>About this site</a></li>
+    <li><a href='/bio.html'>Bio</a></li>
+    <li><a href='/books.html'>Books</a></li>
+    <li><a href='/city_walks.html'>City Walks</a></li>
+  </ul>
+</nav>
+<hr class='menu-divider'>
+</header>
+<article id="content" class="content">
+<header>
+<h1 class="title">Solving Wordle and similar games with recursion and  entropy</h1>
+</header><section id="outline-container-org2dc1f56" class="outline-2">
+<h2 id="org2dc1f56"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The goal of the wordle game is to ask questions to identify a secret word chosen by an adversary out of a large (but known) set of words.
+Per experiment we get feedback about how `near&rsquo; our question, i.e., our selected word, is to the secret.
+Now I am not particularly interested in playing this game, but I do find it interesting to see how to let the computer find the secret word in an efficient way.
+There were some sites on the internet that (kind of) `explained&rsquo; how to do this; these sites mention entropy and say that word frequencies can be taken into account to improve the guessing strategy.
+That in itself was not new to me, but I hoped to learn how these concepts connect in detail, as I find entropy an intriguing concept.
+However, I found these sites very unclear, so, I decided to work on it myself, and start from scratch.
+</p>
+
+<p>
+I first discuss my approach to coming to understand the ideas, then I present the mathematical framework that summarizes these ideas.
+This framework helps to show the commonality of many problems and clarifies several other relating issues such as the selection of a good pivot for quicksort, why certain other types of games are harder than others, and how to develop efficient heuristics to deal with these hard games.
+</p>
+</div>
+</section>
+<section id="outline-container-org7161a33" class="outline-2">
+<h2 id="org7161a33"><span class="section-number-2">2.</span> Approach</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The book `Probability And Information&rsquo; by Yaglom and Yaglom provides a nice discussion on information theory and entropy.
+For this, they consider a game in which one has to identify a deficit (heavier) coin among \(n\) coins with an expected minimum of weightings with a balance with two pans.
+For nine coins the optimal strategy is easy: put two sets of three coins on either pan of the balance.
+If the balance remains level, the deficit coin is in the third set.
+If it tilts to the right, the heavier coin is in the right set, otherwise in the left.
+Thus, using the information gained by a weighting, i.e., an <i>experiment</i>, we can reduce the nine-coin problem to a three-coin problem.
+In other words, we can apply recursion to find the heavier coin.
+With \(n\) coins, the idea works roughly the same.
+In general terms, with every weighting we can reduce the size of the set containing the deficit coin by a factor three.
+Hence, the minimum of weightings for \(n\) coins must be about \(\log_3 n\).
+</p>
+
+<p>
+A similar problem is to identify a secret word in a set of \(n\) words chosen by an `adversary&rsquo; who only responds with `yes&rsquo; or `no&rsquo; to any question posed.
+For instance, we can ask a question whether some word is larger than the secret.
+Realize  that we now use the question to split the space of words into two sets, and ask whether the secret is an element of one of the two sets.
+This explains why this algorithm is called `binary search&rsquo;.
+Since we get two possible answers, we  need about \(\log_{2} n\) experiments to find the secret word.
+</p>
+
+<p>
+In the coin and number-finding problems it is clear (after reading the book of the Yaglom brothers) how entropy helps to find the strategy that is best in the sence of minimizing the number of experiments.
+In fact in both games we use a question that makes the subsets that are compatible with the feedback as equal in size as possible, because this maximizes the entropy when all coins have an equal probability of being the deficit coin.
+</p>
+
+<p>
+Below I make a general framework to analyze these two games, and with this framework we can also deal efficiently with the wordle game.
+I first built a computer program for the coin problem and binary search and thought about common concepts.
+Then I tried to make a mathematical formulation of it.
+Based on that, I refined my programs.
+After this, I went for a walk, and tried to explain in yet more general terms the essential ingredients.
+I also tried to tackle more general problems like how to find a coin that can be heavier or lighter among \(n\) coins, or two heavier coins out of \(n\), or \(m\) out of \(n\).
+These generalizations revealed to me that, actually, all these weighing games can be solved generically, in an efficient, but not optimal, way: just sort the coins from light to heavy with a balance.
+The most general of these problems is to sort \(n\) coins, and we already know from <a href="./vickrey_auction.html#orgde0f8b8">this page</a> that this takes \(n \log_{2} n\) weightings.
+</p>
+
+<p>
+A bit of further research on the web showed that finding the optimal policy for the \(2\) out of \(n\) coin problem is very hard.<label id='fnr.1' for='fnr-in.1.8061131' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.8061131' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>Richard Bellman even wrote a paper on this</span> So I dropped this task from my list, but it raised two interesting problems.
+How to explain, in terms of my general framework, where exactly lies the additional complexity for \(m\) out of \(n\) coin game (with \(m>1\))?
+And second, what would be good heuristics to efficiently solve this, and similar, problems.
+As it turns out, this second problem relates directly to the selection of a good pivot in the quicksort algorithm; we will address it below.
+</p>
+</div>
+</section>
+<section id="outline-container-org79c4fb7" class="outline-2">
+<h2 id="org79c4fb7"><span class="section-number-2">3.</span> Developing the mathematical framework</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Before trying to develop a general mathematical formulation, it is helpful to consider two concrete examples and develop useful terminology at the same time.
+</p>
+
+
+<p>
+In the wordle game, a <i>player</i> tries to find a <i>secret</i> word in a given list of words, and for this, the player can consult an <i>oracle</i> in two different ways.
+First, the player can ask <i>feedback</i> in terms of "If the word `raise&rsquo; is the secret, i.e., my <i>guess</i> for the secret, and I would ask the <i>question</i> whether the word `abate&rsquo; is the secret, what feedback would you give me?&rsquo;.
+Clearly, asking such feedback is free: the oracle does not have to reveal any information about the secret word because the oracle just uses the player&rsquo;s <i>guess</i> of the secret.
+Second, the player can perform an actual <i>experiment</i>, in which the player asks to give feedback about a specific word, and the oracle uses the secret to give the feedback.
+A player can get unlimited feedback about the quality of a word for a guess (of the secret) provided by the player, but an experiment counts as a try.
+In the wordle game, the player has 6 tries to identify the secret.
+</p>
+
+<p>
+As a second example, consider 4 coins of which one is heavier, with probabilities \(\alpha, \beta, \gamma, \delta\) that the first, second, \(\ldots\), coin is the deficit one.
+We use a balance to compare the weight of groups of coins.
+Suppose we would put coins \(1, 2\) on the left pan, and \(3, 4\) on the right pan.
+The probability that the left pan tilts downwards is \(\alpha + \beta\), because this is the probability that the heavier coin lies in the set \(\{1, 2\}\), and the probability that the right pan tips downward is \(\gamma + \delta\).
+It cannot happen that the balance stays level.
+In more detail, our <i>question</i> is the grouping of the coins into sets \(\{1, 2\}\) and \(\{3, 4\}\).
+Then, if we <i>guess</i> that coin 1 is heavier, the <i>feedback</i> given by the <i>oracle</i>, i.e., the balance, will be that the left pan tips downwards.
+If coin 2 is heavier, we get the same feedback, while if coins 3 (or 4) is the heavier, the right pan tips.
+So, given the question, the probability to get as feedback that the left pan tips, is the probability that the heavier coin lies in the set \(\{1, 2\}\).
+The other probabilities can be computed likewise.
+</p>
+
+<p>
+Now we are ready to make a formalized description of such stochastic optimization problems (here games).
+There is a <i>state space</i> \(S\) from which an <i>oracle</i> selects a <i>secret</i> word \(s\in S\).
+In wordle, \(S\) is the set of words; for the coins, \(S\) is the set of coins.
+A <i>player</i> can ask a <i>question</i> \(q\in Q\) for a set of possible questions \(Q\).
+For wordle, the set of questions is the same as the set of words; for finding a deficit coin, a question is the placement of sets of coins on the left and right pan of the balance, hence, the question set is the set of all possible groupings of coins in three piles, one is placed at the left pan, the other at the right, and the rest is not used in the weighting.
+The player can ask the oracle to provide <i>feedback</i> in the form of function \(f_{q}(g)\) for question \(q\) and <i>guess</i> \(g\) for the secret.
+In wordle, the feedback consists of a set of colors for letters; in the coin game, the feedback is \(l, eq\), or \(r\), i.e., the left pan tips, the balance stays equal, or the right pan tips.
+Finally, the player can perform an <i>experiment</i> (which counts as a try) by asking the oracle a question \(q\) and receiving feedback \(f_{q}(s)\).
+So, in an experiment, the oracle substitutes the secret \(s\) in the feedback function \(f_{q}\) to give the feedback \(f_{q}(s)\), but does not reveal the secret.
+</p>
+
+<p>
+The player can progress like this.
+For question \(q\), define the set of possible feedbacks compatible with \(q\) as
+</p>
+\begin{align*}
+F_q = \{f_q(g) : g \in S\}.
+\end{align*}
+<p>
+Then, for each feedback \(f\in F_{q}\), the player collects the states with the same feedback \(f\) into subsets of \(S\):
+</p>
+\begin{equation}
+\label{org194cf40}
+W_q(f) = \{g \in S : f_q(g) = f\}.
+\end{equation}
+<p>
+Clearly, \(\cup_{f\in F_q} W_q(f) = S\), and \(W_q(f) \cap W_{q}(f')=\varnothing\) if \(f\neq f'\).
+Hence the question \(q\) <i>induces</i> by means of the set of feedbacks \(F_q\) a unique partition of \(S\):
+</p>
+\begin{equation}
+\label{org0043671}
+\mathscr{P}_q = \{W_{q}(f) : f \in F_q\}.
+\end{equation}
+
+<p>
+The player&rsquo;s problem is to identify the question in \(Q\) that minimizes the expected number of experiments, and for this, the player can use the entropy function.
+Suppose we are given the probability \(p_g\) that element \(g\in S\) is the secret.
+Then \(P(A) = \sum_{g\in A} p_g\) is the probability that \(s \in A \subset S\).
+For instance, when \(p_{g}\) is uniform over \(S\), \(\P{A} = |A|/|S|\), i.e., counting measure.
+Once the probability function (the measure) \(\P{\cdot}\) is known, we can define the entropy of a partition \(\mathcal P\) of \(S\) as
+</p>
+\begin{align*}
+H(\mathcal P) = - \sum_{A\in \mathcal P} \P{A} \log \P{A}.
+\end{align*}
+<p>
+Clearly, by \eqref{org0043671}, a question \(q\) induces the partition \(\mathcal{P}_{q}\), hence,  we define the entropy induced by \(q\) as
+</p>
+\begin{align*}
+H_q &= - \sum_{A\in \mathcal P_{q}} \P{A} \log \P{A} \\
+&=- \sum_{f\in F_{q}} \P{W_q(f)} \log \P{W_q(f)}.
+\end{align*}
+
+<p>
+The best question \(q^{*}\) is the solution of the maximization problem<label id='fnr.2' for='fnr-in.2.1471703' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.1471703' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>Why this is best is explained very well at many places. Besides the book by Yaglom and Yaglom, I recommend <a href="http://www.inference.org.uk/mackay/itila/">Information Theory, Inference, and Learning Algorithms</a> by MacKay.</span>
+</p>
+\begin{equation}
+\label{orga55bdd4}
+q^{*} = \argmax_{q\in Q}\, H_{q}.
+\end{equation}
+<p>
+To complete the procedure, if the player has \(q^*\) and the associated optimal partition \(W^*_{q^*}\) , s/he does an experiment by asking the oracle for
+</p>
+\begin{equation}
+\label{org1520f12}
+f^* = f_{q^*}(s),
+\end{equation}
+<p>
+where \(s\) is the oracle&rsquo;s secret.
+With this answer, the player starts a new round of the game, but now with the strictly smaller state space
+</p>
+\begin{equation}
+\label{orgff52af2}
+S^{*} = W_{q^{*}}(f^{*}).
+\end{equation}
+<p>
+Since this set is a strict subset of \(S\), the player can find the secret \(s\) by means of recursion until the final state space contains just one element, and this must be the secret.
+</p>
+
+<p>
+Note that any question \(q\) such that the set of feedbacks \(F_{q}\) contains at least 2 elements is effective in solving the problem, because this question will result in a non-trivial partitioning of the space \(S\).
+In other words, even when simple questions are not optimal, they do help to work towards identifying the secret.
+</p>
+</div>
+</section>
+<section id="outline-container-orgb22ef7e" class="outline-2">
+<h2 id="orgb22ef7e"><span class="section-number-2">4.</span> Oracle, Player, and Answer Classes</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+It&rsquo;s time now  to convert the maths into code. Let me repeat: I did not find the maths or the code in one pass. I first used a bit of math, then built it to see where the ideas would break. This lead to a new cycle of thinking,  maths, and coding.
+</p>
+</div>
+<div id="outline-container-org0c2fec5" class="outline-3">
+<h3 id="org0c2fec5"><span class="section-number-3">4.1.</span> The oracle super class</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+The oracle super class is quite simple.
+It needs a secret \(s\), and the space \(S\) to check that \(s\in S\).
+The feedback function depends on the actual game, hence the <code>feedback</code> methods needs to be implemented in a class derived from <code>Oracle</code>.
+The player is free to consult the oracle for feedback on what-if scenarios: `If this is my <code>question</code> and this is my <code>guess</code> for the secret, then what feedback would you give?&rsquo;.
+Finally, in an <i>experiment</i> the oracle gives feedback based on the secret, but the secret remains hidden, of course.
+</p>
+
+<p>
+The only reason to include the test on whether the secret is in the space or not is to protect against typos in the secret and/or the space.
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Oracle</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">secret</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_tries</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">secret</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">space</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;The secret &#39;</span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&#39; is not in the solution space.&quot;</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">secret</span> <span class="o">=</span> <span class="n">secret</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">secret</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_tries</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">feedback</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-org72a3840" class="outline-3">
+<h3 id="org72a3840"><span class="section-number-3">4.2.</span> Computing the entropy</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+We store the computation of the entropy and some related function in a separate module.
+The implementations speak for themselves (I believe).
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">counting_measure</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">object</span><span class="p">,</span> <span class="nb">set</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">object</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="s2">&quot;Map keys of d to the number of elements in d[key].&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize_probs</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="s2">&quot;Normalize the probabilities stored as values of p.&quot;</span>
+    <span class="n">tot</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="o">/</span> <span class="n">tot</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">uniform_probs</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">object</span><span class="p">,</span> <span class="nb">set</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">object</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="s2">&quot;Map keys of d to  uniform probabilities.&quot;</span>
+    <span class="k">return</span> <span class="n">normalize_probs</span><span class="p">(</span><span class="n">counting_measure</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">entropy</span><span class="p">(</span><span class="n">pmf</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="s2">&quot;The entropy of the probability mass function pmf.&quot;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="nb">sum</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pmf</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-orge63ca02" class="outline-3">
+<h3 id="orge63ca02"><span class="section-number-3">4.3.</span> The player super class</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+We need <code>textwrap</code> to print somewhat larger spaces, and <code>probability_functions.py</code> for the entropy function.
+Below we assume that the secret is chosen uniformly over the space, so therefore we use uniform probabilities.
+</p>
+
+<p>
+The player needs the oracle to get feedback, and s/he needs the state space to generate the question space \(Q\).
+The method <code>make_partition</code> partitions the state space according to the function \(W\) defined in \eqref{org194cf40}.
+The rest of the functions should be clear, except for <code>solve</code>.
+</p>
+
+<p>
+We find for the optimal guess by means of recursion.
+Given a state space \(S\), we partition \(S\) according to the question.
+While searching for the best question we only maintain a reference to the best question and partition so far.<label id='fnr.3' for='fnr-in.3.9956131' class='margin-toggle sidenote-number'><sup class='numeral'>3</sup></label><input type='checkbox' id='fnr-in.3.9956131' class='margin-toggle'><span class='sidenote'><sup class='numeral'>3</sup>It&rsquo;s pointless to keep worse questions and the partitions they induce.</span>
+Once we have the question that optimally partitions the space, we ask the oracle to give an answer for the best question.
+This provides the player also with the best subspace to continue the search for the secret.
+We then call <code>solve</code> with this smaller space.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">probablity_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">entropy</span><span class="p">,</span> <span class="n">uniform_probs</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Player</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">oracle</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">space</span> <span class="o">=</span> <span class="n">space</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">oracle</span> <span class="o">=</span> <span class="n">oracle</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_question_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">space</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_partition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
+        <span class="s2">&quot;Map feedback for a (question, guess) pair to a subset of the space.&quot;</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">guess</span> <span class="ow">in</span> <span class="n">space</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">feedback</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">guess</span><span class="p">)</span>
+            <span class="n">W</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">W</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_optimal_question</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">questions</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
+        <span class="n">q_star</span><span class="p">,</span> <span class="n">P_star</span><span class="p">,</span> <span class="n">h_star</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="p">{},</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+            <span class="n">W</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_partition</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">space</span><span class="p">)</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">entropy</span><span class="p">(</span><span class="n">uniform_probs</span><span class="p">(</span><span class="n">W</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="n">h_star</span><span class="p">:</span>
+                <span class="n">q_star</span><span class="p">,</span> <span class="n">P_star</span><span class="p">,</span> <span class="n">h_star</span> <span class="o">=</span> <span class="n">question</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">h</span>
+        <span class="k">return</span> <span class="n">q_star</span><span class="p">,</span> <span class="n">P_star</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">space</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">space</span>
+        <span class="n">questions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_question_space</span><span class="p">(</span><span class="n">space</span><span class="p">)</span>
+        <span class="n">q_star</span><span class="p">,</span> <span class="n">P_star</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_optimal_question</span><span class="p">(</span><span class="n">questions</span><span class="p">,</span> <span class="n">space</span><span class="p">)</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="n">q_star</span><span class="p">)</span>
+        <span class="n">space</span> <span class="o">=</span> <span class="n">P_star</span><span class="p">[</span><span class="n">answer</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">print_step</span><span class="p">(</span><span class="n">q_star</span><span class="p">,</span> <span class="n">answer</span><span class="p">,</span> <span class="n">space</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">space</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">print_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q_star</span><span class="p">,</span> <span class="n">answer</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">q_star</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">answer</span><span class="si">=}</span><span class="s2">, n_tries=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">oracle</span><span class="o">.</span><span class="n">n_tries</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">space</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">secret</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">space</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The secret is </span><span class="si">{</span><span class="n">secret</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New state space:&quot;</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">space</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div id="outline-container-orgd9cd98a" class="outline-3">
+<h3 id="orgd9cd98a"><span class="section-number-3">4.4.</span> Answer class</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+The oracles for the different games can give different answers, for instance, for the coin games whether the balance tilts to right.
+I find it convenient to put the different types of answers in a separate file.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntEnum</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Answer</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">BinaryAnswer</span><span class="p">(</span><span class="n">Answer</span><span class="p">):</span>
+    <span class="n">LEFT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">RIGHT</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TernaryAnswer</span><span class="p">(</span><span class="n">Answer</span><span class="p">):</span>
+    <span class="n">LEFT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">MIDDLE</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">RIGHT</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ColorAnswer</span><span class="p">(</span><span class="n">Answer</span><span class="p">):</span>
+    <span class="s2">&quot;Used for the wordle game.&quot;</span>
+
+    <span class="n">GREEN</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">YELLOW</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">GRAY</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="outline-container-org7e0b801" class="outline-2">
+<h2 id="org7e0b801"><span class="section-number-2">5.</span> Two simple  games</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Let us try what we developed up to now to two simple problems whose solutions we can check by hand.
+</p>
+</div>
+<div id="outline-container-org530237a" class="outline-3">
+<h3 id="org530237a"><span class="section-number-3">5.1.</span> Binary search</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+The task of binary search is to identify a selected element (the secret) in a state space \(S\).
+The oracle gives as feedback whether a guess (for the secret) lies in a left or a right set that form a question of the player.
+The player makes a question list by splitting the space into left and right sets.
+Of course, it is evident that when the secret is chosen with uniform probability it is optimal to split the space into a left and right set of equal size.
+However, that is not the aim here.
+We want to check that among many different questions, the player selects the best one by using the algorithm described in Section <a href="#org79c4fb7">Developing the mathematical framework</a>.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">answers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BinaryAnswer</span> <span class="k">as</span> <span class="n">Answer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oracle_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Oracle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">player_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Player</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Binary_search_oracle</span><span class="p">(</span><span class="n">Oracle</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">guess</span><span class="p">):</span>
+        <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">question</span>
+        <span class="k">if</span> <span class="n">guess</span> <span class="ow">in</span> <span class="n">left</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Answer</span><span class="o">.</span><span class="n">LEFT</span>
+        <span class="k">return</span> <span class="n">Answer</span><span class="o">.</span><span class="n">RIGHT</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Binary_search_player</span><span class="p">(</span><span class="n">Player</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_question_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">space</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">space</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">space</span><span class="p">)):</span>
+            <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">space</span><span class="p">[:</span><span class="n">i</span><span class="p">],</span> <span class="n">space</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span>
+            <span class="n">Q</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">Q</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">space</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;aahed&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;aalii&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;aargh&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;abaca&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;abaci&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;aback&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;abaft&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;abaka&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;abamp&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="n">oracle</span> <span class="o">=</span> <span class="n">Binary_search_oracle</span><span class="p">(</span><span class="n">secret</span><span class="o">=</span><span class="s2">&quot;abaft&quot;</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">)</span>
+    <span class="n">player</span> <span class="o">=</span> <span class="n">Binary_search_player</span><span class="p">(</span><span class="n">oracle</span><span class="o">=</span><span class="n">oracle</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">)</span>
+
+    <span class="n">player</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;binary.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+
+<pre class="example" id="org648c2f4">
+q_star=[['aahed', 'aalii', 'aargh', 'abaca'], ['abaci', 'aback', 'abaft', 'abaka', 'abamp']], answer=RIGHT, n_tries=1
+New state space:
+abaci aback abaft abaka abamp
+
+q_star=[['abaft', 'aback'], ['abaci', 'abaka', 'abamp']], answer=LEFT, n_tries=2
+New state space:
+aback abaft
+
+q_star=[['aback'], ['abaft']], answer=RIGHT, n_tries=3
+The secret is abaft
+</pre>
+
+
+
+<p>
+The initial space contains 9 words, so the player would need maximally 4 tries under optimal play.
+</p>
+</div>
+</div>
+<div id="outline-container-org38570f5" class="outline-3">
+<h3 id="org38570f5"><span class="section-number-3">5.2.</span> One heavy coin</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+For this problem we have to find one heavy coin among \(n\) in a minimum of weightings with a balance that has three possible outcomes: it tilts to the left or right or stays level.
+Like this, the balance offers a ternary search instead of a binary search.
+The state space \(S\) is the set of numbers \(\{1, 2, \ldots, n\}\) where \(i\in S\) means that \(i\) is the deficit coin.
+A question consists of two sets with an equal number of coins that we put on either pan of the balance; the other coins remain in the middle and are not used during the weighting.
+</p>
+
+<p>
+The question space of the player consists of sets of coins such that the left and right sets have equal size, for instance, \(\{1, 2\}; \{3, 4\}\), where the semicolon denotes the split between the left and right set.
+Assuming we don&rsquo;t have any specific information about any coin, the deficit coin is selected uniformly from \(S\).
+By symmetry, the question \(\{1, 2,\}; \{3, 4\}\) will provide the same information as the question \(\{1, 4\}; \{2, 3\}\); only the number of coins in the sets matter.
+Thus, we do not have to consider all possible equally sized subsets of \(S\) to form the question space.
+</p>
+
+<p>
+In the next code, suppose we deal with \(9\) coins.
+Then we can form 4 questions: \(\{1\}; \{9\}\), \(\{1, 2\}; \{8, 9\}\), \(\{1, 2, 3\}; \{7, 8, 9\}\), \(\{1, 2, 3, 4\}; \{6, 7, 8, 9\}\).
+Thus, the size of the left and right set takes as values \(1, 2, 3\) and \(4\), which we achieve with <code>range(1, 9 // 2 + 1)</code>.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">answers</span><span class="w"> </span><span class="kn">import</span> <span class="n">TernaryAnswer</span> <span class="k">as</span> <span class="n">Answer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oracle_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Oracle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">player_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Player</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">One_coin_oracle</span><span class="p">(</span><span class="n">Oracle</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">guess</span><span class="p">):</span>
+        <span class="n">left</span><span class="p">,</span> <span class="n">middle</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">question</span><span class="p">[:]</span>
+        <span class="k">if</span> <span class="n">guess</span> <span class="ow">in</span> <span class="n">left</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Answer</span><span class="o">.</span><span class="n">LEFT</span>
+        <span class="k">if</span> <span class="n">guess</span> <span class="ow">in</span> <span class="n">middle</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Answer</span><span class="o">.</span><span class="n">MIDDLE</span>
+        <span class="k">return</span> <span class="n">Answer</span><span class="o">.</span><span class="n">RIGHT</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">One_coin_player</span><span class="p">(</span><span class="n">Player</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_question_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
+        <span class="n">space</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">space</span><span class="p">)</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">space</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="n">space</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">middle</span> <span class="o">=</span> <span class="n">space</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="o">-</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="n">space</span><span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="p">:]</span>
+            <span class="n">Q</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">left</span><span class="p">,</span> <span class="n">middle</span><span class="p">,</span> <span class="n">right</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">Q</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">space</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
+    <span class="n">oracle</span> <span class="o">=</span> <span class="n">One_coin_oracle</span><span class="p">(</span><span class="n">secret</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">)</span>
+    <span class="n">player</span> <span class="o">=</span> <span class="n">One_coin_player</span><span class="p">(</span><span class="n">oracle</span><span class="o">=</span><span class="n">oracle</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">)</span>
+    <span class="n">player</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+<p>
+Let us try it for 13 coins.
+</p>
+<div class="highlight"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./one_coin.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+
+<pre class="example" id="org94dc380">
+q_star=[[0, 1, 2, 3], [4, 5, 6, 7, 8], [9, 10, 11, 12]], answer=RIGHT, n_tries=1
+New state space:
+9 10 11 12
+
+q_star=[[9], [10, 11], [12]], answer=MIDDLE, n_tries=2
+New state space:
+10 11
+
+q_star=[[10], [], [11]], answer=RIGHT, n_tries=3
+The secret is 11
+</pre>
+</div>
+</div>
+</section>
+<section id="outline-container-org97f457e" class="outline-2">
+<h2 id="org97f457e"><span class="section-number-2">6.</span> Wordle (with sampling)</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Above we have tackled two simple games.
+Now it&rsquo;s time to see how to deal with Wordle.
+This game is about identifying a secret word, for instance &rsquo;aahed&rsquo; in a set \(S\) of five letter words.
+The player formulates a question in the form of a word, for instance &rsquo;adopt&rsquo;.
+The feedback consists of a string of five colors, for each letter position one color.
+Green at some position means that the letter of the question is correct at that position; Yellow means that the letter of the question is also in the secret, but not at that position; Gray means that the letter at the position of the question is not in the secret.
+Thus, the feedback for the question &rsquo;adopt&rsquo; would be Green, Yellow, Gray, Gray, Gray.
+Interestingly, feedback is not symmetric, as can be seen when `adopt&rsquo; would be the secret and `aahed&rsquo; the question.
+</p>
+
+<p>
+While the player is simple in essence, we introduce a new idea to demonstrate how to reduce numerical work.
+To find the secret word in a minimal number of experiments, we have to search \(S\) entirely for the guess that gives the highest entropy.
+This can be very time consuming when \(S\) is large.
+To prevent doing lots of useless numerical work (or if we like to have an answer before we die), we can take a sample of <code>n_samples</code> of \(S\) to make the question space \(Q\).
+Surely this is not optimal, but it still gives exponentially fast convergence (with very large probability).
+</p>
+
+<p>
+The feedback of the oracle is somewhat subtle to deal with some easy-to-miss corner cases.
+I used the implementation from <a href="https://mathspp.com/blog/solving-wordle-with-python">this link</a>.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">answers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorAnswer</span> <span class="k">as</span> <span class="n">Answer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oracle_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Oracle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">player_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Player</span>
+
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">read_words</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./valid-wordle-words.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">fp</span><span class="p">)[:</span><span class="n">num</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">words</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Wordle_Player</span><span class="p">(</span><span class="n">Player</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">oracle</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">=</span> <span class="n">n_samples</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">oracle</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_question_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">space</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">space</span>
+        <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">space</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Wordle_oracle</span><span class="p">(</span><span class="n">Oracle</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">guess</span><span class="p">):</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">s</span> <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">guess</span><span class="p">)</span> <span class="k">if</span> <span class="n">g</span> <span class="o">!=</span> <span class="n">s</span><span class="p">)</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">guess</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">g</span> <span class="o">==</span> <span class="n">s</span><span class="p">:</span>
+                <span class="n">pool</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="n">score</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Answer</span><span class="o">.</span><span class="n">GREEN</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">pool</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">pool</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="n">score</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Answer</span><span class="o">.</span><span class="n">YELLOW</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">score</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Answer</span><span class="o">.</span><span class="n">GRAY</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">space</span> <span class="o">=</span> <span class="n">read_words</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">oracle</span> <span class="o">=</span> <span class="n">Wordle_oracle</span><span class="p">(</span><span class="n">secret</span><span class="o">=</span><span class="s2">&quot;abase&quot;</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">)</span>
+    <span class="n">player</span> <span class="o">=</span> <span class="n">Wordle_Player</span><span class="p">(</span><span class="n">oracle</span><span class="o">=</span><span class="n">oracle</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">)</span>
+    <span class="n">player</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+<p>
+To keep the output limited, I just read the first 1000 words from <a href="https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93">this list of valid Wordle words</a>.
+Here is the output when we don&rsquo;t use sampling.
+The actual computation takes a few second because of all the computations.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./wordle.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+
+<pre class="example" id="org9c54a6f">
+q_star='arles', answer=(GREEN, GRAY, GRAY, YELLOW, YELLOW), n_tries=1
+New state space:
+abase abuse amuse anise ansae aside aspie avise
+
+q_star='avise', answer=(GREEN, GRAY, GRAY, GREEN, GREEN), n_tries=2
+New state space:
+abase abuse amuse
+
+q_star='abase', answer=(GREEN, GREEN, GREEN, GREEN, GREEN), n_tries=3
+The secret is abase
+</pre>
+
+<p>
+Let us now use a sample of 10 words of the space as question words, and read all \(\approx 15K\) words.
+The search runs real fast, even though we now consider all more than 10 K words.
+For this change, we modify the <code>main</code> function to this.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">space</span> <span class="o">=</span> <span class="n">read_words</span><span class="p">()</span>
+    <span class="n">oracle</span> <span class="o">=</span> <span class="n">Wordle_oracle</span><span class="p">(</span><span class="n">secret</span><span class="o">=</span><span class="s2">&quot;abase&quot;</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">)</span>
+    <span class="n">player</span> <span class="o">=</span> <span class="n">Wordle_Player</span><span class="p">(</span><span class="n">oracle</span><span class="o">=</span><span class="n">oracle</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">player</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</pre></div>
+
+<p>
+Let&rsquo;s run it.
+</p>
+<div class="highlight"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./wordle.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+
+
+<pre class="example" id="org3cb68a9">
+q_star='polts', answer=(GRAY, GRAY, GRAY, GRAY, YELLOW), n_tries=1
+New state space:
+abase abash abask absey abuse abysm adsum aesir agism agush aksed amuse anise
+ansae arise arish arsed arsey asada asana asdic ashed ashen aside askar asked
+asker askew assai assam assay assed assez asura asway aswim avise awash bagsy
+baisa basan based basen baser basha basic basij basin basse bassi bassy beisa
+besaw besee birse birsy brash brise brisk brush brusk bursa burse busby bused
+bushy busky bussu byssi caese carse cased caser casky causa cause cease cense
+cesse chase chasm chuse cissy crash crise cruse crush crusy cuish curse cursi
+cusec cushy cusum daisy danse dashi dashy deash deism dense desex deshi desse
+disci dishy disme druse drusy dunsh dusky eased easer ecash eensy ensew ensky
+ensue erase escar eskar esker essay farse fasci fease feese fesse fishy fresh
+frise frisk frush fubsy funsy fused fusee fussy gashy gassy gawsy geasa geese
+gesse girsh gnash grese grise grisy guise gursh gushy gussy guyse hansa hanse
+harsh hashy hause hawse herse hissy hushy husky hussy imshi imshy insee isnae
+issei issue jasey jesse jessy karsy kasha kasme kesar kiasu kisan kissy knish
+maise manse marse marsh mased maser masha mashy massa masse massy masur mausy
+mease meism mensa mense mensh merse mersk mesad mesca mesem meshy mesia mesic
+mesne messy meuse miasm mimsy minse misch miser misky missa missy msasa mumsy
+musar musca mused musee muser musha mushy music musky musse mussy mysid mysie
+nashi neese neski newsy nisei nisin nisse nsima nurse nused nyssa nyuse quash
+quasi qursh raise raksi ramse ramsh ranse rasam rased raser rasse resam resaw
+resay resee resew resid resin resue reuse rinse risen riser rishi risky rushy
+rusky rusma russe sabed saber sabha sabin sabir sabji sabra sabre sabzi sacra
+sacre saddy sadhe sadhu sadic sadza safed safer sagar sager saggy sagum sahab
+saheb sahib saice saick saiga saine sakai saker sakia saman samba samek samen
+samey samfi samfu sammy sanad sandy saned saner sanga sangh sansa saran sared
+saree sarge sarin sarir sarky saser sasin sasse sassy sauba sauce sauch saucy
+saugh sauna saunf saury sauve saved saver savey savin savvy sawah sawed sawer
+sayed sayee sayer sayid sayne scaff scand scare scarf scary scaud scaur scena
+scend scene schav schif schwa scifi scind scire scrab scrae scrag scram scran
+scraw scray scree screw scrim scrub scrum scuba scudi scuff scurf scuse scuzz
+sdayn sdein seame seamy seare sease seaze sebum sedan seder sedge sedgy sedum
+seedy sefer segar segni segue sehri seine seise seism seiza seize semee semen
+semie senex sengi senna sensa sense sensi sensu senvy senza serac serai sered
+serer serge seria seric serif serin serir serra serre serry serum serve sesey
+sessa sevak seven sever sevir sewan sewar sewed sewen sewer sewin sexed sexer
+seyen shack shade shady shaka shake shaky shama shame shand shank shard share
+shark sharn shash shave shawm shawn shaya shchi sheaf shear sheen sheer sheik
+shend sheng sherd shere sheva shewn shiai shied shier shine shiny shire shirk
+shirr shish shiur shiva shive shmek shred shrew shrub shrug shuba shuck shura
+shush shyer sibia sicky sided sider sidey sidha sidhe siege sieur sieve sigma
+signa sigri siker simar simba since sined sinew singe sinky sinsi sired siree
+siren sirih sirra sissy siver sixer sizar sized sizer skank skarn skean skear
+skeed skeef skeen skeer skeev skeez skegg skein skene skerm skied skier skiey
+skiff skink skirr skive skivy skran skrik skunk skyed skyer skyey skyre smaak
+smack smaik smarm smash smaze smear smeek smeik smeke smerk smick smirk smirr
+smize smush snack snafu snake snaky snare snarf snark snary snash snead sneak
+sneck sneed sneer snick snide snied sniff snive snuck snuff snush squab squad
+squaw squee squeg squib squid squiz suave subah subak subby suber subha succi
+sucky sucre sudan sudsy suede sugan sugar suhur suing sujee sukuk sumac summa
+sunna sunny surah sured surer surfy surge surgy surra sused sushi swack swage
+swain swami swamy swang swank sward sware swarf swarm swash swear swede sweed
+sweer sweir swerf swine swing swink swire swish swive swizz swung sybbe sycee
+syker symar synch syned syrah syren syver ukase unsaw unsay unsee unsew unsex
+unsub urase ursae ursid usage usher using usnea usnic usque usure usury versa
+verse vised visie visna visne washi washy weise wersh whish whisk wised wiser
+wisha wushu wussy yeesh ysame zhush
+
+q_star='raise', answer=(GRAY, YELLOW, GRAY, GREEN, GREEN), n_tries=2
+New state space:
+abase abuse amuse cease chase fease mease sease ukase
+
+q_star='amuse', answer=(GREEN, GRAY, GRAY, GREEN, GREEN), n_tries=3
+The secret is abase
+</pre>
+
+<p>
+It&rsquo;s impressive to see how fast this algorithm find the solution.
+</p>
+</div>
+</section>
+<section id="outline-container-org06d8357" class="outline-2">
+<h2 id="org06d8357"><span class="section-number-2">7.</span> Harder problems with coins.</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+The above problems are actually quite simple, mainly because the guess space can be taken as equal to the state space.
+In the next two problems this is no longer the case.
+</p>
+</div>
+<div id="outline-container-org9c1da07" class="outline-3">
+<h3 id="org9c1da07"><span class="section-number-3">7.1.</span> Two heavy coins</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+Our next problem is to find two heavy coins out of \(n\) coins; we assume that the two deficit coins are equaly heavy.
+</p>
+
+<p>
+The state space conists of all selections of 2 coins out of \(n\).
+The oracle specifies the secret as an array of two coins <code>c1</code> and <code>c2</code>.
+For the feedback, when coin <code>c1</code> is in the left pan and coin <code>c2</code> is in the middle (i.e., on neither pan), the left pan tilts.
+The other conditions follow like wise.
+</p>
+
+<p>
+The player has to generate the question space \(Q\). Since it only makes sense to put the same number of coins in both pans,
+When we put \(k\leq n/2\) coins in either pan, the number of combinations of ways to distribute the coins over the pans is
+</p>
+\begin{equation}
+\frac{n!}{k!k!(n-2k)!}.
+\end{equation}
+
+<p>
+The algorithm works like this.
+First we find out the ids of the coins that form the state space.
+Once we have the coins out of which we can select, we select \(k\) coins for the left set, and \(k\) for the right set, the rest of the coins are put in the middle (hence not used in the weighting).
+We vary \(k\) from \(1\) to half the size of the state space to make all questions.
+Note that we overcount the number of questions by at least a factor 2, because equivalent questions like \(\{1\}, \{2, 3, 4\}, \{5\}\) and \(\{5\}, \{2, 3, 4\}, \{1\}\) are both stored.
+We can remove these doubles, but this comes at the expense of more difficult code, so we don&rsquo;t do this here.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">answers</span><span class="w"> </span><span class="kn">import</span> <span class="n">TernaryAnswer</span> <span class="k">as</span> <span class="n">Answer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oracle_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Oracle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">player_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Player</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Deficit_coint_oracle</span><span class="p">(</span><span class="n">Oracle</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">guess</span><span class="p">):</span>
+        <span class="n">left</span><span class="p">,</span> <span class="n">middle</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">question</span><span class="p">[:]</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span> <span class="ow">in</span> <span class="n">middle</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Answer</span><span class="o">.</span><span class="n">MIDDLE</span>
+        <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span> <span class="ow">in</span> <span class="n">left</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Answer</span><span class="o">.</span><span class="n">RIGHT</span> <span class="k">if</span> <span class="n">guess</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Answer</span><span class="o">.</span><span class="n">LEFT</span>
+        <span class="k">return</span> <span class="n">Answer</span><span class="o">.</span><span class="n">RIGHT</span> <span class="k">if</span> <span class="n">guess</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Answer</span><span class="o">.</span><span class="n">LEFT</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Deficit_coin_player</span><span class="p">(</span><span class="n">Player</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oracle</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">oracle</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">question_space</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_question_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">question_space</span><span class="p">:</span>
+            <span class="n">coins</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">space</span><span class="p">)</span>
+            <span class="n">Q</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">coins</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">c1</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="n">coins</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+                    <span class="n">left</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">c1</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">c2</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="n">coins</span> <span class="o">-</span> <span class="n">left</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+                        <span class="n">right</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">c2</span><span class="p">)</span>
+                        <span class="n">middle</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">coins</span> <span class="o">-</span> <span class="n">left</span> <span class="o">-</span> <span class="n">right</span><span class="p">)</span>
+                        <span class="n">Q</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">left</span><span class="p">,</span> <span class="n">middle</span><span class="p">,</span> <span class="n">right</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">question_space</span> <span class="o">=</span> <span class="n">Q</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">question_space</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">12</span>
+    <span class="n">space</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">oracle</span> <span class="o">=</span> <span class="n">Deficit_coint_oracle</span><span class="p">(</span><span class="n">secret</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">)</span>
+    <span class="n">player</span> <span class="o">=</span> <span class="n">Deficit_coin_player</span><span class="p">(</span><span class="n">oracle</span><span class="o">=</span><span class="n">oracle</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">)</span>
+    <span class="n">player</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./one_deficit_coin.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+
+
+<pre class="example" id="org049cd7c">
+q_star=[{0, 1, 2}, {8, 9, 6, 7}, {3, 4, 5}], answer=LEFT, n_tries=1
+New state space:
+(0, 1) (0, 2) (0, 6) (0, 7) (0, 8) (0, 9) (1, 2) (1, 6) (1, 7) (1, 8) (1, 9) (2,
+6) (2, 7) (2, 8) (2, 9)
+
+q_star=[{0}, {2, 6, 7, 8, 9}, {1}], answer=RIGHT, n_tries=2
+New state space:
+(1, 2) (1, 6) (1, 7) (1, 8) (1, 9)
+
+q_star=[{2, 6}, {1, 7}, {8, 9}], answer=LEFT, n_tries=3
+New state space:
+(1, 2) (1, 6)
+
+q_star=[{1}, {6}, {2}], answer=MIDDLE, n_tries=4
+The secret is (1, 2)
+</pre>
+
+<p>
+The optimal strategy is not easy to understand, I think.
+</p>
+
+<p>
+While developing the above mathematical framework and code, I considered how to approach the problem in which \(2\) out of \(n\) coins are heavier.
+We can now finally see why this problem is harder than the one-coin problem: the question space is no longer equal to the state space, but much larger.
+In particular, when during an experiment the balance remains level, the two heavier coins can be in the middle, or they are at either plate of the balance.
+It is not easy (for humans) to see how to use this feedback to efficiently reduce the state space or the question space.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd49c6e7" class="outline-3">
+<h3 id="orgd49c6e7"><span class="section-number-3">7.2.</span> One deficit coin</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+In this example one coin out of \(n\) is either heavier or lighter.
+The state space \(\{-n, \ldots, -1\} \cup \{1, 2, \ldots, n\}\): when the secret is \(+3\), say, then the third coin is heavier, when it is \(-3\) the third coin is lighter.
+</p>
+
+<p>
+The feedback of oracle is as follows.
+The index of the deficit coin is the absolute value of the secret.
+Then, depending on the sign of the secret, the left or the right pan should tilt when the secret is not in the middle.
+</p>
+
+<p>
+The player generates the question space in much the same way as the two coin player.
+However, this problem is trickier than the problems above.
+If \(n=2\), then necessarily both coins are different.
+In other words, to be able to decide that, for instance, coin 1 is not only different, but also heavier, we need at least 2 more coins.
+Consequently, when in the recursion the state space has reduced to just 2 coins, we need one of the other coins to determine whether one of the remaining coins is lighter or heavier.
+For this reason, we generate the question space just once, and keep using that set so that we always have a third coin at our disposal.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">answers</span><span class="w"> </span><span class="kn">import</span> <span class="n">TernaryAnswer</span> <span class="k">as</span> <span class="n">Answer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oracle_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Oracle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">player_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Player</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Deficit_coint_oracle</span><span class="p">(</span><span class="n">Oracle</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">guess</span><span class="p">):</span>
+        <span class="n">left</span><span class="p">,</span> <span class="n">middle</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">question</span><span class="p">[:]</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span> <span class="ow">in</span> <span class="n">middle</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Answer</span><span class="o">.</span><span class="n">MIDDLE</span>
+        <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span> <span class="ow">in</span> <span class="n">left</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Answer</span><span class="o">.</span><span class="n">RIGHT</span> <span class="k">if</span> <span class="n">guess</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Answer</span><span class="o">.</span><span class="n">LEFT</span>
+        <span class="k">return</span> <span class="n">Answer</span><span class="o">.</span><span class="n">RIGHT</span> <span class="k">if</span> <span class="n">guess</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">Answer</span><span class="o">.</span><span class="n">LEFT</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Deficit_coin_player</span><span class="p">(</span><span class="n">Player</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oracle</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">oracle</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">question_space</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_question_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">question_space</span><span class="p">:</span>
+            <span class="n">coins</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">space</span><span class="p">)</span>
+            <span class="n">Q</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">coins</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">c1</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="n">coins</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+                    <span class="n">left</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">c1</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">c2</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="n">coins</span> <span class="o">-</span> <span class="n">left</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+                        <span class="n">right</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">c2</span><span class="p">)</span>
+                        <span class="n">middle</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">coins</span> <span class="o">-</span> <span class="n">left</span> <span class="o">-</span> <span class="n">right</span><span class="p">)</span>
+                        <span class="n">Q</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">left</span><span class="p">,</span> <span class="n">middle</span><span class="p">,</span> <span class="n">right</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">question_space</span> <span class="o">=</span> <span class="n">Q</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">question_space</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">12</span>
+    <span class="n">space</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">oracle</span> <span class="o">=</span> <span class="n">Deficit_coint_oracle</span><span class="p">(</span><span class="n">secret</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">)</span>
+    <span class="n">player</span> <span class="o">=</span> <span class="n">Deficit_coin_player</span><span class="p">(</span><span class="n">oracle</span><span class="o">=</span><span class="n">oracle</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">)</span>
+    <span class="n">player</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./one_deficit_coin.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+
+<pre class="example" id="org4a63c07">
+q_star=[{1, 2, 3, 4}, {9, 10, 11, 12}, {8, 5, 6, 7}], answer=MIDDLE, n_tries=1
+New state space:
+-12 -11 -10 -9 9 10 11 12
+
+q_star=[{1, 9}, {2, 3, 4, 5, 6, 7, 8, 12}, {10, 11}], answer=MIDDLE, n_tries=2
+New state space:
+-12 12
+
+q_star=[{1}, {2, 3, 4, 5, 6, 7, 8, 9, 10, 11}, {12}], answer=RIGHT, n_tries=3
+The secret is 12
+</pre>
+</div>
+</div>
+<div id="outline-container-org2ed5839" class="outline-3">
+<h3 id="org2ed5839"><span class="section-number-3">7.3.</span> General coins; link with Quicksort</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+Suppose we consider the yet more complicated problem to find \(k\) heavier or lighter coins out of \(n\) coins, and that the heavier and lighter coins are not equaly heavier and lighter, there comes a point at which it is simpler to just sort the coins and forget about the optimal policy.
+To see this, take an arbitrary coin and use that as pivot.
+Place the pivot coin on the left plate, select an arbitrary coin and put that on the right plate.
+Depending on the outcome of the balance, put the selected coin on a left, middle, or right stack of coins.
+Then pick another coin and compare that with the pivot, and so on.
+Finally, once all coins are weighted, put the pivot on the middle stack.
+Clearly, this is just the Quicksort algorithm.
+</p>
+
+<p>
+Out of interest, let us discuss Quicksort in a bit more detail.
+Suppose we would  only have available a balance that provides binary feedback, then we can use the following code to sort the coins.
+</p>
+<div class="highlight"><pre><span></span><span class="n">L</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{}</span>
+<span class="n">pivot</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="k">while</span> <span class="n">space</span><span class="p">:</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">:</span>
+        <span class="n">L</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">w</span> <span class="o">==</span> <span class="n">p</span><span class="p">:</span>
+        <span class="n">M</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">R</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+<span class="n">M</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pivot</span><span class="p">)</span>
+</pre></div>
+<p>
+This gives us about \(\log_2 n\) efficiency if most of the coins are different from the pivot.
+</p>
+
+<p>
+Clearly, a good pivot is capable to split the state space in sets of about the same size.
+Thus, the best pivot is the median of the entire set, rather than an arbitrary element.
+However, finding the median is quite wasteful just for this step of the sorting process,  see <a href="./vickrey_auction.html#orgde0f8b8">this page</a>.
+We can better follow the idea of the Wordle game in which we selected a few samples of the word space, and then use the best question in this smaller set.
+Likewise, for Quicksort , we take the median of three arbitrary elements of \(S\).
+With a bit of probability theory, it&rsquo;s evident that this gives a big performance gain for very little work.
+</p>
+</div>
+</div>
+</section>
+<section id="outline-container-org13b1d79" class="outline-2">
+<h2 id="org13b1d79"><span class="section-number-2">8.</span> Mastermind</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Yet another nice game is Mastermind, the rules of which you can find at <a href="https://en.wikipedia.org/wiki/Mastermind_(board_game)">Wikipedia</a>.
+</p>
+
+<p>
+The number of positions in which the guess and the secret have the same color are the number of black pegs.
+The number of hits, both black and white, is given by the formula
+</p>
+\begin{align*}
+\min\{n_1, n_1'\} +
+\min\{n_2, n_2'\} +  \cdots
+\min\{n_6, n_6'\},
+\end{align*}
+<p>
+where \(n_i\) is the number of times color \(i\) occurs in the question, and \(n_i'\) the number of times it occurs in the secret.
+See <a href="https://www.cs.uni.edu/~wallingf/teaching/cs3530/resources/knuth-mastermind.pdf">this paper</a> of Knuth.
+The number of white pegs is the number of hits minus the number of black pegs.
+</p>
+
+<p>
+I only have to compute once the number of occurrences of the colors in the secret, hence I do this in the <code>__init__</code>.
+</p>
+
+<p>
+Note that we minimize the expected number of experiments, we don&rsquo;t minimize the worst case scenario.
+As Knuth proves, the guaranteed minimal number of iterations is 5.
+I think we do better often, but not always.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">product</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">oracle_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Oracle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">player_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Player</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Mastermind_player</span><span class="p">(</span><span class="n">Player</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_question_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">space</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Mastermind_oracle</span><span class="p">(</span><span class="n">Oracle</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">secret</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">,</span> <span class="n">secret</span><span class="o">=</span><span class="n">secret</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s_cnt</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">secret</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">feedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">guess</span><span class="p">):</span>
+        <span class="n">black</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="n">g</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">guess</span><span class="p">,</span> <span class="n">question</span><span class="p">))</span>
+        <span class="n">g_cnt</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">question</span><span class="p">)</span>
+        <span class="n">hits</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">s_cnt</span><span class="p">[</span><span class="n">g</span><span class="p">],</span> <span class="n">g_cnt</span><span class="p">[</span><span class="n">g</span><span class="p">])</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+        <span class="n">white</span> <span class="o">=</span> <span class="n">hits</span> <span class="o">-</span> <span class="n">black</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">white</span><span class="p">,</span> <span class="n">black</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">space</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+    <span class="n">oracle</span> <span class="o">=</span> <span class="n">Mastermind_oracle</span><span class="p">(</span><span class="n">secret</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">)</span>
+    <span class="n">player</span> <span class="o">=</span> <span class="n">Mastermind_player</span><span class="p">(</span><span class="n">oracle</span><span class="o">=</span><span class="n">oracle</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">)</span>
+    <span class="n">player</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./mastermind.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+
+<pre class="example" id="orgf77f551">
+q_star=(4, 2, 0, 5), answer=(1, 1), n_tries=1
+New state space:
+(0, 0, 0, 0) (0, 0, 0, 1) (0, 0, 0, 2) (0, 0, 0, 3) (0, 0, 0, 4) (0, 0, 1, 5)
+(0, 0, 2, 5) (0, 0, 3, 5) (0, 0, 4, 5) (0, 0, 5, 5) (0, 1, 0, 0) (0, 1, 0, 1)
+(0, 1, 0, 2) (0, 1, 0, 3) (0, 1, 0, 4) (0, 1, 1, 5) (0, 1, 2, 5) (0, 1, 3, 5)
+(0, 1, 4, 5) (0, 1, 5, 5) (0, 2, 1, 0) (0, 2, 1, 1) (0, 2, 1, 2) (0, 2, 1, 3)
+(0, 2, 1, 4) (0, 2, 2, 0) (0, 2, 2, 1) (0, 2, 2, 2) (0, 2, 2, 3) (0, 2, 2, 4)
+(0, 2, 3, 0) (0, 2, 3, 1) (0, 2, 3, 2) (0, 2, 3, 3) (0, 2, 3, 4) (0, 2, 4, 0)
+(0, 2, 4, 1) (0, 2, 4, 2) (0, 2, 4, 3) (0, 2, 4, 4) (0, 2, 5, 0) (0, 2, 5, 1)
+(0, 2, 5, 2) (0, 2, 5, 3) (0, 2, 5, 4) (0, 3, 0, 0) (0, 3, 0, 1) (0, 3, 0, 2)
+(0, 3, 0, 3) (0, 3, 0, 4) (0, 3, 1, 5) (0, 3, 2, 5) (0, 3, 3, 5) (0, 3, 4, 5)
+(0, 3, 5, 5) (0, 4, 0, 0) (0, 4, 0, 1) (0, 4, 0, 2) (0, 4, 0, 3) (0, 4, 0, 4)
+(0, 4, 1, 5) (0, 4, 2, 5) (0, 4, 3, 5) (0, 4, 4, 5) (0, 4, 5, 5) (0, 5, 0, 0)
+(0, 5, 0, 1) (0, 5, 0, 2) (0, 5, 0, 3) (0, 5, 0, 4) (0, 5, 1, 5) (0, 5, 2, 5)
+(0, 5, 3, 5) (0, 5, 4, 5) (0, 5, 5, 5) (1, 0, 0, 0) (1, 0, 0, 1) (1, 0, 0, 2)
+(1, 0, 0, 3) (1, 0, 0, 4) (1, 0, 1, 5) (1, 0, 2, 5) (1, 0, 3, 5) (1, 0, 4, 5)
+(1, 0, 5, 5) (1, 1, 0, 0) (1, 1, 0, 1) (1, 1, 0, 2) (1, 1, 0, 3) (1, 1, 0, 4)
+(1, 1, 1, 5) (1, 1, 2, 5) (1, 1, 3, 5) (1, 1, 4, 5) (1, 1, 5, 5) (1, 2, 1, 0)
+(1, 2, 1, 1) (1, 2, 1, 2) (1, 2, 1, 3) (1, 2, 1, 4) (1, 2, 2, 0) (1, 2, 2, 1)
+(1, 2, 2, 2) (1, 2, 2, 3) (1, 2, 2, 4) (1, 2, 3, 0) (1, 2, 3, 1) (1, 2, 3, 2)
+(1, 2, 3, 3) (1, 2, 3, 4) (1, 2, 4, 0) (1, 2, 4, 1) (1, 2, 4, 2) (1, 2, 4, 3)
+(1, 2, 4, 4) (1, 2, 5, 0) (1, 2, 5, 1) (1, 2, 5, 2) (1, 2, 5, 3) (1, 2, 5, 4)
+(1, 3, 0, 0) (1, 3, 0, 1) (1, 3, 0, 2) (1, 3, 0, 3) (1, 3, 0, 4) (1, 3, 1, 5)
+(1, 3, 2, 5) (1, 3, 3, 5) (1, 3, 4, 5) (1, 3, 5, 5) (1, 4, 0, 0) (1, 4, 0, 1)
+(1, 4, 0, 2) (1, 4, 0, 3) (1, 4, 0, 4) (1, 4, 1, 5) (1, 4, 2, 5) (1, 4, 3, 5)
+(1, 4, 4, 5) (1, 4, 5, 5) (1, 5, 0, 0) (1, 5, 0, 1) (1, 5, 0, 2) (1, 5, 0, 3)
+(1, 5, 0, 4) (1, 5, 1, 5) (1, 5, 2, 5) (1, 5, 3, 5) (1, 5, 4, 5) (1, 5, 5, 5)
+(2, 0, 0, 0) (2, 0, 0, 1) (2, 0, 0, 2) (2, 0, 0, 3) (2, 0, 0, 4) (2, 0, 1, 5)
+(2, 0, 2, 5) (2, 0, 3, 5) (2, 0, 4, 5) (2, 0, 5, 5) (2, 1, 0, 0) (2, 1, 0, 1)
+(2, 1, 0, 2) (2, 1, 0, 3) (2, 1, 0, 4) (2, 1, 1, 5) (2, 1, 2, 5) (2, 1, 3, 5)
+(2, 1, 4, 5) (2, 1, 5, 5) (2, 2, 1, 0) (2, 2, 1, 1) (2, 2, 1, 2) (2, 2, 1, 3)
+(2, 2, 1, 4) (2, 2, 2, 0) (2, 2, 2, 1) (2, 2, 2, 2) (2, 2, 2, 3) (2, 2, 2, 4)
+(2, 2, 3, 0) (2, 2, 3, 1) (2, 2, 3, 2) (2, 2, 3, 3) (2, 2, 3, 4) (2, 2, 4, 0)
+(2, 2, 4, 1) (2, 2, 4, 2) (2, 2, 4, 3) (2, 2, 4, 4) (2, 2, 5, 0) (2, 2, 5, 1)
+(2, 2, 5, 2) (2, 2, 5, 3) (2, 2, 5, 4) (2, 3, 0, 0) (2, 3, 0, 1) (2, 3, 0, 2)
+(2, 3, 0, 3) (2, 3, 0, 4) (2, 3, 1, 5) (2, 3, 2, 5) (2, 3, 3, 5) (2, 3, 4, 5)
+(2, 3, 5, 5) (2, 4, 0, 0) (2, 4, 0, 1) (2, 4, 0, 2) (2, 4, 0, 3) (2, 4, 0, 4)
+(2, 4, 1, 5) (2, 4, 2, 5) (2, 4, 3, 5) (2, 4, 4, 5) (2, 4, 5, 5) (2, 5, 0, 0)
+(2, 5, 0, 1) (2, 5, 0, 2) (2, 5, 0, 3) (2, 5, 0, 4) (2, 5, 1, 5) (2, 5, 2, 5)
+(2, 5, 3, 5) (2, 5, 4, 5) (2, 5, 5, 5) (3, 0, 0, 0) (3, 0, 0, 1) (3, 0, 0, 2)
+(3, 0, 0, 3) (3, 0, 0, 4) (3, 0, 1, 5) (3, 0, 2, 5) (3, 0, 3, 5) (3, 0, 4, 5)
+(3, 0, 5, 5) (3, 1, 0, 0) (3, 1, 0, 1) (3, 1, 0, 2) (3, 1, 0, 3) (3, 1, 0, 4)
+(3, 1, 1, 5) (3, 1, 2, 5) (3, 1, 3, 5) (3, 1, 4, 5) (3, 1, 5, 5) (3, 2, 1, 0)
+(3, 2, 1, 1) (3, 2, 1, 2) (3, 2, 1, 3) (3, 2, 1, 4) (3, 2, 2, 0) (3, 2, 2, 1)
+(3, 2, 2, 2) (3, 2, 2, 3) (3, 2, 2, 4) (3, 2, 3, 0) (3, 2, 3, 1) (3, 2, 3, 2)
+(3, 2, 3, 3) (3, 2, 3, 4) (3, 2, 4, 0) (3, 2, 4, 1) (3, 2, 4, 2) (3, 2, 4, 3)
+(3, 2, 4, 4) (3, 2, 5, 0) (3, 2, 5, 1) (3, 2, 5, 2) (3, 2, 5, 3) (3, 2, 5, 4)
+(3, 3, 0, 0) (3, 3, 0, 1) (3, 3, 0, 2) (3, 3, 0, 3) (3, 3, 0, 4) (3, 3, 1, 5)
+(3, 3, 2, 5) (3, 3, 3, 5) (3, 3, 4, 5) (3, 3, 5, 5) (3, 4, 0, 0) (3, 4, 0, 1)
+(3, 4, 0, 2) (3, 4, 0, 3) (3, 4, 0, 4) (3, 4, 1, 5) (3, 4, 2, 5) (3, 4, 3, 5)
+(3, 4, 4, 5) (3, 4, 5, 5) (3, 5, 0, 0) (3, 5, 0, 1) (3, 5, 0, 2) (3, 5, 0, 3)
+(3, 5, 0, 4) (3, 5, 1, 5) (3, 5, 2, 5) (3, 5, 3, 5) (3, 5, 4, 5) (3, 5, 5, 5)
+(4, 0, 1, 0) (4, 0, 1, 1) (4, 0, 1, 2) (4, 0, 1, 3) (4, 0, 1, 4) (4, 0, 2, 0)
+(4, 0, 2, 1) (4, 0, 2, 2) (4, 0, 2, 3) (4, 0, 2, 4) (4, 0, 3, 0) (4, 0, 3, 1)
+(4, 0, 3, 2) (4, 0, 3, 3) (4, 0, 3, 4) (4, 0, 4, 0) (4, 0, 4, 1) (4, 0, 4, 2)
+(4, 0, 4, 3) (4, 0, 4, 4) (4, 0, 5, 0) (4, 0, 5, 1) (4, 0, 5, 2) (4, 0, 5, 3)
+(4, 0, 5, 4) (4, 1, 1, 0) (4, 1, 1, 1) (4, 1, 1, 2) (4, 1, 1, 3) (4, 1, 1, 4)
+(4, 1, 2, 0) (4, 1, 2, 1) (4, 1, 2, 2) (4, 1, 2, 3) (4, 1, 2, 4) (4, 1, 3, 0)
+(4, 1, 3, 1) (4, 1, 3, 2) (4, 1, 3, 3) (4, 1, 3, 4) (4, 1, 4, 0) (4, 1, 4, 1)
+(4, 1, 4, 2) (4, 1, 4, 3) (4, 1, 4, 4) (4, 1, 5, 0) (4, 1, 5, 1) (4, 1, 5, 2)
+(4, 1, 5, 3) (4, 1, 5, 4) (4, 3, 1, 0) (4, 3, 1, 1) (4, 3, 1, 2) (4, 3, 1, 3)
+(4, 3, 1, 4) (4, 3, 2, 0) (4, 3, 2, 1) (4, 3, 2, 2) (4, 3, 2, 3) (4, 3, 2, 4)
+(4, 3, 3, 0) (4, 3, 3, 1) (4, 3, 3, 2) (4, 3, 3, 3) (4, 3, 3, 4) (4, 3, 4, 0)
+(4, 3, 4, 1) (4, 3, 4, 2) (4, 3, 4, 3) (4, 3, 4, 4) (4, 3, 5, 0) (4, 3, 5, 1)
+(4, 3, 5, 2) (4, 3, 5, 3) (4, 3, 5, 4) (4, 4, 1, 0) (4, 4, 1, 1) (4, 4, 1, 2)
+(4, 4, 1, 3) (4, 4, 1, 4) (4, 4, 2, 0) (4, 4, 2, 1) (4, 4, 2, 2) (4, 4, 2, 3)
+(4, 4, 2, 4) (4, 4, 3, 0) (4, 4, 3, 1) (4, 4, 3, 2) (4, 4, 3, 3) (4, 4, 3, 4)
+(4, 4, 4, 0) (4, 4, 4, 1) (4, 4, 4, 2) (4, 4, 4, 3) (4, 4, 4, 4) (4, 4, 5, 0)
+(4, 4, 5, 1) (4, 4, 5, 2) (4, 4, 5, 3) (4, 4, 5, 4) (4, 5, 1, 0) (4, 5, 1, 1)
+(4, 5, 1, 2) (4, 5, 1, 3) (4, 5, 1, 4) (4, 5, 2, 0) (4, 5, 2, 1) (4, 5, 2, 2)
+(4, 5, 2, 3) (4, 5, 2, 4) (4, 5, 3, 0) (4, 5, 3, 1) (4, 5, 3, 2) (4, 5, 3, 3)
+(4, 5, 3, 4) (4, 5, 4, 0) (4, 5, 4, 1) (4, 5, 4, 2) (4, 5, 4, 3) (4, 5, 4, 4)
+(4, 5, 5, 0) (4, 5, 5, 1) (4, 5, 5, 2) (4, 5, 5, 3) (4, 5, 5, 4) (5, 0, 0, 0)
+(5, 0, 0, 1) (5, 0, 0, 2) (5, 0, 0, 3) (5, 0, 0, 4) (5, 0, 1, 5) (5, 0, 2, 5)
+(5, 0, 3, 5) (5, 0, 4, 5) (5, 0, 5, 5) (5, 1, 0, 0) (5, 1, 0, 1) (5, 1, 0, 2)
+(5, 1, 0, 3) (5, 1, 0, 4) (5, 1, 1, 5) (5, 1, 2, 5) (5, 1, 3, 5) (5, 1, 4, 5)
+(5, 1, 5, 5) (5, 2, 1, 0) (5, 2, 1, 1) (5, 2, 1, 2) (5, 2, 1, 3) (5, 2, 1, 4)
+(5, 2, 2, 0) (5, 2, 2, 1) (5, 2, 2, 2) (5, 2, 2, 3) (5, 2, 2, 4) (5, 2, 3, 0)
+(5, 2, 3, 1) (5, 2, 3, 2) (5, 2, 3, 3) (5, 2, 3, 4) (5, 2, 4, 0) (5, 2, 4, 1)
+(5, 2, 4, 2) (5, 2, 4, 3) (5, 2, 4, 4) (5, 2, 5, 0) (5, 2, 5, 1) (5, 2, 5, 2)
+(5, 2, 5, 3) (5, 2, 5, 4) (5, 3, 0, 0) (5, 3, 0, 1) (5, 3, 0, 2) (5, 3, 0, 3)
+(5, 3, 0, 4) (5, 3, 1, 5) (5, 3, 2, 5) (5, 3, 3, 5) (5, 3, 4, 5) (5, 3, 5, 5)
+(5, 4, 0, 0) (5, 4, 0, 1) (5, 4, 0, 2) (5, 4, 0, 3) (5, 4, 0, 4) (5, 4, 1, 5)
+(5, 4, 2, 5) (5, 4, 3, 5) (5, 4, 4, 5) (5, 4, 5, 5) (5, 5, 0, 0) (5, 5, 0, 1)
+(5, 5, 0, 2) (5, 5, 0, 3) (5, 5, 0, 4) (5, 5, 1, 5) (5, 5, 2, 5) (5, 5, 3, 5)
+(5, 5, 4, 5) (5, 5, 5, 5)
+
+q_star=(2, 5, 1, 5), answer=(2, 0), n_tries=2
+New state space:
+(0, 0, 0, 0) (0, 0, 0, 1) (0, 0, 0, 2) (0, 0, 0, 3) (0, 0, 0, 4) (0, 1, 0, 0)
+(0, 1, 0, 1) (0, 1, 0, 2) (0, 1, 0, 3) (0, 1, 0, 4) (0, 2, 2, 0) (0, 2, 2, 1)
+(0, 2, 2, 2) (0, 2, 2, 3) (0, 2, 2, 4) (0, 2, 3, 0) (0, 2, 3, 1) (0, 2, 3, 2)
+(0, 2, 3, 3) (0, 2, 3, 4) (0, 2, 4, 0) (0, 2, 4, 1) (0, 2, 4, 2) (0, 2, 4, 3)
+(0, 2, 4, 4) (0, 2, 5, 0) (0, 2, 5, 1) (0, 2, 5, 2) (0, 2, 5, 3) (0, 2, 5, 4)
+(0, 3, 0, 0) (0, 3, 0, 1) (0, 3, 0, 2) (0, 3, 0, 3) (0, 3, 0, 4) (0, 4, 0, 0)
+(0, 4, 0, 1) (0, 4, 0, 2) (0, 4, 0, 3) (0, 4, 0, 4) (1, 0, 0, 0) (1, 0, 0, 1)
+(1, 0, 0, 2) (1, 0, 0, 3) (1, 0, 0, 4) (1, 1, 0, 0) (1, 1, 0, 1) (1, 1, 0, 2)
+(1, 1, 0, 3) (1, 1, 0, 4) (1, 2, 2, 0) (1, 2, 2, 1) (1, 2, 2, 2) (1, 2, 2, 3)
+(1, 2, 2, 4) (1, 2, 3, 0) (1, 2, 3, 1) (1, 2, 3, 2) (1, 2, 3, 3) (1, 2, 3, 4)
+(1, 2, 4, 0) (1, 2, 4, 1) (1, 2, 4, 2) (1, 2, 4, 3) (1, 2, 4, 4) (1, 2, 5, 0)
+(1, 2, 5, 1) (1, 2, 5, 2) (1, 2, 5, 3) (1, 2, 5, 4) (1, 3, 0, 0) (1, 3, 0, 1)
+(1, 3, 0, 2) (1, 3, 0, 3) (1, 3, 0, 4) (1, 4, 0, 0) (1, 4, 0, 1) (1, 4, 0, 2)
+(1, 4, 0, 3) (1, 4, 0, 4) (3, 0, 0, 0) (3, 0, 0, 1) (3, 0, 0, 2) (3, 0, 0, 3)
+(3, 0, 0, 4) (3, 1, 0, 0) (3, 1, 0, 1) (3, 1, 0, 2) (3, 1, 0, 3) (3, 1, 0, 4)
+(3, 2, 2, 0) (3, 2, 2, 1) (3, 2, 2, 2) (3, 2, 2, 3) (3, 2, 2, 4) (3, 2, 3, 0)
+(3, 2, 3, 1) (3, 2, 3, 2) (3, 2, 3, 3) (3, 2, 3, 4) (3, 2, 4, 0) (3, 2, 4, 1)
+(3, 2, 4, 2) (3, 2, 4, 3) (3, 2, 4, 4) (3, 2, 5, 0) (3, 2, 5, 1) (3, 2, 5, 2)
+(3, 2, 5, 3) (3, 2, 5, 4) (3, 3, 0, 0) (3, 3, 0, 1) (3, 3, 0, 2) (3, 3, 0, 3)
+(3, 3, 0, 4) (3, 4, 0, 0) (3, 4, 0, 1) (3, 4, 0, 2) (3, 4, 0, 3) (3, 4, 0, 4)
+(4, 0, 2, 0) (4, 0, 2, 1) (4, 0, 2, 2) (4, 0, 2, 3) (4, 0, 2, 4) (4, 0, 3, 0)
+(4, 0, 3, 1) (4, 0, 3, 2) (4, 0, 3, 3) (4, 0, 3, 4) (4, 0, 4, 0) (4, 0, 4, 1)
+(4, 0, 4, 2) (4, 0, 4, 3) (4, 0, 4, 4) (4, 0, 5, 0) (4, 0, 5, 1) (4, 0, 5, 2)
+(4, 0, 5, 3) (4, 0, 5, 4) (4, 1, 2, 0) (4, 1, 2, 1) (4, 1, 2, 2) (4, 1, 2, 3)
+(4, 1, 2, 4) (4, 1, 3, 0) (4, 1, 3, 1) (4, 1, 3, 2) (4, 1, 3, 3) (4, 1, 3, 4)
+(4, 1, 4, 0) (4, 1, 4, 1) (4, 1, 4, 2) (4, 1, 4, 3) (4, 1, 4, 4) (4, 1, 5, 0)
+(4, 1, 5, 1) (4, 1, 5, 2) (4, 1, 5, 3) (4, 1, 5, 4) (4, 3, 2, 0) (4, 3, 2, 1)
+(4, 3, 2, 2) (4, 3, 2, 3) (4, 3, 2, 4) (4, 3, 3, 0) (4, 3, 3, 1) (4, 3, 3, 2)
+(4, 3, 3, 3) (4, 3, 3, 4) (4, 3, 4, 0) (4, 3, 4, 1) (4, 3, 4, 2) (4, 3, 4, 3)
+(4, 3, 4, 4) (4, 3, 5, 0) (4, 3, 5, 1) (4, 3, 5, 2) (4, 3, 5, 3) (4, 3, 5, 4)
+(4, 4, 2, 0) (4, 4, 2, 1) (4, 4, 2, 2) (4, 4, 2, 3) (4, 4, 2, 4) (4, 4, 3, 0)
+(4, 4, 3, 1) (4, 4, 3, 2) (4, 4, 3, 3) (4, 4, 3, 4) (4, 4, 4, 0) (4, 4, 4, 1)
+(4, 4, 4, 2) (4, 4, 4, 3) (4, 4, 4, 4) (4, 4, 5, 0) (4, 4, 5, 1) (4, 4, 5, 2)
+(4, 4, 5, 3) (4, 4, 5, 4) (5, 0, 0, 0) (5, 0, 0, 1) (5, 0, 0, 2) (5, 0, 0, 3)
+(5, 0, 0, 4) (5, 1, 0, 0) (5, 1, 0, 1) (5, 1, 0, 2) (5, 1, 0, 3) (5, 1, 0, 4)
+(5, 2, 2, 0) (5, 2, 2, 1) (5, 2, 2, 2) (5, 2, 2, 3) (5, 2, 2, 4) (5, 2, 3, 0)
+(5, 2, 3, 1) (5, 2, 3, 2) (5, 2, 3, 3) (5, 2, 3, 4) (5, 2, 4, 0) (5, 2, 4, 1)
+(5, 2, 4, 2) (5, 2, 4, 3) (5, 2, 4, 4) (5, 2, 5, 0) (5, 2, 5, 1) (5, 2, 5, 2)
+(5, 2, 5, 3) (5, 2, 5, 4) (5, 3, 0, 0) (5, 3, 0, 1) (5, 3, 0, 2) (5, 3, 0, 3)
+(5, 3, 0, 4) (5, 4, 0, 0) (5, 4, 0, 1) (5, 4, 0, 2) (5, 4, 0, 3) (5, 4, 0, 4)
+
+q_star=(4, 1, 2, 4), answer=(2, 1), n_tries=3
+New state space:
+(0, 0, 0, 4) (0, 1, 0, 0) (0, 1, 0, 1) (0, 1, 0, 2) (0, 1, 0, 3) (0, 2, 2, 0)
+(0, 2, 2, 1) (0, 2, 2, 2) (0, 2, 2, 3) (0, 2, 3, 4) (0, 2, 4, 4) (0, 2, 5, 4)
+(0, 3, 0, 4) (0, 4, 0, 4) (1, 0, 0, 4) (1, 1, 0, 0) (1, 1, 0, 1) (1, 1, 0, 2)
+(1, 1, 0, 3) (1, 2, 2, 0) (1, 2, 2, 1) (1, 2, 2, 2) (1, 2, 2, 3) (1, 2, 3, 4)
+(1, 2, 4, 4) (1, 2, 5, 4) (1, 3, 0, 4) (1, 4, 0, 4) (3, 0, 0, 4) (3, 1, 0, 0)
+(3, 1, 0, 1) (3, 1, 0, 2) (3, 1, 0, 3) (3, 2, 2, 0) (3, 2, 2, 1) (3, 2, 2, 2)
+(3, 2, 2, 3) (3, 2, 3, 4) (3, 2, 4, 4) (3, 2, 5, 4) (3, 3, 0, 4) (3, 4, 0, 4)
+(4, 0, 3, 0) (4, 0, 3, 1) (4, 0, 3, 2) (4, 0, 3, 3) (4, 0, 4, 0) (4, 0, 4, 1)
+(4, 0, 4, 2) (4, 0, 4, 3) (4, 0, 5, 0) (4, 0, 5, 1) (4, 0, 5, 2) (4, 0, 5, 3)
+(4, 3, 3, 0) (4, 3, 3, 1) (4, 3, 3, 2) (4, 3, 3, 3) (4, 3, 4, 0) (4, 3, 4, 1)
+(4, 3, 4, 2) (4, 3, 4, 3) (4, 3, 5, 0) (4, 3, 5, 1) (4, 3, 5, 2) (4, 3, 5, 3)
+(4, 4, 3, 0) (4, 4, 3, 1) (4, 4, 3, 2) (4, 4, 3, 3) (4, 4, 4, 0) (4, 4, 4, 1)
+(4, 4, 4, 2) (4, 4, 4, 3) (4, 4, 5, 0) (4, 4, 5, 1) (4, 4, 5, 2) (4, 4, 5, 3)
+(5, 0, 0, 4) (5, 1, 0, 0) (5, 1, 0, 1) (5, 1, 0, 2) (5, 1, 0, 3) (5, 2, 2, 0)
+(5, 2, 2, 1) (5, 2, 2, 2) (5, 2, 2, 3) (5, 2, 3, 4) (5, 2, 4, 4) (5, 2, 5, 4)
+(5, 3, 0, 4) (5, 4, 0, 4)
+
+q_star=(4, 0, 3, 0), answer=(1, 1), n_tries=4
+New state space:
+(0, 0, 0, 4) (0, 1, 0, 0) (0, 2, 2, 0) (0, 2, 3, 4) (1, 0, 0, 4) (1, 1, 0, 0)
+(1, 2, 2, 0) (1, 2, 3, 4) (3, 0, 0, 4) (3, 1, 0, 0) (3, 2, 2, 0) (3, 2, 3, 4)
+(4, 3, 4, 1) (4, 3, 4, 2) (4, 3, 4, 3) (4, 3, 5, 1) (4, 3, 5, 2) (4, 3, 5, 3)
+(4, 4, 4, 1) (4, 4, 4, 2) (4, 4, 4, 3) (4, 4, 5, 1) (4, 4, 5, 2) (4, 4, 5, 3)
+(5, 0, 0, 4) (5, 1, 0, 0) (5, 2, 2, 0) (5, 2, 3, 4)
+
+q_star=(0, 2, 2, 0), answer=(0, 1), n_tries=5
+New state space:
+(0, 0, 0, 4) (1, 1, 0, 0) (1, 2, 3, 4) (3, 1, 0, 0) (3, 2, 3, 4) (5, 1, 0, 0)
+(5, 2, 3, 4)
+
+q_star=(3, 2, 3, 4), answer=(0, 3), n_tries=6
+New state space:
+(1, 2, 3, 4) (5, 2, 3, 4)
+
+q_star=(1, 2, 3, 4), answer=(0, 4), n_tries=7
+The secret is (1, 2, 3, 4)
+</pre>
+</div>
+</section>
+</article>
+<footer id="postamble" class="status">
+<hr> <p class="footer"> &#8226; A site by Nicky van Foreest &#8226;   Last updated: 2025-04-21 Mon 00:00, Generated with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 30.1 (<a href="https://orgmode.org">Org</a> mode 9.7.11)</p>
+</footer>
+</body>
+</html>
