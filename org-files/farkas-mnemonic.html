@@ -232,8 +232,53 @@
 <header>
 <h1 class="title">A simple way to memorize Farkas’ Lemma via LP duality</h1>
 </header><section id="outline-container-org7f16d57" class="outline-2">
-<h2 id="org7f16d57"><span class="section-number-2">1.</span> Farkas&rsquo; Lemma</h2>
+<h2 id="org7f16d57"><span class="section-number-2">1.</span> Weak duality</h2>
 <div class="outline-text-2" id="text-1">
+<p>
+We start from the following <b>primal</b> linear program:
+</p>
+\begin{align*}
+\begin{aligned}
+\text{maximize}\quad   & c^\top x \\
+\text{subject to}\quad & A x \le b,\\
+                       & x \ge 0.
+\end{aligned}
+\end{align*}
+<p>
+From this, let us introduce the <b>Lagrange multiplier</b> \(y \geq 0\) so that we can lift the constraint \(A x \geq b\) to the objective.
+Then,
+</p>
+\begin{align*}
+\begin{aligned}
+c^\top x
+&\le c^\top x + y^\top (b-Ax)  &&\text{if } y\ge 0,\; b-Ax\ge 0\\
+&= (c-A^\top y)^\top x + y^\top b\\
+&\le y^\top b                 &&\text{if } x\ge 0,\; A^\top y\ge c.
+\end{aligned}
+\end{align*}
+<p>
+Clearly, in this second line, \(x\) is a Lagrange multiplier for the constraint \(y^\top A \geq c\).
+By assembling the conditions on \(y\) we obtain the <b>dual</b> linear problem:
+</p>
+\begin{align*}
+\begin{aligned}
+\text{minimize}\quad   & y^\top b \\
+\text{subject to}\quad & A^\top y \ge c,\\
+                       & y \ge 0.
+\end{aligned}
+\end{align*}
+<p>
+These inequalities represent <b>weak duality</b>: every feasible value of the objective of the primal problem is \(\le\) every feasible value of the objective of the dual.
+</p>
+</div>
+</section>
+<section id="outline-container-org0ce0959" class="outline-2">
+<h2 id="org0ce0959"><span class="section-number-2">2.</span> Some consequences</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org99c01cb" class="outline-3">
+<h3 id="org99c01cb"><span class="section-number-3">2.1.</span> Farkas&rsquo; Lemma</h3>
+<div class="outline-text-3" id="text-2-1">
 <p>
 Consider the linear system
 </p>
@@ -252,48 +297,9 @@ One version of Farkas’ Lemma says that <b>exactly one</b> of the following two
 <p>
 With duality theory we can easily see why not both statements can be true at the same time. We don&rsquo;t prove the other (harder) part: the <i>non-existence</i> of a solution of one system implies the <i>existence</i> of a solution of the other.
 </p>
-</div>
-</section>
-<section id="outline-container-org99c01cb" class="outline-2">
-<h2 id="org99c01cb"><span class="section-number-2">2.</span> Weak duality</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-We start from the following <b>primal</b> linear program:
-</p>
-\begin{align*}
-\begin{aligned}
-\text{maximize}\quad   & c^\top x \\
-\text{subject to}\quad & A x \le b,\\
-                       & x \ge 0.
-\end{aligned}
-\end{align*}
-<p>
-From this,
-</p>
-\begin{align*}
-\begin{aligned}
-c^\top x
-&\le c^\top x + y^\top (b-Ax)  &&\text{if } y\ge 0,\; b-Ax\ge 0\\
-&= (c-A^\top y)^\top x + y^\top b\\
-&\le y^\top b                 &&\text{if } x\ge 0,\; A^\top y\ge c.
-\end{aligned}
-\end{align*}
-<p>
-By assembling the conditions on \(y\) we obtain the <b>dual</b> linear problem:
-</p>
-\begin{align*}
-\begin{aligned}
-\text{minimize}\quad   & y^\top b \\
-\text{subject to}\quad & A^\top y \ge c,\\
-                       & y \ge 0.
-\end{aligned}
-\end{align*}
-<p>
-The inequalities represent <b>weak duality</b>: every feasible value of the objective of the primal problem is \(\le\) every feasible value of the objective of the dual.
-</p>
 
 <p>
-Now let \(c=0\).
+Take \(c=0\) in the primal problem.
 Then, from weak duality,
 \[ 0 = c^\top x \le y^\top b.
 \]
@@ -301,10 +307,10 @@ This implies that if \(x\) and \(y\) are both feasible, \(y^\top b < 0\) cannot 
 Reversily, if \(y^\top b < 0\), the primal problem cannot have a solution.
 </p>
 </div>
-</section>
-<section id="outline-container-orgd98eb26" class="outline-2">
-<h2 id="orgd98eb26"><span class="section-number-2">3.</span> Strony duality and Complementary slackness</h2>
-<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgd98eb26" class="outline-3">
+<h3 id="orgd98eb26"><span class="section-number-3">2.2.</span> Strong duality and Complementary slackness</h3>
+<div class="outline-text-3" id="text-2-2">
 <p>
 It&rsquo;s now just a small step to <b>strong duality</b> and <b>complementary slackness</b>.
 Suppose there exist vectors \(w \ge 0\) and \(z \ge 0\) such that
@@ -337,6 +343,51 @@ Moreover, because \(x, w, y, z \ge 0\), when \(z^\top x = 0,\; y^\top w = 0\), t
 \end{align*}
 <p>
 In other words, for each index the variable or the corresponding constraint must vanish.
+</p>
+</div>
+</div>
+<div id="outline-container-org7925b9e" class="outline-3">
+<h3 id="org7925b9e"><span class="section-number-3">2.3.</span> Variations</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Suppose we drop the condition \(x\geq 0\) in the LP \(\Max{c^\top x  : A x \leq b, x \geq 0}\).
+Then,
+</p>
+\begin{equation}
+c^{\top} x \leq  c^{\top} x + y^{\top}(b- Ax) = (c^\top-y^{\top} A) x + y^{\top} b =y^{\top} b \quad\text{only if } y^{\top} A = c^{\top}.
+\end{equation}
+<p>
+Therefore the dual becomes \(\Min{y^{\top}b : y^{\top}\geq 0, y^{\top}A = c^{\top}}\).
+</p>
+</div>
+</div>
+<div id="outline-container-orgee35afe" class="outline-3">
+<h3 id="orgee35afe"><span class="section-number-3">2.4.</span> Some further compatibility conditions</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+Assume next that the system \(A x = b\) has solution \(x\).
+Then for any \(y^\top\) we have \(y^{\top} A x = y^\top b\).
+In particular, if \(\ker{A'} := \{y : y^\top A = 0\}\) is not empty, then \(y^\top b = 0\) for all \(y\in \ker{A'}\).
+In other words, the necessary and sufficient conditions for the solvability of the system \(A x = b\) is that the right side is orthogonal to all linearly independent solutions of the <i>adjoint homogeneous</i> system.
+And, reversily, if \(\text{ker} A') = \{0\}\), that is, the homogeneous adjoint problem has no non-vanishing solutions, then the problem \(A y = b\) becomes <i>unconstrained</i>, i.e., the vector \(b\) can be chosen freely.
+</p>
+</div>
+</div>
+</section>
+<section id="outline-container-org9639605" class="outline-2">
+<h2 id="org9639605"><span class="section-number-2">3.</span> An interpretation of the optimal solution in terms of Lagrange multipliers</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Here is an interpretation for the case the duality gap is zero.
+In this case both problems have a solution.
+Since there is no duality gap, the constraint \(y^{\top} A \leq c^{\top}\) should in fact be an equality on part of the state space, i.e., \(\exists y^*\) such that \(y^* A = c^{\top}\).
+If we interpret \(c\) as the gradient of the function \(f(x) = c^{\top} x\), this equality states that \(c\) is a linear combination of row vectors of \(A\) that are active in the optimum.
+The row vectors are the gradients of the hyperplanes that form the constraints.
+Hence, the gradient of \(f(x) = c x\) is, in the optimum, a linear combination of gradients of active constraints.
+\(y\) is now seen to be a vector of Lagrange multipliers.
+This situation is completely analogous to the differentiable case, i.e.
+the problem to optimize a differentiable function \(f\) that has to satisfy a number of differentiable constraints \(g(x) = b\).
+Now in the optimum \(\nabla f = \lambda \nabla g\), that is, \(\nabla f\) is a linear combination of the gradients of the active constraint \(g\).
 </p>
 </div>
 </section>
