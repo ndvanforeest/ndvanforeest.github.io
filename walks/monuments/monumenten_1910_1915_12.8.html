@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_05c9afd9b5cce02afc2f66a8ed60e471 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.css"/>
+</head>
+<body>
+    
+    
+    <style>
+    .leaflet-tooltip {
+        font-size: 14px;
+        font-weight: bold;
+        color: darkblue;
+    }
+    .leaflet-popup-content {
+        font-size: 14px;
+        font-weight: bold;
+        color: darkblue;
+    }    </style>
+    
+    
+    <div style="
+        position: fixed;
+        bottom: 50px; left: 50px; width: 220px;
+        background-color: white;
+        border: 2px solid grey;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+        z-index:9999;
+        font-size:14px;
+    ">
+    <b>TSP langs monumenten gebouwd tussen 1910-1915</b><br>
+    Lengte: 12.8 km
+    </div>
+    
+    
+            <div class="folium-map" id="map_05c9afd9b5cce02afc2f66a8ed60e471" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_05c9afd9b5cce02afc2f66a8ed60e471 = L.map(
+                "map_05c9afd9b5cce02afc2f66a8ed60e471",
+                {
+                    center: [53.216132017283954, 6.559644593209877],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 16,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_4796b33f6df22441b8e8c48a69e5a486 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_4796b33f6df22441b8e8c48a69e5a486.addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+            var marker_739457363157715f4c91488458e97bca = L.marker(
+                [53.215, 6.5625],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_83e094d828ba3416479e822c0eaa205c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b0b6704d7a75346582e42b84753ef82d = $(`<div id="html_b0b6704d7a75346582e42b84753ef82d" style="width: 100.0%; height: 100.0%;"><b>Gedempte Zuiderdiep 137-139 Torenstraat 20</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.215,6.5625" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485572" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_83e094d828ba3416479e822c0eaa205c.setContent(html_b0b6704d7a75346582e42b84753ef82d);
+            
+        
+
+        marker_739457363157715f4c91488458e97bca.bindPopup(popup_83e094d828ba3416479e822c0eaa205c)
+        ;
+
+        
+    
+    
+            marker_739457363157715f4c91488458e97bca.bindTooltip(
+                `<div>
+                     Gedempte Zuiderdiep 137-139 Torenstraat 20
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_b1070a4625d6450d57bce95d8f387572 = L.marker(
+                [53.2147489, 6.5560444],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_556ce8a8746fb2fb241472d1f66b338a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_97b513d4abc8d4abc23005e362c4b7ec = $(`<div id="html_97b513d4abc8d4abc23005e362c4b7ec" style="width: 100.0%; height: 100.0%;"><b>Westerhaven 10</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2147489,6.5560444" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485331" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_556ce8a8746fb2fb241472d1f66b338a.setContent(html_97b513d4abc8d4abc23005e362c4b7ec);
+            
+        
+
+        marker_b1070a4625d6450d57bce95d8f387572.bindPopup(popup_556ce8a8746fb2fb241472d1f66b338a)
+        ;
+
+        
+    
+    
+            marker_b1070a4625d6450d57bce95d8f387572.bindTooltip(
+                `<div>
+                     Westerhaven 10
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_0ac874816d0a8568edd1df6189c1ff07 = L.marker(
+                [53.2243503, 6.565695],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_2acabd9a3ecd8d3ba864f797bea8e9fe = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_6d8b090a4e4d2284db570c2fb3fa334e = $(`<div id="html_6d8b090a4e4d2284db570c2fb3fa334e" style="width: 100.0%; height: 100.0%;"><b>Langestraat 66</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2243503,6.565695" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486752" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_2acabd9a3ecd8d3ba864f797bea8e9fe.setContent(html_6d8b090a4e4d2284db570c2fb3fa334e);
+            
+        
+
+        marker_0ac874816d0a8568edd1df6189c1ff07.bindPopup(popup_2acabd9a3ecd8d3ba864f797bea8e9fe)
+        ;
+
+        
+    
+    
+            marker_0ac874816d0a8568edd1df6189c1ff07.bindTooltip(
+                `<div>
+                     Langestraat 66
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_e6f529ccb748d57a1b31a2ae724e031c = L.marker(
+                [53.2172209, 6.5648775],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_7f67afe68acb97bad5486c006044aba2 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9d79429e0d1168206b5625591a5dfb44 = $(`<div id="html_9d79429e0d1168206b5625591a5dfb44" style="width: 100.0%; height: 100.0%;"><b>Vismarkt 34-34a</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2172209,6.5648775" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486664" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_7f67afe68acb97bad5486c006044aba2.setContent(html_9d79429e0d1168206b5625591a5dfb44);
+            
+        
+
+        marker_e6f529ccb748d57a1b31a2ae724e031c.bindPopup(popup_7f67afe68acb97bad5486c006044aba2)
+        ;
+
+        
+    
+    
+            marker_e6f529ccb748d57a1b31a2ae724e031c.bindTooltip(
+                `<div>
+                     Vismarkt 34-34a
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_17fe652a0bdf436a713e2980041e27c3 = L.marker(
+                [53.21472222222222, 6.5536111111111115],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_6161fca2905db8184c4e9b38ea200fb9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_214007889bb818b887bb7ddab4cf4861 = $(`<div id="html_214007889bb818b887bb7ddab4cf4861" style="width: 100.0%; height: 100.0%;"><b>Hoendiepskade 24-25 Willem Barentzstraat 1-3</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.21472222222222,6.5536111111111115" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485318" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_6161fca2905db8184c4e9b38ea200fb9.setContent(html_214007889bb818b887bb7ddab4cf4861);
+            
+        
+
+        marker_17fe652a0bdf436a713e2980041e27c3.bindPopup(popup_6161fca2905db8184c4e9b38ea200fb9)
+        ;
+
+        
+    
+    
+            marker_17fe652a0bdf436a713e2980041e27c3.bindTooltip(
+                `<div>
+                     Hoendiepskade 24-25 Willem Barentzstraat 1-3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_7825f8b5b3c8fb2569134c01f3957293 = L.marker(
+                [53.2187688, 6.5491819],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_29c2ea83e92109b125e26ff2b032097d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a5a8185e4043ba58b4e30bd75f4610de = $(`<div id="html_a5a8185e4043ba58b4e30bd75f4610de" style="width: 100.0%; height: 100.0%;"><b>Dr.C. Hofstede de Grootkade 48</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2187688,6.5491819" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485188" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_29c2ea83e92109b125e26ff2b032097d.setContent(html_a5a8185e4043ba58b4e30bd75f4610de);
+            
+        
+
+        marker_7825f8b5b3c8fb2569134c01f3957293.bindPopup(popup_29c2ea83e92109b125e26ff2b032097d)
+        ;
+
+        
+    
+    
+            marker_7825f8b5b3c8fb2569134c01f3957293.bindTooltip(
+                `<div>
+                     Dr.C. Hofstede de Grootkade 48
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_6007fa4d63e579045898b9931af15154 = L.marker(
+                [53.21472222222222, 6.552777777777778],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_ae11efd18c62231af24f6e62b920d9c7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_41c480c16ee8d5f61aa7e2b09d2a00e1 = $(`<div id="html_41c480c16ee8d5f61aa7e2b09d2a00e1" style="width: 100.0%; height: 100.0%;"><b>Eendrachtskade 29 Hoendiepskade 32</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.21472222222222,6.552777777777778" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485353" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_ae11efd18c62231af24f6e62b920d9c7.setContent(html_41c480c16ee8d5f61aa7e2b09d2a00e1);
+            
+        
+
+        marker_6007fa4d63e579045898b9931af15154.bindPopup(popup_ae11efd18c62231af24f6e62b920d9c7)
+        ;
+
+        
+    
+    
+            marker_6007fa4d63e579045898b9931af15154.bindTooltip(
+                `<div>
+                     Eendrachtskade 29 Hoendiepskade 32
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_5315ccfb66ad9b13118ef7dd067812eb = L.marker(
+                [53.2177448, 6.5666874],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_3eab5ea8bf50cbdc51ca2f451c77c87b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b8be322b02a1fd6a8e6012b5a4e29da2 = $(`<div id="html_b8be322b02a1fd6a8e6012b5a4e29da2" style="width: 100.0%; height: 100.0%;"><b>Herestraat 7</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2177448,6.5666874" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485767" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_3eab5ea8bf50cbdc51ca2f451c77c87b.setContent(html_b8be322b02a1fd6a8e6012b5a4e29da2);
+            
+        
+
+        marker_5315ccfb66ad9b13118ef7dd067812eb.bindPopup(popup_3eab5ea8bf50cbdc51ca2f451c77c87b)
+        ;
+
+        
+    
+    
+            marker_5315ccfb66ad9b13118ef7dd067812eb.bindTooltip(
+                `<div>
+                     Herestraat 7
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_b3e0761999de1ae9b78916e571a70434 = L.marker(
+                [53.2148206, 6.5511413],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_bc4387dcf2781dedec56a931fc931c55 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a4b4a03ca2427a3026d69ccec225bb71 = $(`<div id="html_a4b4a03ca2427a3026d69ccec225bb71" style="width: 100.0%; height: 100.0%;"><b>Aweg 43</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2148206,6.5511413" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485306" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_bc4387dcf2781dedec56a931fc931c55.setContent(html_a4b4a03ca2427a3026d69ccec225bb71);
+            
+        
+
+        marker_b3e0761999de1ae9b78916e571a70434.bindPopup(popup_bc4387dcf2781dedec56a931fc931c55)
+        ;
+
+        
+    
+    
+            marker_b3e0761999de1ae9b78916e571a70434.bindTooltip(
+                `<div>
+                     Aweg 43
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_3c72c669eddff0ff158a04181c043e46 = L.marker(
+                [53.22083333333333, 6.565833333333334],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_725df3797dfdb8eec7825fe4ce4656af = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f7d4d714ebedd4f4af20ff6d690eea4c = $(`<div id="html_f7d4d714ebedd4f4af20ff6d690eea4c" style="width: 100.0%; height: 100.0%;"><b>Oude Ebbingestraat 52 Butjesstraat 1</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.22083333333333,6.565833333333334" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18642" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_725df3797dfdb8eec7825fe4ce4656af.setContent(html_f7d4d714ebedd4f4af20ff6d690eea4c);
+            
+        
+
+        marker_3c72c669eddff0ff158a04181c043e46.bindPopup(popup_725df3797dfdb8eec7825fe4ce4656af)
+        ;
+
+        
+    
+    
+            marker_3c72c669eddff0ff158a04181c043e46.bindTooltip(
+                `<div>
+                     Oude Ebbingestraat 52 Butjesstraat 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_42557ba4ad115b6cd13f65afc5ae139d = L.marker(
+                [53.2168352, 6.5496849],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_896b2bb2ac16a0bdec6af1ec9e10b467 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_816a06f42adf50f4a2e2a49cd6b34735 = $(`<div id="html_816a06f42adf50f4a2e2a49cd6b34735" style="width: 100.0%; height: 100.0%;"><b>Kraneweg 74</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2168352,6.5496849" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485224" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_896b2bb2ac16a0bdec6af1ec9e10b467.setContent(html_816a06f42adf50f4a2e2a49cd6b34735);
+            
+        
+
+        marker_42557ba4ad115b6cd13f65afc5ae139d.bindPopup(popup_896b2bb2ac16a0bdec6af1ec9e10b467)
+        ;
+
+        
+    
+    
+            marker_42557ba4ad115b6cd13f65afc5ae139d.bindTooltip(
+                `<div>
+                     Kraneweg 74
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_0f147bda91fc815472e1667e60f673da = L.marker(
+                [53.215727, 6.5559921],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_761fd27991cf99ab1daeea42481bf414 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_52bb31950c75f2fa5e208faa74765fe4 = $(`<div id="html_52bb31950c75f2fa5e208faa74765fe4" style="width: 100.0%; height: 100.0%;"><b>Hoendiepskade 6</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.215727,6.5559921" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485312" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_761fd27991cf99ab1daeea42481bf414.setContent(html_52bb31950c75f2fa5e208faa74765fe4);
+            
+        
+
+        marker_0f147bda91fc815472e1667e60f673da.bindPopup(popup_761fd27991cf99ab1daeea42481bf414)
+        ;
+
+        
+    
+    
+            marker_0f147bda91fc815472e1667e60f673da.bindTooltip(
+                `<div>
+                     Hoendiepskade 6
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_0323502daa2fb3c30b0da21c9398456d = L.marker(
+                [53.2185859, 6.5512935],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_38b3e629d0dcf41434e205fcb521a6a0 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5170bb62096855c37395e8263d9c6a02 = $(`<div id="html_5170bb62096855c37395e8263d9c6a02" style="width: 100.0%; height: 100.0%;"><b>Taco Mesdagplein 7</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2185859,6.5512935" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485244" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_38b3e629d0dcf41434e205fcb521a6a0.setContent(html_5170bb62096855c37395e8263d9c6a02);
+            
+        
+
+        marker_0323502daa2fb3c30b0da21c9398456d.bindPopup(popup_38b3e629d0dcf41434e205fcb521a6a0)
+        ;
+
+        
+    
+    
+            marker_0323502daa2fb3c30b0da21c9398456d.bindTooltip(
+                `<div>
+                     Taco Mesdagplein 7
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_313243be14cb7fd5081f33dd4eb20bcf = L.marker(
+                [53.2198035, 6.5695713],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_36d8c6e97da05898df6f4aa05c9fb719 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_85c4be899d11c550da24a4635718dc5b = $(`<div id="html_85c4be899d11c550da24a4635718dc5b" style="width: 100.0%; height: 100.0%;"><b>Martinikerkhof 8-8a</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2198035,6.5695713" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485871" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_36d8c6e97da05898df6f4aa05c9fb719.setContent(html_85c4be899d11c550da24a4635718dc5b);
+            
+        
+
+        marker_313243be14cb7fd5081f33dd4eb20bcf.bindPopup(popup_36d8c6e97da05898df6f4aa05c9fb719)
+        ;
+
+        
+    
+    
+            marker_313243be14cb7fd5081f33dd4eb20bcf.bindTooltip(
+                `<div>
+                     Martinikerkhof 8-8a
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_4f988441b7d033f08da57e80d4576638 = L.marker(
+                [53.215833333333336, 6.5680555555555555],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_5790156fedee4372ae9da040deb13b66 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3b0300bac68120805b88791ed3bd21c4 = $(`<div id="html_3b0300bac68120805b88791ed3bd21c4" style="width: 100.0%; height: 100.0%;"><b>Herestraat 69-71 Kleine Pelsterstraat 1</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.215833333333336,6.5680555555555555" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485773" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_5790156fedee4372ae9da040deb13b66.setContent(html_3b0300bac68120805b88791ed3bd21c4);
+            
+        
+
+        marker_4f988441b7d033f08da57e80d4576638.bindPopup(popup_5790156fedee4372ae9da040deb13b66)
+        ;
+
+        
+    
+    
+            marker_4f988441b7d033f08da57e80d4576638.bindTooltip(
+                `<div>
+                     Herestraat 69-71 Kleine Pelsterstraat 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_e28b17b42882bba52dc6bc78983d1be3 = L.marker(
+                [53.2126913, 6.5464593],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_5e15cc3a72587fc3c856a8e2c0bb5273 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f79cff969d87cb1623d3f0f9aa9e4f50 = $(`<div id="html_f79cff969d87cb1623d3f0f9aa9e4f50" style="width: 100.0%; height: 100.0%;"><b>Van Heemskerckstraat 75</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2126913,6.5464593" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485360" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_5e15cc3a72587fc3c856a8e2c0bb5273.setContent(html_f79cff969d87cb1623d3f0f9aa9e4f50);
+            
+        
+
+        marker_e28b17b42882bba52dc6bc78983d1be3.bindPopup(popup_5e15cc3a72587fc3c856a8e2c0bb5273)
+        ;
+
+        
+    
+    
+            marker_e28b17b42882bba52dc6bc78983d1be3.bindTooltip(
+                `<div>
+                     Van Heemskerckstraat 75
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_068a135998113463ef8bb3749791c949 = L.marker(
+                [53.2263906, 6.5609954],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_52b4ce75df2e487af4a2898257a97b2d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_eb998e764ed5a9e40f25dee07f09d13d = $(`<div id="html_eb998e764ed5a9e40f25dee07f09d13d" style="width: 100.0%; height: 100.0%;"><b>Nieuwe Ebbingestraat 64-64a</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2263906,6.5609954" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/485940" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_52b4ce75df2e487af4a2898257a97b2d.setContent(html_eb998e764ed5a9e40f25dee07f09d13d);
+            
+        
+
+        marker_068a135998113463ef8bb3749791c949.bindPopup(popup_52b4ce75df2e487af4a2898257a97b2d)
+        ;
+
+        
+    
+    
+            marker_068a135998113463ef8bb3749791c949.bindTooltip(
+                `<div>
+                     Nieuwe Ebbingestraat 64-64a
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_3bb1dc30e3fe7b9e0e5323628e12be29 = L.marker(
+                [53.1915774, 6.5832009],
+                {
+}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+        var popup_6846c28eb2ce1319811dcda35f13efd1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_27a9134185e8ab28c2436c2936c7dbc7 = $(`<div id="html_27a9134185e8ab28c2436c2936c7dbc7" style="width: 100.0%; height: 100.0%;"><b>Verlengde Hereweg 177</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.1915774,6.5832009" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/484300" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_6846c28eb2ce1319811dcda35f13efd1.setContent(html_27a9134185e8ab28c2436c2936c7dbc7);
+            
+        
+
+        marker_3bb1dc30e3fe7b9e0e5323628e12be29.bindPopup(popup_6846c28eb2ce1319811dcda35f13efd1)
+        ;
+
+        
+    
+    
+            marker_3bb1dc30e3fe7b9e0e5323628e12be29.bindTooltip(
+                `<div>
+                     Verlengde Hereweg 177
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_00e306c9aa19962e92875add85097a51 = L.polyline(
+                [[53.214965, 6.562482], [53.215007, 6.562257], [53.215017, 6.562202], [53.21503, 6.562128], [53.214979, 6.562102], [53.214992, 6.562049], [53.215003, 6.562007], [53.214998, 6.561991], [53.215007, 6.56196], [53.214978, 6.561941], [53.214961, 6.561928], [53.215147, 6.561262], [53.215153, 6.561173], [53.215122, 6.561088], [53.215087, 6.561046], [53.215051, 6.561004], [53.21463, 6.56058], [53.214647, 6.560504], [53.214843, 6.560187], [53.214855, 6.560141], [53.214857, 6.560028], [53.214856, 6.559775], [53.214855, 6.559636], [53.21486, 6.559492], [53.214859, 6.55941], [53.214858, 6.559267], [53.214856, 6.559108], [53.214856, 6.559075], [53.214855, 6.558754], [53.214938, 6.557484], [53.21494, 6.55736], [53.214926, 6.557191], [53.214931, 6.557125], [53.215006, 6.556553], [53.215016, 6.556474], [53.215022, 6.556427], [53.215039, 6.556317], [53.214789, 6.556164], [53.21473, 6.556124], [53.214789, 6.556164], [53.215039, 6.556317], [53.215473, 6.556575], [53.215541, 6.556613], [53.215657, 6.556675], [53.215728, 6.556693], [53.215784, 6.556686], [53.215838, 6.556658], [53.215901, 6.556623], [53.215927, 6.556605], [53.215959, 6.556582], [53.21594, 6.55651], [53.215931, 6.556476], [53.215907, 6.556376], [53.215795, 6.555943], [53.215769, 6.555842], [53.215761, 6.555809], [53.215705, 6.555508], [53.215693, 6.55546], [53.215639, 6.555255], [53.215451, 6.554529], [53.215407, 6.554398], [53.215401, 6.554377], [53.215374, 6.554321], [53.215271, 6.554098], [53.215102, 6.553758], [53.21504, 6.553702], [53.214958, 6.553424], [53.214958, 6.553424], [53.21477, 6.552741], [53.214738, 6.552623], [53.214712, 6.552538], [53.21468, 6.552459], [53.214653, 6.552395], [53.21466, 6.552381], [53.214702, 6.552303], [53.214677, 6.55221], [53.214802, 6.552062], [53.214822, 6.552038], [53.214839, 6.552008], [53.214852, 6.551969], [53.214859, 6.551926], [53.214862, 6.551897], [53.214865, 6.55187], [53.214866, 6.551844], [53.214865, 6.551763], [53.214856, 6.551684], [53.21482, 6.551527], [53.214841, 6.551511], [53.214849, 6.551505], [53.214864, 6.551494], [53.214777, 6.551174], [53.214864, 6.551494], [53.214849, 6.551505], [53.214841, 6.551511], [53.21482, 6.551527], [53.214803, 6.551539], [53.214777, 6.551558], [53.214755, 6.551574], [53.214712, 6.551605], [53.214557, 6.551719], [53.214548, 6.551726], [53.214498, 6.551766], [53.214262, 6.551941], [53.214219, 6.55198], [53.2142, 6.551996], [53.214184, 6.552017], [53.214169, 6.552037], [53.214157, 6.552059], [53.214146, 6.552029], [53.21413, 6.55199], [53.214084, 6.55195], [53.213756, 6.551801], [53.213689, 6.551781], [53.213651, 6.551708], [53.213637, 6.55161], [53.213495, 6.551001], [53.213387, 6.550537], [53.213335, 6.550309], [53.21298, 6.548777], [53.212736, 6.547729], [53.212666, 6.547442], [53.212466, 6.546609], [53.212666, 6.547442], [53.213586, 6.546771], [53.213617, 6.546765], [53.213645, 6.546762], [53.21367, 6.54677], [53.213698, 6.546798], [53.213717, 6.546841], [53.213758, 6.546801], [53.213811, 6.546757], [53.213897, 6.546701], [53.214048, 6.546606], [53.214066, 6.546594], [53.214155, 6.546663], [53.214187, 6.546642], [53.214233, 6.546612], [53.21429, 6.546575], [53.214281, 6.546538], [53.214485, 6.546406], [53.214937, 6.546113], [53.215165, 6.545965], [53.215939, 6.545474], [53.216003, 6.545752], [53.216208, 6.54664], [53.216321, 6.547132], [53.216338, 6.547209], [53.216355, 6.547282], [53.216387, 6.5474], [53.216424, 6.547539], [53.216442, 6.547609], [53.216461, 6.547681], [53.216508, 6.547859], [53.216632, 6.548334], [53.216848, 6.549127], [53.216935, 6.549486], [53.216807, 6.549576], [53.216935, 6.549486], [53.217043, 6.549927], [53.217094, 6.550049], [53.217116, 6.550136], [53.217157, 6.550308], [53.217182, 6.550284], [53.217433, 6.550044], [53.217763, 6.549727], [53.217887, 6.550235], [53.218113, 6.551147], [53.21815, 6.551187], [53.218187, 6.551331], [53.218196, 6.551368], [53.218227, 6.551409], [53.218248, 6.551431], [53.218497, 6.551233], [53.21852, 6.551326], [53.218524, 6.55134], [53.21852, 6.551326], [53.218497, 6.551233], [53.218701, 6.551071], [53.21915, 6.55068], [53.21897, 6.54923], [53.218954, 6.549112], [53.218893, 6.548659], [53.218977, 6.548586], [53.219008, 6.548565], [53.219196, 6.54847], [53.219212, 6.548461], [53.219257, 6.548483], [53.219312, 6.548518], [53.219348, 6.548532], [53.219365, 6.548547], [53.219384, 6.548558], [53.219403, 6.548563], [53.219423, 6.548562], [53.219432, 6.54862], [53.219471, 6.548601], [53.219614, 6.54941], [53.21984, 6.549264], [53.219903, 6.549254], [53.219972, 6.549289], [53.220019, 6.549345], [53.220122, 6.549771], [53.220382, 6.550876], [53.220511, 6.551409], [53.220558, 6.551573], [53.220721, 6.552382], [53.220777, 6.552891], [53.221175, 6.552703], [53.221451, 6.55264], [53.221623, 6.552641], [53.221715, 6.552641], [53.221825, 6.552655], [53.222336, 6.552716], [53.222465, 6.552744], [53.222787, 6.552858], [53.223142, 6.553031], [53.223271, 6.553138], [53.223404, 6.553278], [53.223497, 6.553429], [53.223513, 6.553448], [53.223589, 6.553541], [53.223457, 6.553673], [53.223357, 6.553773], [53.223705, 6.55444], [53.224001, 6.554927], [53.224053, 6.554976], [53.22401, 6.555122], [53.224108, 6.555209], [53.224155, 6.555304], [53.224193, 6.555456], [53.224209, 6.555639], [53.224305, 6.555688], [53.224603, 6.555881], [53.224867, 6.556107], [53.22506, 6.55632], [53.225163, 6.556459], [53.225256, 6.556614], [53.225369, 6.556822], [53.225521, 6.557152], [53.22563, 6.557404], [53.225683, 6.557526], [53.225959, 6.558475], [53.226025, 6.558799], [53.226049, 6.558936], [53.226074, 6.559173], [53.226093, 6.559438], [53.226115, 6.559982], [53.226134, 6.560513], [53.226146, 6.560831], [53.226148, 6.560875], [53.226154, 6.56092], [53.226163, 6.560964], [53.226173, 6.561014], [53.226196, 6.561118], [53.226206, 6.561108], [53.226391, 6.560995], [53.226206, 6.561108], [53.226196, 6.561118], [53.226179, 6.561135], [53.226156, 6.561173], [53.226147, 6.561194], [53.226142, 6.561207], [53.226132, 6.561245], [53.226127, 6.561285], [53.226127, 6.561318], [53.226127, 6.561643], [53.22613, 6.561683], [53.22611, 6.561705], [53.226093, 6.561722], [53.226059, 6.561757], [53.225942, 6.561878], [53.225816, 6.562032], [53.225673, 6.562212], [53.225668, 6.562414], [53.225658, 6.562834], [53.225714, 6.5632], [53.225735, 6.563331], [53.225771, 6.563523], [53.22573, 6.563565], [53.22563, 6.563668], [53.225599, 6.563736], [53.225512, 6.56391], [53.225345, 6.564081], [53.225249, 6.564256], [53.225126, 6.564504], [53.225013, 6.56465], [53.224962, 6.564731], [53.224752, 6.56505], [53.22462, 6.565227], [53.224599, 6.56526], [53.224482, 6.565671], [53.224478, 6.565685], [53.224406, 6.565584], [53.224374, 6.565538], [53.224331, 6.56549], [53.224316, 6.565476], [53.224248, 6.565419], [53.224228, 6.565403], [53.224215, 6.565388], [53.224187, 6.565356], [53.223996, 6.564862], [53.223989, 6.564852], [53.223938, 6.564777], [53.223919, 6.5648], [53.223909, 6.564813], [53.223781, 6.564985], [53.223742, 6.565034], [53.22363, 6.565158], [53.223551, 6.565239], [53.223426, 6.565352], [53.223299, 6.565496], [53.223225, 6.565584], [53.223211, 6.5656], [53.223148, 6.565668], [53.223088, 6.565693], [53.222979, 6.565829], [53.222907, 6.565919], [53.222843, 6.565999], [53.222755, 6.566072], [53.222647, 6.566177], [53.222626, 6.566197], [53.222599, 6.566224], [53.222534, 6.566032], [53.222478, 6.565985], [53.222409, 6.565934], [53.222368, 6.565883], [53.222306, 6.56581], [53.222248, 6.565761], [53.222228, 6.565753], [53.222095, 6.565354], [53.222065, 6.565251], [53.222046, 6.565272], [53.221953, 6.565377], [53.221889, 6.565444], [53.221827, 6.565508], [53.22181, 6.565525], [53.221801, 6.565533], [53.221715, 6.565602], [53.221672, 6.565632], [53.221451, 6.565719], [53.221114, 6.565876], [53.220811, 6.56609], [53.220766, 6.565871], [53.220811, 6.56609], [53.220775, 6.566116], [53.220621, 6.566226], [53.220318, 6.566442], [53.220247, 6.5665], [53.220335, 6.566849], [53.220437, 6.567386], [53.220493, 6.567683], [53.22058, 6.56816], [53.22058, 6.56825], [53.220481, 6.568559], [53.220466, 6.568606], [53.220382, 6.568763], [53.220322, 6.568868], [53.220264, 6.568989], [53.220204, 6.569153], [53.220137, 6.569145], [53.220096, 6.569133], [53.220089, 6.569163], [53.220073, 6.569197], [53.219991, 6.569331], [53.219885, 6.569502], [53.219859, 6.569524], [53.219866, 6.569575], [53.219861, 6.569601], [53.219857, 6.569624], [53.219843, 6.569652], [53.219824, 6.569671], [53.219802, 6.569677], [53.219781, 6.569671], [53.219762, 6.569653], [53.219748, 6.569625], [53.219708, 6.569663], [53.219652, 6.569687], [53.219543, 6.56967], [53.219486, 6.569662], [53.219417, 6.569644], [53.219386, 6.56948], [53.219356, 6.569493], [53.219031, 6.56964], [53.219004, 6.569656], [53.218978, 6.569671], [53.218974, 6.569674], [53.21897, 6.569676], [53.218961, 6.569637], [53.218954, 6.569624], [53.218903, 6.569539], [53.218851, 6.569447], [53.218783, 6.569324], [53.218727, 6.569359], [53.21867, 6.569104], [53.218661, 6.569062], [53.218568, 6.56865], [53.218564, 6.568482], [53.218422, 6.567788], [53.218338, 6.567478], [53.218171, 6.56691], [53.218065, 6.566632], [53.218046, 6.566572], [53.217913, 6.566196], [53.217891, 6.566133], [53.21789, 6.56612], [53.217888, 6.566086], [53.217842, 6.56609], [53.217804, 6.566075], [53.217793, 6.566066], [53.217773, 6.566051], [53.217745, 6.566017], [53.217721, 6.565975], [53.217601, 6.565618], [53.217485, 6.565258], [53.217373, 6.564894], [53.217339, 6.564777], [53.217373, 6.564894], [53.217485, 6.565258], [53.217601, 6.565618], [53.217721, 6.565975], [53.217745, 6.566017], [53.217773, 6.566051], [53.217793, 6.566066], [53.217671, 6.566186], [53.217644, 6.566202], [53.217616, 6.566204], [53.217596, 6.566196], [53.217624, 6.566384], [53.21766, 6.566507], [53.217666, 6.566531], [53.217718, 6.566709], [53.217751, 6.566819], [53.216943, 6.567503], [53.215961, 6.568194], [53.215903, 6.568216], [53.215858, 6.568065], [53.215851, 6.568041], [53.215858, 6.568065], [53.215903, 6.568216], [53.215852, 6.568257], [53.215761, 6.568329], [53.215607, 6.568454], [53.215536, 6.568479], [53.215471, 6.568526], [53.215197, 6.568712], [53.215167, 6.568589], [53.215094, 6.568614], [53.215032, 6.568636], [53.215046, 6.568689], [53.215069, 6.568775], [53.215031, 6.568786], [53.214489, 6.568955], [53.21435, 6.568993], [53.214158, 6.569048], [53.214121, 6.569061], [53.214086, 6.569075], [53.214051, 6.569093], [53.213954, 6.569156], [53.213857, 6.569228], [53.213663, 6.569375], [53.213672, 6.56941], [53.213675, 6.569428], [53.213682, 6.56946], [53.213685, 6.569485], [53.213658, 6.569494], [53.213648, 6.569498], [53.213637, 6.569505], [53.213618, 6.56952], [53.213581, 6.569558], [53.213505, 6.569629], [53.213475, 6.569652], [53.213348, 6.569753], [53.213213, 6.569849], [53.21319, 6.569865], [53.213104, 6.569906], [53.213064, 6.569931], [53.213045, 6.569945], [53.21303, 6.569965], [53.213004, 6.570003], [53.21299, 6.569968], [53.212974, 6.569923], [53.212966, 6.569894], [53.212671, 6.57011], [53.21246, 6.570271], [53.212438, 6.570285], [53.212322, 6.570374], [53.21228, 6.570401], [53.212204, 6.570416], [53.212152, 6.570448], [53.212085, 6.570493], [53.212063, 6.57051], [53.211879, 6.570647], [53.211852, 6.570667], [53.211842, 6.570675], [53.211687, 6.570802], [53.210971, 6.571178], [53.21093, 6.571198], [53.210648, 6.571359], [53.210638, 6.571365], [53.210218, 6.571606], [53.209879, 6.571784], [53.209775, 6.571939], [53.209696, 6.572036], [53.209427, 6.572187], [53.209196, 6.572314], [53.208959, 6.572437], [53.20885, 6.572498], [53.208758, 6.572549], [53.208623, 6.572625], [53.208472, 6.572703], [53.208283, 6.572801], [53.207799, 6.573068], [53.20762, 6.573159], [53.207439, 6.573256], [53.207148, 6.573412], [53.206851, 6.573571], [53.206497, 6.573763], [53.206413, 6.573808], [53.206228, 6.573909], [53.20616, 6.57397], [53.206105, 6.574029], [53.205908, 6.57424], [53.205815, 6.574303], [53.205721, 6.574358], [53.205145, 6.574686], [53.204974, 6.574775], [53.204882, 6.574825], [53.204591, 6.575001], [53.204548, 6.575028], [53.204408, 6.575112], [53.204296, 6.575166], [53.204187, 6.575192], [53.204027, 6.575217], [53.20389, 6.575245], [53.203652, 6.575391], [53.203574, 6.575437], [53.203265, 6.57562], [53.203097, 6.575731], [53.202941, 6.575846], [53.202806, 6.575974], [53.20206, 6.576745], [53.201932, 6.576876], [53.201737, 6.577079], [53.201637, 6.577181], [53.201603, 6.577216], [53.201362, 6.577465], [53.201119, 6.577696], [53.200964, 6.57785], [53.200875, 6.577944], [53.200385, 6.578437], [53.199954, 6.578864], [53.199863, 6.578949], [53.199371, 6.579317], [53.199148, 6.579503], [53.199102, 6.579541], [53.199037, 6.57958], [53.198895, 6.579665], [53.198857, 6.579687], [53.198458, 6.579895], [53.198394, 6.579933], [53.198385, 6.579891], [53.198355, 6.579909], [53.198248, 6.579939], [53.197856, 6.580172], [53.197737, 6.580199], [53.197705, 6.58022], [53.197691, 6.580161], [53.197614, 6.580209], [53.19741, 6.580353], [53.197196, 6.580488], [53.197073, 6.580563], [53.196954, 6.580648], [53.196802, 6.580762], [53.196692, 6.580838], [53.196678, 6.580844], [53.196664, 6.580845], [53.196649, 6.580841], [53.196635, 6.580831], [53.19662, 6.580811], [53.196602, 6.580795], [53.196583, 6.580786], [53.196573, 6.580782], [53.196558, 6.580786], [53.195923, 6.581158], [53.19579, 6.581237], [53.195611, 6.581329], [53.195013, 6.581638], [53.194943, 6.581731], [53.194922, 6.581758], [53.194855, 6.581832], [53.194789, 6.581905], [53.194716, 6.581957], [53.194643, 6.582], [53.194444, 6.582099], [53.193473, 6.582645], [53.193385, 6.582693], [53.193305, 6.582736], [53.193086, 6.582834], [53.192866, 6.582941], [53.192681, 6.583037], [53.192649, 6.583053], [53.192389, 6.583226], [53.191743, 6.583568], [53.191656, 6.583614], [53.191743, 6.583568], [53.192389, 6.583226], [53.192649, 6.583053], [53.192681, 6.583037], [53.192866, 6.582941], [53.193086, 6.582834], [53.193305, 6.582736], [53.193385, 6.582693], [53.193473, 6.582645], [53.194444, 6.582099], [53.194643, 6.582], [53.194716, 6.581957], [53.194789, 6.581905], [53.194855, 6.581832], [53.194922, 6.581758], [53.194943, 6.581731], [53.195013, 6.581638], [53.195611, 6.581329], [53.19579, 6.581237], [53.195923, 6.581158], [53.196558, 6.580786], [53.196573, 6.580782], [53.196583, 6.580786], [53.196602, 6.580795], [53.19662, 6.580811], [53.196635, 6.580831], [53.196649, 6.580841], [53.196664, 6.580845], [53.196678, 6.580844], [53.196692, 6.580838], [53.196802, 6.580762], [53.196954, 6.580648], [53.197073, 6.580563], [53.197196, 6.580488], [53.19741, 6.580353], [53.197614, 6.580209], [53.197691, 6.580161], [53.197705, 6.58022], [53.197737, 6.580199], [53.197856, 6.580172], [53.198248, 6.579939], [53.198355, 6.579909], [53.198385, 6.579891], [53.198394, 6.579933], [53.198458, 6.579895], [53.198857, 6.579687], [53.198895, 6.579665], [53.199037, 6.57958], [53.199102, 6.579541], [53.199148, 6.579503], [53.199371, 6.579317], [53.199863, 6.578949], [53.199954, 6.578864], [53.200385, 6.578437], [53.200875, 6.577944], [53.200964, 6.57785], [53.201119, 6.577696], [53.201362, 6.577465], [53.201603, 6.577216], [53.201637, 6.577181], [53.201737, 6.577079], [53.201932, 6.576876], [53.20206, 6.576745], [53.202806, 6.575974], [53.202941, 6.575846], [53.203097, 6.575731], [53.203265, 6.57562], [53.203574, 6.575437], [53.203652, 6.575391], [53.20389, 6.575245], [53.204027, 6.575217], [53.204187, 6.575192], [53.204296, 6.575166], [53.204408, 6.575112], [53.204548, 6.575028], [53.204591, 6.575001], [53.204882, 6.574825], [53.204974, 6.574775], [53.205145, 6.574686], [53.205721, 6.574358], [53.205815, 6.574303], [53.205908, 6.57424], [53.206105, 6.574029], [53.20616, 6.57397], [53.206228, 6.573909], [53.206413, 6.573808], [53.206497, 6.573763], [53.206851, 6.573571], [53.207148, 6.573412], [53.207439, 6.573256], [53.20762, 6.573159], [53.207799, 6.573068], [53.208283, 6.572801], [53.208472, 6.572703], [53.208623, 6.572625], [53.208758, 6.572549], [53.20885, 6.572498], [53.208959, 6.572437], [53.209196, 6.572314], [53.209427, 6.572187], [53.209696, 6.572036], [53.209775, 6.571939], [53.209879, 6.571784], [53.210218, 6.571606], [53.210638, 6.571365], [53.210648, 6.571359], [53.21093, 6.571198], [53.210971, 6.571178], [53.211687, 6.570802], [53.211842, 6.570675], [53.211852, 6.570667], [53.211879, 6.570647], [53.212063, 6.57051], [53.212085, 6.570493], [53.212152, 6.570448], [53.212204, 6.570416], [53.21228, 6.570401], [53.212322, 6.570374], [53.212438, 6.570285], [53.21246, 6.570271], [53.212671, 6.57011], [53.212966, 6.569894], [53.212961, 6.569876], [53.212952, 6.569832], [53.21295, 6.569827], [53.212942, 6.569777], [53.212936, 6.569726], [53.212933, 6.569674], [53.212932, 6.569622], [53.212934, 6.56957], [53.212938, 6.569518], [53.212945, 6.569468], [53.212954, 6.569418], [53.212965, 6.56937], [53.212979, 6.569323], [53.212995, 6.569279], [53.213014, 6.569237], [53.213034, 6.569197], [53.213036, 6.569194], [53.213056, 6.56916], [53.213059, 6.569124], [53.213059, 6.569087], [53.213056, 6.569049], [53.21305, 6.569013], [53.212991, 6.568784], [53.213144, 6.568643], [53.213129, 6.568593], [53.2138, 6.568114], [53.213866, 6.568113], [53.213846, 6.568017], [53.213749, 6.56756], [53.213732, 6.567458], [53.213712, 6.567253], [53.213675, 6.566864], [53.214194, 6.566644], [53.214271, 6.566573], [53.214339, 6.566538], [53.214398, 6.566509], [53.214474, 6.566483], [53.214447, 6.566345], [53.214427, 6.566205], [53.214412, 6.566062], [53.214403, 6.565918], [53.214414, 6.565544], [53.214466, 6.565536], [53.214487, 6.565402], [53.214493, 6.565268], [53.214562, 6.565255], [53.214565, 6.565195], [53.214617, 6.563901], [53.21462, 6.563819], [53.214655, 6.563827], [53.214699, 6.56384], [53.214791, 6.563861], [53.214839, 6.563864], [53.214845, 6.563762], [53.214869, 6.563166], [53.214878, 6.56304], [53.214887, 6.562946], [53.214893, 6.562886], [53.2149, 6.562833], [53.214909, 6.562779], [53.214918, 6.562732], [53.214965, 6.562482]],
+                {"bubblingMouseEvents": true, "color": "#3388ff", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#3388ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.9, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+        
+    
+            var locate_control_2f02b09ee869a20ccafb9a3f1578d515 = L.control.locate(
+                {"keepCurrentZoomLevel": true}
+            ).addTo(map_05c9afd9b5cce02afc2f66a8ed60e471);
+            
+        
+</script>
+</html>
