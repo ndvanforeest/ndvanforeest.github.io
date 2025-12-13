@@ -3,145 +3,11 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Weighted random shuffling</title>
+<title>Simulation of Queue Length with Heap Queues</title>
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" href="/css/tufte.css" type="text/css" />
 <link rel="stylesheet" href="/css/ox-tufte.css" type="text/css" />
 <link rel="stylesheet" href="/css/pygments.css" type="text/css" />
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
           <style>
           /* From: https://endlessparentheses.com/public/css/endless.css */
           /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
@@ -828,6 +694,7 @@
         IInf: ["\\displaystyle\\mathop{\\inf}_{#1}\\left\\{#2\\right\\}", 2],
         Sup: ["\\sup\\left\\{#1\\right\\}", 1],
         SSup: ["\\displaystyle\\mathop{\\sup}_{#1}\\left\\{#2\\right\\}", 2],
+        As: "\\tilde{A}",
         B: "\\mathbb{B}",
         C: "\\mathcal{C}",
         d: "\\,\\textrm{d}",
@@ -903,142 +770,284 @@
 <hr class='menu-divider'>
 </header>
 <article id="content" class="content">
-<header>
-<h1 class="title">Weighted random shuffling</h1>
-</header><section id="outline-container-org7f16d57" class="outline-2">
-<h2 id="org7f16d57"><span class="section-number-2">1.</span> Weighted random shuffling</h2>
-<div class="outline-text-2" id="text-1">
+<section id="outline-container-sec:simul-cont-time-queue" class="outline-2">
+<h2 id="sec:simul-cont-time-queue"><span class="section-number-2">1.</span> Simulation of Queue Length with Heap Queues</h2>
+<div class="outline-text-2" id="text-sec:simul-cont-time-queue">
 <p>
-For some application I needed a random shuffle \(r\) of a list of numbers
-\(a\). The shuffle, however, should be weighted, such that, given a list
-of weights \(w\), the element \(a_i\) with weight \(w_i\) should be the first
-element of the random shuffle \(r\) with probability \(w_i/\sum_k w_k\). I
-searched for a python implementation of such an algorithm, but I
-couldn&rsquo;t find one. Also, <code>numpy</code> doesnt&rsquo; provide it, and
-<code>numpy.random.shuffle</code> only offers shuffling with uniform weights. Thus,
-this code.
+We have seen in \cref{sec:simul-cont-time} that the recursions to compute waiting and sojourn times for a continuous-time single-server queue can be implemented in a straightforward way.
+Here we handle the work process \(\{W(t)\}\) and the system-size process \(\{L(t)\}\).
+This is somewhat complicated because job arrival and departure events are intricately intertwined<label id='fnr.1' for='fnr-in.1.3277734' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.3277734' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>
+See \cref{fig:atltdt}.
+</span>, while to plot properly, these events have to be chronologically sorted.
 </p>
+
+<p>
+<strong style="font-variant: all-small-caps">We work towards</strong> \cref{fig:virtual_sojourn}.
+The top panel <code class="src src-python">ax1</code> shows the graph of a sample path of \(\{W(t)\}\), the lower panel <code class="src src-python">ax2</code> the graph of \(\{L(t)\}\).
+</p>
+<div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Work $V$&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Length $L$&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+</pre></div>
+
+<p>
+With \(A_k, D_k, J_k\) and \(W_k\), we can plot triangles for each job with height and base equal to the sojourn or waiting time.<label id='fnr.2' for='fnr-in.2.5738824' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.5738824' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>
+Setting the opacity <code>alpha</code> to \(0.2\) gives nice results for overlapping triangles.
+</span>
+</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">fill</span><span class="p">([</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">D</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">J</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">fill</span><span class="p">([</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+
+<p>
+<a href="./../figures/queue-continuous-length.pdf">./../figures/queue-continuous-length.pdf</a>
+</p>
+
+<p>
+For clarity, we also want to plot vertical dotted lines to indicate that at an arrival at \(t\), the work moves from \(W(t-)\) to \(W(t)\), and downward sloping solid lines between the arrivals.
+Consequently, we need to be able to compute \(W(t-)\) and \(W(t)\) for arbitrary \(t\), which, in view of the definition \(W(t) = [D_{A(t)} - t]^{+}\), requires computing \(A(t-)\) and \(A(t)\). The next function uses <code class="src src-python">np.searchsorted</code> to efficiently<label id='fnr.3' for='fnr-in.3.852288' class='margin-toggle sidenote-number'><sup class='numeral'>3</sup></label><input type='checkbox' id='fnr-in.3.852288' class='margin-toggle'><span class='sidenote'><sup class='numeral'>3</sup>
+For the same reason, we used binary search in the ~RV class in \cref{sec:prob_arithmetic}.
+</span>
+find the index \(k\) in an array \(a\) such that \(a_{k-1} \leq t < a_{k}\) for a given \(t\).<label id='fnr.4' for='fnr-in.4.9214321' class='margin-toggle sidenote-number'><sup class='numeral'>4</sup></label><input type='checkbox' id='fnr-in.4.9214321' class='margin-toggle'><span class='sidenote'><sup class='numeral'>4</sup>
+\cref{ex:55} explains why the next function returns \(A(t)\), in particular why to subtract 1.
+</span>
+The option <code class="src src-python">right</code> specifies the right-continuous (by default) or left-continuous version of \(A(t-)\).
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">At</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">):</span>
+    <span class="s2">&quot;The right or left continuous version of A(t).&quot;</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="n">side</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+<p>
+From this, the work \(W(t)\) can now be implemented  directly.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">W</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">):</span>
+    <span class="s2">&quot;The right or left continuous work in the system.&quot;</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">At</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">side</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+<p>
+To plot \(V\) we still need an efficient algorithm to sort chronologically arrival and departure times.
+For this, we use a heap queue.
+</p>
+
+<p>
+<strong style="font-variant: all-small-caps">A heap queue</strong> stores tuples (or lists) in a list such that the tuples (or lists) can be retrieved in accordance to some ordering rule.
+Here is an example.
+Tuples with ages and animal names can be arbitrarily <i>pushed</i> onto a <i>heap</i>.
+</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">heapq</span><span class="w"> </span><span class="kn">import</span> <span class="n">heappop</span><span class="p">,</span> <span class="n">heappush</span>
+
+<span class="n">heap</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">heappush</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s2">&quot;Turtle&quot;</span><span class="p">))</span>
+<span class="n">heappush</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="s2">&quot;Dog&quot;</span><span class="p">))</span>
+<span class="n">heappush</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="s2">&quot;Cat&quot;</span><span class="p">))</span>
+<span class="n">heappush</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="s2">&quot;Horse&quot;</span><span class="p">))</span>
+<span class="n">heappush</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;Lion&quot;</span><span class="p">))</span>
+</pre></div>
+
+<p>
+<i>Popping</i> from the heap yields the animals in lexicographical order.<label id='fnr.5' for='fnr-in.5.7408686' class='margin-toggle sidenote-number'><sup class='numeral'>5</sup></label><input type='checkbox' id='fnr-in.5.7408686' class='margin-toggle'><span class='sidenote'><sup class='numeral'>5</sup>
+As here the age is the first element of the tuple, the sorting is here in age.
+</span>
+</p>
+<div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">heappop</span><span class="p">(</span><span class="n">heap</span><span class="p">))</span>  <span class="c1"># Why is it the dog?</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">heappop</span><span class="p">(</span><span class="n">heap</span><span class="p">))</span>  <span class="c1"># Why is it the cat?</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="s1">&#39;Dog&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="s1">&#39;Cat&#39;</span><span class="p">)</span>
+</pre></div>
+
+<p>
+We can also push a new animal after popping.
+</p>
+<div class="highlight"><pre><span></span><span class="n">heappush</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="s2">&quot;Elephant&quot;</span><span class="p">))</span>  <span class="c1"># Add Elephant</span>
+</pre></div>
+
+<p>
+Let&rsquo;s pop until the heap is empty.
+Observe that the dog and cat are removed from the heap, due to the earlier popping.
+</p>
+<div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">heap</span><span class="p">:</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">heappop</span><span class="p">(</span><span class="n">heap</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="s1">&#39;Horse&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="s1">&#39;Elephant&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;Turtle&#39;</span><span class="p">)</span>
+</pre></div>
+
+<p>
+A heap queue is algorithmically efficient, it supports pushing at our convenience while guaranteeing that elements will be popped in the correct order.
+Thus, it is the ideal data structure for ordering arrival and departure events that are intertwined.
+</p>
+
+
+<p>
+<strong style="font-variant: all-small-caps">With heap queues</strong> we can plot the work \(V\) and the system size \(L\) for \cref{fig:virtual_sojourn}.
+For \(\{L(t)\}\), we start with setting <code class="src src-python"><span style="font-weight: bold; font-style: italic;">L</span>=0</code> and add \(1\) when an arrival occurs, and subtract \(1\) for a departure.
+We therefore form a list of arrival events of type \((A_{k}, 1)\) and a second list \((D_k, -1)\) for the departures.
+As these lists are already sorted,  merging them suffices.
+</p>
+<p>
+Finally, we can plot the dotted and solid lines for \(V\), and \(L\).
+Note that <code class="src src-python">W(now, <span style="font-style: italic;">'left'</span>)</code> corresponds to \(W(t-)\) when the time \(t\) is <code class="src src-python">now</code>.
+</p>
+<div class="highlight"><pre><span></span><span class="n">L</span><span class="p">,</span> <span class="n">past</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">events</span><span class="p">:</span>
+    <span class="n">now</span><span class="p">,</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">heapq</span><span class="o">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">past</span><span class="p">,</span> <span class="n">now</span><span class="p">],</span> <span class="p">[</span><span class="n">W</span><span class="p">(</span><span class="n">past</span><span class="p">),</span> <span class="n">W</span><span class="p">(</span><span class="n">now</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">)],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">now</span><span class="p">,</span> <span class="n">now</span><span class="p">],</span> <span class="p">[</span><span class="n">W</span><span class="p">(</span><span class="n">now</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">),</span> <span class="n">W</span><span class="p">(</span><span class="n">now</span><span class="p">)],</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">past</span><span class="p">,</span> <span class="n">now</span><span class="p">],</span> <span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">now</span><span class="p">,</span> <span class="n">now</span><span class="p">],</span> <span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">L</span> <span class="o">+</span> <span class="n">delta</span><span class="p">],</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+    <span class="n">L</span> <span class="o">+=</span> <span class="n">delta</span>
+    <span class="n">past</span> <span class="o">=</span> <span class="n">now</span>
+</pre></div>
+
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>TF 1:</b> 
+<p>
+We have a single-server queue where the inter-arrival and service times have a general distribution.
+Claim: when \(L(T)=0\) at time \(T\), then
+</p>
+\begin{equation*}
+ \begin{split}
+ \int_0^T \L(s)\, \d s & = \int_0^T \sum_{k=1}^{A(T)} 1\{A_k \leq s < D_k\} \, \d s \\
+& = \sum_{k=1}^{A(T)}\int_0^T 1\{A_k \leq s < D_k\} \, \d s = \sum_{k=1}^{A(T)} J_k.
+ \end{split}
+\end{equation*}
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Did you actually try? Maybe see the ‘hints’ above!:</b> 
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution, for real
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+True.
+</p>
+
+
+</details>
 </div>
-</section>
-<section id="outline-container-org0ce0959" class="outline-2">
-<h2 id="org0ce0959"><span class="section-number-2">2.</span> Weighted shuffling in pure python</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-Weighted random shuffling is the same as weighted random sampling from a
-list \(a\) without replacement. In steps:
-</p>
-<ol class="org-ol">
-<li>Choose with probability \(w_{i}/\sum_{i} w_{i}\) element \(a_{i}\) from \(a\).</li>
-<li>Add this element to a list \(r\).</li>
-<li>Remove element \(a_{i}\) from \(a\) and \(w_{i}\) from \(w\).</li>
-<li>Stop if \(a\) is empty, else,</li>
-<li>Return to step 1 with the updated lists \(a\) \(w\).</li>
-</ol>
 
-<p>
-However, I found the code below for weighted random sampling on  <a href="https://eli.thegreenplace.net/2010/01/22/weighted-random-generation-in-python">this page</a>.
-</p>
-
-<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">random</span><span class="w"> </span><span class="kn">import</span> <span class="n">random</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">weighted_choice</span><span class="p">(</span><span class="n">weights</span><span class="p">):</span>
-    <span class="n">rnd</span> <span class="o">=</span> <span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">weights</span><span class="p">):</span>
-        <span class="n">rnd</span> <span class="o">-=</span> <span class="n">w</span>
-        <span class="k">if</span> <span class="n">rnd</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">i</span>
-</pre></div>
-
-<p>
-Thus, <code>weighted_choice()</code> gives an index to the chosen element of an
-array. With this index I can fill a random shuffle \(r\) with elements of
-\(a\).
-</p>
-
-<p>
-As removing elements from lists is a bit expensive, I chose to set the
-weight \(w_{i}\) of the chosen element to zero. This ensures that the
-element \(i\) cannot be selected the next time.
-</p>
-
-<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">weighted_shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">w</span><span class="p">):</span>
-    <span class="n">w</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="c1"># make a copy of w</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;weighted_shuffle: Lenghts of lists don&#39;t match.&quot;</span><span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># contains the random shuffle</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>
-        <span class="n">j</span> <span class="o">=</span> <span class="n">weighted_choice</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
-        <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-        <span class="n">w</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">return</span> <span class="n">r</span>
-</pre></div>
+</details>
 </div>
-</section>
-<section id="outline-container-org2dc1f56" class="outline-2">
-<h2 id="org2dc1f56"><span class="section-number-2">3.</span> Fast shuffling</h2>
-<div class="outline-text-2" id="text-3">
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>TF 2:</b> 
 <p>
-Once I had the above code, I went to Gerlach van der Heide. He managed
-to speed it up by several orders of magnitude.
+Claim: the following code pops the element: \texttt{(1.9, 'Long')}.
 </p>
-
-<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">random</span><span class="w"> </span><span class="kn">import</span> <span class="n">random</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">bisect</span><span class="w"> </span><span class="kn">import</span> <span class="n">bisect_right</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">weighted_shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">w</span><span class="p">):</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-    <span class="n">cumWeights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>
-         <span class="n">rnd</span> <span class="o">=</span> <span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="n">cumWeights</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-         <span class="n">j</span> <span class="o">=</span> <span class="n">bisect_right</span><span class="p">(</span><span class="n">cumWeights</span><span class="p">,</span><span class="n">rnd</span><span class="p">)</span>
-         <span class="c1">#j = np.searchsorted(cumWeights, rnd, side=&#39;right&#39;)</span>
-         <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-         <span class="n">cumWeights</span><span class="p">[</span><span class="n">j</span><span class="p">:]</span> <span class="o">-=</span> <span class="n">w</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">r</span>
-
-<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
-<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">weighted_shuffle</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">heapq</span><span class="w"> </span><span class="kn">import</span> <span class="n">heappop</span><span class="p">,</span> <span class="n">heappush</span>
+<span class="n">heap</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">heappush</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.9</span><span class="p">,</span> <span class="s2">&quot;Long&quot;</span><span class="p">))</span>
+<span class="n">heappush</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.7</span><span class="p">,</span> <span class="s2">&quot;Egg&quot;</span><span class="p">))</span>
+<span class="n">heappush</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.3</span><span class="p">,</span> <span class="s2">&quot;Zeno&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">heappop</span><span class="p">(</span><span class="n">heap</span><span class="p">))</span>
 </pre></div>
-
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Did you actually try? Maybe see the ‘hints’ above!:</b> 
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution, for real
+                      </font>
+                    </strong>
+                  </summary>
 <p>
-Here is the result
+False. It prints the entry with `Zeno&rsquo;, because \(1.3\) is the smallest first element among the tuples.
 </p>
 
-<div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
-</pre></div>
 
-<p>
-Some testing shows, for a reason unknown to me, that <code>np.searchsorted</code> is slower than <code>bisect_right</code>.
-</p>
+</details>
 </div>
-</section>
-<section id="outline-container-org7161a33" class="outline-2">
-<h2 id="org7161a33"><span class="section-number-2">4.</span> A wrong idea</h2>
-<div class="outline-text-2" id="text-4">
-<p>
-While searching the web I came across the one-liner below. It is
-elegant, but wrong. The weights according to which the elements of \(a\)
-are chosen are not in proportion to \(w\). Some basic probability theory
-shows why this is the case. It comes down to proving that
-\[P\{w_1 U_1 \leq w_2 U_2\} \neq \frac{w_1}{w_1+w_1},\]
-where \(w_i\) are the weights and \(U_i\) uniform random deviates on
-\([0,1]\).
-</p>
 
-<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">wrong</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">w</span><span class="p">):</span>
-    <span class="n">aa</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
-    <span class="n">aa</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="n">beta</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">aa</span><span class="p">]</span>
-</pre></div>
+</details>
+</div>
+\begin{exercise}
+Suppose that we want to compute the time-average of $\bar L$ for some time $t<D_{n}$, i.e.,  before the departure of the last job.
+How would you compute this?
+\begin{solution}
+First, compute the sum of the sojourn times of all jobs that departed before $t$; in a formula $\sum_{k=1}^{n}J_k \1{D_k\leq t}$.
+Then add to this the times of the jobs arrived before $t$ but not yet departed: $\sum_{k=1}^n (t-A_k)\1{A_k\leq t < D_{k}}$.
+Divide the total by $t$.
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}\label{ex:55}
+Recall that \mintinline{python}{np.searchsorted(A, t)} efficiently finds the index $k$ in an array $A$ such that $A_{k-1} \leq t < A_{k}$ for some given value $t$.
+When using this function, do we obtain \(A(t) - 1\), \(A(t) \) or \(A(t)+1\)??
+\begin{hint}
+To see why, explain that $\max\{k: A_{k-1} \leq t < A_{k}\} = 1 + A(t)$.
+Realize also that $\max\{k: A_{k-1} \leq t < A_{k}\} = \max\{k : A_{k-1} \leq t\}$ because the epochs $A_{k}$ are ordered and separated in time (a.s.).
+\end{hint}
+\begin{solution}
+\begin{align*}
+  \max\{k: A_{k-1} \leq t < A_{k}\} &= \max\{A_{k-1} \leq t\} = \sum_{k=1}^{\infty} \1{A_{k-1}\leq t} = \sum_{k=0}^{\infty} \1{A_{k}\leq t}  =  1 + A(t).
+\end{align*}
+\end{solution}
+\end{exercise}
+
+
+<p>
+<a href="https://creativecommons.org/licenses/by-sa/4.0/"><img alt="CC BY-SA 4.0" style="height:1.2em; vertical-align:middle;" src="https://licensebuttons.net/l/by-sa/4.0/88x31.png" /></a>
+This work is licensed by the University of Groningen under a
+<a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+</p>
 </div>
 </section>
 </article>
 <footer id="postamble" class="status">
-<hr> <p class="footer"> &#8226; A site by Nicky van Foreest &#8226;   Last updated: 2025-04-08 Tue 00:00, Generated with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 30.2 (<a href="https://orgmode.org">Org</a> mode 9.7.11)</p>
+<hr> <p class="footer"> &#8226; A site by Nicky van Foreest &#8226;   Last updated: 2022:05:07, Generated with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 30.2 (<a href="https://orgmode.org">Org</a> mode 9.7.11)</p>
 </footer>
 </body>
 </html>

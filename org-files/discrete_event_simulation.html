@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Discrete-event Simulation</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="/css/tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/ox-tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/pygments.css" type="text/css" />
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+<script>
+  window.MathJax = {
+    tex: {
+      macros: {
+        argmin: ["\\mathop{\\mathrm{arg\\,min}}", 0],
+        argmax: ["\\mathop{\\mathrm{arg\\,max}}", 0],
+        abs: ["\\left\\vert#1\\right\\vert", 1],
+        given: ["\\,\\middle|\\,", 0],
+        mineq: "\\mathrel{-}=",
+        pluseq: "\\mathrel{+}=",
+        supp: ["\\mathrm{supp}\\left(#1\\right)", 1],
+        Max: ["\\max\\left\\{#1\\right\\}", 1],
+        Min: ["\\min\\left\\{#1\\right\\}", 1],
+        Inf: ["\\inf\\left\\{#1\\right\\}", 1],
+        IInf: ["\\displaystyle\\mathop{\\inf}_{#1}\\left\\{#2\\right\\}", 2],
+        Sup: ["\\sup\\left\\{#1\\right\\}", 1],
+        SSup: ["\\displaystyle\\mathop{\\sup}_{#1}\\left\\{#2\\right\\}", 2],
+        As: "\\tilde{A}",
+        B: "\\mathbb{B}",
+        C: "\\mathcal{C}",
+        d: "\\,\\textrm{d}",
+        E: ["\\mathsf{E}\\left[#1\\right]", 1],
+        F: "\\mathcal{F}",
+        IL: "I",
+        IP: "P",
+        leadtime: "l",
+        N: "\\mathbb{N}",
+        P: ["\\mathsf{P}\\left\\{#1\\right\\}", 1],
+        R: "\\mathbb{R}",
+        V: ["\\mathsf{V}\\left[#1\\right]", 1],
+        Z: "\\mathbb{Z}",
+        Bin: ["\\mathrm{Bin}(#1)", 1],
+        Exp: ["\\mathrm{Exp}(#1)", 1],
+        FS: ["\\mathrm{FS}(#1)", 1],
+        Gamm: ["\\mathrm{Gamm}(#1)", 1],
+        Geo: ["\\mathrm{Geo}(#1)", 1],
+        HGeom: ["\\mathrm{HGeom}(#1)", 1],
+        Norm: ["\\mathrm{Norm}(#1)", 1],
+        Pois: ["\\mathrm{Pois}(#1)", 1],
+        Unif: ["\\mathrm{Unif}(#1)", 1],
+        "1": ["\\mathbb{1}\\left\\{#1\\right\\}", 1],
+      },
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header id="preamble" class="status">
+<header class='site-header'>
+  <div class='site-header-container'>
+    <a href="https://ndvanforeest.github.io/">
+    <img src="/img/harry.jpg" alt='parsec logo' class='site-logo'>
+    </a>
+      <div class='site-title-container'>
+        <h1 class='site-title'>Nicky&rsquo;s site</h1>
+      </div>
+    </div>
+</header>
+<hr class='menu-divider'>
+<nav class='menu'>
+  <ul>
+    <li><a href='/index.html'>Home</a></li>
+    <li><a href='/about_this_site.html'>About this site</a></li>
+    <li><a href='/bio.html'>Bio</a></li>
+    <li><a href='/books.html'>Books</a></li>
+    <li><a href='/city_walks.html'>Stadswandelingen</a></li>
+    <li><a href='/stochastic_or.html'>Stochastic OR</a></li>
+  </ul>
+</nav>
+<hr class='menu-divider'>
+</header>
+<article id="content" class="content">
+<section id="outline-container-sec:discr-event-simul" class="outline-2">
+<h2 id="sec:discr-event-simul"><span class="section-number-2">1.</span> Discrete-event Simulation</h2>
+<div class="outline-text-2" id="text-sec:discr-event-simul">
+<p>
+The queueing and inventory systems in the previous sections were based on simple recursions, and therefore straightforward to implement.
+When we need to analyze more difficult situations, we need discrete-event simulation.
+In this section we build a simulator for a \(G/G/c\) queue with different server speeds and test it.
+In the next section, we apply this to some non-trivial queueing situations.
+We will see  the power of Python classes.
+</p>
+
+<p>
+<strong style="font-variant: all-small-caps">The first class</strong> is the <code class="src src-python">Server</code> which has an id and a service rate.
+The method <code class="src src-python">__lt__</code> enables us to express a preference for a server with a faster service rate.
+\inputminted[label=server.py]{python}{../code/event_stacks/server.py}
+</p>
+
+
+<p>
+The <code class="src src-python">Servers</code> class represents the pool of free servers.
+We subclass Servers from <code class="src src-python"><span style="font-weight: bold;">list</span></code> so that it can be used by the <code class="src src-python">heapq</code> algorithms to push and pop servers.
+When a job leaves, <code class="src src-python">Servers</code> assigns the next job in queue to a server based on the priority rule stated in <code class="src src-python">Server.__lt__</code>.
+A server that becomes idle after finishing a job is pushed to the server pool.
+The convenience methods <code class="src src-python">num_free</code> and <code class="src src-python">is_server_available</code> improve readability compared to using <code class="src src-python"><span style="font-weight: bold;">len</span></code> directly.
+\inputminted[label=servers.py]{python}{../code/event_stacks/servers.py}
+</p>
+
+
+<p>
+The <code class="src src-python">Job</code> class speaks mostly for itself.
+The service time equals the job&rsquo;s load divided by the rate of the server that serves the job.<label id='fnr.1' for='fnr-in.1.7408686' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.7408686' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>
+Since servers may have different rates, we can only compute the service time after the job is assigned to a server.
+</span>
+The job keeps a reference to its assigned server.
+The other attributes are used for the statistics computations at the end of the simulation.
+We implement the sojourn time and waiting time as a \mintinline{python}{property}, as this allows us to access them the same way as, for example, the departure time.
+The \mintinline{python}{__lt__} method determines which job to select from the queue when a service can start.
+As it is now, we select jobs in FIFO sequence.
+The <code class="src src-python">__hash__</code> method assigns each job a unique id, enabling its use in  a set or as a key in a dict.
+\inputminted[label=job.py]{python}{../code/event_stacks/job.py}
+</p>
+
+<p>
+The <code class="src src-python">Queue</code> class also subclassses <code class="src src-python"><span style="font-weight: bold;">list</span></code> so that it can act as a heap and use <code class="src src-python">Job.__lt__</code> to select the next job from the queue.
+\inputminted[label=queues.py]{python}{../code/event_stacks/queues.py}
+</p>
+
+<p>
+An <code class="src src-python">Event</code> contains a time and a job; the <code class="src src-python">__lt__</code> method specifies how to order events.<label id='fnr.2' for='fnr-in.2.8791831' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.8791831' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>
+Clearly, this must be by time.
+</span>
+The <code class="src src-python">ArrivalEvent</code> and <code class="src src-python">DepartureEvent</code> allow us to distinguish the relevant type of event.
+\inputminted[label=event.py]{python}{../code/event_stacks/event.py}
+</p>
+
+
+<p>
+The <code class="src src-python">Events</code> class is a heap queue and keeps the events <i>chronologically</i> sorted.<label id='fnr.3' for='fnr-in.3.2219476' class='margin-toggle sidenote-number'><sup class='numeral'>3</sup></label><input type='checkbox' id='fnr-in.3.2219476' class='margin-toggle'><span class='sidenote'><sup class='numeral'>3</sup>
+Once you understand that the <code>Events</code> class offers the functionality to remove and insert events arbitrary but still pop them sorted in time, you understand the core of discrete-event simulation.
+</span>
+\inputminted[label=events.py]{python}{../code/event_stacks/events.py}
+</p>
+
+<p>
+The <code class="src src-python">Statistics</code> class is a subclass of <code class="src src-python"><span style="font-weight: bold;">list</span></code> allowing us to append the jobs in the order in which they depart from the server.
+\inputminted[label=stats.py]{python}{../code/event_stacks/stats.py}
+</p>
+
+
+<p>
+The <code class="src src-python">Simulator</code> is the final class <label id='fnr.4' for='fnr-in.4.2765996' class='margin-toggle sidenote-number'><sup class='numeral'>4</sup></label><input type='checkbox' id='fnr-in.4.2765996' class='margin-toggle'><span class='sidenote'><sup class='numeral'>4</sup>
+Study it carefully.
+</span>
+and it stores the events, queue, statistics, and servers.
+The attribute <code class="src src-python">now</code> points to the current simulation time.
+When starting the simulation, we provide a list of jobs to the simulator, which pushes an <code class="src src-python">ArrivalEvent</code> for each new job onto the event stack.
+</p>
+
+<p>
+When a job service starts, the <code class="src src-python">serve_job</code> method asks for a free server from the server pool<label id='fnr.5' for='fnr-in.5.4122366' class='margin-toggle sidenote-number'><sup class='numeral'>5</sup></label><input type='checkbox' id='fnr-in.5.4122366' class='margin-toggle'><span class='sidenote'><sup class='numeral'>5</sup>
+At a later stage, we might have different server pools. We therefore add this as an argument.
+</span>
+and assigns it to the job.
+Then it computes the job service time and departure time, and pushes a DepartureEvent to the event stack to inform the simulator that a job will leave at that time.
+</p>
+
+<p>
+The <code class="src src-python">run</code> method checks whether events remain; if so, it pops the next event from the event stack.
+It then updates <code class="src src-python">now</code> to the event time and retrieves the associated job.
+If the event is an <code class="src src-python">ArrivalEvent</code>, the job is served if a server is free; otherwise, it is queued.
+In case of a <code class="src src-python">DepartureEvent</code>, the server assigned to the job becomes free and is returned to the server pool.
+The departing job is pushed to the statistics tracker.
+If there are still jobs in the queue, a new job is taken into service.
+</p>
+
+<p>
+\inputminted[label=simulator.py]{python}{../code/event_stacks/simulator.py}
+</p>
+
+
+<p>
+<strong style="font-variant: all-small-caps">Testing the code</strong> comes next.
+In \cref{sec:mm1}, we derive exact results for the expected waiting time of the \(M/M/c\) queue, so this model provides a good test.
+The library <code class="src src-python">mmc.py</code> <label id='fnr.6' for='fnr-in.6.8368647' class='margin-toggle sidenote-number'><sup class='numeral'>6</sup></label><input type='checkbox' id='fnr-in.6.8368647' class='margin-toggle'><span class='sidenote'><sup class='numeral'>6</sup>
+See GitHub.
+</span> contains the code for the \(M/M/c\) queue.
+</p>
+
+<p>
+For the generation of the data for the simulation, we follow the same procedure as in \cref{sec:simul-cont-time}.
+\inputminted[label=test-mmc.py]{python}{../code/event_stacks/test_mmc.py}
+</p>
+
+<p>
+Here is the output for \(10^4\) jobs. The results are quite OK, but the differences in \(\E W\) and \(\E Q\) are still quite large.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/home/nicky/vakken/qts/stochastic_or/code/event_stacks/test_mmc.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">W</span><span class="p">:</span> <span class="mf">0.0441</span><span class="p">,</span> <span class="n">mm2</span><span class="o">.</span><span class="n">EW</span><span class="o">=</span><span class="mf">0.0409</span>
+<span class="n">J</span><span class="p">:</span> <span class="mf">0.2952</span><span class="p">,</span> <span class="n">mm2</span><span class="o">.</span><span class="n">EJ</span><span class="o">=</span><span class="mf">0.2909</span>
+<span class="n">Q</span><span class="p">:</span> <span class="mf">0.1467</span><span class="p">,</span> <span class="n">mm2</span><span class="o">.</span><span class="n">EQ</span><span class="o">=</span><span class="mf">0.1227</span>
+</pre></div>
+
+<p>
+Let us repeat the experiment, but now with \(10^6\) jobs. The results show a remarkable improvement.<label id='fnr.7' for='fnr-in.7.6341975' class='margin-toggle sidenote-number'><sup class='numeral'>7</sup></label><input type='checkbox' id='fnr-in.7.6341975' class='margin-toggle'><span class='sidenote'><sup class='numeral'>7</sup>
+This brings up a philosophical problem. If we need to simulate with one million jobs to see the time-average statistics appear, what is the significance of such time-averages? In how many practical situation will we such numbers of jobs?
+</span>
+</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">override</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_with_overrides</span>
+
+<span class="n">script</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;/home/nicky/vakken/qts/stochastic_or/code/event_stacks/test_mmc.py&quot;</span>
+<span class="p">)</span>
+<span class="n">ns</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="mi">1000000</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">run_with_overrides</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">ns</span><span class="p">))</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">W</span><span class="p">:</span> <span class="mf">0.0410</span><span class="p">,</span> <span class="n">mm2</span><span class="o">.</span><span class="n">EW</span><span class="o">=</span><span class="mf">0.0409</span>
+<span class="n">J</span><span class="p">:</span> <span class="mf">0.2915</span><span class="p">,</span> <span class="n">mm2</span><span class="o">.</span><span class="n">EJ</span><span class="o">=</span><span class="mf">0.2909</span>
+<span class="n">Q</span><span class="p">:</span> <span class="mf">0.1225</span><span class="p">,</span> <span class="n">mm2</span><span class="o">.</span><span class="n">EQ</span><span class="o">=</span><span class="mf">0.1227</span>
+</pre></div>
+
+<p>
+In the next section we demonstrate with a few examples how flexible this simulation environment actually is.
+</p>
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>TF 1:</b> 
+<p>
+Claim: This part of the <code class="src src-python">Simulator</code> class handles arrivals correctly.
+</p>
+<div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Simulation</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">handle_arrival</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">):</span>
+        <span class="n">job</span><span class="o">.</span><span class="n">q_length_at_arrival</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">length</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">servers</span><span class="o">.</span><span class="n">is_server_available</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">serve_job</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+</pre></div>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Did you actually try? Maybe see the ‘hints’ above!:</b> 
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution, for real
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+False. Compare with the correct code.
+</p>
+
+
+</details>
+</div>
+
+</details>
+</div>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>TF 2:</b> 
+<p>
+Claim: This part of the <code class="src src-python">simulator</code> class handles the serving of jobs correctly.
+</p>
+<div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Simulation</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serve_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">):</span>
+        <span class="n">server</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">servers</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">job</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">server</span>
+        <span class="n">job</span><span class="o">.</span><span class="n">service_time</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">load</span> <span class="o">/</span> <span class="n">server</span><span class="o">.</span><span class="n">rate</span>
+        <span class="n">job</span><span class="o">.</span><span class="n">departure_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">now</span> <span class="o">+</span> <span class="n">job</span><span class="o">.</span><span class="n">service_time</span>
+        <span class="n">job</span><span class="o">.</span><span class="n">queue_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">length</span><span class="p">()</span>
+        <span class="n">job</span><span class="o">.</span><span class="n">free_servers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">servers</span><span class="o">.</span><span class="n">num_free</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">DepartureEvent</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">departure_time</span><span class="p">,</span> <span class="n">job</span><span class="p">))</span>
+</pre></div>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Did you actually try? Maybe see the ‘hints’ above!:</b> 
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution, for real
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+True.
+</p>
+
+<p>
+An interesting variation.
+Claim: the job records the number of free servers as seen just prior to arrival.
+This claim is false because the code first pops a server from the pool of free servers, and then sets the \pythoninline{job.free_servers} attribute.
+</p>
+
+
+</details>
+</div>
+
+</details>
+</div>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>TF 3:</b> 
+<p>
+Claim: This part of the <code class="src src-python">Simulator</code> class handles departures correctly.
+</p>
+<div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Simulation</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">handle_departure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">servers</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">server</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">serve_job</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">pop</span><span class="p">())</span>
+        <span class="n">job</span><span class="o">.</span><span class="n">q_length_at_departure</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">length</span><span class="p">()</span>
+</pre></div>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Did you actually try? Maybe see the ‘hints’ above!:</b> 
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution, for real
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+True.
+</p>
+
+
+</details>
+</div>
+
+</details>
+</div>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 4:</b> 
+<p>
+Consult the website of RealPython to gain a better understanding of classes, dataclasses, <code class="src src-python">heapq</code>, and <code class="src src-python">deque</code>.
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Did you actually try? Maybe see the ‘hints’ above!:</b> 
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution, for real
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Read the pages on RealPython.
+</p>
+
+
+</details>
+</div>
+
+</details>
+</div>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 5:</b> 
+<p>
+There are some advantages to subclassing <code class="src src-python">Queue</code> from <code class="src src-python">deque</code>.
+What are these advantages?
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Did you actually try? Maybe see the ‘hints’ above!:</b> 
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution, for real
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+Give this string to ChatGPT: `What is the advantage of a python deque over a heapq. Discuss the algorithmic efficiency, too.&rsquo;
+</p>
+
+
+</details>
+</div>
+
+</details>
+</div>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Exercise 6:</b> 
+<p>
+Consider   a multiserver queue with \(m\) servers.
+Suppose that at some time \(t\) it happens that \(\As(t) - D(t) < m\)  but \(A(t) - D(t) > m\).
+How can this occur?
+</p>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Did you actually try? Maybe see the ‘hints’ above!:</b> 
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution, for real
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+In this case, there are servers idling while there are still customers in queue.
+If such events occur, the system is not work-conserving.
+</p>
+
+
+</details>
+</div>
+
+</details>
+</div>
+<p>
+<a href="https://creativecommons.org/licenses/by-sa/4.0/"><img alt="CC BY-SA 4.0" style="height:1.2em; vertical-align:middle;" src="https://licensebuttons.net/l/by-sa/4.0/88x31.png" /></a>
+This work is licensed by the University of Groningen under a
+<a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+</p>
+</div>
+</section>
+</article>
+<footer id="postamble" class="status">
+<hr> <p class="footer"> &#8226; A site by Nicky van Foreest &#8226;   Last updated: 2022:05:07, Generated with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 30.2 (<a href="https://orgmode.org">Org</a> mode 9.7.11)</p>
+</footer>
+</body>
+</html>
