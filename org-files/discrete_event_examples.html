@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Discrete-Event Simulations: Examples</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="/css/tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/ox-tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/pygments.css" type="text/css" />
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+<script>
+  window.MathJax = {
+    tex: {
+      macros: {
+        argmin: ["\\mathop{\\mathrm{arg\\,min}}", 0],
+        argmax: ["\\mathop{\\mathrm{arg\\,max}}", 0],
+        abs: ["\\left\\vert#1\\right\\vert", 1],
+        given: ["\\,\\middle|\\,", 0],
+        mineq: "\\mathrel{-}=",
+        pluseq: "\\mathrel{+}=",
+        supp: ["\\mathrm{supp}\\left(#1\\right)", 1],
+        Max: ["\\max\\left\\{#1\\right\\}", 1],
+        Min: ["\\min\\left\\{#1\\right\\}", 1],
+        Inf: ["\\inf\\left\\{#1\\right\\}", 1],
+        IInf: ["\\displaystyle\\mathop{\\inf}_{#1}\\left\\{#2\\right\\}", 2],
+        Sup: ["\\sup\\left\\{#1\\right\\}", 1],
+        SSup: ["\\displaystyle\\mathop{\\sup}_{#1}\\left\\{#2\\right\\}", 2],
+        As: "\\tilde{A}",
+        B: "\\mathbb{B}",
+        C: "\\mathcal{C}",
+        d: "\\,\\textrm{d}",
+        E: ["\\mathsf{E}\\left[#1\\right]", 1],
+        F: "\\mathcal{F}",
+        IL: "I",
+        IP: "P",
+        leadtime: "l",
+        N: "\\mathbb{N}",
+        P: ["\\mathsf{P}\\left\\{#1\\right\\}", 1],
+        R: "\\mathbb{R}",
+        V: ["\\mathsf{V}\\left[#1\\right]", 1],
+        Z: "\\mathbb{Z}",
+        Bin: ["\\mathrm{Bin}(#1)", 1],
+        Exp: ["\\mathrm{Exp}(#1)", 1],
+        FS: ["\\mathrm{FS}(#1)", 1],
+        Gamm: ["\\mathrm{Gamm}(#1)", 1],
+        Geo: ["\\mathrm{Geo}(#1)", 1],
+        HGeom: ["\\mathrm{HGeom}(#1)", 1],
+        Norm: ["\\mathrm{Norm}(#1)", 1],
+        Pois: ["\\mathrm{Pois}(#1)", 1],
+        Unif: ["\\mathrm{Unif}(#1)", 1],
+        "1": ["\\mathbb{1}\\left\\{#1\\right\\}", 1],
+      },
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header id="preamble" class="status">
+<header class='site-header'>
+  <div class='site-header-container'>
+    <a href="https://ndvanforeest.github.io/">
+    <img src="/img/harry.jpg" alt='parsec logo' class='site-logo'>
+    </a>
+      <div class='site-title-container'>
+        <h1 class='site-title'>Nicky&rsquo;s site</h1>
+      </div>
+    </div>
+</header>
+<hr class='menu-divider'>
+<nav class='menu'>
+  <ul>
+    <li><a href='/index.html'>Home</a></li>
+    <li><a href='/about_this_site.html'>About this site</a></li>
+    <li><a href='/bio.html'>Bio</a></li>
+    <li><a href='/books.html'>Books</a></li>
+    <li><a href='/city_walks.html'>Stadswandelingen</a></li>
+    <li><a href='/stochastic_or.html'>Stochastic OR</a></li>
+  </ul>
+</nav>
+<hr class='menu-divider'>
+</header>
+<article id="content" class="content">
+<section id="outline-container-sec:discr-event-simul-examples" class="outline-2">
+<h2 id="sec:discr-event-simul-examples"><span class="section-number-2">1.</span> Discrete-Event Simulations: Examples</h2>
+<div class="outline-text-2" id="text-sec:discr-event-simul-examples">
+<p>
+The discrete-event simulator for the \(G/G/c\) queue developed in the previous section can be easily adapted to other queueing systems.
+We first analyze the effects of several server speeds for the \(G/G/c\) queue.
+Then we implement a queue in which jobs can be served with priority.
+</p>
+<p>
+<strong style="font-variant: all-small-caps">Consider a station</strong> with three servers with rates \(1\), \(0.1\), and \(0.01\), respectively, and such that whenever multiple servers are free, the fastest available one is chosen.
+If queue sizes are very long, then it could help to use the extra capacity offered by the two slower servers.
+However, when the load is small and a job ends up at the slowest server, its sojourn time is large<label id='fnr.1' for='fnr-in.1.3277734' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.3277734' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>
+Because its service time is large
+</span>.
+Should we actually use this extra capacity?
+To obtain insight into the value of the extra capacity, we compare this system with an \(M/M/1\) queue with service rate \(1\)<label id='fnr.2' for='fnr-in.2.6293918' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.6293918' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>
+In other words, a queue with no extra capacity.
+</span>
+</p>
+
+<p>
+We take \(\E S = 1/\mu = 1/4\) at first.
+</p>
+
+<p>
+\inputminted[label=multiple\_speeds.py]{python}{../code/event_stacks/multiple_speeds.py}
+</p>
+
+<p>
+Here is the output.
+We see that the average queue length is smaller in the multi-server station, but the sojourn time is longer.
+The counter shows that about \(91\) of the \(10000\) of the jobs are served by the  slowest server, thereby providing the explanation.
+</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">override</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_with_overrides</span>
+
+<span class="n">script</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;/home/nicky/vakken/qts/stochastic_or/code/event_stacks/multiple_speeds.py&quot;</span>
+<span class="p">)</span>
+<span class="n">ns</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;mu&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">run_with_overrides</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">ns</span><span class="p">))</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">W</span><span class="p">:</span> <span class="n">sim</span><span class="p">:</span> <span class="mf">0.42</span><span class="p">,</span> <span class="n">exact</span><span class="p">:</span> <span class="mf">0.75</span>
+<span class="n">J</span><span class="p">:</span> <span class="n">sim</span><span class="p">:</span> <span class="mf">1.24</span><span class="p">,</span> <span class="n">exact</span><span class="p">:</span> <span class="mf">1.00</span>
+<span class="n">Q</span><span class="p">:</span> <span class="n">sim</span><span class="p">:</span> <span class="mf">1.27</span><span class="p">,</span> <span class="n">exact</span><span class="p">:</span> <span class="mf">2.25</span>
+<span class="n">Counter</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="mi">8772</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">1136</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">91</span><span class="p">})</span>
+</pre></div>
+
+<p>
+Since the slow servers increase sojourn times, we may question whether to use them at all.
+Let us examine the output if the job load becomes quite a bit larger.
+We increase \(\E S\) from \(1/4\) to \(1/3.1\), so \(\rho\) increases from \(3/4\) to \(3/3.1\).
+</p>
+
+<p>
+The new results make is clear that the extra servers do help; the expected waiting and sojourn go down as compared the \(M/M/1\) queue, i.e., the queue without extra capacity.
+Interestingly, the fraction of jobs served by the fastest server is \emph{larger} than when \(\E S =1/4\).
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">override</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_with_overrides</span>
+
+<span class="n">script</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;/home/nicky/vakken/qts/stochastic_or/code/event_stacks/multiple_speeds.py&quot;</span>
+<span class="p">)</span>
+<span class="n">ns</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;mu&quot;</span><span class="p">:</span> <span class="mf">3.1</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">run_with_overrides</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">ns</span><span class="p">))</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">W</span><span class="p">:</span> <span class="n">sim</span><span class="p">:</span> <span class="mf">2.04</span><span class="p">,</span> <span class="n">exact</span><span class="p">:</span> <span class="mf">9.68</span>
+<span class="n">J</span><span class="p">:</span> <span class="n">sim</span><span class="p">:</span> <span class="mf">2.97</span><span class="p">,</span> <span class="n">exact</span><span class="p">:</span> <span class="mf">10.00</span>
+<span class="n">Q</span><span class="p">:</span> <span class="n">sim</span><span class="p">:</span> <span class="mf">6.17</span><span class="p">,</span> <span class="n">exact</span><span class="p">:</span> <span class="mf">29.03</span>
+<span class="n">Counter</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="mi">9615</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">357</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">27</span><span class="p">})</span>
+</pre></div>
+
+<p>
+In conclusion, if the load is low, it&rsquo;s best to use only the fastest server. but when the load is high, queueing times form the larger part of the sojourn time, and then it beceoms better to use also slow servers.
+</p>
+
+<p>
+<strong style="font-variant: all-small-caps">Different scheduling and</strong> priority rules are easy to implement by subclassing <code class="src src-python">Job</code> and overriding its <code class="src src-python">__lt__</code> method.
+For instance, here is the code to implement  LIFO<label id='fnr.3' for='fnr-in.3.1471703' class='margin-toggle sidenote-number'><sup class='numeral'>3</sup></label><input type='checkbox' id='fnr-in.3.1471703' class='margin-toggle'><span class='sidenote'><sup class='numeral'>3</sup>
+LIFO = Last In First Out.
+</span>, and  SPTF<label id='fnr.4' for='fnr-in.4.9670868' class='margin-toggle sidenote-number'><sup class='numeral'>4</sup></label><input type='checkbox' id='fnr-in.4.9670868' class='margin-toggle'><span class='sidenote'><sup class='numeral'>4</sup>
+SPTF = Shortest Processing Time First; a rule  giving preference to smaller jobs.
+</span>.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">job</span><span class="w"> </span><span class="kn">import</span> <span class="n">Job</span>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LiFOJob</span><span class="p">(</span><span class="n">Job</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrival_time</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">arrival_time</span>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SPTFJob</span><span class="p">(</span><span class="n">Job</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">load</span>
+</pre></div>
+
+<p>
+In priority queues,  higher priority is better, and only when jobs have the same priority, they should be sorted according to FIFO.<label id='fnr.5' for='fnr-in.5.8196407' class='margin-toggle sidenote-number'><sup class='numeral'>5</sup></label><input type='checkbox' id='fnr-in.5.8196407' class='margin-toggle'><span class='sidenote'><sup class='numeral'>5</sup>
+A variation would be to provide jobs with due dates: the job with the smaller due date should be served first.
+</span>
+</p>
+
+<p>
+\inputminted[label=priority\_job.py]{python}{../code/event_stacks/priority_job.py}
+</p>
+
+<p>
+Here is how to use it in a simulation.
+In the simulaton we give ten percent of the jobs a higher priority, and then  we compare the results of the simulation to a regular \(M/M/1\) queue with the same service capacity but without job priorities.
+</p>
+
+<p>
+\inputminted[label=priority\_jobs.py]{python}{../code/event_stacks/priority_jobs.py}
+</p>
+
+
+<div class="highlight"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/home/nicky/vakken/qts/stochastic_or/code/event_stacks/priority_jobs.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">W</span><span class="p">:</span> <span class="n">sim</span><span class="p">:</span> <span class="mf">4.82</span><span class="p">,</span> <span class="n">exact</span><span class="p">:</span> <span class="mf">4.69</span>
+<span class="n">J</span><span class="p">:</span> <span class="n">sim</span><span class="p">:</span> <span class="mf">5.14</span><span class="p">,</span> <span class="n">exact</span><span class="p">:</span> <span class="mf">5.00</span>
+<span class="n">Q</span><span class="p">:</span> <span class="n">sim</span><span class="p">:</span> <span class="mf">14.46</span><span class="p">,</span> <span class="n">exact</span><span class="p">:</span> <span class="mf">14.06</span>
+<span class="n">Priority</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">EW</span><span class="p">:</span> <span class="mf">5.34</span>
+<span class="n">Priority</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">EW</span><span class="p">:</span> <span class="mf">0.32</span>
+</pre></div>
+
+<p>
+From the output we see that for the population as a whole, there is no difference in average waiting time<label id='fnr.6' for='fnr-in.6.9115149' class='margin-toggle sidenote-number'><sup class='numeral'>6</sup></label><input type='checkbox' id='fnr-in.6.9115149' class='margin-toggle'><span class='sidenote'><sup class='numeral'>6</sup>
+Which is in accordance to our intuition.
+</span>: there is hardly any difference in waiting time between the simulation and the exact model (without priorities).
+However, for the jobs with the higher priority class \(\E W = 0.32\), while for the lower priority \(\E W = 5.34\).
+That is, the lower priority jobs do wait somewhat (but not much) longer than in the case without priorities.
+We explain this by the fact that the fraction of jobs with higher priority is just 10%.
+</p>
+
+
+<p>
+<strong style="font-variant: all-small-caps">Implementing the \(N\) policy</strong> is now very simple<label id='fnr.7' for='fnr-in.7.362816' class='margin-toggle sidenote-number'><sup class='numeral'>7</sup></label><input type='checkbox' id='fnr-in.7.362816' class='margin-toggle'><span class='sidenote'><sup class='numeral'>7</sup>
+See \cref{ex:n-policies}
+</span>: we <i>only</i> have to subclass the <code class="src src-python">Simulation</code> class and override the <code class="src src-python">handle_arrival</code> method,  and nothing else!
+To see why, realize that in <code class="src src-python">Simulation.handle_departures</code> when there are jobs in queue and a job departs, a new job is assigned to the server; this does not depend on the state of the server. \cref{fig:npolicy} shows a sample path of the queue length process.
+</p>
+
+<p>
+\inputminted[label=n\_policy.py,lastline=23]{python}{../code/event_stacks/n_policy.py}
+</p>
+
+<p>
+<a href="./../figures/n_policies.pdf">./../figures/n_policies.pdf</a>
+</p>
+
+
+<p>
+<strong style="font-variant: all-small-caps">The check-in process</strong> at an airport is a somewhat more involved queueing system, because at a check-in desk business and economy class customers typically have their own set of servers.
+Here, we are going to use simulation to compare different ways to organize the server allocation.
+One policy is like this: some of the servers are strictly allocated to business class customers, and the rest of the servers are strictly used for the economy class customers.
+Another policy is that if a business server is free, this server accepts just one economy customer for service<label id='fnr.8' for='fnr-in.8.5913226' class='margin-toggle sidenote-number'><sup class='numeral'>8</sup></label><input type='checkbox' id='fnr-in.8.5913226' class='margin-toggle'><span class='sidenote'><sup class='numeral'>8</sup>
+Assuming there is such a customer in queue.
+</span>.
+When, after this service, there is still no business customer, the business server serves a second economy customer.
+Once a business customer arrives, the business server finishes the economy customer<label id='fnr.9' for='fnr-in.9.8263294' class='margin-toggle sidenote-number'><sup class='numeral'>9</sup></label><input type='checkbox' id='fnr-in.9.8263294' class='margin-toggle'><span class='sidenote'><sup class='numeral'>9</sup>
+If one is in service.
+</span>, and then serves the business customer.<label id='fnr.10' for='fnr-in.10.4017446' class='margin-toggle sidenote-number'><sup class='numeral'>10</sup></label><input type='checkbox' id='fnr-in.10.4017446' class='margin-toggle'><span class='sidenote'><sup class='numeral'>10</sup>
+Note that this system is not identical to a priority queue. When the business servers are shared, business customers are served with priority; however, the economy servers are not shared.
+</span> Which of these two policies is best?
+</p>
+
+<p>
+Assume that a flight departing at 11 am consists of \(300\) economy class and 100 business class people.
+For ease, assume that all \(N\) customers arrive between 8 and 10, and that the desks are open from 8 to 10h30 to serve the demand.
+</p>
+
+<p>
+Clearly, this is a transient queueing process that ends when all jobs are served.
+As this system is mathematically intractable, we only have simulation at our disposal.
+</p>
+
+<p>
+We first load the relevant modules.
+</p>
+<div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Queueing at an airport check-in desk with business and economy customers.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">events</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">job</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">queues</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">server</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">servers</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">simulator</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">stats</span>
+</pre></div>
+
+
+<p>
+Since jobs and servers now are of the business or economy class, we subclass <code class="src src-python">Job</code> and add the relevant attribute.
+</p>
+<div class="highlight"><pre><span></span><span class="n">ECONOMY</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">BUSINESS</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Job</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">Job</span><span class="p">):</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">ECONOMY</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Server</span><span class="p">(</span><span class="n">server</span><span class="o">.</span><span class="n">Server</span><span class="p">):</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">ECONOMY</span>
+</pre></div>
+
+
+<p>
+In the simulator we configure separate queues and servers for the economy and the business customers.
+The boolean argument <code class="src src-python">share</code> indicates whether the business servers have to be shared or not.
+When handling arrivals and departures, we need to take the type of job and server into account. For the rest, we can subclass from the <code class="src src-python">Simulation</code> class.
+</p>
+<div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Simulation</span><span class="p">(</span><span class="n">simulator</span><span class="o">.</span><span class="n">Simulation</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_e_servers</span><span class="p">,</span> <span class="n">num_b_servers</span><span class="p">,</span> <span class="n">share</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">share</span> <span class="o">=</span> <span class="n">share</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">events</span><span class="o">.</span><span class="n">Events</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">Statistics</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">now</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># ECONOMY</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e_queue</span> <span class="o">=</span> <span class="n">queues</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e_servers</span> <span class="o">=</span> <span class="n">servers</span><span class="o">.</span><span class="n">Servers</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_e_servers</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">e_servers</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">Server</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">ECONOMY</span><span class="p">))</span>
+        <span class="c1"># BUSINESS</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b_queue</span> <span class="o">=</span> <span class="n">queues</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b_servers</span> <span class="o">=</span> <span class="n">servers</span><span class="o">.</span><span class="n">Servers</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_b_servers</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">b_servers</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">Server</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">BUSINESS</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">handle_arrival</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">job</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">ECONOMY</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_servers</span><span class="o">.</span><span class="n">is_server_available</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">serve_job</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_servers</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">share</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_servers</span><span class="o">.</span><span class="n">is_server_available</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">serve_job</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_servers</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">e_queue</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">job</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">BUSINESS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_servers</span><span class="o">.</span><span class="n">is_server_available</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">serve_job</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_servers</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">b_queue</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown job type&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">handle_departure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">job</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">ECONOMY</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">e_servers</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">server</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_queue</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">serve_job</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">e_queue</span><span class="o">.</span><span class="n">pop</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_servers</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">job</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">BUSINESS</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">b_servers</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">server</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_queue</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">serve_job</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b_queue</span><span class="o">.</span><span class="n">pop</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_servers</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">share</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_queue</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">serve_job</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">e_queue</span><span class="o">.</span><span class="n">pop</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_servers</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown job type&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>
+The next step is to configure the jobs and define the interarrival times and the time the desks have to be open to serve all customers.
+</p>
+<div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">check_in_window</span> <span class="o">=</span> <span class="mi">120</span>  <span class="c1"># minutes</span>
+<span class="n">desks_open</span> <span class="o">=</span> <span class="n">check_in_window</span> <span class="o">+</span> <span class="mi">30</span>
+
+
+<span class="c1"># Make ECONOMY jobs</span>
+<span class="n">num</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">check_in_window</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num</span><span class="p">))</span>
+<span class="n">loads</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num</span><span class="p">)</span>
+<span class="n">e_jobs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Job</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">arrival_time</span><span class="o">=</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">load</span><span class="o">=</span><span class="n">loads</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="n">ECONOMY</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+<span class="p">]</span>
+
+
+<span class="c1"># BUSINESS jobs</span>
+<span class="n">num</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">check_in_window</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num</span><span class="p">))</span>
+<span class="n">loads</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num</span><span class="p">)</span>
+<span class="c1"># loads = rng.uniform(low=1, high=3, size=num)</span>
+<span class="n">b_jobs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Job</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">arrival_time</span><span class="o">=</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">load</span><span class="o">=</span><span class="n">loads</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="n">BUSINESS</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+
+
+
+<p>
+It is evident that we need to determine the required number of servers&nbsp;\(c\) such that the performance is acceptable.
+The following code prints the total capacity and the demand so that we can check whether the available server capacity suffices.
+It turns out that the capacities suffice to get the work done.
+</p>
+<div class="highlight"><pre><span></span><span class="n">num_e_servers</span><span class="p">,</span> <span class="n">num_b_servers</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span>
+
+<span class="n">e_work</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">load</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">e_jobs</span><span class="p">)</span>
+<span class="n">e_service_available</span> <span class="o">=</span> <span class="n">num_e_servers</span> <span class="o">*</span> <span class="n">desks_open</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Check e capacity: </span><span class="si">{</span><span class="n">e_work</span><span class="si">=:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">e_service_available</span><span class="si">=:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">b_work</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">load</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">b_jobs</span><span class="p">)</span>
+<span class="n">b_service_available</span> <span class="o">=</span> <span class="n">num_b_servers</span> <span class="o">*</span> <span class="n">desks_open</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Check b capacity: </span><span class="si">{</span><span class="n">b_work</span><span class="si">=:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">b_service_available</span><span class="si">=:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">tot_work</span> <span class="o">=</span> <span class="n">e_work</span> <span class="o">+</span> <span class="n">b_work</span>
+<span class="n">tot_service_available</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_e_servers</span> <span class="o">+</span> <span class="n">num_b_servers</span><span class="p">)</span> <span class="o">*</span> <span class="n">desks_open</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Check b capacity: </span><span class="si">{</span><span class="n">tot_work</span><span class="si">=:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">tot_service_available</span><span class="si">=:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">Check</span> <span class="n">e</span> <span class="n">capacity</span><span class="p">:</span> <span class="n">e_work</span><span class="o">=</span><span class="mi">553</span><span class="p">,</span> <span class="n">e_service_available</span><span class="o">=</span><span class="mi">600</span>
+<span class="n">Check</span> <span class="n">b</span> <span class="n">capacity</span><span class="p">:</span> <span class="n">b_work</span><span class="o">=</span><span class="mi">193</span><span class="p">,</span> <span class="n">b_service_available</span><span class="o">=</span><span class="mi">300</span>
+<span class="n">Check</span> <span class="n">b</span> <span class="n">capacity</span><span class="p">:</span> <span class="n">tot_work</span><span class="o">=</span><span class="mi">747</span><span class="p">,</span> <span class="n">tot_service_available</span><span class="o">=</span><span class="mi">900</span>
+</pre></div>
+
+<p>
+We can run the simulation.
+</p>
+<div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">num_e_servers</span><span class="p">,</span> <span class="n">num_b_servers</span><span class="p">,</span> <span class="n">share</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">initialize_jobs</span><span class="p">(</span><span class="n">e_jobs</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">initialize_jobs</span><span class="p">(</span><span class="n">b_jobs</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+
+
+<p>
+And we can print the KPIs.
+It is reasonable<label id='fnr.11' for='fnr-in.11.7457167' class='margin-toggle sidenote-number'><sup class='numeral'>11</sup></label><input type='checkbox' id='fnr-in.11.7457167' class='margin-toggle'><span class='sidenote'><sup class='numeral'>11</sup>
+Within this context, that is.
+</span>
+that besides the mean waiting time the largest waiting time is important.
+Apparently, all customers are served in time, but the waiting times of the economy class customers is quite long.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+    <span class="s2">&quot;Compute mean of values in an iterable.&quot;</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">value</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;iterable is empty.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">count</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Last departure e job: </span><span class="si">{</span><span class="n">e_jobs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">departure_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Last departure b job: </span><span class="si">{</span><span class="n">b_jobs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">departure_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Largest waiting time e job: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">waiting_time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">e_jobs</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Largest waiting time b job: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">waiting_time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">b_jobs</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Overall mean waiting time: </span><span class="si">{</span><span class="n">sim</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">mean_waiting_time</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mean waiting e jobs: </span><span class="si">{</span><span class="n">mean</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">waiting_time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">e_jobs</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mean waiting b jobs: </span><span class="si">{</span><span class="n">mean</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">waiting_time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">b_jobs</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">Last</span> <span class="n">departure</span> <span class="n">e</span> <span class="n">job</span><span class="p">:</span> <span class="mf">146.96</span>
+<span class="n">Last</span> <span class="n">departure</span> <span class="n">b</span> <span class="n">job</span><span class="p">:</span> <span class="mf">135.60</span>
+<span class="n">Largest</span> <span class="n">waiting</span> <span class="n">time</span> <span class="n">e</span> <span class="n">job</span><span class="p">:</span> <span class="mf">25.17</span>
+<span class="n">Largest</span> <span class="n">waiting</span> <span class="n">time</span> <span class="n">b</span> <span class="n">job</span><span class="p">:</span> <span class="mf">7.47</span>
+<span class="n">Overall</span> <span class="n">mean</span> <span class="n">waiting</span> <span class="n">time</span><span class="p">:</span> <span class="mf">8.17</span>
+<span class="n">mean</span> <span class="n">waiting</span> <span class="n">e</span> <span class="n">jobs</span><span class="p">:</span> <span class="mf">10.51</span>
+<span class="n">mean</span> <span class="n">waiting</span> <span class="n">b</span> <span class="n">jobs</span><span class="p">:</span> <span class="mf">1.09</span>
+</pre></div>
+
+<p>
+One way to reduce the waiting times for the economy class is by opening an extra economy desk, that is, use \(5+2\) desks instead of \(4+2\).<label id='fnr.12' for='fnr-in.12.4030850' class='margin-toggle sidenote-number'><sup class='numeral'>12</sup></label><input type='checkbox' id='fnr-in.12.4030850' class='margin-toggle'><span class='sidenote'><sup class='numeral'>12</sup>
+This comes at the expense of hiring an extra server: 7 instead of 6.
+</span>
+The results show that this decision has a large impact on the waiting time.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">num_e_servers</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_b_servers</span><span class="p">,</span> <span class="n">share</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">initialize_jobs</span><span class="p">(</span><span class="n">e_jobs</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">initialize_jobs</span><span class="p">(</span><span class="n">b_jobs</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Last departure e job: </span><span class="si">{</span><span class="n">e_jobs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">departure_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Last departure b job: </span><span class="si">{</span><span class="n">b_jobs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">departure_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Largest waiting time e job: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">waiting_time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">e_jobs</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Largest waiting time b job: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">waiting_time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">b_jobs</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Overall mean waiting time: </span><span class="si">{</span><span class="n">sim</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">mean_waiting_time</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mean waiting e jobs: </span><span class="si">{</span><span class="n">mean</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">waiting_time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">e_jobs</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mean waiting b jobs: </span><span class="si">{</span><span class="n">mean</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">waiting_time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">b_jobs</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">Last</span> <span class="n">departure</span> <span class="n">e</span> <span class="n">job</span><span class="p">:</span> <span class="mf">126.90</span>
+<span class="n">Last</span> <span class="n">departure</span> <span class="n">b</span> <span class="n">job</span><span class="p">:</span> <span class="mf">135.60</span>
+<span class="n">Largest</span> <span class="n">waiting</span> <span class="n">time</span> <span class="n">e</span> <span class="n">job</span><span class="p">:</span> <span class="mf">8.32</span>
+<span class="n">Largest</span> <span class="n">waiting</span> <span class="n">time</span> <span class="n">b</span> <span class="n">job</span><span class="p">:</span> <span class="mf">7.47</span>
+<span class="n">Overall</span> <span class="n">mean</span> <span class="n">waiting</span> <span class="n">time</span><span class="p">:</span> <span class="mf">2.36</span>
+<span class="n">mean</span> <span class="n">waiting</span> <span class="n">e</span> <span class="n">jobs</span><span class="p">:</span> <span class="mf">2.78</span>
+<span class="n">mean</span> <span class="n">waiting</span> <span class="n">b</span> <span class="n">jobs</span><span class="p">:</span> <span class="mf">1.09</span>
+</pre></div>
+
+<p>
+However, rather than paying for this extra desk, we can share the business class serves and keep using \(4+2=6\) desks.
+Clearly, the business customers are hardly affected, but the mean waiting time of the economy class is reduced by a factor two, as compared to the situation without server sharing and 6 servers.
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">num_e_servers</span><span class="p">,</span> <span class="n">num_b_servers</span><span class="p">,</span> <span class="n">share</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">initialize_jobs</span><span class="p">(</span><span class="n">e_jobs</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">initialize_jobs</span><span class="p">(</span><span class="n">b_jobs</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Last departure e job: </span><span class="si">{</span><span class="n">e_jobs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">departure_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Last departure b job: </span><span class="si">{</span><span class="n">b_jobs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">departure_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Largest waiting time e job: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">waiting_time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">e_jobs</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Largest waiting time b job: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">waiting_time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">b_jobs</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Overall mean waiting time: </span><span class="si">{</span><span class="n">sim</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">mean_waiting_time</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mean waiting e jobs: </span><span class="si">{</span><span class="n">mean</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">waiting_time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">e_jobs</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mean waiting b jobs: </span><span class="si">{</span><span class="n">mean</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">waiting_time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">b_jobs</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="n">Last</span> <span class="n">departure</span> <span class="n">e</span> <span class="n">job</span><span class="p">:</span> <span class="mf">134.48</span>
+<span class="n">Last</span> <span class="n">departure</span> <span class="n">b</span> <span class="n">job</span><span class="p">:</span> <span class="mf">137.10</span>
+<span class="n">Largest</span> <span class="n">waiting</span> <span class="n">time</span> <span class="n">e</span> <span class="n">job</span><span class="p">:</span> <span class="mf">13.61</span>
+<span class="n">Largest</span> <span class="n">waiting</span> <span class="n">time</span> <span class="n">b</span> <span class="n">job</span><span class="p">:</span> <span class="mf">7.58</span>
+<span class="n">Overall</span> <span class="n">mean</span> <span class="n">waiting</span> <span class="n">time</span><span class="p">:</span> <span class="mf">4.59</span>
+<span class="n">mean</span> <span class="n">waiting</span> <span class="n">e</span> <span class="n">jobs</span><span class="p">:</span> <span class="mf">5.64</span>
+<span class="n">mean</span> <span class="n">waiting</span> <span class="n">b</span> <span class="n">jobs</span><span class="p">:</span> <span class="mf">1.43</span>
+</pre></div>
+
+<p>
+To conclude, adding extra service capacity has the largest effect on waiting time, but server sharing can be also an effective strategy.
+</p>
+
+
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>TF 1:</b> 
+<p>
+Claim: this class implements a sorting rule in which jobs with the same priority are served in LIFO order.
+</p>
+<div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">PriorityJob</span><span class="p">(</span><span class="n">Job</span><span class="p">):</span>
+    <span class="n">priority</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">priority</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">priority</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrival_time</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">arrival_time</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">priority</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">priority</span>
+</pre></div>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Did you actually try? Maybe see the ‘hints’ above!:</b> 
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution, for real
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+False. Compare with the example code.
+</p>
+
+
+</details>
+</div>
+
+</details>
+</div>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>TF 2:</b> 
+<p>
+Claim: This method of the simulation class switches on the server when the system contains <code class="src src-python">thres_N</code> jobs or more.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">handle_arrival</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">:</span> <span class="n">Job</span><span class="p">):</span>
+    <span class="n">job</span><span class="o">.</span><span class="n">q_length_at_arrival</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">length</span><span class="p">()</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">length</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">thres_N</span>
+        <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">servers</span><span class="o">.</span><span class="n">is_server_available</span><span class="p">()</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serve_job</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">pop</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">servers</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+</pre></div>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Did you actually try? Maybe see the ‘hints’ above!:</b> 
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution, for real
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+False. It waits until the system contains <code class="src src-python">thres_N</code> plus one jobs.
+</p>
+
+
+</details>
+</div>
+
+</details>
+</div>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>TF 3:</b> 
+<p>
+Consider the check-in process at an airport when the business servers are shared with the economy customers.
+Claim: This method of the simulation class handles the arrivals correctly.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">handle_arrival</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">job</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">ECONOMY</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_servers</span><span class="o">.</span><span class="n">is_server_available</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">serve_job</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_servers</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">share</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">serve_job</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_servers</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">e_queue</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+</pre></div>
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="green">
+                         Solution
+                      </font>
+                    </strong>
+                  </summary>
+<div style="padding: 0.5em;;background-color: #CCFFCC;border-radius: 15px;font-size: 1em"> <b>Did you actually try? Maybe see the ‘hints’ above!:</b> 
+<details class="code-details"
+                 style ="padding: 1em;
+                          background-color: #e5f5e5;
+                          border-radius: 15px;
+                          color: hsl(157 75%);
+                          font-size: 0.9em;
+                          box-shadow: 0.05em 0.1em 5px 0.01em  #00000057;">
+                  <summary>
+                    <strong>
+                      <font face="Courier" size="3" color="red">
+                         Solution, for real
+                      </font>
+                    </strong>
+                  </summary>
+<p>
+False. Compare with the provided code in the main text. There is no check on the availability of the business servers.
+</p>
+
+
+</details>
+</div>
+
+</details>
+</div>
+<p>
+<a href="https://creativecommons.org/licenses/by-sa/4.0/"><img alt="CC BY-SA 4.0" style="height:1.2em; vertical-align:middle;" src="https://licensebuttons.net/l/by-sa/4.0/88x31.png" /></a>
+This work is licensed by the University of Groningen under a
+<a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+</p>
+</div>
+</section>
+</article>
+<footer id="postamble" class="status">
+<hr> <p class="footer"> &#8226; A site by Nicky van Foreest &#8226;   Last updated: 2022:05:07, Generated with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 30.2 (<a href="https://orgmode.org">Org</a> mode 9.7.11)</p>
+</footer>
+</body>
+</html>
