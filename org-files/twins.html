@@ -175,7 +175,7 @@
 <p>
 Here we implement in Sagemath the computations for the twin problem as discussed in Chapter 2 of Éric Gourgoulhon&rsquo;s book on special relativity.
 Our intent is not explain what is in the book, as this is already very good; we just show how to do the computations with Sagemath.
-When referring to equation (2.1), say, in (the French version of) the book, I write (E.2.1).
+When referring to equation (2.1), say, in (the French version of) the book, I write (G.2.1).
 </p>
 </div>
 <div id="outline-container-org7f16d57" class="outline-3">
@@ -228,8 +228,9 @@ Here is the \(x\) coordinate of the path \(\mathscr{L}'\).
 </p>
 
 <p>
-With this, we build the part of the path \(\mathscr{L}'\) from \(A\) to \(C\); we skip the other three parts of \(\mathscr{L}'\).
+With this, we build the part of the path \(\mathscr{L}'\) from the point \(A\) at which the twins separate to the point \(C\) at which the twin that is flying hits the brakes to start the way back; we skip the other three parts of \(\mathscr{L}'\).
 </p>
+
 <div class="highlight"><pre><span></span><span class="n">Lp</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">curve</span><span class="p">(</span>
     <span class="p">[</span><span class="n">c</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span>
     <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">T</span> <span class="o">/</span> <span class="mi">4</span><span class="p">),</span>
@@ -264,7 +265,7 @@ Worldline of \(x(t)\).
 <img src="https://ndvanforeest.github.io/img/twins_curve.png" alt="twins_curve.png">
 
 
-</span> appears on the right. As an aside, the axis labels do not follow the convention odin special relativity to have \(t\) pointing upward and \(x\) sideways.
+</span> appears on the right. As an aside, the axis labels do not follow the convention of special relativity to have \(t\) pointing upward and \(x\) sideways.
 For the moment, and I don&rsquo;t know how to repair this.
 </p>
 </div>
@@ -292,7 +293,7 @@ where \(\mathbf{v}\) is a tangent vector of the path parametrized by \(t\). Thus
 </p>
 
 <p>
-For the dot product $\mathbf{v} &sdot; \(\mathbf{v}\) we have to pullback the metric from \(M\) to the curve.
+For the dot product \(\mathbf{v} \cdot \mathbf{v}\) we have to pullback the metric from \(M\) to \(\mathscr{L}'\).
 </p>
 <div class="highlight"><pre><span></span><span class="n">d_tau</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="n">g</span><span class="o">.</span><span class="n">along</span><span class="p">(</span><span class="n">Lp</span><span class="p">)(</span><span class="n">v</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span> <span class="o">/</span> <span class="n">c</span>
 <span class="n">show</span><span class="p">(</span><span class="n">d_tau</span><span class="o">.</span><span class="n">disp</span><span class="p">())</span>
@@ -318,7 +319,7 @@ The proper time of the first quarter of the total curve from leaving to returnin
 <h3 id="org9639605"><span class="section-number-3">1.4.</span> Four vectors</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
-From \(v\) we compute the \(4\)-velocity \(u = v /g(v,v)\).
+From \(\mathbf{v}\) we compute the \(4\)-velocity \(\mathbf{u} = \mathbf{v} /|| \mathbf{v} ||\).
 </p>
 <div class="highlight"><pre><span></span><span class="n">u</span> <span class="o">=</span> <span class="n">v</span> <span class="o">/</span> <span class="n">v</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">along</span><span class="p">(</span><span class="n">Lp</span><span class="p">))</span>
 <span class="n">show</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">disp</span><span class="p">())</span>
@@ -377,7 +378,7 @@ The \(4\) acceleration now follows simply.
 </p>
 
 <p>
-As a check, \(u\cdot u\) should equal \(-1\), and \(u\cdot a = 0\).
+Here are some further check:  \(\mathbf{u}\cdot \mathbf{u}\) should equal \(-1\), and \(\mathbf{u}\cdot \mathbf{a} = 0\). Finally, \(\mathbf{a}\cdot \mathbf{a}\) is also equal to (G.2.42).
 </p>
 <div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">along</span><span class="p">(</span><span class="n">Lp</span><span class="p">)(</span><span class="n">u</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span><span class="o">.</span><span class="n">disp</span><span class="p">())</span>
 <span class="n">show</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">along</span><span class="p">(</span><span class="n">Lp</span><span class="p">)(</span><span class="n">u</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">disp</span><span class="p">())</span>
