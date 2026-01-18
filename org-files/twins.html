@@ -169,8 +169,8 @@
 <article id="content" class="content">
 <header>
 <h1 class="title">The Twin Problem</h1>
-</header><section id="outline-container-orgee35afe" class="outline-2">
-<h2 id="orgee35afe"><span class="section-number-2">1.</span> The Twin Problem</h2>
+</header><section id="outline-container-org7f6f53b" class="outline-2">
+<h2 id="org7f6f53b"><span class="section-number-2">1.</span> The Twin Problem</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Here we implement in Sagemath the computations for the twin problem as discussed in Chapter 2 of Éric Gourgoulhon&rsquo;s book on special relativity.
@@ -209,8 +209,8 @@ g = -\mathrm{d} t\otimes \mathrm{d} t+\mathrm{d} x\otimes \mathrm{d} x
 </p>
 </div>
 </div>
-<div id="outline-container-org99c01cb" class="outline-3">
-<h3 id="org99c01cb"><span class="section-number-3">1.2.</span> The Curve</h3>
+<div id="outline-container-orgee35afe" class="outline-3">
+<h3 id="orgee35afe"><span class="section-number-3">1.2.</span> The Curve</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 Here is the \(x\) coordinate of the path \(\mathscr{L}'\).
@@ -243,7 +243,8 @@ With this, we build the part of the path \(\mathscr{L}'\) from \(A\) to \(C\); w
 
 
 <p>
-To plot \(\mathscr{L}'\) we need to choose numerical values for \(T\), \(\alpha\), and the speed of light \(c\).
+To  plot \(\mathscr{L}'\) we need to choose numerical values for \(T\), \(\alpha\), and the speed of light \(c\).
+We achieve this by substituting the numerical values in \(x\), and then defining a new curve with these values.
 </p>
 <div class="highlight"><pre><span></span><span class="n">x_of_t</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">subs</span><span class="p">({</span><span class="n">alpha</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 <span class="n">Lp_plot</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">curve</span><span class="p">(</span>
@@ -253,10 +254,23 @@ To plot \(\mathscr{L}'\) we need to choose numerical values for \(T\), \(\alpha\
 <span class="n">p</span> <span class="o">=</span> <span class="n">Lp_plot</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 <span class="n">p</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;twins_curve.png&quot;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
+<p>
+The plot<label id='fnr.1' for='fnr-in.1.7849163' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.7849163' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>
+Worldline of \(x(t)\).
+
+
+
+
+<img src="https://ndvanforeest.github.io/img/twins_curve.png" alt="twins_curve.png">
+
+
+</span> appears on the right. As an aside, the axis labels do not follow the convention odin special relativity to have \(t\) pointing upward and \(x\) sideways.
+For the moment, and I don&rsquo;t know how to repair this.
+</p>
 </div>
 </div>
-<div id="outline-container-orgd98eb26" class="outline-3">
-<h3 id="orgd98eb26"><span class="section-number-3">1.3.</span> Proper time</h3>
+<div id="outline-container-org0ce0959" class="outline-3">
+<h3 id="org0ce0959"><span class="section-number-3">1.3.</span> Proper time</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 For the infinitesimal proper time \(\d \tau\) we have from (E2.9)
@@ -300,8 +314,8 @@ The proper time of the first quarter of the total curve from leaving to returnin
 </p>
 </div>
 </div>
-<div id="outline-container-org7925b9e" class="outline-3">
-<h3 id="org7925b9e"><span class="section-number-3">1.4.</span> Four vectors</h3>
+<div id="outline-container-org9639605" class="outline-3">
+<h3 id="org9639605"><span class="section-number-3">1.4.</span> Four vectors</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 From \(v\) we compute the \(4\)-velocity \(u = v /g(v,v)\).
