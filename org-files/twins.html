@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>The Twin Problem</title>
+<title>The Twin Paradox</title>
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" href="/css/tufte.css" type="text/css" />
 <link rel="stylesheet" href="/css/ox-tufte.css" type="text/css" />
@@ -168,23 +168,25 @@
 </header>
 <article id="content" class="content">
 <header>
-<h1 class="title">The Twin Problem</h1>
-</header><section id="outline-container-org99c01cb" class="outline-2">
-<h2 id="org99c01cb"><span class="section-number-2">1.</span> Intro</h2>
+<h1 class="title">The Twin Paradox</h1>
+</header><section id="outline-container-orgd98eb26" class="outline-2">
+<h2 id="orgd98eb26"><span class="section-number-2">1.</span> Intro</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-We implement in <a href="https://doc.sagemath.org/html/en/reference/manifolds/index.html">Sagemath manifolds</a> the computations for the twin problem as discussed in Chapter 2 of <a href="https://relativite.obspm.fr/">Gourgoulhon, Relativité restreinte</a>.<label id='fnr.1' for='fnr-in.1.7953239' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.7953239' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>
+We implement in <a href="https://doc.sagemath.org/html/en/reference/manifolds/index.html">Sagemath manifolds</a> the computations for the twin problem<label id='fnr.1' for='fnr-in.1.7953239' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.7953239' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>
+When considering the twin paradox in which one of the twin can undergo instantaneous changes in speed, <a href="https://en.wikipedia.org/wiki/Bondi_k-calculus">Bondi&rsquo;s \(k\)-calculus</a> provides a particularly simple and transparent framework for analysis.
+</span> as discussed in Chapter 2 of <a href="https://relativite.obspm.fr/">Gourgoulhon, Relativité restreinte</a>.<label id='fnr.2' for='fnr-in.2.7849163' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.7849163' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>
 Or the English version: <a href="https://relativite.obspm.fr/sperel/">Gourgoulhon, Special Relativity in General Frames</a>.
 </span> We expect that the reader of the code below has a copy of this book at hand.
 When referring to, for instance, equation (2.1) of this book, we write (G.2.1).
 </p>
 </div>
 </section>
-<section id="outline-container-org7925b9e" class="outline-2">
-<h2 id="org7925b9e"><span class="section-number-2">2.</span> The space</h2>
+<section id="outline-container-orgee35afe" class="outline-2">
+<h2 id="orgee35afe"><span class="section-number-2">2.</span> The space</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-We first need a 2D Minkowski space with coordinates \(t\) and \(x\).<label id='fnr.2' for='fnr-in.2.3277734' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.3277734' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>
+We first need a 2D Minkowski space with coordinates \(t\) and \(x\).<label id='fnr.3' for='fnr-in.3.6293918' class='margin-toggle sidenote-number'><sup class='numeral'>3</sup></label><input type='checkbox' id='fnr-in.3.6293918' class='margin-toggle'><span class='sidenote'><sup class='numeral'>3</sup>
 I use <a href="https://github.com/psf/blackI">Black</a> as a python code formatter. As this hangs on <code>X.&lt;c,t&gt;</code>, I instantiate the chart slightly differently.
 </span>
 </p>
@@ -215,8 +217,8 @@ g = -\mathrm{d} t\otimes \mathrm{d} t+\mathrm{d} x\otimes \mathrm{d} x
 </p>
 </div>
 </section>
-<section id="outline-container-org9639605" class="outline-2">
-<h2 id="org9639605"><span class="section-number-2">3.</span> The Curve</h2>
+<section id="outline-container-org7f6f53b" class="outline-2">
+<h2 id="org7f6f53b"><span class="section-number-2">3.</span> The Curve</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Here is the \(x\) coordinate of the path \(\mathscr{L}'\).
@@ -234,7 +236,7 @@ Here is the \(x\) coordinate of the path \(\mathscr{L}'\).
 </p>
 
 <p>
-With this, we build the part of the path \(\mathscr{L}'\) from the point \(A\) at which the twins separate to the point \(C\) at which the twin that is flying hits the brakes to slow down; we skip the other three parts of \(\mathscr{L}'\).<label id='fnr.3' for='fnr-in.3.9790334' class='margin-toggle sidenote-number'><sup class='numeral'>3</sup></label><input type='checkbox' id='fnr-in.3.9790334' class='margin-toggle'><span class='sidenote'><sup class='numeral'>3</sup>
+With this, we build the part of the path \(\mathscr{L}'\) from the point \(A\) at which the twins separate to the point \(C\) at which the twin that is flying hits the brakes to slow down; we skip the other three parts of \(\mathscr{L}'\).<label id='fnr.4' for='fnr-in.4.2856921' class='margin-toggle sidenote-number'><sup class='numeral'>4</sup></label><input type='checkbox' id='fnr-in.4.2856921' class='margin-toggle'><span class='sidenote'><sup class='numeral'>4</sup>
 They follow from symmetry.
 </span>
 </p>
@@ -265,7 +267,7 @@ We achieve this by substituting the numerical values in \(x\), and then defining
 </pre></div>
 
 <p>
-The figure below shows the worldline of the twin that is undergoing the accelerations.<label id='fnr.4' for='fnr-in.4.2856921' class='margin-toggle sidenote-number'><sup class='numeral'>4</sup></label><input type='checkbox' id='fnr-in.4.2856921' class='margin-toggle'><span class='sidenote'><sup class='numeral'>4</sup>
+The figure below shows the worldline of the twin that is undergoing the accelerations.<label id='fnr.5' for='fnr-in.5.572549' class='margin-toggle sidenote-number'><sup class='numeral'>5</sup></label><input type='checkbox' id='fnr-in.5.572549' class='margin-toggle'><span class='sidenote'><sup class='numeral'>5</sup>
 The axis labels do not follow the convention of special relativity to have \(t\) pointing upward and \(x\) sideways. For the moment, and I don&rsquo;t know how to repair this.
 </span>
 </p>
@@ -286,8 +288,8 @@ figure.twin-fig img {
 </figure>
 </div>
 </section>
-<section id="outline-container-org7f6f53b" class="outline-2">
-<h2 id="org7f6f53b"><span class="section-number-2">4.</span> Proper time</h2>
+<section id="outline-container-orgb948b55" class="outline-2">
+<h2 id="orgb948b55"><span class="section-number-2">4.</span> Proper time</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 For the infinitesimal proper time \(\d \tau\) we have from (G.2.9)
@@ -331,8 +333,8 @@ The proper time of the first quarter of the total curve from leaving to returnin
 </p>
 </div>
 </section>
-<section id="outline-container-orgb948b55" class="outline-2">
-<h2 id="orgb948b55"><span class="section-number-2">5.</span> Four vectors</h2>
+<section id="outline-container-org9beed48" class="outline-2">
+<h2 id="org9beed48"><span class="section-number-2">5.</span> Four vectors</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 From \(\mathbf{v}\) we compute the \(4\)-velocity \(\mathbf{u} = \mathbf{v} /|| \mathbf{v} ||\).
@@ -413,8 +415,8 @@ Finally, let&rsquo;s check that \(\mathbf{a}\cdot \mathbf{a}\) corresponds to \(
 \begin{array}{llcl} & \left(0, \frac{1}{4} \, T\right) & \longrightarrow & \mathbb{R} \\ & t & \longmapsto & \frac{\alpha^{2}}{T^{2} c^{2}} \end{array}
 </div>
 </section>
-<section id="outline-container-org9beed48" class="outline-2">
-<h2 id="org9beed48"><span class="section-number-2">6.</span> Export to \(\LaTeX\)</h2>
+<section id="outline-container-org2dc1f56" class="outline-2">
+<h2 id="org2dc1f56"><span class="section-number-2">6.</span> Export to \(\LaTeX\)</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 This code facilitates the export to \(\LaTeX\).
