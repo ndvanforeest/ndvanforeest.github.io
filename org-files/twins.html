@@ -169,26 +169,32 @@
 <article id="content" class="content">
 <header>
 <h1 class="title">The Twin Problem</h1>
-</header><section id="outline-container-org7f6f53b" class="outline-2">
-<h2 id="org7f6f53b"><span class="section-number-2">1.</span> The Twin Problem</h2>
+</header><section id="outline-container-org99c01cb" class="outline-2">
+<h2 id="org99c01cb"><span class="section-number-2">1.</span> Intro</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-Here we implement in Sagemath the computations for the twin problem as discussed in Chapter 2 of Éric Gourgoulhon&rsquo;s book on special relativity.
-Our intent is not explain what is in the book, as this is already very good; we just show how to do the computations with Sagemath.
-When referring to equation (2.1), say, in (the French version of) the book, I write (G.2.1).
+We implement in <a href="https://doc.sagemath.org/html/en/reference/manifolds/index.html">Sagemath manifolds</a> the computations for the twin problem as discussed in Chapter 2 of <a href="https://relativite.obspm.fr/">Gourgoulhon, Relativité restreinte</a>.<label id='fnr.1' for='fnr-in.1.7953239' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.7953239' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>
+Or the English version: <a href="https://relativite.obspm.fr/sperel/">Gourgoulhon, Special Relativity in General Frames</a>.
+</span> We expect that the reader of the code below has a copy of this book at hand.
+When referring to, for instance, equation (2.1) of this book, we write (G.2.1).
 </p>
 </div>
-<div id="outline-container-org7f16d57" class="outline-3">
-<h3 id="org7f16d57"><span class="section-number-3">1.1.</span> The space</h3>
-<div class="outline-text-3" id="text-1-1">
+</section>
+<section id="outline-container-org7925b9e" class="outline-2">
+<h2 id="org7925b9e"><span class="section-number-2">2.</span> The space</h2>
+<div class="outline-text-2" id="text-2">
 <p>
-We first need a 2D Minkowski space with coordinates \(t\) and \(x\).
+We first need a 2D Minkowski space with coordinates \(t\) and \(x\).<label id='fnr.2' for='fnr-in.2.3277734' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.3277734' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>
+I use <a href="https://github.com/psf/blackI">Black</a> as a python code formatter. As this hangs on <code>X.&lt;c,t&gt;</code>, I instantiate the chart slightly differently.
+</span>
 </p>
+
 <div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">Manifold</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="n">structure</span><span class="o">=</span><span class="s1">&#39;Lorentzian&#39;</span><span class="p">)</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">chart</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">))</span>
 <span class="n">t</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:]</span>
-<span class="c1"># X.&lt;t,x&gt; = M.chart() # the black formatter hangs on this syntax</span>
+<span class="c1"># X.&lt;t,x&gt; = M.chart() # the black formatter does not like this syntax</span>
 </pre></div>
+
 
 <p>
 Next is the metric.
@@ -208,10 +214,10 @@ g = -\mathrm{d} t\otimes \mathrm{d} t+\mathrm{d} x\otimes \mathrm{d} x
 \]
 </p>
 </div>
-</div>
-<div id="outline-container-orgee35afe" class="outline-3">
-<h3 id="orgee35afe"><span class="section-number-3">1.2.</span> The Curve</h3>
-<div class="outline-text-3" id="text-1-2">
+</section>
+<section id="outline-container-org9639605" class="outline-2">
+<h2 id="org9639605"><span class="section-number-2">3.</span> The Curve</h2>
+<div class="outline-text-2" id="text-3">
 <p>
 Here is the \(x\) coordinate of the path \(\mathscr{L}'\).
 </p>
@@ -228,7 +234,9 @@ Here is the \(x\) coordinate of the path \(\mathscr{L}'\).
 </p>
 
 <p>
-With this, we build the part of the path \(\mathscr{L}'\) from the point \(A\) at which the twins separate to the point \(C\) at which the twin that is flying hits the brakes to start the way back; we skip the other three parts of \(\mathscr{L}'\).
+With this, we build the part of the path \(\mathscr{L}'\) from the point \(A\) at which the twins separate to the point \(C\) at which the twin that is flying hits the brakes to slow down; we skip the other three parts of \(\mathscr{L}'\).<label id='fnr.3' for='fnr-in.3.9790334' class='margin-toggle sidenote-number'><sup class='numeral'>3</sup></label><input type='checkbox' id='fnr-in.3.9790334' class='margin-toggle'><span class='sidenote'><sup class='numeral'>3</sup>
+They follow from symmetry.
+</span>
 </p>
 
 <div class="highlight"><pre><span></span><span class="n">Lp</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">curve</span><span class="p">(</span>
@@ -255,26 +263,34 @@ We achieve this by substituting the numerical values in \(x\), and then defining
 <span class="n">p</span> <span class="o">=</span> <span class="n">Lp_plot</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 <span class="n">p</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;twins_curve.png&quot;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
+
 <p>
-The plot<label id='fnr.1' for='fnr-in.1.7849163' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.7849163' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>
-Worldline of \(x(t)\).
-
-
-
-
-<img src="https://ndvanforeest.github.io/img/twins_curve.png" alt="twins_curve.png">
-
-
-</span> appears on the right. As an aside, the axis labels do not follow the convention of special relativity to have \(t\) pointing upward and \(x\) sideways.
-For the moment, and I don&rsquo;t know how to repair this.
+The figure below shows the worldline of the twin that is undergoing the accelerations.<label id='fnr.4' for='fnr-in.4.2856921' class='margin-toggle sidenote-number'><sup class='numeral'>4</sup></label><input type='checkbox' id='fnr-in.4.2856921' class='margin-toggle'><span class='sidenote'><sup class='numeral'>4</sup>
+The axis labels do not follow the convention of special relativity to have \(t\) pointing upward and \(x\) sideways. For the moment, and I don&rsquo;t know how to repair this.
+</span>
 </p>
+
+<style>
+figure.twin-fig {
+  text-align: center;
+}
+
+figure.twin-fig img {
+  width: 400px;
+  height: 300px;
+}
+</style>
+
+<figure class="twin-fig">
+  <img src="https://ndvanforeest.github.io/img/twins_curve.png">
+</figure>
 </div>
-</div>
-<div id="outline-container-org0ce0959" class="outline-3">
-<h3 id="org0ce0959"><span class="section-number-3">1.3.</span> Proper time</h3>
-<div class="outline-text-3" id="text-1-3">
+</section>
+<section id="outline-container-org7f6f53b" class="outline-2">
+<h2 id="org7f6f53b"><span class="section-number-2">4.</span> Proper time</h2>
+<div class="outline-text-2" id="text-4">
 <p>
-For the infinitesimal proper time \(\d \tau\) we have from (E2.9)
+For the infinitesimal proper time \(\d \tau\) we have from (G.2.9)
 </p>
 \begin{align*}
 c \d \tau = \sqrt{- g(\mathbf{v}, \mathbf{v})} \d t,
@@ -314,10 +330,10 @@ The proper time of the first quarter of the total curve from leaving to returnin
 \]
 </p>
 </div>
-</div>
-<div id="outline-container-org9639605" class="outline-3">
-<h3 id="org9639605"><span class="section-number-3">1.4.</span> Four vectors</h3>
-<div class="outline-text-3" id="text-1-4">
+</section>
+<section id="outline-container-orgb948b55" class="outline-2">
+<h2 id="orgb948b55"><span class="section-number-2">5.</span> Four vectors</h2>
+<div class="outline-text-2" id="text-5">
 <p>
 From \(\mathbf{v}\) we compute the \(4\)-velocity \(\mathbf{u} = \mathbf{v} /|| \mathbf{v} ||\).
 </p>
@@ -378,17 +394,38 @@ The \(4\) acceleration now follows simply.
 </p>
 
 <p>
-Here are some further check:  \(\mathbf{u}\cdot \mathbf{u}\) should equal \(-1\), and \(\mathbf{u}\cdot \mathbf{a} = 0\). Finally, \(\mathbf{a}\cdot \mathbf{a}\) is also equal to (G.2.42).
+Here are some further checks:  \(\mathbf{u}\cdot \mathbf{u}\) should equal \(-1\), and \(\mathbf{u}\cdot \mathbf{a} = 0\).
 </p>
 <div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">along</span><span class="p">(</span><span class="n">Lp</span><span class="p">)(</span><span class="n">u</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span><span class="o">.</span><span class="n">disp</span><span class="p">())</span>
 <span class="n">show</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">along</span><span class="p">(</span><span class="n">Lp</span><span class="p">)(</span><span class="n">u</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">disp</span><span class="p">())</span>
-<span class="n">show</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">along</span><span class="p">(</span><span class="n">Lp</span><span class="p">)(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">disp</span><span class="p">())</span>
 </pre></div>
+
 
 \begin{array}{llcl} & \left(0, \frac{1}{4} \, T\right) & \longrightarrow & \mathbb{R} \\ & t & \longmapsto & -1 \end{array}
 \begin{array}{llcl} & \left(0, \frac{1}{4} \, T\right) & \longrightarrow & \mathbb{R} \\ & t & \longmapsto & 0 \end{array}
+
+<p>
+Finally, let&rsquo;s check that \(\mathbf{a}\cdot \mathbf{a}\) corresponds to \(\alpha^2/c^{2} T^{2}\).
+</p>
+<div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">along</span><span class="p">(</span><span class="n">Lp</span><span class="p">)(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">disp</span><span class="p">())</span>
+</pre></div>
+
 \begin{array}{llcl} & \left(0, \frac{1}{4} \, T\right) & \longrightarrow & \mathbb{R} \\ & t & \longmapsto & \frac{\alpha^{2}}{T^{2} c^{2}} \end{array}
 </div>
+</section>
+<section id="outline-container-org9beed48" class="outline-2">
+<h2 id="org9beed48"><span class="section-number-2">6.</span> Export to \(\LaTeX\)</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+This code facilitates the export to \(\LaTeX\).
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">latex</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\[&quot;</span>  <span class="c1"># \begin{dmath*}&quot;</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">s</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="sa">r</span><span class="s2">&quot;\]&quot;</span>  <span class="c1"># end{dmath*}&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
 </div>
 </section>
 </article>
