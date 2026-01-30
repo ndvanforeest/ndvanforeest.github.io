@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_4c1c4f19a341d5b7bead08d060df50dc {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.66.2/L.Control.Locate.min.css"/>
+</head>
+<body>
+    
+    
+    <style>
+    .leaflet-tooltip {
+        font-size: 14px;
+        font-weight: bold;
+        color: darkblue;
+    }
+    .leaflet-popup-content {
+        font-size: 14px;
+        font-weight: bold;
+        color: darkblue;
+    }    </style>
+    
+    
+    <div style="
+        position: fixed;
+        bottom: 50px; left: 50px; width: 220px;
+        background-color: white;
+        border: 2px solid grey;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+        z-index:9999;
+        font-size:14px;
+    ">
+    <b>TSP langs monumenten in gebied 18</b><br>
+    Lengte: 1.3 km
+    </div>
+    
+    
+            <div class="folium-map" id="map_4c1c4f19a341d5b7bead08d060df50dc" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_4c1c4f19a341d5b7bead08d060df50dc = L.map(
+                "map_4c1c4f19a341d5b7bead08d060df50dc",
+                {
+                    center: [53.21943365946715, 6.56459790529967],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 16,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_4a21b3bed7900f66b0f4721f7d5220ed = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_4a21b3bed7900f66b0f4721f7d5220ed.addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+            var marker_93ffb85282ffec3cb45a7015534dd959 = L.marker(
+                [53.22, 6.565],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_f662d44e311c240160095c07d5f953a9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3d11da7399004c41755aa66111e2b58e = $(`<div id="html_3d11da7399004c41755aa66111e2b58e" style="width: 100.0%; height: 100.0%;"><b>Rode Weeshuisstraat 13-99 en 107-119</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.22,6.565" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18670" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_f662d44e311c240160095c07d5f953a9.setContent(html_3d11da7399004c41755aa66111e2b58e);
+            
+        
+
+        marker_93ffb85282ffec3cb45a7015534dd959.bindPopup(popup_f662d44e311c240160095c07d5f953a9)
+        ;
+
+        
+    
+    
+            marker_93ffb85282ffec3cb45a7015534dd959.bindTooltip(
+                `<div>
+                     Rode Weeshuisstraat 13-99 en 107-119
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_08995e51ede9ba5105be7f9422571be1 = L.marker(
+                [53.219722222222224, 6.565555555555555],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_3deda4e825cb36995dc0b8bc24a56134 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1c6c5f936a7ea2348cd0dcd88b82f2c3 = $(`<div id="html_1c6c5f936a7ea2348cd0dcd88b82f2c3" style="width: 100.0%; height: 100.0%;"><b>Rode Weeshuisstraat 101-105</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.219722222222224,6.565555555555555" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18671" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_3deda4e825cb36995dc0b8bc24a56134.setContent(html_1c6c5f936a7ea2348cd0dcd88b82f2c3);
+            
+        
+
+        marker_08995e51ede9ba5105be7f9422571be1.bindPopup(popup_3deda4e825cb36995dc0b8bc24a56134)
+        ;
+
+        
+    
+    
+            marker_08995e51ede9ba5105be7f9422571be1.bindTooltip(
+                `<div>
+                     Rode Weeshuisstraat 101-105
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_1f1abd297fa97aba6fd62542233031de = L.marker(
+                [53.219722222222224, 6.565277777777778],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_b9a4b76730e4d8c05be3733dafe74ac4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_dcd94396a1e941c2b94ba65ad97f38b5 = $(`<div id="html_dcd94396a1e941c2b94ba65ad97f38b5" style="width: 100.0%; height: 100.0%;"><b>Rode Weeshuisstraat 13</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.219722222222224,6.565277777777778" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18672" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_b9a4b76730e4d8c05be3733dafe74ac4.setContent(html_dcd94396a1e941c2b94ba65ad97f38b5);
+            
+        
+
+        marker_1f1abd297fa97aba6fd62542233031de.bindPopup(popup_b9a4b76730e4d8c05be3733dafe74ac4)
+        ;
+
+        
+    
+    
+            marker_1f1abd297fa97aba6fd62542233031de.bindTooltip(
+                `<div>
+                     Rode Weeshuisstraat 13
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_48fe620ff4a615874bba6024e8a63bd0 = L.marker(
+                [53.219722222222224, 6.565555555555555],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_3d5cf179d9ff754052813a412abba978 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_169a141f5b4ff1723f26851e0081bfe0 = $(`<div id="html_169a141f5b4ff1723f26851e0081bfe0" style="width: 100.0%; height: 100.0%;"><b>Rode Weeshuisstraat 119</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.219722222222224,6.565555555555555" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18673" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_3d5cf179d9ff754052813a412abba978.setContent(html_169a141f5b4ff1723f26851e0081bfe0);
+            
+        
+
+        marker_48fe620ff4a615874bba6024e8a63bd0.bindPopup(popup_3d5cf179d9ff754052813a412abba978)
+        ;
+
+        
+    
+    
+            marker_48fe620ff4a615874bba6024e8a63bd0.bindTooltip(
+                `<div>
+                     Rode Weeshuisstraat 119
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_9f8596b0dc8334b62bf382db5b024f0e = L.marker(
+                [53.2182235, 6.5641825],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_0476ab71bf914a88f8b2692b913126f1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_34aaf5b2b311801d32776f75c20a089d = $(`<div id="html_34aaf5b2b311801d32776f75c20a089d" style="width: 100.0%; height: 100.0%;"><b>Zwanestraat 12</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2182235,6.5641825" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18742" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_0476ab71bf914a88f8b2692b913126f1.setContent(html_34aaf5b2b311801d32776f75c20a089d);
+            
+        
+
+        marker_9f8596b0dc8334b62bf382db5b024f0e.bindPopup(popup_0476ab71bf914a88f8b2692b913126f1)
+        ;
+
+        
+    
+    
+            marker_9f8596b0dc8334b62bf382db5b024f0e.bindTooltip(
+                `<div>
+                     Zwanestraat 12
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_95187ebb321da334bfb1007860cc3726 = L.marker(
+                [53.2195851, 6.5643877],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_eaf08394e9472d625f176f1101c4d0bf = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_564886ba7c8560d9c3d0aefa2e2f2682 = $(`<div id="html_564886ba7c8560d9c3d0aefa2e2f2682" style="width: 100.0%; height: 100.0%;"><b>Oude Boteringestraat 23</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2195851,6.5643877" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18615" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_eaf08394e9472d625f176f1101c4d0bf.setContent(html_564886ba7c8560d9c3d0aefa2e2f2682);
+            
+        
+
+        marker_95187ebb321da334bfb1007860cc3726.bindPopup(popup_eaf08394e9472d625f176f1101c4d0bf)
+        ;
+
+        
+    
+    
+            marker_95187ebb321da334bfb1007860cc3726.bindTooltip(
+                `<div>
+                     Oude Boteringestraat 23
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_dafccfb35661060e79283fe7771ff019 = L.marker(
+                [53.2196778, 6.564299],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_b172bbfe1eaefe78872335f18325e136 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_684ab650f587ffc0f686ff7225af5621 = $(`<div id="html_684ab650f587ffc0f686ff7225af5621" style="width: 100.0%; height: 100.0%;"><b>Oude Boteringestraat 27</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2196778,6.564299" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18616" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_b172bbfe1eaefe78872335f18325e136.setContent(html_684ab650f587ffc0f686ff7225af5621);
+            
+        
+
+        marker_dafccfb35661060e79283fe7771ff019.bindPopup(popup_b172bbfe1eaefe78872335f18325e136)
+        ;
+
+        
+    
+    
+            marker_dafccfb35661060e79283fe7771ff019.bindTooltip(
+                `<div>
+                     Oude Boteringestraat 27
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_b33fc22eb613fce134ba0af687e0ccff = L.marker(
+                [53.2197319, 6.5642428],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_7a33a678d21975d280ff13460f894c6d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d1c27f9243eb316d8b7c7edb4500e572 = $(`<div id="html_d1c27f9243eb316d8b7c7edb4500e572" style="width: 100.0%; height: 100.0%;"><b>Oude Boteringestraat 29</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2197319,6.5642428" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18617" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_7a33a678d21975d280ff13460f894c6d.setContent(html_d1c27f9243eb316d8b7c7edb4500e572);
+            
+        
+
+        marker_b33fc22eb613fce134ba0af687e0ccff.bindPopup(popup_7a33a678d21975d280ff13460f894c6d)
+        ;
+
+        
+    
+    
+            marker_b33fc22eb613fce134ba0af687e0ccff.bindTooltip(
+                `<div>
+                     Oude Boteringestraat 29
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_6a6938059a1dc35c4dafd78878c27ddf = L.marker(
+                [53.2198968, 6.5643539],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_e7cff2cc1b9d73619f607628e27a3e30 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c1d6037eb3ea1357cdff7f1e3b75856c = $(`<div id="html_c1d6037eb3ea1357cdff7f1e3b75856c" style="width: 100.0%; height: 100.0%;"><b>Oude Boteringestraat 33</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2198968,6.5643539" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18618" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_e7cff2cc1b9d73619f607628e27a3e30.setContent(html_c1d6037eb3ea1357cdff7f1e3b75856c);
+            
+        
+
+        marker_6a6938059a1dc35c4dafd78878c27ddf.bindPopup(popup_e7cff2cc1b9d73619f607628e27a3e30)
+        ;
+
+        
+    
+    
+            marker_6a6938059a1dc35c4dafd78878c27ddf.bindTooltip(
+                `<div>
+                     Oude Boteringestraat 33
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_f9935b520c406304d47453b5fa00b045 = L.marker(
+                [53.220099, 6.5639416],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_c484a8869fad53342fc002caa6dbb5e8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_45e4e47b885f5cebf6c8a83d2f108667 = $(`<div id="html_45e4e47b885f5cebf6c8a83d2f108667" style="width: 100.0%; height: 100.0%;"><b>Oude Boteringestraat 43</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.220099,6.5639416" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18620" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_c484a8869fad53342fc002caa6dbb5e8.setContent(html_45e4e47b885f5cebf6c8a83d2f108667);
+            
+        
+
+        marker_f9935b520c406304d47453b5fa00b045.bindPopup(popup_c484a8869fad53342fc002caa6dbb5e8)
+        ;
+
+        
+    
+    
+            marker_f9935b520c406304d47453b5fa00b045.bindTooltip(
+                `<div>
+                     Oude Boteringestraat 43
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_da81ffc4450d13b316df025cb440d720 = L.marker(
+                [53.2206128, 6.5635005],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_fccbf3bcb9119a5161bfd5d0cbc77855 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_28dbcff88c4e23b68ad2d0cb32b96f52 = $(`<div id="html_28dbcff88c4e23b68ad2d0cb32b96f52" style="width: 100.0%; height: 100.0%;"><b>Oude Boteringestraat 63</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2206128,6.5635005" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18621" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_fccbf3bcb9119a5161bfd5d0cbc77855.setContent(html_28dbcff88c4e23b68ad2d0cb32b96f52);
+            
+        
+
+        marker_da81ffc4450d13b316df025cb440d720.bindPopup(popup_fccbf3bcb9119a5161bfd5d0cbc77855)
+        ;
+
+        
+    
+    
+            marker_da81ffc4450d13b316df025cb440d720.bindTooltip(
+                `<div>
+                     Oude Boteringestraat 63
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_32a4a1d17f9df5cca4875aead655c638 = L.marker(
+                [53.21874635929757, 6.564875384282942],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_661aa416341edd4255c08b33b71b6399 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_74dee3e3c8fb629fe961e564df230782 = $(`<div id="html_74dee3e3c8fb629fe961e564df230782" style="width: 100.0%; height: 100.0%;"><b>Oude Boteringestraat 6</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.21874635929757,6.564875384282942" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18627" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_661aa416341edd4255c08b33b71b6399.setContent(html_74dee3e3c8fb629fe961e564df230782);
+            
+        
+
+        marker_32a4a1d17f9df5cca4875aead655c638.bindPopup(popup_661aa416341edd4255c08b33b71b6399)
+        ;
+
+        
+    
+    
+            marker_32a4a1d17f9df5cca4875aead655c638.bindTooltip(
+                `<div>
+                     Oude Boteringestraat 6
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_3db2e7485451512afcc4d531f2156f97 = L.marker(
+                [53.2189548, 6.564719],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_4184806fbe9a3e1ad44c7d4cba49cb93 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c59a07bb978e8f2e5341da6840a087a3 = $(`<div id="html_c59a07bb978e8f2e5341da6840a087a3" style="width: 100.0%; height: 100.0%;"><b>Oude Boteringestraat 12</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2189548,6.564719" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18629" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_4184806fbe9a3e1ad44c7d4cba49cb93.setContent(html_c59a07bb978e8f2e5341da6840a087a3);
+            
+        
+
+        marker_3db2e7485451512afcc4d531f2156f97.bindPopup(popup_4184806fbe9a3e1ad44c7d4cba49cb93)
+        ;
+
+        
+    
+    
+            marker_3db2e7485451512afcc4d531f2156f97.bindTooltip(
+                `<div>
+                     Oude Boteringestraat 12
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_23aa8d5fe0725aaa10b19e3fe3fe300e = L.marker(
+                [53.2190088, 6.5646646],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_9afead6a6f9da62e389584b09aa2690d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b1f3f51aad73e9d6840f3b999c934c29 = $(`<div id="html_b1f3f51aad73e9d6840f3b999c934c29" style="width: 100.0%; height: 100.0%;"><b>Oude Boteringestraat 14</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2190088,6.5646646" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18630" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_9afead6a6f9da62e389584b09aa2690d.setContent(html_b1f3f51aad73e9d6840f3b999c934c29);
+            
+        
+
+        marker_23aa8d5fe0725aaa10b19e3fe3fe300e.bindPopup(popup_9afead6a6f9da62e389584b09aa2690d)
+        ;
+
+        
+    
+    
+            marker_23aa8d5fe0725aaa10b19e3fe3fe300e.bindTooltip(
+                `<div>
+                     Oude Boteringestraat 14
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_81a8435652973bfdf8d539ce587c324f = L.marker(
+                [53.2192946, 6.5643971],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_9bf22fe73a7114fe4a53b0bbe08d0a20 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_acf813f351adf7fd4878906dff6de0d6 = $(`<div id="html_acf813f351adf7fd4878906dff6de0d6" style="width: 100.0%; height: 100.0%;"><b>Oude Boteringestraat 24</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2192946,6.5643971" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/18632" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_9bf22fe73a7114fe4a53b0bbe08d0a20.setContent(html_acf813f351adf7fd4878906dff6de0d6);
+            
+        
+
+        marker_81a8435652973bfdf8d539ce587c324f.bindPopup(popup_9bf22fe73a7114fe4a53b0bbe08d0a20)
+        ;
+
+        
+    
+    
+            marker_81a8435652973bfdf8d539ce587c324f.bindTooltip(
+                `<div>
+                     Oude Boteringestraat 24
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_75f874ac1118a8ac25975edee73f8fb4 = L.marker(
+                [53.2190617, 6.5649235],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_fe159b481c8dc41e743ef8034aaf6d76 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_492b7a47592e1b748da7968884cf68f7 = $(`<div id="html_492b7a47592e1b748da7968884cf68f7" style="width: 100.0%; height: 100.0%;"><b>Oude Boteringestraat 9</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2190617,6.5649235" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486031" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_fe159b481c8dc41e743ef8034aaf6d76.setContent(html_492b7a47592e1b748da7968884cf68f7);
+            
+        
+
+        marker_75f874ac1118a8ac25975edee73f8fb4.bindPopup(popup_fe159b481c8dc41e743ef8034aaf6d76)
+        ;
+
+        
+    
+    
+            marker_75f874ac1118a8ac25975edee73f8fb4.bindTooltip(
+                `<div>
+                     Oude Boteringestraat 9
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_782aeed018e61b0cf6d42243958264cd = L.marker(
+                [53.21944444444444, 6.564722222222223],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_ccb053242e1494c70cab48e5f0e89474 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_165d448ff9817304293fe5ddeef3ba6e = $(`<div id="html_165d448ff9817304293fe5ddeef3ba6e" style="width: 100.0%; height: 100.0%;"><b>Oude Boteringestraat 17 Rode Weeshuisstraat 121 t/m 125</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.21944444444444,6.564722222222223" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486040" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_ccb053242e1494c70cab48e5f0e89474.setContent(html_165d448ff9817304293fe5ddeef3ba6e);
+            
+        
+
+        marker_782aeed018e61b0cf6d42243958264cd.bindPopup(popup_ccb053242e1494c70cab48e5f0e89474)
+        ;
+
+        
+    
+    
+            marker_782aeed018e61b0cf6d42243958264cd.bindTooltip(
+                `<div>
+                     Oude Boteringestraat 17 Rode Weeshuisstraat 121 t/m 125
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_55926d515089bea0915eac11d6e46a03 = L.marker(
+                [53.2183016, 6.5641636],
+                {
+}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+        var popup_ff268461db27759bbdafa4c35ee62588 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_41d49df38fed3fd4e92487f258a22059 = $(`<div id="html_41d49df38fed3fd4e92487f258a22059" style="width: 100.0%; height: 100.0%;"><b>Zwanestraat 9-9a</b><br><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=53.2183016,6.5641636" target="_blank">Google Street View</a><br><a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/486713" target="_blank">Monumentenregister</a></div>`)[0];
+                popup_ff268461db27759bbdafa4c35ee62588.setContent(html_41d49df38fed3fd4e92487f258a22059);
+            
+        
+
+        marker_55926d515089bea0915eac11d6e46a03.bindPopup(popup_ff268461db27759bbdafa4c35ee62588)
+        ;
+
+        
+    
+    
+            marker_55926d515089bea0915eac11d6e46a03.bindTooltip(
+                `<div>
+                     Zwanestraat 9-9a
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_d9f946009f551dd889ae64bac0e6e59f = L.polyline(
+                [[53.219984, 6.564943], [53.219832, 6.565066], [53.220093, 6.564855], [53.220237, 6.564696], [53.220418, 6.564547], [53.22043, 6.564587], [53.220535, 6.564944], [53.220585, 6.565114], [53.220648, 6.56529], [53.220811, 6.56609], [53.220775, 6.566116], [53.220621, 6.566226], [53.220318, 6.566442], [53.220175, 6.565917], [53.220248, 6.565873], [53.220209, 6.565699], [53.22018, 6.56557], [53.220138, 6.565597], [53.219787, 6.56583], [53.219787, 6.56583], [53.219613, 6.565946], [53.219596, 6.565874], [53.219419, 6.565189], [53.219309, 6.56484], [53.219241, 6.564623], [53.219191, 6.56466], [53.219084, 6.564766], [53.219044, 6.564635], [53.219084, 6.564766], [53.219026, 6.564823], [53.219001, 6.564848], [53.218954, 6.564895], [53.218897, 6.564952], [53.218852, 6.564792], [53.218897, 6.564952], [53.218759, 6.565116], [53.21862, 6.565295], [53.218319, 6.564267], [53.218315, 6.564251], [53.218253, 6.564296], [53.218315, 6.564251], [53.218302, 6.564164], [53.218315, 6.564251], [53.218319, 6.564267], [53.21862, 6.565295], [53.218759, 6.565116], [53.218897, 6.564952], [53.218954, 6.564895], [53.219084, 6.564766], [53.219191, 6.56466], [53.219241, 6.564623], [53.219404, 6.564448], [53.21937, 6.564334], [53.219404, 6.564448], [53.219552, 6.564297], [53.219643, 6.564204], [53.219697, 6.564149], [53.219792, 6.564052], [53.219821, 6.564138], [53.219824, 6.564146], [53.219845, 6.564129], [53.219905, 6.56433], [53.219893, 6.56434], [53.219905, 6.56433], [53.219845, 6.564129], [53.219824, 6.564146], [53.219821, 6.564138], [53.219792, 6.564052], [53.2198, 6.564044], [53.219957, 6.563902], [53.220062, 6.563816], [53.220179, 6.563719], [53.220512, 6.563448], [53.220582, 6.563392], [53.220512, 6.563448], [53.220179, 6.563719], [53.220418, 6.564547], [53.220237, 6.564696], [53.220093, 6.564855], [53.219984, 6.564943]],
+                {"bubblingMouseEvents": true, "color": "#3388ff", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#3388ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.9, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+        
+    
+            var locate_control_dd3607b672cad5e2c0ebdf48af375687 = L.control.locate(
+                {"keepCurrentZoomLevel": true}
+            ).addTo(map_4c1c4f19a341d5b7bead08d060df50dc);
+            
+        
+</script>
+</html>
