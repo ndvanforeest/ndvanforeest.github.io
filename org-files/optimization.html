@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gradient descent for Ridge, Lasso and Neural Networks</title>
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="/css/tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/ox-tufte.css" type="text/css" />
+<link rel="stylesheet" href="/css/pygments.css" type="text/css" />
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+<script>
+  window.MathJax = {
+    tex: {
+      macros: {
+        argmin: ["\\mathop{\\mathrm{arg\\,min}}", 0],
+        argmax: ["\\mathop{\\mathrm{arg\\,max}}", 0],
+        abs: ["\\left\\vert#1\\right\\vert", 1],
+        norm: ["\\left\\lVert#1\\right\\rVert", 1],
+        given: ["\\,\\middle|\\,", 0],
+        mineq: "\\mathrel{-}=",
+        pluseq: "\\mathrel{+}=",
+        supp: ["\\mathrm{supp}\\left(#1\\right)", 1],
+        Max: ["\\max\\left\\{#1\\right\\}", 1],
+        Min: ["\\min\\left\\{#1\\right\\}", 1],
+        Inf: ["\\inf\\left\\{#1\\right\\}", 1],
+        IInf: ["\\displaystyle\\mathop{\\inf}_{#1}\\left\\{#2\\right\\}", 2],
+        Sup: ["\\sup\\left\\{#1\\right\\}", 1],
+        SSup: ["\\displaystyle\\mathop{\\sup}_{#1}\\left\\{#2\\right\\}", 2],
+        As: "\\tilde{A}",
+        B: "\\mathbb{B}",
+        C: "\\mathcal{C}",
+        d: "\\,\\textrm{d}",
+        E: ["\\mathsf{E}\\left[#1\\right]", 1],
+        EE: ["\\mathsf{E}_{#1}\\left[#2\\right]", 2],
+        F: "\\mathcal{F}",
+        IL: "I",
+        IP: "P",
+        leadtime: "l",
+        N: "\\mathbb{N}",
+        P: ["\\mathsf{P}\\left\\{#1\\right\\}", 1],
+        PP: ["\\mathsf{P}_{#1}\\left[#2\\right]", 2],
+        R: "\\mathbb{R}",
+        V: ["\\mathsf{V}\\left[#1\\right]", 1],
+        Z: "\\mathbb{Z}",
+        Bin: ["\\mathrm{Bin}(#1)", 1],
+        Exp: ["\\mathrm{Exp}(#1)", 1],
+        FS: ["\\mathrm{FS}(#1)", 1],
+        Gamm: ["\\mathrm{Gamm}(#1)", 1],
+        Geo: ["\\mathrm{Geo}(#1)", 1],
+        HGeom: ["\\mathrm{HGeom}(#1)", 1],
+        Norm: ["\\mathrm{Norm}(#1)", 1],
+        Pois: ["\\mathrm{Pois}(#1)", 1],
+        Unif: ["\\mathrm{Unif}(#1)", 1],
+        "1": ["\\mathbb{1}\\left\\{#1\\right\\}", 1],
+      },
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<header id="preamble" class="status">
+<header class='site-header'>
+  <div class='site-header-container'>
+    <a href="https://ndvanforeest.github.io/">
+    <img src="/img/harry.jpg" alt='parsec logo' class='site-logo'>
+    </a>
+      <div class='site-title-container'>
+        <h1 class='site-title'>Nicky van Foreest&rsquo;s site</h1>
+      </div>
+    </div>
+</header>
+<hr class='menu-divider'>
+<nav class='menu'>
+  <ul>
+    <li><a href='/index.html'>Home</a></li>
+    <li><a href='/about_this_site.html'>About this site</a></li>
+    <li><a href='/bio.html'>Bio</a></li>
+    <li><a href='/books.html'>Books</a></li>
+    <li><a href='/city_walks.html'>Stadswandelingen</a></li>
+    <!-- <li><a href='/stochastic_or.html'>Stochastic OR</a></li> -->
+  </ul>
+</nav>
+<hr class='menu-divider'>
+</header>
+<article id="content" class="content">
+<header>
+<h1 class="title">Gradient descent for Ridge, Lasso and Neural Networks</h1>
+</header><section id="outline-container-org7f16d57" class="outline-2">
+<h2 id="org7f16d57"><span class="section-number-2">1.</span> Intro</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+We discuss some optimization algorithms used for Ridge, Lasso, and neural networks.
+If you are interested in more background on neural networks, image recognition, and LLMs, you should have a look at <a href="https://www.bishopbook.com/">Chris Bishop, Deep Learning</a>.
+The chapter on <i>transformers</i>, which is a fundamental idea underlying ChatGPT, is very interesting.
+Then, I watched the youtube Chapters 5, 6 and 7 on neural networks at <a href="https://www.3blue1brown.com/">3blue1brown</a>.
+I found them very helpful.
+About the section on neural networks, once you understand the steps we explain here,  Sections 9.1, 9.2, and 9.3 of Kroese et al are easy to understand.
+The rest of Chapter 9 of Kroese is about some of the numerical speed-ups that have been developed for neural networks.
+</p>
+</div>
+</section>
+<section id="outline-container-org7925b9e" class="outline-2">
+<h2 id="org7925b9e"><span class="section-number-2">2.</span> Gradient descent &amp; Ridge Regression</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+In ridge regression we want to find \(\beta^{*}\) that minimizes the following cost function
+</p>
+\begin{align*}
+C(\beta) = \frac{1}{2} \norm{y- X\beta}^{2} + \frac{\lambda}{2} \|\beta\|^{2} = \frac{1}{2} y^t y - y^t X \beta + \frac{1}{2} \beta^t X^t X \beta + \frac{\lambda}{2} \beta^t \beta.
+\end{align*}
+<p>
+(We write \(y^t\) for the transpose of the vector \(y\).)
+Observe that \(C(\beta)\) is strictly convex because it is the sum of the convex function \(||y-X\beta||^{2}\) and the strickly convex function \(\lambda ||\beta||^{2}\) if \(\lambda > 0\)..
+Hence, \(C\) has a unique minimizer \(\beta^{*}\).
+</p>
+
+<p>
+Taking the  derivative with respect to \(\beta\) gives  the gradient
+</p>
+\begin{align*}
+\nabla C(\beta) =  - y^t X + \beta^t X^t X + \lambda \beta^t  = - y^t X + \beta^t(X^t X + \lambda) = - (y^{t} - \beta^{t} X^t)X + \lambda \beta^{t}.
+\end{align*}
+<p>
+By equating this to zero we see that \(\beta^{*}\) is the solution of the equation
+</p>
+\begin{equation*}
+(X^t X + \lambda) \beta = X^t y.
+\end{equation*}
+<p>
+This can be solved because \(X^t X + \lambda\) has an inverse.
+(To see this, recall that \(X^t X\) is a positive semidefinite, because \(\langle X^t X \beta, \beta \rangle = \langle X \beta, X\beta \rangle = \beta^t X^t X \beta \geq 0\).
+Then the eigenvalues of \(X^t X\) are non-negative because when \(X^t X x = \mu x\), then \(x^t X^{t} X x = \mu x^t x\), but the LHS is \(\geq 0\) because \(X^t X\) is positive semidefinite, and \(x^t x \geq 0\) always.
+Thus, \(\mu \geq 0\).
+It follows that \(X^t X + \lambda\) has strictly positive eigenvalues when \(\lambda > 0\). BTW, this argument has practical relevance, I used it while employed at a bank.)
+</p>
+
+<p>
+Note, the fact that this matrix has an inverse does not mean that we should compute the inverse to solve for \(\beta\).
+In fact, we should avoid this when the \(\beta\) has many components; for instance, in neural networks, the number of parameters to update is enormous.
+A method that is less memory hungry is <i>gradient descent</i>, which works like this.
+From Taylor&rsquo;s formula,
+</p>
+\begin{align*}
+C(\beta + \Delta \beta) \simeq C(\beta) +  \nabla_{\beta}^{t} C(\beta) \,\Delta \beta =
+C(\beta) + \sum_{k} \frac{\partial C}{\partial \beta^{k}} \Delta \beta^{k}.
+\end{align*}
+<p>
+Note that \(\nabla_{\beta} C\) is a row vector, while \(\Delta \beta\) is a column vector.
+This difference becomes relevant when we deal with neural networks.
+Now, suppose that \(\beta\) is not the minimizer of \(C\), then necessarily \(\nabla_{\beta} C(\beta) \neq 0\).
+If we choose \(\Delta \beta= -\eta \nabla_{\beta}^{t} C(\beta)\) for \(\eta\) that is sufficiently small to keep Taylor&rsquo;s approximation valid, then
+</p>
+\begin{align*}
+C(\beta + \Delta \beta) < C(\beta) - \eta \norm{\nabla_{\beta} C(\beta)}^{2}.
+\end{align*}
+<p>
+Thus, writing \(\Delta \beta^{(n)} = \beta^{(n+1)} - \beta^{(n)}\) for the \(n\)-th iteration, we use the update scheme
+</p>
+\begin{align*}
+\beta^{(n+1)} = \beta^{(n)}  - \eta \nabla_{\beta}^{t} C(\beta^{(n)})
+\end{align*}
+<p>
+to move the vector \(\beta^{(n)}\) to the  minimizer of \(C\) (again provided \(\eta\) is not too large).
+</p>
+
+<p>
+Gradient descent is the algorithm that uses the above updating scheme to generate a sequence of vectors \(\{\beta^{(n)}\}_{n=1, 2, \ldots}\) until some convergence criterion is met, for instance \(||\nabla C(\beta^{(n)})||^{2} \leq \epsilon\) for some \(\epsilon\).
+However, it is not entirely trivial to find a numerically efficient and stable implementation.
+If \(\eta\) is very small, it takes many iterations for the algorithm to convergence.
+If \(\eta\) is too large, the jump in \(\beta\) may be such that \(C(\beta^{(n+1)}) > C(\beta^{(n)})\); we &rsquo;jumped too far&rsquo;.
+The challenge is to find good values for \(\eta\), in fact, \(\eta\) should depend on \(\beta^{(n)}\); c.f. Kroeze et al, or Boyd and Vandenberghe on convex optimization, or wikipedia.
+</p>
+
+<p>
+Here are the key steps in  python to start with an implementation. The scaling improves the numerical stability.
+</p>
+<div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">))</span>  <span class="c1"># deal with the intercept</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">dCt</span><span class="p">(</span><span class="n">beta</span><span class="p">):</span>
+    <span class="c1"># Transpose of the gradient of C</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">X</span> <span class="o">@</span> <span class="n">beta</span><span class="p">)</span> <span class="o">+</span> <span class="n">labda</span> <span class="o">*</span> <span class="n">beta</span>
+
+
+<span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dC</span><span class="p">(</span><span class="n">beta</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">eps</span> <span class="ow">and</span> <span class="n">num_iters</span> <span class="o">&lt;</span> <span class="mf">1e5</span><span class="p">:</span>
+    <span class="n">num_iters</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">beta</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">dCt</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="outline-container-org9639605" class="outline-2">
+<h2 id="org9639605"><span class="section-number-2">3.</span> Coordinate descent &amp; Lasso</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Lasso uses a specific form of gradient descent: it updates successively along each coordinate of \(\beta\).
+Here we discuss the main steps.
+</p>
+
+<p>
+I found this nice idea as follows.
+I perused the documentation of Lasso on <code>sklearn</code>; there it was mentioned that the code uses `coordinate descent&rsquo;.
+Then, googling on `Lasso coordinate descent&rsquo; lead me to a nice paper of Friedman, Hastie, Hoefling, and Tibshirani, with the title &ldquo;Pathwise Coordinate Optimization&rdquo;.
+They explain, briefly, how to find optimal weights for Lasso.
+We discuss their steps in more detail, and start with optimizating a constrained parabolic optimization problem. This leads directly to a fast implementation for Lasso.
+</p>
+</div>
+<div id="outline-container-orgee35afe" class="outline-3">
+<h3 id="orgee35afe"><span class="section-number-3">3.1.</span> Convex parabolas</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+We all know that the minimum of the <i>convex</i> parabola \(a x^{2} + b x + c\), with \(a > 0\), has its minimum at \(x^{*}=-b/2a\).
+So, if \(b> 0\), the minimizer is negative, and if \(b<0\) the minimizer is positive.
+</p>
+
+<p>
+Consider next the minimization problem \(\min ax^{2} + bx + c\) with the constraint that \(x\geq 0\) (still with \(a>0\)).
+In this case, if \(b< 0\), the minimizer is still \(x=-b/2a\), because \(-b/2a\) is positive.
+However, if \(b>0\), the minimizer of the parabola is negative.
+As this is not attainable due to the constraint \(x\geq 0\), the minimizer of our constrained optimization problem is \(x^{*}=0\) (recall, the parabola under consideration is convex).
+Therefore, the general solution is \(x^{*} = \max\{0, -b/2a\}\).
+Likewise, if the constraint is \(x\leq0\), then \(x^{*}=\min\{0, -b/2a\}\).
+</p>
+
+<p>
+Our third simple optimization problem is \(\min a x^{2} + bx + c + \lambda |x|\) with \(\lambda\geq 0\).
+In this case, assuming that \(x\geq0\), then we can rewrite the parabola as \(a x^2 + (b+\lambda)x + c\), and then we know from our earlier analysis that the solution is \(x^{*} = \max\{0, - (b+\lambda)/2a\}\). When \(x\leq 0\), we have \(ax^2+(b-\lambda)x + c\), and \(x^* = \min\{0, (\lambda-b)/2a\}\).
+Note that we cannot directly use the derivative of the objective with respect to \(x\) because \(|x|\) is not differentiable everywhere.
+</p>
+
+<p>
+This rule has an interesting consequence. Suppose that \(x=0\). Then \(x\geq 0\) and \(x\leq 0\), in other words, \(x\) satisfies both conditions at once. Hence,
+</p>
+\begin{align*}
+\min\{0, (\lambda-b)/2a\} = x^{*} = \max\{0, -(b+\lambda)/2a\}, \quad \textrm{if } x = 0.
+\end{align*}
+<p>
+But as \((\lambda-b)/2a \geq -(b+\lambda)/2a\), the only solution is that \(x^{*} = 0\). So, if it happens during the iterations that \(x\) is set to \(0\), it remains \(0\).
+</p>
+
+
+<p>
+Finally, we look at the special case \(f(x) = x^2/2 + b x + c \lambda |x|\).
+In this case, \(f'(x) = x + b\).
+When we would use an iterative scheme, like gradient descent, to find \(x^{*}\), we would set \(x' = x - \eta f'(x) = x - \eta(x+b)\).
+If we take \(\eta=1\), then we obtain \(x' = -b = x^{*}\), so within one step we move from \(x\) to the optimal solution \(x' = x^{*}\).
+Of course, in most optimization problems we are not so lucky, and \(\eta\) requires tuning.
+</p>
+</div>
+</div>
+<div id="outline-container-org0ce0959" class="outline-3">
+<h3 id="org0ce0959"><span class="section-number-3">3.2.</span> Coordinate descent</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+We can use what we just learned about the minimization of \(a x^{2} + b x + c + \lambda |x|\) to develop an iterative scheme to find the optimal feature weights \(\beta^{*}\) for lasso, that is, we want to minimize
+\[
+ C(\beta) = \frac{1}{2} || y - X \beta||^{2} + \lambda ||\beta||.
+\]
+Note that \(C(\beta)\) is the sum of two convex functions, hence is convex itself.
+We assume now that the \(p\) features have been location-scaled such that for each feature \(k\),
+</p>
+\begin{align*}
+\sum_{i=1}^{n} x_{i k} &= 0, & \sum_{i=1}^{n} x_{i k}^{2} &= 1.
+\end{align*}
+
+
+<p>
+The idea is to optimize one coordinate \(\beta^{j}\) at a time, and iterate over \(j=1, 2, \ldots, p, 1, 2, \ldots\) until some convergence criterion is reached.
+So, singling out \(\beta^{j}\), we write the objective as
+\[
+ C(\beta) = \frac{1}{2}\sum_{i} \rb{y_{i}-\sum_{k\neq j} x_{i k}\beta^{k} - x_{i j}\beta^{j}}^{2} + \lambda \sum_{k\neq j} |\beta^{k}| + \lambda |\beta^{j}|.
+\]
+Now assuming that from a previous iteration, \(\beta^{j}\geq 0\), we  rewrite the objective in the form \(a \beta^{2}_{j}  + b \beta^{j} + c\):
+\[
+C(\beta) = \frac{1}{2} (\beta^j)^2\sum_i x_{ij}^2 + \beta^{j}\left[\lambda - \sum_{i} x_{ij} \left(y_i-\sum_{k\neq j} x_{ik}\beta^{k}\right)\right] + \textrm{Const}.
+\]
+Since the scaling gives us that \(\sum_i x_{i j}^2 = 1\), we can minimize \(C\) <i>for this specific coordinate \(j\)</i> while <i>keeping the other \(\beta^{k}\) fixed</i>  by setting \(\beta^{j} = \max\{0, -b/2a\}\), i.e., if \(\beta^j \geq 0\), we update this to
+\[
+(\beta^{j})' := \max\left \{-\lambda + \sum_{i} y_{i} x_{ij} - \sum_{i} \sum_{k\neq j} x_{i j} x_{i k} \beta^{k}, 0\right\}.
+\]
+for the next iteration.
+Clearly, if \(\beta\) is not optimal,  then \(\beta^{j}\) is such that \(C(\beta^1, \ldots, \beta^{j}, \ldots \beta^{p}) < C(\beta)\). In other words, the objective decreases along the \(j\) th coordinate of \(\beta\).
+With similar reasoning, if \(\beta^j \geq 0\) from the previous iteration,  we take the update
+\[
+\beta^{j} = \min\left \{+\lambda + \sum_{i} y_{i} x_{ij} - \sum_{i} \sum_{k\neq j} x_{i j} x_{i k} \beta^{k}, 0\right\}.
+\]
+Note that, as explained above for the parabola, when \(\beta^{j} = 0\), it remains 0.
+</p>
+
+<p>
+Typically, we start with \(\beta = 0\), and update the indices sequentially.
+The idea to start in zero is that we use Lasso to bias toward a sparse solution.
+As the evolution of the updates \(\beta\) depend on the starting values, it is not so clear whether some \(\beta^{j}\) will become 0 or not.
+Perhaps, for the sake of robustness, it is best to randomize the sequence in which the indices are updated.
+In practice both cyclic and random orderings are used.
+If some \(\beta^{j}\) are consistently set to 0, its predictive power is probably not so large.
+</p>
+
+
+<p>
+It is interesting to interpret this scheme in terms of gradient descent.
+Observe that
+\[
+-\lambda + \sum_{i} y_{i} x_{ij} -  \sum_{i} \sum_{k\neq j} x_{i j} x_{i k} \beta^{k} = - \lambda + (y^t X)_{j} - (X^t X \beta)_{j} + \beta^{j}
+\]
+where we use again that \(\sum_{i} x_{i j}^{2} = 1\). When \(\beta^{j} > 0\),  this is equal to \(-\partial_{j} C + \beta^{j}\).
+Thus, if \(\beta^{j}>0\), the update rule can be written as
+\[
+\beta^{j} := \max\left \{\beta^{j} - \partial_{j} C, 0\right\}, \quad \beta^{j} \geq 0.
+\]
+In other words, if \(\beta^j \neq 0\), it is optimal to set \(\Delta \beta = \beta^{j} - \beta^{j} = - \partial_{j} C\).
+This is gradient descent with \(\eta=1\)!
+</p>
+</div>
+</div>
+</section>
+<section id="outline-container-orgde0f8b8" class="outline-2">
+<h2 id="orgde0f8b8"><span class="section-number-2">4.</span> Neural Networks and Backpropagation</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+We now discuss the basic steps of a feedforward neural network and backpropagation.<label id='fnr.1' for='fnr-in.1.4993595' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.4993595' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>
+I summarized the most important steps of the book of <a href="http://neuralnetworksanddeeplearning.com/">Michael Nielsen</a>.
+</span>
+In the formulas to come, the difference between row and column vectors is essential.
+We therefore write \(x_{i}\) to mean that the index \(i\) runs over columns; thus, \(x_{i}\) is row vector.
+Likewise \(x^{i}\) is column row vector.
+With this notation we write \((A x)_{i} = \sum_{j} A_i^j x_{j}\).<label id='fnr.2' for='fnr-in.2.1716693' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.1716693' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>
+If you&rsquo;re as smart as Einstein, you must have noticed that the sum runs over a low index and a high index of a vector or a matrix. The Einstein convention is to drop the summation sign altogether in such cases. This convention is used in the theory of relativity, and that theory deals with tensors. Perhaps that this is the reason why <code>tensorflow</code> is called the way it is.
+</span>
+</p>
+</div>
+<div id="outline-container-org9beed48" class="outline-3">
+<h3 id="org9beed48"><span class="section-number-3">4.1.</span> Predicting the output for an input \(x\)</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+A neural network consists of \(L\) layers of, so called, neurons that feed information into each other in a sequential way, i.e., from layer \(l-1\) to layer \(l\).
+Thus, information is just fed forward; there is no feedback from layer \(l\) to any previous layer \(j\) with \(j\leq l\).
+Given <i>weights</i> \(w_{i,l}^{n}\) and <i>biases</i> \(b_{i,l}\) for layer \(l\), we define recursively the <i>weighted inputs for layer \(l\)</i> and the <i>activation function of neuron \(i\)</i> as
+</p>
+\begin{align*}
+z^{j}_{l} &= \sum_n w^{j}_{n, l} a^{n}_{l-1} + b^{j}_{l}, & a^{j}_{l} &= \sigma(z^{j}_{l}),
+\end{align*}
+<p>
+where \(\sigma(\cdot)\) is an <i>activator</i>.
+Examples are the relu function \(\sigma(x) = \max\{0, x\}\) and the sigmoid function \(\sigma(x) = (1+e^{-x})^{-1}\).
+Note that \(z_{l}\) is a linear function of the non-linear activations \(a_{l-1}\): since we want to model non-linear relations between the output of the network and the input, we apply a non-linear activators \(\sigma\) to \(z_{l}\).
+By setting \(a_{l=0} = x\), we compute \(z_{l} = W_{l} a_{l-1} + b_{l}\), \(a_{l} = \sigma(z_{l})\), for \(l=1, \ldots, L\).
+Then \(a_{L} = \sigma(z_{L})\) is the <i>predictor</i> of the network for the <i>input</i> \(x\).
+</p>
+
+<p>
+The problem is to find good weights \(W\) and biases \(b\) so that when given an input \(x\), the network produces a useful prediction \(a_{L}(x)\).
+This is the job of the <i>back-propagation algorithm</i>.
+</p>
+</div>
+</div>
+<div id="outline-container-org2dc1f56" class="outline-3">
+<h3 id="org2dc1f56"><span class="section-number-3">4.2.</span> Finding good weights and biases with back-propagation</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+We use the function
+</p>
+\begin{align*}
+C(x) = \frac{1}{2} || y(x) - a^L(x)||^{2} = \sum_{j} (y_j - a_{j, L}(x))(y^{j} - a^j_L(x))
+\end{align*}
+<p>
+to assess the quality of how well the predictor \(a^{L}(x)\) approximates \(y(x)\) for a training sample \(x\) with outcome \(y(x)\).
+</p>
+
+
+<p>
+As \(C(x)\) depends  on the weight matrices and bias vector, we can use gradient descent to optimize iteratively the weight matrices and bias vectors.
+Let&rsquo;s look at layer \(l\). Then, for fixed \(x\) and interpreting \(C_{x}\) as a function of the weights and biases,
+</p>
+\begin{align*}
+C_{x}(w_{l} + \Delta w_{l}, b_{l}) &\simeq C_{x}(w_{l}, b_{l}) + \sum_{j, k} \frac{\partial}{\partial w_{k,l}^{j}} C_x (w_{l}, b_{l}) \Delta w_{k, l}^{j}, \\
+C_{x}(w_{l},  b_{l}+\Delta b_{l}) &\simeq C_{x}(w_{l}, b_{l}) + \sum_{j} \frac{\partial}{\partial b^{j}_{l}} C_x (w_{l}, b_{l}) \Delta b^{j}_{l},
+\end{align*}
+<p>
+where the weights and biases of the other layers are assumed fixed.
+We have seen previously that the best direction to decrease \(C_{x}\) is to take \(\Delta w^l\) proportional to  \(- \nabla_{w_{l}}' C_{x}\).
+Applying a similar reasoning for the bias \(b\), we obtain the update scheme
+</p>
+\begin{equation}\label{eq:gd}
+w_{k,l}^{j} := w_{k,l}^{j} - \eta \frac{\partial C_{x}}{\partial w_{k,l}^{j}}, \quad b^{j}_{l} :=  b^{j}_{l}  -\eta \frac{\partial C_{x}}{\partial b^{j}_{l}}.
+\end{equation}
+<p>
+So, if we can find a smart way to compute the two partial derivatives of \(C_{x}\), we can use gradient descent to update \(W_{l}\) and \(b_{l}\).
+This smart way is the backpropagation algorithm.
+</p>
+
+<p>
+Let us assume for the moment that we know how to compute the <i>row</i> vector
+\[
+d_{j,l} := \frac{\partial C_{x}}{\partial z^{j}_{l}}.
+\]
+Then,
+</p>
+\begin{align}\label{eq:c2}
+\frac{\partial C_{x}}{\partial b^{j}_{l}}
+&= \sum_i \frac{\partial C_x}{\partial z^{i}_{l}} \frac{\partial z^{i}_{l}}{\partial b^{j}_{l}}
+= \sum_i d_{i,l} \frac{\partial}{\partial b^{j}_{l}} \left(\sum_n w_{n,l }^i a^{n}_{l-1} + b^{i}_{l}\right) \notag \\
+&= \sum_i d_{i,l}  \delta_j^{i} = d_{j,l},
+\end{align}
+<p>
+and
+</p>
+\begin{align}\label{eq:c1}
+\frac{\partial C_{x}}{\partial w^j_{k,l}}
+&= \sum_i \frac{\partial C_x}{\partial z^{i}_{l}} \frac{\partial z^{i}_{l}}{\partial w^{j}_{k,l}}
+= \sum_i d_{i,l} \frac{\partial}{\partial w^{j}_{k,l}} \left(\sum_n w_{n,l}^i a^{n}_{l-1} + b^{i}_{l}\right) \notag \\
+&= \sum_{i,n} d_{i,l} a^{n}_{l-1} \delta_{j}^{i} \delta_{n}^{k} = d_{j,l} a^{k}_{l-1}.
+\end{align}
+
+<p>
+It remains to find expressions for \(d_{j,l}\).
+Starting with the last level \(L\),
+</p>
+\begin{align}
+\label{eq:3}
+d_{j,L} := \frac{\partial C_{x}}{\partial z^{j}_{L}} = \sum_{k} \frac{\partial C_{x}}{\partial a^{k}_{L}} \frac{\partial a^{k}_{L}}{\partial z^{j}_{L}}.
+\end{align}
+<p>
+Now
+</p>
+\begin{align*}
+\frac{\partial C_{x}}{\partial a^{k}_{L}(x)} &= y_{k} - a_{k,L}(x), & \frac{\partial a^{k}_{L}}{\partial z^{j}_{L}} &= \sigma'(z^{j}_{L}) \delta^{k}_{j},
+\end{align*}
+<p>
+and therefore,
+\[
+d_{j,L} = \sum_{k}(y_{k} - a_{k,L})\sigma'(z_{j,L})\delta^{j}_{k} = (y_{j} - a_{j,L})\sigma'(z^{j}_{L}).
+\]
+For an intermediate layer \(l\),
+</p>
+\begin{align*}
+d_{j,l} := \frac{\partial C_{x}}{\partial z^{j}_{l}} =
+\sum_{k} \frac{\partial C_{x}}{\partial z^{k}_{l+1}} \frac{\partial z^{k}_{l+1}}{\partial z^{j}_{l}}
+= \sum_{k} d_{k,l+1}  \frac{\partial z^{k}_{l+1}}{\partial z^{j}_{l}}.
+\end{align*}
+<p>
+With respect to the last derivative,
+\[
+\frac{\partial z^{k}_{l+1}}{\partial z^{j}_{l}} =
+\frac{\partial }{\partial z^{j}_{l}} \left(\sum_{n} w^{k}_{n,l+1} a^{n}_{ l+1} + b^{i}_{l+1}\right) =
+\sum_{n}  \frac{\partial }{\partial z^{j}_{l}}  \left(w^{k}_{n,l+1} \sigma(z^{n}_{l})\right) = w^{k}_{j,l+1} \sigma'(z^{j}_{l}).
+\]
+With this,
+</p>
+\begin{align}
+d_{j,l}
+= \sum_{k} d_{k, l+1}  w^{k}_{j, l+1} \sigma'(z^{j}_{l}).
+\end{align}
+<p>
+Observe that this recursion works backwards: from \(d_{l+1}\) and \(w_{l+1}\) to \(d_{l}\).
+</p>
+
+<p>
+Summarizing, for a given \(x\), we first use the feedforward procedure to compute the weighted inputs and the activations for all levels \(l=1,\ldots, L\),
+</p>
+\begin{align*}
+z_{l} &= W_{l} a_{l-1} + b_{l}, & a_{l} &= \sigma(z_{l}),
+\end{align*}
+<p>
+starting from \(a_0 = x\).
+Then, for the output \(a_{L}(x)\) and the measurement \(y(x)\), we compute the (row) vectors \(d_{l}\) by back-propagation, which in matrix form become
+</p>
+\begin{align}
+\label{eq:4}
+d_{L} &= (y(x)-a_{L}(x))^{t}*\sigma'(z_{L}), & d_{l} &= d_{l+1} W_{l+1} * \sigma'(z_{l}).
+\end{align}
+<p>
+Here we write \(*\) to denote component-wise vector multiplication, e.g, \((1, 2)*(3, 4) = (3, 8)\), and \(x^{t}\) for a row vector (i.e., the transpose of the vector \(x\)).
+With these the gradients follow as
+</p>
+\begin{align}
+\frac{\partial C_{x}}{\partial w_{l}} &= d_{l} a_{l-1}^{t}, & \frac{\partial C_{x}}{\partial b_{l}} &= d_{l}.
+\end{align}
+
+
+<p>
+The last step is to realize that we apply feedforward and backprogration for just one pair \((x, y(x))\) of the features \(X\) and  and outputs \(y\).
+To approximate the gradients \(\nabla_{W_{l}} C\) and \(\nabla_{b_{l}} C\) we take the average over all samples \(x\):
+</p>
+\begin{align}
+\nabla_{W_{l}} C &\approx \frac{1}{n}\sum_{i=1}^{n} \nabla_{W_{l}} C_{x_{i}}, &
+\nabla_{b_{l}} C &\approx \frac{1}{n}\sum_{i=1}^{n} \nabla_{b_{l}} C_{x_{i}}.
+\end{align}
+<p>
+Once we have these matrices and vectors for all layers, we use gradient descent to update the weights \(W_l\) and \(b_{l}\).
+</p>
+
+<p>
+To apply this scheme to large and deep neural networks, there are many, many numerical hurdles to take.
+For instance, when we have many samples, we don&rsquo;t need to take the average over all \(n\) samples to get a good estimate for \(\nabla_{w_{l}} C\).
+Instead, to save much numerical work, we select \(m\) samples randomly, and take the averages of just these samples.
+This procedure is called <i>stochatic gradient descent</i>.
+This leads to a second idea: epochs and mini-batches.
+We split the \(n\) samples into equal batches of \(m\) samples.
+We apply stochastic gradient descent for each batch, and having after used all batches, we start another <i>epoch</i> in which we form a new set of random batches, each of size \(m\), run stochastic gradient descent per batch until all batches in the epoch have been used, start a new epoch, and so on, until some convergence criterion is met.
+Thus, with epochs and mini-batches, we don&rsquo;t use all samples to update of \(w_{l}\) and \(b_{l}\), thereby achieving a significant speed-up, but per epoch we still use all samples.
+</p>
+
+<p>
+Another idea is to regularize \(W_{l}\) and \(b_{l}\) by adding a ridge regression in the objective \(C\).
+Yet another dropout which means that temporarily parts of the network will not be updated.
+Like this, the network becomes (hopefully) more robust against unexpected inputs.
+</p>
+</div>
+</div>
+</section>
+</article>
+<footer id="postamble" class="status">
+<hr> <p class="footer"> &#8226; A site by Nicky van Foreest &#8226;   Last updated: , Generated with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 30.2 (<a href="https://orgmode.org">Org</a> mode 9.7.11)</p>
+</footer>
+</body>
+</html>
