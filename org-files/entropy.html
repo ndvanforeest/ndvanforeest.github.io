@@ -3,1083 +3,11 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Solving Wordle and similar games with recursion and  entropy</title>
+<title>Solving Wordle and similar games with recursion and entropy</title>
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" href="/css/tufte.css" type="text/css" />
 <link rel="stylesheet" href="/css/ox-tufte.css" type="text/css" />
 <link rel="stylesheet" href="/css/pygments.css" type="text/css" />
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
-          <style>
-          /* From: https://endlessparentheses.com/public/css/endless.css */
-          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
-          kbd
-          {
-            -moz-border-radius: 6px;
-            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            -webkit-border-radius: 6px;
-            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
-            color: #333;
-            display: inline-block;
-            font-family: 'Droid Sans Mono', monospace;
-            font-size: 80%;
-            font-weight: normal;
-            line-height: inherit;
-            margin: 0 .1em;
-            padding: .08em .4em;
-            text-shadow: 0 1px 0 #fff;
-            word-spacing: -4px;
-        
-            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
-          }
-          </style>
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
-        
-          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
-        
-          <script type="text/javascript">
-              if (typeof jQuery == 'undefined') {
-                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
-              }
-          </script>
-        
-           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
-        
-            <script>
-                   $(document).ready(function() {
-                       $('.tooltip').tooltipster({
-                           theme: 'tooltipster-punk',
-                           contentAsHTML: true,
-                           animation: 'grow',
-                           delay: [100,500],
-                           // trigger: 'click'
-                           trigger: 'custom',
-                           triggerOpen: {
-                               mouseenter: true
-                           },
-                           triggerClose: {
-                               originClick: true,
-                               scroll: true
-                           }
-           });
-                   });
-               </script>
-        
-          <style>
-             abbr {color: red;}
-        
-             .tooltip { border-bottom: 1px dotted #000;
-                        color:red;
-                        text-decoration: none;}
-          </style>
-          
           <style>
           /* From: https://endlessparentheses.com/public/css/endless.css */
           /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
@@ -1691,7 +619,10 @@
         abs: ["\\left\\vert#1\\right\\vert", 1],
         given: ["\\,\\middle|\\,", 0],
         mineq: "\\mathrel{-}=",
+        norm: ["\\left\\lVert#1\\right\\rVert", 1],
         pluseq: "\\mathrel{+}=",
+        rb: ["\\left(#1\\right)", 1],
+        set: ["\\left\{#1\\right\}", 1],
         supp: ["\\mathrm{supp}\\left(#1\\right)", 1],
         Max: ["\\max\\left\\{#1\\right\\}", 1],
         Min: ["\\min\\left\\{#1\\right\\}", 1],
@@ -1778,7 +709,7 @@
 </header>
 <article id="content" class="content">
 <header>
-<h1 class="title">Solving Wordle and similar games with recursion and  entropy</h1>
+<h1 class="title">Solving Wordle and similar games with recursion and entropy</h1>
 </header><section id="outline-container-org2dc1f56" class="outline-2">
 <h2 id="org2dc1f56"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
@@ -1797,20 +728,20 @@ This framework helps to show the commonality of many problems and clarifies seve
 </p>
 </div>
 </section>
-<section id="outline-container-org7161a33" class="outline-2">
-<h2 id="org7161a33"><span class="section-number-2">2.</span> Approach</h2>
+<section id="outline-container-orgfa898cb" class="outline-2">
+<h2 id="orgfa898cb"><span class="section-number-2">2.</span> Approach</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 The book `Probability And Information&rsquo; by Yaglom and Yaglom provides a nice discussion on information theory and entropy.
-For this, they consider a game in which one has to identify a deficit (heavier) coin among \(n\) coins with an expected minimum of weightings with a balance with two pans.
+For this, they consider a game in which one has to identify a defective (heavier) coin among \(n\) coins with an expected minimum of weighings with a balance with two pans.
 For nine coins the optimal strategy is easy: put two sets of three coins on either pan of the balance.
-If the balance remains level, the deficit coin is in the third set.
+If the balance remains level, the defective coin is in the third set.
 If it tilts to the right, the heavier coin is in the right set, otherwise in the left.
-Thus, using the information gained by a weighting, i.e., an <i>experiment</i>, we can reduce the nine-coin problem to a three-coin problem.
+Thus, using the information gained by a weighing, i.e., an <i>experiment</i>, we can reduce the nine-coin problem to a three-coin problem.
 In other words, we can apply recursion to find the heavier coin.
 With \(n\) coins, the idea works roughly the same.
-In general terms, with every weighting we can reduce the size of the set containing the deficit coin by a factor three.
-Hence, the minimum of weightings for \(n\) coins must be about \(\log_3 n\).
+In general terms, with every weighing we can reduce the size of the set containing the defective coin by a factor three.
+Hence, the minimum of weighings for \(n\) coins must be about \(\log_3 n\).
 </p>
 
 <p>
@@ -1822,8 +753,8 @@ Since we get two possible answers, we  need about \(\log_{2} n\) experiments to 
 </p>
 
 <p>
-In the coin and number-finding problems it is clear (after reading the book of the Yaglom brothers) how entropy helps to find the strategy that is best in the sence of minimizing the number of experiments.
-In fact in both games we use a question that makes the subsets that are compatible with the feedback as equal in size as possible, because this maximizes the entropy when all coins have an equal probability of being the deficit coin.
+In the coin and number-finding problems it is clear (after reading the book of the Yaglom brothers) how entropy helps to find the strategy that is best in the sense of minimizing the number of experiments.
+In fact in both games we use a question that makes the subsets that are compatible with the feedback as equal in size as possible, because this maximizes the entropy when all coins have an equal probability of being the defective coin.
 </p>
 
 <p>
@@ -1834,19 +765,19 @@ Based on that, I refined my programs.
 After this, I went for a walk, and tried to explain in yet more general terms the essential ingredients.
 I also tried to tackle more general problems like how to find a coin that can be heavier or lighter among \(n\) coins, or two heavier coins out of \(n\), or \(m\) out of \(n\).
 These generalizations revealed to me that, actually, all these weighing games can be solved generically, in an efficient, but not optimal, way: just sort the coins from light to heavy with a balance.
-The most general of these problems is to sort \(n\) coins, and we already know from <a href="./vickrey_auction.html#orgde0f8b8">this page</a> that this takes \(n \log_{2} n\) weightings.
+The most general of these problems is to sort \(n\) coins, and we already know from <a href="./vickrey_auction.html#orgde0f8b8">this page</a> that this takes \(n \log_{2} n\) weighings.
 </p>
 
 <p>
-A bit of further research on the web showed that finding the optimal policy for the \(2\) out of \(n\) coin problem is very hard.<label id='fnr.1' for='fnr-in.1.8061131' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.8061131' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>Richard Bellman even wrote a paper on this</span> So I dropped this task from my list, but it raised two interesting problems.
+A bit of further research on the web showed that finding the optimal policy for the \(2\) out of \(n\) coin problem is very hard.<label id='fnr.1' for='fnr-in.1.2232248' class='margin-toggle sidenote-number'><sup class='numeral'>1</sup></label><input type='checkbox' id='fnr-in.1.2232248' class='margin-toggle'><span class='sidenote'><sup class='numeral'>1</sup>Richard Bellman even wrote a paper on this</span> So I dropped this task from my list, but it raised two interesting problems.
 How to explain, in terms of my general framework, where exactly lies the additional complexity for \(m\) out of \(n\) coin game (with \(m>1\))?
 And second, what would be good heuristics to efficiently solve this, and similar, problems.
 As it turns out, this second problem relates directly to the selection of a good pivot in the quicksort algorithm; we will address it below.
 </p>
 </div>
 </section>
-<section id="outline-container-org79c4fb7" class="outline-2">
-<h2 id="org79c4fb7"><span class="section-number-2">3.</span> Developing the mathematical framework</h2>
+<section id="outline-container-orgff52af2" class="outline-2">
+<h2 id="orgff52af2"><span class="section-number-2">3.</span> Developing the mathematical framework</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Before trying to develop a general mathematical formulation, it is helpful to consider two concrete examples and develop useful terminology at the same time.
@@ -1863,7 +794,7 @@ In the wordle game, the player has 6 tries to identify the secret.
 </p>
 
 <p>
-As a second example, consider 4 coins of which one is heavier, with probabilities \(\alpha, \beta, \gamma, \delta\) that the first, second, \(\ldots\), coin is the deficit one.
+As a second example, consider 4 coins of which one is heavier, with probabilities \(\alpha, \beta, \gamma, \delta\) that the first, second, \(\ldots\), coin is the defective one.
 We use a balance to compare the weight of groups of coins.
 Suppose we would put coins \(1, 2\) on the left pan, and \(3, 4\) on the right pan.
 The probability that the left pan tilts downwards is \(\alpha + \beta\), because this is the probability that the heavier coin lies in the set \(\{1, 2\}\), and the probability that the right pan tips downward is \(\gamma + \delta\).
@@ -1880,7 +811,7 @@ Now we are ready to make a formalized description of such stochastic optimizatio
 There is a <i>state space</i> \(S\) from which an <i>oracle</i> selects a <i>secret</i> word \(s\in S\).
 In wordle, \(S\) is the set of words; for the coins, \(S\) is the set of coins.
 A <i>player</i> can ask a <i>question</i> \(q\in Q\) for a set of possible questions \(Q\).
-For wordle, the set of questions is the same as the set of words; for finding a deficit coin, a question is the placement of sets of coins on the left and right pan of the balance, hence, the question set is the set of all possible groupings of coins in three piles, one is placed at the left pan, the other at the right, and the rest is not used in the weighting.
+For wordle, the set of questions is the same as the set of words; for finding a defective coin, a question is the placement of sets of coins on the left and right pan of the balance, hence, the question set is the set of all possible groupings of coins in three piles, one is placed at the left pan, the other at the right, and the rest is not used in the weighing.
 The player can ask the oracle to provide <i>feedback</i> in the form of function \(f_{q}(g)\) for question \(q\) and <i>guess</i> \(g\) for the secret.
 In wordle, the feedback consists of a set of colors for letters; in the coin game, the feedback is \(l, eq\), or \(r\), i.e., the left pan tips, the balance stays equal, or the right pan tips.
 Finally, the player can perform an <i>experiment</i> (which counts as a try) by asking the oracle a question \(q\) and receiving feedback \(f_{q}(s)\).
@@ -1898,7 +829,7 @@ F_q = \{f_q(g) : g \in S\}.
 Then, for each feedback \(f\in F_{q}\), the player collects the states with the same feedback \(f\) into subsets of \(S\):
 </p>
 \begin{equation}
-\label{org194cf40}
+\label{org7161a33}
 W_q(f) = \{g \in S : f_q(g) = f\}.
 \end{equation}
 <p>
@@ -1906,7 +837,7 @@ Clearly, \(\cup_{f\in F_q} W_q(f) = S\), and \(W_q(f) \cap W_{q}(f')=\varnothing
 Hence the question \(q\) <i>induces</i> by means of the set of feedbacks \(F_q\) a unique partition of \(S\):
 </p>
 \begin{equation}
-\label{org0043671}
+\label{org194cf40}
 \mathscr{P}_q = \{W_{q}(f) : f \in F_q\}.
 \end{equation}
 
@@ -1921,7 +852,7 @@ Once the probability function (the measure) \(\P{\cdot}\) is known, we can defin
 H(\mathcal P) = - \sum_{A\in \mathcal P} \P{A} \log \P{A}.
 \end{align*}
 <p>
-Clearly, by \eqref{org0043671}, a question \(q\) induces the partition \(\mathcal{P}_{q}\), hence,  we define the entropy induced by \(q\) as
+Clearly, by \eqref{org194cf40}, a question \(q\) induces the partition \(\mathcal{P}_{q}\), hence,  we define the entropy induced by \(q\) as
 </p>
 \begin{align*}
 H_q &= - \sum_{A\in \mathcal P_{q}} \P{A} \log \P{A} \\
@@ -1929,17 +860,17 @@ H_q &= - \sum_{A\in \mathcal P_{q}} \P{A} \log \P{A} \\
 \end{align*}
 
 <p>
-The best question \(q^{*}\) is the solution of the maximization problem<label id='fnr.2' for='fnr-in.2.1471703' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.1471703' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>Why this is best is explained very well at many places. Besides the book by Yaglom and Yaglom, I recommend <a href="http://www.inference.org.uk/mackay/itila/">Information Theory, Inference, and Learning Algorithms</a> by MacKay.</span>
+The best question \(q^{*}\) is the solution of the maximization problem<label id='fnr.2' for='fnr-in.2.9214321' class='margin-toggle sidenote-number'><sup class='numeral'>2</sup></label><input type='checkbox' id='fnr-in.2.9214321' class='margin-toggle'><span class='sidenote'><sup class='numeral'>2</sup>Why this is best is explained very well at many places. Besides the book by Yaglom and Yaglom, I recommend <a href="http://www.inference.org.uk/mackay/itila/">Information Theory, Inference, and Learning Algorithms</a> by MacKay.</span>
 </p>
 \begin{equation}
-\label{orga55bdd4}
+\label{org0c8fbd7}
 q^{*} = \argmax_{q\in Q}\, H_{q}.
 \end{equation}
 <p>
 To complete the procedure, if the player has \(q^*\) and the associated optimal partition \(W^*_{q^*}\) , s/he does an experiment by asking the oracle for
 </p>
 \begin{equation}
-\label{org1520f12}
+\label{orga55bdd4}
 f^* = f_{q^*}(s),
 \end{equation}
 <p>
@@ -1947,7 +878,7 @@ where \(s\) is the oracle&rsquo;s secret.
 With this answer, the player starts a new round of the game, but now with the strictly smaller state space
 </p>
 \begin{equation}
-\label{orgff52af2}
+\label{org1520f12}
 S^{*} = W_{q^{*}}(f^{*}).
 \end{equation}
 <p>
@@ -1960,15 +891,15 @@ In other words, even when simple questions are not optimal, they do help to work
 </p>
 </div>
 </section>
-<section id="outline-container-orgb22ef7e" class="outline-2">
-<h2 id="orgb22ef7e"><span class="section-number-2">4.</span> Oracle, Player, and Answer Classes</h2>
+<section id="outline-container-orgd9cd98a" class="outline-2">
+<h2 id="orgd9cd98a"><span class="section-number-2">4.</span> Oracle, Player, and Answer Classes</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-It&rsquo;s time now  to convert the maths into code. Let me repeat: I did not find the maths or the code in one pass. I first used a bit of math, then built it to see where the ideas would break. This lead to a new cycle of thinking,  maths, and coding.
+It&rsquo;s time now  to convert the maths into code. Let me repeat: I did not find the maths or the code in one pass. I first used a bit of math, then built it to see where the ideas would break. This led to a new cycle of thinking,  maths, and coding.
 </p>
 </div>
-<div id="outline-container-org0c2fec5" class="outline-3">
-<h3 id="org0c2fec5"><span class="section-number-3">4.1.</span> The oracle super class</h3>
+<div id="outline-container-org0b22235" class="outline-3">
+<h3 id="org0b22235"><span class="section-number-3">4.1.</span> The oracle super class</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 The oracle super class is quite simple.
@@ -2005,8 +936,8 @@ The only reason to include the test on whether the secret is in the space or not
 </pre></div>
 </div>
 </div>
-<div id="outline-container-org72a3840" class="outline-3">
-<h3 id="org72a3840"><span class="section-number-3">4.2.</span> Computing the entropy</h3>
+<div id="outline-container-orgf42ba8d" class="outline-3">
+<h3 id="orgf42ba8d"><span class="section-number-3">4.2.</span> Computing the entropy</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 We store the computation of the entropy and some related function in a separate module.
@@ -2041,8 +972,8 @@ The implementations speak for themselves (I believe).
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orge63ca02" class="outline-3">
-<h3 id="orge63ca02"><span class="section-number-3">4.3.</span> The player super class</h3>
+<div id="outline-container-orgc025086" class="outline-3">
+<h3 id="orgc025086"><span class="section-number-3">4.3.</span> The player super class</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 We need <code>textwrap</code> to print somewhat larger spaces, and <code>probability_functions.py</code> for the entropy function.
@@ -2051,14 +982,14 @@ Below we assume that the secret is chosen uniformly over the space, so therefore
 
 <p>
 The player needs the oracle to get feedback, and s/he needs the state space to generate the question space \(Q\).
-The method <code>make_partition</code> partitions the state space according to the function \(W\) defined in \eqref{org194cf40}.
+The method <code>make_partition</code> partitions the state space according to the function \(W\) defined in \eqref{org7161a33}.
 The rest of the functions should be clear, except for <code>solve</code>.
 </p>
 
 <p>
 We find for the optimal guess by means of recursion.
 Given a state space \(S\), we partition \(S\) according to the question.
-While searching for the best question we only maintain a reference to the best question and partition so far.<label id='fnr.3' for='fnr-in.3.9956131' class='margin-toggle sidenote-number'><sup class='numeral'>3</sup></label><input type='checkbox' id='fnr-in.3.9956131' class='margin-toggle'><span class='sidenote'><sup class='numeral'>3</sup>It&rsquo;s pointless to keep worse questions and the partitions they induce.</span>
+While searching for the best question we only maintain a reference to the best question and partition so far.<label id='fnr.3' for='fnr-in.3.362816' class='margin-toggle sidenote-number'><sup class='numeral'>3</sup></label><input type='checkbox' id='fnr-in.3.362816' class='margin-toggle'><span class='sidenote'><sup class='numeral'>3</sup>It&rsquo;s pointless to keep worse questions and the partitions they induce.</span>
 Once we have the question that optimally partitions the space, we ask the oracle to give an answer for the best question.
 This provides the player also with the best subspace to continue the search for the secret.
 We then call <code>solve</code> with this smaller space.
@@ -2122,8 +1053,8 @@ We then call <code>solve</code> with this smaller space.
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgd9cd98a" class="outline-3">
-<h3 id="orgd9cd98a"><span class="section-number-3">4.4.</span> Answer class</h3>
+<div id="outline-container-org496e461" class="outline-3">
+<h3 id="org496e461"><span class="section-number-3">4.4.</span> Answer class</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 The oracles for the different games can give different answers, for instance, for the coin games whether the balance tilts to right.
@@ -2159,15 +1090,15 @@ I find it convenient to put the different types of answers in a separate file.
 </div>
 </div>
 </section>
-<section id="outline-container-org7e0b801" class="outline-2">
-<h2 id="org7e0b801"><span class="section-number-2">5.</span> Two simple  games</h2>
+<section id="outline-container-org38570f5" class="outline-2">
+<h2 id="org38570f5"><span class="section-number-2">5.</span> Two simple  games</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Let us try what we developed up to now to two simple problems whose solutions we can check by hand.
 </p>
 </div>
-<div id="outline-container-org530237a" class="outline-3">
-<h3 id="org530237a"><span class="section-number-3">5.1.</span> Binary search</h3>
+<div id="outline-container-org648c2f4" class="outline-3">
+<h3 id="org648c2f4"><span class="section-number-3">5.1.</span> Binary search</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 The task of binary search is to identify a selected element (the secret) in a state space \(S\).
@@ -2175,7 +1106,7 @@ The oracle gives as feedback whether a guess (for the secret) lies in a left or 
 The player makes a question list by splitting the space into left and right sets.
 Of course, it is evident that when the secret is chosen with uniform probability it is optimal to split the space into a left and right set of equal size.
 However, that is not the aim here.
-We want to check that among many different questions, the player selects the best one by using the algorithm described in Section <a href="#org79c4fb7">Developing the mathematical framework</a>.
+We want to check that among many different questions, the player selects the best one by using the algorithm described in Section <a href="#orgff52af2">Developing the mathematical framework</a>.
 </p>
 
 <div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">answers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BinaryAnswer</span> <span class="k">as</span> <span class="n">Answer</span>
@@ -2227,7 +1158,7 @@ We want to check that among many different questions, the player selects the bes
 <div class="highlight"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;binary.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 </pre></div>
 
-<pre class="example" id="org648c2f4">
+<pre class="example" id="org3f63f7f">
 q_star=[['aahed', 'aalii', 'aargh', 'abaca'], ['abaci', 'aback', 'abaft', 'abaka', 'abamp']], answer=RIGHT, n_tries=1
 New state space:
 abaci aback abaft abaka abamp
@@ -2247,19 +1178,19 @@ The initial space contains 9 words, so the player would need maximally 4 tries u
 </p>
 </div>
 </div>
-<div id="outline-container-org38570f5" class="outline-3">
-<h3 id="org38570f5"><span class="section-number-3">5.2.</span> One heavy coin</h3>
+<div id="outline-container-org94dc380" class="outline-3">
+<h3 id="org94dc380"><span class="section-number-3">5.2.</span> One heavy coin</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
-For this problem we have to find one heavy coin among \(n\) in a minimum of weightings with a balance that has three possible outcomes: it tilts to the left or right or stays level.
+For this problem we have to find one heavy coin among \(n\) in a minimum of weighings with a balance that has three possible outcomes: it tilts to the left or right or stays level.
 Like this, the balance offers a ternary search instead of a binary search.
-The state space \(S\) is the set of numbers \(\{1, 2, \ldots, n\}\) where \(i\in S\) means that \(i\) is the deficit coin.
-A question consists of two sets with an equal number of coins that we put on either pan of the balance; the other coins remain in the middle and are not used during the weighting.
+The state space \(S\) is the set of numbers \(\{1, 2, \ldots, n\}\) where \(i\in S\) means that \(i\) is the defective coin.
+A question consists of two sets with an equal number of coins that we put on either pan of the balance; the other coins remain in the middle and are not used during the weighing.
 </p>
 
 <p>
 The question space of the player consists of sets of coins such that the left and right sets have equal size, for instance, \(\{1, 2\}; \{3, 4\}\), where the semicolon denotes the split between the left and right set.
-Assuming we don&rsquo;t have any specific information about any coin, the deficit coin is selected uniformly from \(S\).
+Assuming we don&rsquo;t have any specific information about any coin, the defective coin is selected uniformly from \(S\).
 By symmetry, the question \(\{1, 2,\}; \{3, 4\}\) will provide the same information as the question \(\{1, 4\}; \{2, 3\}\); only the number of coins in the sets matter.
 Thus, we do not have to consider all possible equally sized subsets of \(S\) to form the question space.
 </p>
@@ -2314,7 +1245,7 @@ Let us try it for 13 coins.
 <div class="highlight"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./one_coin.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 </pre></div>
 
-<pre class="example" id="org94dc380">
+<pre class="example" id="orgbec9ad4">
 q_star=[[0, 1, 2, 3], [4, 5, 6, 7, 8], [9, 10, 11, 12]], answer=RIGHT, n_tries=1
 New state space:
 9 10 11 12
@@ -2329,8 +1260,8 @@ The secret is 11
 </div>
 </div>
 </section>
-<section id="outline-container-org97f457e" class="outline-2">
-<h2 id="org97f457e"><span class="section-number-2">6.</span> Wordle (with sampling)</h2>
+<section id="outline-container-org3cb68a9" class="outline-2">
+<h2 id="org3cb68a9"><span class="section-number-2">6.</span> Wordle (with sampling)</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Above we have tackled two simple games.
@@ -2413,13 +1344,13 @@ I used the implementation from <a href="https://mathspp.com/blog/solving-wordle-
 <p>
 To keep the output limited, I just read the first 1000 words from <a href="https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93">this list of valid Wordle words</a>.
 Here is the output when we don&rsquo;t use sampling.
-The actual computation takes a few second because of all the computations.
+The actual computation takes a few seconds because of all the computations.
 </p>
 
 <div class="highlight"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./wordle.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 </pre></div>
 
-<pre class="example" id="org9c54a6f">
+<pre class="example" id="org39af42c">
 q_star='arles', answer=(GREEN, GRAY, GRAY, YELLOW, YELLOW), n_tries=1
 New state space:
 abase abuse amuse anise ansae aside aspie avise
@@ -2452,7 +1383,7 @@ Let&rsquo;s run it.
 </pre></div>
 
 
-<pre class="example" id="org3cb68a9">
+<pre class="example" id="orgca4550f">
 q_star='polts', answer=(GRAY, GRAY, GRAY, GRAY, YELLOW), n_tries=1
 New state space:
 abase abash abask absey abuse abysm adsum aesir agism agush aksed amuse anise
@@ -2521,30 +1452,30 @@ The secret is abase
 </pre>
 
 <p>
-It&rsquo;s impressive to see how fast this algorithm find the solution.
+It&rsquo;s impressive to see how fast this algorithm finds the solution.
 </p>
 </div>
 </section>
-<section id="outline-container-org06d8357" class="outline-2">
-<h2 id="org06d8357"><span class="section-number-2">7.</span> Harder problems with coins.</h2>
+<section id="outline-container-org2ed5839" class="outline-2">
+<h2 id="org2ed5839"><span class="section-number-2">7.</span> Harder problems with coins.</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 The above problems are actually quite simple, mainly because the guess space can be taken as equal to the state space.
 In the next two problems this is no longer the case.
 </p>
 </div>
-<div id="outline-container-org9c1da07" class="outline-3">
-<h3 id="org9c1da07"><span class="section-number-3">7.1.</span> Two heavy coins</h3>
+<div id="outline-container-org049cd7c" class="outline-3">
+<h3 id="org049cd7c"><span class="section-number-3">7.1.</span> Two heavy coins</h3>
 <div class="outline-text-3" id="text-7-1">
 <p>
-Our next problem is to find two heavy coins out of \(n\) coins; we assume that the two deficit coins are equaly heavy.
+Our next problem is to find two heavy coins out of \(n\) coins; we assume that the two defective coins are equally heavy.
 </p>
 
 <p>
-The state space conists of all selections of 2 coins out of \(n\).
+The state space consists of all selections of 2 coins out of \(n\).
 The oracle specifies the secret as an array of two coins <code>c1</code> and <code>c2</code>.
 For the feedback, when coin <code>c1</code> is in the left pan and coin <code>c2</code> is in the middle (i.e., on neither pan), the left pan tilts.
-The other conditions follow like wise.
+The other conditions follow likewise.
 </p>
 
 <p>
@@ -2558,7 +1489,7 @@ When we put \(k\leq n/2\) coins in either pan, the number of combinations of way
 <p>
 The algorithm works like this.
 First we find out the ids of the coins that form the state space.
-Once we have the coins out of which we can select, we select \(k\) coins for the left set, and \(k\) for the right set, the rest of the coins are put in the middle (hence not used in the weighting).
+Once we have the coins out of which we can select, we select \(k\) coins for the left set, and \(k\) for the right set, the rest of the coins are put in the middle (hence not used in the weighing).
 We vary \(k\) from \(1\) to half the size of the state space to make all questions.
 Note that we overcount the number of questions by at least a factor 2, because equivalent questions like \(\{1\}, \{2, 3, 4\}, \{5\}\) and \(\{5\}, \{2, 3, 4\}, \{1\}\) are both stored.
 We can remove these doubles, but this comes at the expense of more difficult code, so we don&rsquo;t do this here.
@@ -2616,7 +1547,7 @@ We can remove these doubles, but this comes at the expense of more difficult cod
 </pre></div>
 
 
-<pre class="example" id="org049cd7c">
+<pre class="example" id="org0fa2dbb">
 q_star=[{0, 1, 2}, {8, 9, 6, 7}, {3, 4, 5}], answer=LEFT, n_tries=1
 New state space:
 (0, 1) (0, 2) (0, 6) (0, 7) (0, 8) (0, 9) (1, 2) (1, 6) (1, 7) (1, 8) (1, 9) (2,
@@ -2646,8 +1577,8 @@ It is not easy (for humans) to see how to use this feedback to efficiently reduc
 </p>
 </div>
 </div>
-<div id="outline-container-orgd49c6e7" class="outline-3">
-<h3 id="orgd49c6e7"><span class="section-number-3">7.2.</span> One deficit coin</h3>
+<div id="outline-container-org4a63c07" class="outline-3">
+<h3 id="org4a63c07"><span class="section-number-3">7.2.</span> One deficit coin</h3>
 <div class="outline-text-3" id="text-7-2">
 <p>
 In this example one coin out of \(n\) is either heavier or lighter.
@@ -2656,7 +1587,7 @@ The state space \(\{-n, \ldots, -1\} \cup \{1, 2, \ldots, n\}\): when the secret
 
 <p>
 The feedback of oracle is as follows.
-The index of the deficit coin is the absolute value of the secret.
+The index of the defective coin is the absolute value of the secret.
 Then, depending on the sign of the secret, the left or the right pan should tilt when the secret is not in the middle.
 </p>
 
@@ -2720,7 +1651,7 @@ For this reason, we generate the question space just once, and keep using that s
 <div class="highlight"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./one_deficit_coin.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 </pre></div>
 
-<pre class="example" id="org4a63c07">
+<pre class="example" id="org4d96662">
 q_star=[{1, 2, 3, 4}, {9, 10, 11, 12}, {8, 5, 6, 7}], answer=MIDDLE, n_tries=1
 New state space:
 -12 -11 -10 -9 9 10 11 12
@@ -2734,11 +1665,11 @@ The secret is 12
 </pre>
 </div>
 </div>
-<div id="outline-container-org2ed5839" class="outline-3">
-<h3 id="org2ed5839"><span class="section-number-3">7.3.</span> General coins; link with Quicksort</h3>
+<div id="outline-container-org1def633" class="outline-3">
+<h3 id="org1def633"><span class="section-number-3">7.3.</span> General coins; link with Quicksort</h3>
 <div class="outline-text-3" id="text-7-3">
 <p>
-Suppose we consider the yet more complicated problem to find \(k\) heavier or lighter coins out of \(n\) coins, and that the heavier and lighter coins are not equaly heavier and lighter, there comes a point at which it is simpler to just sort the coins and forget about the optimal policy.
+Suppose we consider the yet more complicated problem to find \(k\) heavier or lighter coins out of \(n\) coins, and that the heavier and lighter coins are not equally heavier and lighter, there comes a point at which it is simpler to just sort the coins and forget about the optimal policy.
 To see this, take an arbitrary coin and use that as pivot.
 Place the pivot coin on the left plate, select an arbitrary coin and put that on the right plate.
 Depending on the outcome of the balance, put the selected coin on a left, middle, or right stack of coins.
@@ -2778,8 +1709,8 @@ With a bit of probability theory, it&rsquo;s evident that this gives a big perfo
 </div>
 </div>
 </section>
-<section id="outline-container-org13b1d79" class="outline-2">
-<h2 id="org13b1d79"><span class="section-number-2">8.</span> Mastermind</h2>
+<section id="outline-container-orgf77f551" class="outline-2">
+<h2 id="orgf77f551"><span class="section-number-2">8.</span> Mastermind</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 Yet another nice game is Mastermind, the rules of which you can find at <a href="https://en.wikipedia.org/wiki/Mastermind_(board_game)">Wikipedia</a>.
@@ -2805,7 +1736,7 @@ I only have to compute once the number of occurrences of the colors in the secre
 </p>
 
 <p>
-Note that we minimize the expected number of experiments, we don&rsquo;t minimize the worst case scenario.
+Note that we minimize the expected number of experiments; we don&rsquo;t minimize the worst case scenario.
 As Knuth proves, the guaranteed minimal number of iterations is 5.
 I think we do better often, but not always.
 </p>
@@ -2848,7 +1779,7 @@ I think we do better often, but not always.
 <div class="highlight"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./mastermind.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 </pre></div>
 
-<pre class="example" id="orgf77f551">
+<pre class="example" id="org4fa171c">
 q_star=(4, 2, 0, 5), answer=(1, 1), n_tries=1
 New state space:
 (0, 0, 0, 0) (0, 0, 0, 1) (0, 0, 0, 2) (0, 0, 0, 3) (0, 0, 0, 4) (0, 0, 1, 5)
